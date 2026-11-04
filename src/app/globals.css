@@ -1,26 +1,158 @@
+
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
+  --brand-orange: #ff6600;
+  --brand-orange-hover: #e85d00;
+  --brand-grey: #808080;
+  --brand-black: #171717;
+  --brand-white: #ffffff;
+  --background: #f7f7f7;
   --foreground: #171717;
+  --border: #e7e7e7;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-brand-orange: var(--brand-orange);
+  --color-brand-grey: var(--brand-grey);
+  --font-sans: Arial, Helvetica, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
+  margin: 0;
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  text-decoration: none;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+  background: #ffe0c7;
+  color: #171717;
+}
+
+:focus-visible {
+  outline: 3px solid var(--brand-orange);
+  outline-offset: 3px;
+}
+
+
+@keyframes vote-shake {
+  0%, 100% {
+    transform: translateX(0) rotate(0);
+  }
+  20% {
+    transform: translateX(-3px) rotate(-1deg);
+  }
+  40% {
+    transform: translateX(3px) rotate(1deg);
+  }
+  60% {
+    transform: translateX(-2px) rotate(-0.7deg);
+  }
+  80% {
+    transform: translateX(2px) rotate(0.7deg);
+  }
+}
+
+.vote-illustration:hover {
+  animation: vote-shake 0.45s ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vote-illustration:hover {
+    animation: none;
+  }
+}
+
+
+/* Aminiya hero image parallax start */
+.vote-illustration {
+  transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  transform-origin: center center;
+  transition:
+    transform 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 1.2s ease;
+  will-change: transform;
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .vote-illustration {
+    animation: vote-illustration-float 2.8s ease-in-out infinite;
+  }
+
+  .vote-illustration:hover {
+    transform: translate3d(0, -18px, 0) rotate(4deg) scale(1.05);
+    filter: drop-shadow(0 24px 28px rgb(255 102 0 / 20%));
+    animation-play-state: paused;
+  }
+}
+
+@keyframes vote-illustration-float {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) rotate(-3deg);
+  }
+  20% {
+    transform: translate3d(-12px, -7px, 0) rotate(-1deg);
+  }
+  40% {
+    transform: translate3d(9px, -17px, 0) rotate(3deg);
+  }
+  60% {
+    transform: translate3d(-9px, -12px, 0) rotate(-2.5deg);
+  }
+  80% {
+    transform: translate3d(12px, -5px, 0) rotate(2deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vote-illustration {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+}
+/* Aminiya hero image parallax end */
+
+
+@keyframes home-word-enter {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-home-word {
+  display: inline-block;
+  animation: home-word-enter 500ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-home-word {
+    animation: none;
+  }
 }
