@@ -3,6 +3,7 @@ import { connection } from "next/server";
 import { requireElectoralStaff } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import StatusActions from "@/components/admin/electoral-data/status-actions";
+import { OptimisticStatusBadge } from "@/components/admin/optimistic-status";
 
 export const instant = false;
 
@@ -166,9 +167,7 @@ export default async function PartiesPage({
                           ) : <span className="text-gray-400">Not provided</span>}
                         </td>
                         <td className="px-5 py-4">
-                          <span className={`rounded-full px-2.5 py-1 text-xs font-medium ${statusStyles[party.publication_status] ?? "bg-gray-100 text-gray-700"}`}>
-                            {party.publication_status.replaceAll("_", " ")}
-                          </span>
+                          <OptimisticStatusBadge statusKey={`political_parties:${party.id}`} status={party.publication_status} styles={statusStyles} />
                         </td>
                         <td className="px-5 py-4">
                           <StatusActions
