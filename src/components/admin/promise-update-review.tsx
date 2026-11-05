@@ -2,9 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import {
-  ArrowLeft,
   CheckCircle2,
   Loader2,
   XCircle,
@@ -149,12 +147,6 @@ export default function PromiseUpdateReview({
 
   return (
     <div className="mx-auto max-w-3xl space-y-6">
-      <Link
-        href="/admin/promise-updates"
-        className="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-[#ff6600]"
-      >
-        <ArrowLeft size={16} /> Back
-      </Link>
 
       <div>
         <p className="text-sm text-gray-500">Political promise</p>

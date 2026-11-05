@@ -5,12 +5,11 @@ import { useRef } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
 
 /**
- * Hero art that leans toward the pointer.
+ * Hero art that floats gently and leans toward the pointer.
  *
- * Replaces the old infinite keyframe float + hover shake (not interruptible,
- * and a slow loop near the vestibular-sensitive ~0.3 Hz range). Pointer
- * position drives springs, so motion always continues from where it is,
- * reverses instantly, and settles when the pointer leaves.
+ * Two independent layers: an idle float (outer motion is unaffected by it),
+ * and pointer-driven springs that always continue from where they are,
+ * reverse instantly, and settle when the pointer leaves.
  */
 export default function HeroIllustration({
   src,
@@ -63,14 +62,33 @@ export default function HeroIllustration({
         style={{ rotateX, rotateY, x, y }}
         className="relative w-full max-w-[540px] will-change-transform"
       >
-        <Image
-          src={src}
-          alt={alt}
-          priority
-          placeholder="blur"
-          sizes="(max-width: 1024px) 90vw, 540px"
-          className="h-auto w-full object-contain drop-shadow-[0_24px_28px_rgb(255_102_0/0.14)]"
-        />
+        {/*
+          Idle float on its own layer, so the pointer-driven springs above stay
+          interruptible and simply compose on top. MotionConfig reducedMotion="user"
+          turns this transform loop off for people who ask for less motion.
+        */}
+        <motion.div
+          animate={{
+            y: [0, -14, -6, -16, 0],
+            x: [0, -6, 6, 4, 0],
+            rotate: [-2, 0.5, 2, -0.5, -2],
+          }}
+          transition={{
+            duration: 6,
+            ease: "easeInOut",
+            repeat: Infinity,
+            times: [0, 0.25, 0.5, 0.75, 1],
+          }}
+        >
+          <Image
+            src={src}
+            alt={alt}
+            priority
+            placeholder="blur"
+            sizes="(max-width: 1024px) 90vw, 540px"
+            className="h-auto w-full object-contain drop-shadow-[0_24px_28px_rgb(255_102_0/0.14)]"
+          />
+        </motion.div>
       </motion.div>
     </div>
   );

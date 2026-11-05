@@ -23,7 +23,7 @@ export default function PublicFooter() {
       <div className="mx-auto flex max-w-7xl flex-col gap-8 px-5 py-10 sm:px-8 md:flex-row md:items-center md:justify-between">
         <div>
           <Image
-            src="/aminiya-logo.jpg"
+            src="/aminiya-logo-png.png"
             alt="Aminiya Tracker"
             width={565}
             height={189}

@@ -35,7 +35,9 @@ export default function PublicSiteShell({
           <CommandMenuProvider>
             <NavDirectionListener />
             {isPrivateArea ? (
-              <PageTransition>{children}</PageTransition>
+              // The admin shell runs its own PageTransition around page
+              // content only, so its sidebar and top bar stay anchored.
+              children
             ) : (
               <>
                 <PublicHeader />

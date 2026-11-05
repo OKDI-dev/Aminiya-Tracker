@@ -1,9 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Loader2, Save } from "lucide-react";
+import { Loader2, Save } from "lucide-react";
 
 type PromiseRecord = {
   id: string;
@@ -101,12 +100,6 @@ export default function PromiseDetail({
 
   return (
     <div className="mx-auto max-w-3xl space-y-6">
-      <Link
-        href="/admin/promises"
-        className="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-[#ff6600]"
-      >
-        <ArrowLeft size={16} /> Back
-      </Link>
 
       <div>
         <p className="text-sm text-gray-500">{candidacyLabel}</p>

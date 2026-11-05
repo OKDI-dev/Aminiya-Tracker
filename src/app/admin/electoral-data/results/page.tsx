@@ -100,12 +100,6 @@ export default async function ElectionResultsAdminPage({
     <main className="min-h-screen bg-[#f7f8f5] p-5 sm:p-8">
       <div className="mx-auto max-w-7xl space-y-6">
         <div>
-          <Link
-            href="/admin/electoral-data"
-            className="text-sm text-gray-500 hover:text-[#ff6600]"
-          >
-            ← Back
-          </Link>
 
           <div className="mt-3 flex flex-wrap items-start justify-between gap-4">
             <div>

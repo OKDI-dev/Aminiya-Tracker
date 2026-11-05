@@ -25,7 +25,7 @@ import { useCommandMenu, isMacLike } from "@/components/navigation/command-menu"
 import { Sheet } from "@/components/ui/sheet";
 import { springs } from "@/lib/motion";
 import { useSafeTriangleMenu } from "@/hooks/use-safe-triangle-menu";
-import logo from "../../public/aminiya-logo.jpg";
+import logo from "../../public/aminiya-logo-png.png";
 
 type MenuId = "electoral" | "community" | "promises";
 
@@ -86,27 +86,27 @@ export default function PublicHeader() {
       label: t("electoralInformation"),
       href: "/electoral-information",
       items: [
-        { title: "Elections", description: "Upcoming and past elections, candidates and results.", href: "/elections", icon: Vote },
-        { title: "Voting process", description: "What happens before, on and after election day.", href: "/electoral-information/voting-process", icon: ClipboardList },
-        { title: "Voter rights", description: "Know what you're entitled to at the polling unit.", href: "/electoral-information/voter-rights", icon: Gavel },
-        { title: "Civic responsibility", description: "How to take part constructively in your community.", href: "/electoral-information/civic-responsibility", icon: Users },
-        { title: "Reliable information", description: "Spot misinformation and verify what you read.", href: "/electoral-information/reliable-information", icon: FileSearch },
+        { title: t("navElections"), description: t("navElectionsDesc"), href: "/elections", icon: Vote },
+        { title: t("navVotingProcess"), description: t("navVotingProcessDesc"), href: "/electoral-information/voting-process", icon: ClipboardList },
+        { title: t("navVoterRights"), description: t("navVoterRightsDesc"), href: "/electoral-information/voter-rights", icon: Gavel },
+        { title: t("navCivicResponsibility"), description: t("navCivicResponsibilityDesc"), href: "/electoral-information/civic-responsibility", icon: Users },
+        { title: t("navReliableInformation"), description: t("navReliableInformationDesc"), href: "/electoral-information/reliable-information", icon: FileSearch },
       ],
     },
     community: {
       label: t("communityIssues"),
       href: "/community-issues",
       items: [
-        { title: t("reportIssue"), description: "Tell us about a problem affecting your community.", href: "/community-issues", icon: MessageSquareText },
-        { title: "Track a report", description: "Follow the status of an issue with your reference code.", href: "/community-issues#track", icon: Search },
+        { title: t("reportIssue"), description: t("navReportIssueDesc"), href: "/community-issues", icon: MessageSquareText },
+        { title: t("navTrackReport"), description: t("navTrackReportDesc"), href: "/community-issues#track", icon: Search },
       ],
     },
     promises: {
       label: t("promiseTracker"),
       href: "/promise-tracker",
       items: [
-        { title: "All promises", description: "Published commitments and verified progress.", href: "/promise-tracker", icon: Target },
-        { title: t("accountability"), description: "Platform-wide statistics on delivery and evidence.", href: "/accountability", icon: ShieldAlert },
+        { title: t("navAllPromises"), description: t("navAllPromisesDesc"), href: "/promise-tracker", icon: Target },
+        { title: t("accountability"), description: t("navAccountabilityDesc"), href: "/accountability", icon: ShieldAlert },
       ],
     },
   };
@@ -142,7 +142,7 @@ export default function PublicHeader() {
             alt="Aminiya Tracker"
             priority
             placeholder="blur"
-            className="h-auto w-[150px] mix-blend-multiply sm:w-[170px]"
+            className="h-auto w-[150px] sm:w-[170px]"
           />
         </Link>
 
@@ -191,7 +191,7 @@ export default function PublicHeader() {
                       type="button"
                       aria-expanded={expanded}
                       aria-controls={flyoutId}
-                      aria-label={`Show ${link.label} pages`}
+                      aria-label={t("navShowPages").replace("{label}", link.label)}
                       onClick={() => setActiveMenu(expanded ? null : menuId)}
                       className="flex size-7 items-center justify-center rounded-full text-[#777] hover:bg-black/5 hover:text-[#171717]"
                     >
@@ -269,12 +269,12 @@ export default function PublicHeader() {
             onClick={commandMenu.open}
             onPointerEnter={commandMenu.prefetch}
             onFocus={commandMenu.prefetch}
-            aria-label="Search"
+            aria-label={t("navSearch")}
             aria-keyshortcuts={mac ? "Meta+K" : "Control+K"}
             className="flex h-10 items-center gap-2 rounded-full border border-black/10 bg-white/60 px-3 text-sm text-[#666] hover:border-black/20 hover:text-[#171717] sm:pr-2"
           >
             <Search size={16} />
-            <span className="hidden 2xl:inline">Search</span>
+            <span className="hidden 2xl:inline">{t("navSearch")}</span>
             <kbd className="hidden rounded-md border border-black/10 bg-black/[0.03] px-1.5 py-0.5 font-sans text-[11px] whitespace-nowrap text-[#777] lg:inline">
               {mac ? "⌘K" : "Ctrl K"}
             </kbd>

@@ -7,7 +7,7 @@ export default function AdminHeader() {
       <div className="mx-auto flex min-h-[76px] max-w-7xl items-center justify-between gap-5 px-5 sm:px-8">
         <Link href="/admin" aria-label="Aminiya Tracker administration" className="shrink-0">
           <Image
-            src="/aminiya-logo.jpg"
+            src="/aminiya-logo-png.png"
             alt="Aminiya Tracker"
             width={565}
             height={189}

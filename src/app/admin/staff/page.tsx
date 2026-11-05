@@ -1,5 +1,4 @@
-import Link from "next/link";
-import { ArrowLeft, ShieldCheck, Users, History } from "lucide-react";
+import { ShieldCheck, Users, History } from "lucide-react";
 import { requireAdmin } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import StaffManagement from "@/components/admin/staff-management";
@@ -40,9 +39,6 @@ export default async function StaffPage() {
           <p className="mt-2 text-sm text-gray-600">
             Check the database permissions and try again.
           </p>
-          <Link href="/admin" className="mt-5 inline-block font-semibold text-[#ff6600]">
-            Back
-          </Link>
         </div>
       </main>
     );
@@ -67,13 +63,6 @@ export default async function StaffPage() {
 
       <div className="mx-auto max-w-7xl space-y-8 px-5 py-8 sm:px-8">
         <div>
-          <Link
-            href="/admin"
-            className="inline-flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-[#ff6600]"
-          >
-            <ArrowLeft size={16} />
-            Back
-          </Link>
 
           <div className="mt-5">
             <p className="text-sm font-semibold text-[#ff6600]">
