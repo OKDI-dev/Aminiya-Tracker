@@ -52,7 +52,7 @@
 
   /* Materials (translucent chrome) */
   --material-chrome: rgb(255 255 255 / 0.72);
-  --material-thick: rgb(255 255 255 / 0.94);
+  --material-thick: rgb(255 255 255 / 0.97);
   --material-blur: 20px;
   --scrim: rgb(23 23 23 / 0.38);
 }
@@ -344,16 +344,23 @@
   animation: none;
 }
 
-::view-transition-group(site-header) {
+/* Anchored chrome: never slides with page content. */
+::view-transition-group(site-header),
+::view-transition-group(admin-sidebar),
+::view-transition-group(admin-topbar) {
   animation: none;
   z-index: 100;
 }
 
-::view-transition-old(site-header) {
+::view-transition-old(site-header),
+::view-transition-old(admin-sidebar),
+::view-transition-old(admin-topbar) {
   display: none;
 }
 
-::view-transition-new(site-header) {
+::view-transition-new(site-header),
+::view-transition-new(admin-sidebar),
+::view-transition-new(admin-topbar) {
   animation: none;
 }
 

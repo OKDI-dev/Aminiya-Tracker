@@ -2,7 +2,7 @@ import Link from "next/link";
 import { connection } from "next/server";
 import { requireElectoralStaff } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
-import { Plus, Clock3, CheckCircle2, XCircle, ArrowLeft } from "lucide-react";
+import { Plus, Clock3, CheckCircle2, XCircle } from "lucide-react";
 
 export const instant = false;
 
@@ -37,13 +37,6 @@ export default async function PromiseUpdateQueuePage() {
   return (
     <main className="min-h-screen bg-[#f7f8f5] p-5 sm:p-8">
       <div className="mx-auto max-w-6xl space-y-7">
-        <Link
-          href="/admin/promises"
-          className="inline-flex w-fit items-center gap-2 text-sm font-medium text-gray-600 transition hover:text-[#ff6600]"
-        >
-          <ArrowLeft size={17} />
-          Back
-        </Link>
 
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>

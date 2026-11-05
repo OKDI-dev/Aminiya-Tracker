@@ -40,9 +40,6 @@ export default async function CandidatesPage({ searchParams }: { searchParams: P
       <div className="mx-auto max-w-7xl space-y-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <Link href="/admin/electoral-data" className="text-sm text-gray-500 hover:text-[#ff6600]">
-              ← Back
-            </Link>
             <h1 className="mt-3 text-2xl font-bold text-[#171717]">Candidates</h1>
             <p className="mt-1 text-sm text-gray-600">
               Manage candidate profiles and their public information.

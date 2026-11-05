@@ -162,11 +162,11 @@ function CommandMenu({
   const pages: Entry[] = [
     { label: t("home"), href: "/", icon: Home },
     { label: t("electoralInformation"), href: "/electoral-information", icon: BookOpen },
-    { label: "Elections", href: "/elections", icon: Vote, keywords: ["results", "candidates"] },
-    { label: "Voting process", href: "/electoral-information/voting-process", icon: ClipboardList },
-    { label: "Voter rights", href: "/electoral-information/voter-rights", icon: Gavel },
-    { label: "Civic responsibility", href: "/electoral-information/civic-responsibility", icon: Users },
-    { label: "Reliable information", href: "/electoral-information/reliable-information", icon: FileSearch },
+    { label: t("navElections"), href: "/elections", icon: Vote, keywords: ["elections", "results", "candidates"] },
+    { label: t("navVotingProcess"), href: "/electoral-information/voting-process", icon: ClipboardList, keywords: ["voting process"] },
+    { label: t("navVoterRights"), href: "/electoral-information/voter-rights", icon: Gavel, keywords: ["voter rights"] },
+    { label: t("navCivicResponsibility"), href: "/electoral-information/civic-responsibility", icon: Users, keywords: ["civic responsibility"] },
+    { label: t("navReliableInformation"), href: "/electoral-information/reliable-information", icon: FileSearch, keywords: ["reliable information", "misinformation"] },
     { label: t("communityIssues"), href: "/community-issues", icon: MessageSquareText },
     { label: t("promiseTracker"), href: "/promise-tracker", icon: Target },
     { label: t("accountability"), href: "/accountability", icon: ShieldAlert },
@@ -202,32 +202,32 @@ function CommandMenu({
           ref={inputRef}
           value={query}
           onValueChange={setQuery}
-          placeholder={inAdmin ? "Jump to an admin page…" : "Search pages, elections, promises…"}
+          placeholder={inAdmin ? "Jump to an admin page…" : t("cmdPlaceholder")}
           className="h-11 text-base sm:text-sm"
         />
       </div>
       <CommandList className="max-h-[min(60vh,26rem)] px-1 pb-2">
         <CommandEmpty>
-          {isFirstLoad && hasQuery ? "Searching…" : "No results found."}
+          {isFirstLoad && hasQuery ? t("cmdSearching") : t("cmdNoResults")}
         </CommandEmpty>
 
         {inAdmin ? (
           <CommandGroup heading="Administration">
             {adminPages.map((entry) => (
-              <MenuItem key={entry.href} entry={entry} onSelect={go} active={pathname === entry.href} />
+              <MenuItem key={entry.href} entry={entry} onSelect={go} active={pathname === entry.href} currentLabel={t("cmdCurrent")} />
             ))}
           </CommandGroup>
         ) : (
           <>
-            <CommandGroup heading="Go to">
+            <CommandGroup heading={t("cmdGoTo")}>
               {pages.map((entry) => (
-                <MenuItem key={entry.href} entry={entry} onSelect={go} active={pathname === entry.href} />
+                <MenuItem key={entry.href} entry={entry} onSelect={go} active={pathname === entry.href} currentLabel={t("cmdCurrent")} />
               ))}
             </CommandGroup>
 
             <CommandSeparator />
 
-            <CommandGroup heading="Actions">
+            <CommandGroup heading={t("cmdActions")}>
               <CommandItem
                 value="report community issue submit"
                 onSelect={() => go("/community-issues")}
@@ -243,12 +243,12 @@ function CommandMenu({
                 }}
               >
                 <Languages />
-                {language === "en" ? "Switch to Hausa" : "Canza zuwa Turanci (English)"}
+                {t("cmdSwitchLanguage")}
               </CommandItem>
             </CommandGroup>
 
             {hasQuery && index?.elections.length ? (
-              <CommandGroup heading="Elections">
+              <CommandGroup heading={t("navElections")}>
                 {index.elections.map((election) => (
                   <CommandItem
                     key={election.id}
@@ -268,7 +268,7 @@ function CommandMenu({
             ) : null}
 
             {hasQuery && index?.promises.length ? (
-              <CommandGroup heading="Promises">
+              <CommandGroup heading={t("cmdPromises")}>
                 {index.promises.map((promise) => (
                   <CommandItem
                     key={promise.id}
@@ -289,9 +289,9 @@ function CommandMenu({
           <Search className="size-3.5" /> Aminiya Tracker
         </span>
         <span className="flex items-center gap-3">
-          <span><Kbd>↑</Kbd> <Kbd>↓</Kbd> to move</span>
-          <span><Kbd>↵</Kbd> to open</span>
-          <span><Kbd>esc</Kbd> to close</span>
+          <span><Kbd>↑</Kbd> <Kbd>↓</Kbd> {t("cmdHintMove")}</span>
+          <span><Kbd>↵</Kbd> {t("cmdHintOpen")}</span>
+          <span><Kbd>esc</Kbd> {t("cmdHintClose")}</span>
         </span>
       </div>
     </Command>
@@ -302,7 +302,7 @@ function CommandMenu({
       <Sheet
         open={open}
         onOpenChange={onOpenChange}
-        title="Search"
+        title={t("navSearch")}
         hideTitle
         initialFocus={inputRef}
         className="h-[80dvh]"
@@ -316,7 +316,7 @@ function CommandMenu({
     <SpringDialog
       open={open}
       onOpenChange={onOpenChange}
-      title="Search Aminiya Tracker"
+      title={t("cmdTitle")}
       hideTitle
       placement="top"
       initialFocus={inputRef}
@@ -331,10 +331,12 @@ function MenuItem({
   entry,
   onSelect,
   active,
+  currentLabel,
 }: {
   entry: Entry;
   onSelect: (href: string) => void;
   active: boolean;
+  currentLabel: string;
 }) {
   const Icon = entry.icon;
   return (
@@ -344,7 +346,7 @@ function MenuItem({
     >
       <Icon />
       {entry.label}
-      {active ? <CommandShortcut>Current</CommandShortcut> : null}
+      {active ? <CommandShortcut>{currentLabel}</CommandShortcut> : null}
     </CommandItem>
   );
 }
