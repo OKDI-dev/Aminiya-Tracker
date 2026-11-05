@@ -6,6 +6,8 @@ import { notify } from "@/components/notifications/notify";
 
 import { useEffect, useMemo, useState } from "react";
 import { supabase } from "@/lib/supabase";
+import { usePublicData } from "@/lib/swr";
+import { ListSkeleton } from "@/components/skeletons";
 import { Filter, RefreshCw } from "lucide-react";
 
 type RelatedRecord = Record<string, unknown> | null;
@@ -53,53 +55,49 @@ function formatVotes(value: number | null | undefined, language: "en" | "ha"): s
   return new Intl.NumberFormat(language === "ha" ? "ha-NG" : "en-NG").format(Number(value ?? 0));
 }
 
+async function fetchPublishedResults(): Promise<ElectionResult[]> {
+  const { data, error } = await supabase
+    .from("election_results")
+    .select(`
+      *,
+      elections (*),
+      electoral_areas (*),
+      candidates (*),
+      political_parties (*),
+      electoral_sources (*)
+    `)
+    .eq("publication_status", "published")
+    .order("created_at", { ascending: false });
+
+  if (error) throw error;
+  return (data ?? []) as unknown as ElectionResult[];
+}
+
 export default function ElectionResults() {
   const { t, language } = useLanguage();
-  const [results, setResults] = useState<ElectionResult[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [loadFailed, setLoadFailed] = useState(false);
+  const {
+    data,
+    error: loadError,
+    isFirstLoad: loading,
+    mutate,
+  } = usePublicData<ElectionResult[]>("public:election-results", fetchPublishedResults);
+  const results = useMemo(() => data ?? [], [data]);
+  const loadFailed = Boolean(loadError) && !data;
 
   const [electionFilter, setElectionFilter] = useState("all");
   const [areaFilter, setAreaFilter] = useState("all");
   const [typeFilter, setTypeFilter] = useState("all");
 
-  async function loadResults() {
-    setLoading(true);
-    setLoadFailed(false);
-
-    try {
-      const { data, error } = await supabase
-        .from("election_results")
-        .select(`
-          *,
-          elections (*),
-          electoral_areas (*),
-          candidates (*),
-          political_parties (*),
-          electoral_sources (*)
-        `)
-        .eq("publication_status", "published")
-        .order("created_at", { ascending: false });
-
-      if (error) throw error;
-
-      setResults((data ?? []) as unknown as ElectionResult[]);
-    } catch (err) {
-      console.error("Election results loading error:", err);
-      setLoadFailed(true);
-      notify.error(
-        t("electionResultsUnavailableTitle"),
-        t("retryElectionResults")
-      );
-    } finally {
-      setLoading(false);
-    }
-  }
+  const loadResults = () => void mutate();
 
   useEffect(() => {
-    void Promise.resolve().then(() => loadResults());
-  }, []);
-
+    if (!loadError) return;
+    console.error("Election results loading error:", loadError);
+    if (!data) {
+      notify.error(t("electionResultsUnavailableTitle"), t("retryElectionResults"));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loadError]);
   const elections = useMemo(() => {
     const values = new Map<string, string>();
 
@@ -247,10 +245,9 @@ export default function ElectionResults() {
       )}
 
       {loading ? (
-        <div className="rounded-xl border border-gray-200 bg-white p-8 text-center">
-          <p className="text-sm text-gray-500">{t("loadingElectionResults")}</p>
-        </div>
+        <ListSkeleton rows={3} label={t("loadingElectionResults")} />
       ) : loadFailed ? (
+
         <div className="rounded-xl border border-gray-200 bg-white p-6">
           <p className="text-sm text-gray-700">
             {t("electionResultsUnavailable")}

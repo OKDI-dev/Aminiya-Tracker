@@ -3,6 +3,8 @@
 import IncidentReportForm from "@/components/incident-report-form";
 import { notify } from "@/components/notifications/notify";
 import { useEffect, useMemo, useState } from "react";
+import { usePublicData } from "@/lib/swr";
+import { ListSkeleton } from "@/components/skeletons";
 import { Filter, RefreshCw, ShieldAlert } from "lucide-react";
 import { useLanguage } from "@/components/language-provider";
 
@@ -79,48 +81,29 @@ export default function ElectionIncidents() {
     dismissed: t("dismissed"),
   };
 
-  const [incidents, setIncidents] = useState<Incident[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [loadFailed, setLoadFailed] = useState(false);
+  const {
+    data,
+    error: loadError,
+    isFirstLoad: loading,
+    isRevalidating,
+    mutate,
+  } = usePublicData<Incident[]>("/api/public/election-incidents");
+  const incidents = useMemo(() => data ?? [], [data]);
+  const loadFailed = Boolean(loadError) && !data;
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState("all");
   const [search, setSearch] = useState("");
 
-  async function loadIncidents() {
-    setLoading(true);
-    setLoadFailed(false);
-
-    try {
-      const response = await fetch("/api/public/election-incidents", {
-        cache: "no-store",
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => null);
-        throw new Error(
-          errorData?.error || `Request failed with status ${response.status}`
-        );
-      }
-
-      const data = await response.json();
-      setIncidents((data ?? []) as Incident[]);
-    } catch (error) {
-      console.error("Failed to load election incidents:", error);
-      setLoadFailed(true);
-      notify.error(
-        t("publishedIncidentsUnavailable"),
-        t("pleaseTryAgain")
-      );
-      setIncidents([]);
-    } finally {
-      setLoading(false);
-    }
-  }
+  const loadIncidents = () => void mutate();
 
   useEffect(() => {
-    void Promise.resolve().then(() => loadIncidents());
-  }, []);
-
+    if (!loadError) return;
+    console.error("Failed to load election incidents:", loadError);
+    if (!data) {
+      notify.error(t("publishedIncidentsUnavailable"), t("pleaseTryAgain"));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loadError]);
   const categories = useMemo(
     () => [...new Set(incidents.map((item) => item.category))].sort(),
     [incidents]
@@ -193,7 +176,7 @@ export default function ElectionIncidents() {
           disabled={loading}
           className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50"
         >
-          <RefreshCw size={16} className={loading ? "animate-spin" : ""} />
+          <RefreshCw size={16} className={loading || isRevalidating ? "animate-spin" : ""} />
           {t("refresh")}
         </button>
       </div>
@@ -237,9 +220,7 @@ export default function ElectionIncidents() {
       </div>
 
       {loading ? (
-        <div className="rounded-xl border border-gray-200 p-10 text-center text-sm text-gray-500">
-          {t("loadingIncidents")}
-        </div>
+        <ListSkeleton rows={3} label={t("loadingIncidents")} />
       ) : loadFailed ? (
         <div className="rounded-xl border border-gray-200 bg-white px-5 py-10 text-center">
           <ShieldAlert className="mx-auto mb-3 text-gray-400" size={30} />

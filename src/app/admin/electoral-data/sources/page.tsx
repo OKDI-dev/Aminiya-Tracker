@@ -4,6 +4,7 @@ import { requireElectoralStaff } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import SourceStatusActions from "@/components/admin/electoral-data/source-status-actions";
 import SourceRecordActions from "@/components/admin/electoral-data/source-record-actions";
+import { OptimisticRow, OptimisticStatusBadge } from "@/components/admin/optimistic-status";
 
 export const instant = false;
 
@@ -151,7 +152,7 @@ export default async function ElectoralSourcesPage({
                 </thead>
                 <tbody className="divide-y divide-gray-100">
                   {sources.map((source) => (
-                    <tr key={source.id} className="align-top">
+                    <OptimisticRow key={source.id} rowKey={`electoral_sources:${source.id}`} className="align-top">
                       <td className="max-w-sm px-5 py-4">
                         <p className="font-semibold text-gray-900">{source.title}</p>
                         {source.source_url && (
@@ -178,9 +179,7 @@ export default async function ElectoralSourcesPage({
                           : "Not specified"}
                       </td>
                       <td className="px-5 py-4">
-                        <span className={`rounded-full px-2.5 py-1 text-xs font-semibold ${statusStyles[source.verification_status] ?? statusStyles.pending}`}>
-                          {source.verification_status}
-                        </span>
+                        <OptimisticStatusBadge statusKey={`electoral_sources:${source.id}`} status={source.verification_status} styles={statusStyles} />
                       </td>
                       <td className="px-5 py-4">
                         <div className="space-y-3">
@@ -188,10 +187,10 @@ export default async function ElectoralSourcesPage({
                             sourceId={source.id}
                             status={source.verification_status}
                           />
-                          <SourceRecordActions sourceId={source.id} />
+                          <SourceRecordActions sourceId={source.id} title={source.title} />
                         </div>
                       </td>
-                    </tr>
+                    </OptimisticRow>
                   ))}
                 </tbody>
               </table>

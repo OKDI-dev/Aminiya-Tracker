@@ -4,9 +4,17 @@ import { notify } from "@/components/notifications/notify";
 import ElectionIncidents from "@/components/election-incidents";
 import ElectionResults from "@/components/election-results";
 
-import Image from "next/image";
-
-import { supabase } from "@/lib/supabase";
+import { motion } from "motion/react";
+import { BlurImage } from "@/components/ui/blur-image";
+import { CardGridSkeleton } from "@/components/skeletons";
+import { springs } from "@/lib/motion";
+import { usePublicData } from "@/lib/swr";
+import {
+  DIRECTORY_KEY,
+  fetchDirectory,
+  type DirectoryCandidate,
+  type DirectoryParty,
+} from "@/lib/public-directory";
 import { useLanguage } from "@/components/language-provider";
 
 
@@ -160,87 +168,39 @@ const sections = {
 };
 
 
-type Candidate = {
-  id: string;
-  full_name: string;
-  biography: string | null;
-  photo_url: string | null;
-  official_profile_url: string | null;
-};
-
-type PoliticalParty = {
-  id: string;
-  name: string;
-  acronym: string | null;
-  logo_url: string | null;
-  official_website: string | null;
-  manifesto_url: string | null;
-};
+type Candidate = DirectoryCandidate;
+type PoliticalParty = DirectoryParty;
 
 export default function ElectoralInformation() {
   const { t } = useLanguage();
 
-  const [candidates, setCandidates] = useState<Candidate[]>([]);
-  const [parties, setParties] = useState<PoliticalParty[]>([]);
-  const [recordsLoading, setRecordsLoading] = useState(false);
-  const [recordsLoadFailed, setRecordsLoadFailed] = useState(false);
 const [activeTab, setActiveTab] = useState<Section>("education");
-useEffect(() => {
-    if (activeTab !== "candidates") return;
 
-    let cancelled = false;
+  // Stale-while-revalidate: cached directory renders instantly on return
+  // visits while a background request refreshes it.
+  const {
+    data: directory,
+    error: directoryError,
+    isFirstLoad: recordsLoading,
+    mutate: reloadDirectory,
+  } = usePublicData(
+    activeTab === "candidates" ? DIRECTORY_KEY : null,
+    fetchDirectory
+  );
+  const candidates: Candidate[] = directory?.candidates ?? [];
+  const parties: PoliticalParty[] = directory?.parties ?? [];
+  const recordsLoadFailed = Boolean(directoryError) && !directory;
 
-    async function loadRecords() {
-      setRecordsLoading(true);
-      setRecordsLoadFailed(false);
-
-      try {
-        const [candidateResult, partyResult] = await Promise.all([
-          supabase
-            .from("candidates")
-            .select(
-              "id, full_name, biography, photo_url, official_profile_url"
-            )
-            .eq("publication_status", "published")
-            .order("full_name"),
-
-          supabase
-            .from("political_parties")
-            .select(
-              "id, name, acronym, logo_url, official_website, manifesto_url"
-            )
-            .eq("publication_status", "published")
-            .order("name"),
-        ]);
-
-        if (candidateResult.error) throw candidateResult.error;
-        if (partyResult.error) throw partyResult.error;
-
-        if (!cancelled) {
-          setCandidates(candidateResult.data ?? []);
-          setParties(partyResult.data ?? []);
-        }
-      } catch (error) {
-        console.error("Failed to load electoral directory:", error);
-
-        if (!cancelled) {
-          setRecordsLoadFailed(true);
-          notify.error(
-            "Electoral directory unavailable",
-            "We couldn't load electoral records. Please try again."
-          );
-        }
-      } finally {
-        if (!cancelled) setRecordsLoading(false);
-      }
+  useEffect(() => {
+    if (!directoryError) return;
+    console.error("Failed to load electoral directory:", directoryError);
+    if (!directory) {
+      notify.error(
+        "Electoral directory unavailable",
+        "We couldn't load electoral records. Please try again."
+      );
     }
-
-    void loadRecords();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [activeTab]);
+  }, [directoryError, directory]);
 
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All topics");
@@ -356,13 +316,22 @@ useEffect(() => {
                 setSearch("");
                 setCategory("All topics");
               }}
-              className={`shrink-0 rounded-lg px-4 py-3 text-sm font-medium transition ${
+              className={`relative shrink-0 rounded-lg px-4 py-3 text-sm font-medium transition-colors ${
                 activeTab === tab.id
-                  ? "bg-[#ff6600] text-white"
+                  ? "text-white"
                   : "bg-white text-[#555] hover:bg-[#fff0e5] hover:text-[#b94a00]"
               }`}
             >
-              {t(tab.labelKey as Parameters<typeof t>[0])}
+              {activeTab === tab.id ? (
+                <motion.span
+                  layoutId="electoral-tab-pill"
+                  transition={springs.snappy}
+                  className="absolute inset-0 rounded-lg bg-[#ff6600]"
+                />
+              ) : null}
+              <span className="relative">
+                {t(tab.labelKey as Parameters<typeof t>[0])}
+              </span>
             </button>
           ))}
         </div>
@@ -541,24 +510,28 @@ useEffect(() => {
 : activeTab === "candidates" ? (
   <div className="space-y-10">
     {recordsLoading ? (
-      <div className="rounded-2xl border border-gray-200 bg-white p-10 text-center">
-        <div className="mx-auto h-8 w-8 animate-spin rounded-full border-4 border-gray-200 border-t-[#ff6600]" />
-        <p className="mt-4 text-sm text-gray-500">
-          Loading electoral records...
-        </p>
-      </div>
+      <CardGridSkeleton media count={6} label="Loading electoral records…" />
     ) : recordsLoadFailed ? (
       <div className="rounded-2xl border border-gray-200 bg-white p-6 text-center">
         <p className="font-medium text-gray-700">
           Electoral records are temporarily unavailable.
         </p>
-        <button
-          type="button"
-          onClick={() => setActiveTab("education")}
-          className="mt-4 rounded-lg bg-[#ff6600] px-5 py-2 text-sm font-semibold text-white hover:bg-[#e85d00]"
-        >
-          Return to Civic Education
-        </button>
+        <div className="mt-4 flex flex-wrap justify-center gap-3">
+          <button
+            type="button"
+            onClick={() => void reloadDirectory()}
+            className="rounded-lg bg-[#ff6600] px-5 py-2 text-sm font-semibold text-white hover:bg-[#e85d00]"
+          >
+            {t("tryAgain")}
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab("education")}
+            className="rounded-lg border border-gray-200 px-5 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50"
+          >
+            Return to Civic Education
+          </button>
+        </div>
       </div>
     ) : (
       <>
@@ -598,8 +571,9 @@ useEffect(() => {
                 >
                   <div className="relative flex h-44 items-center justify-center bg-gray-100">
                     {candidate.photo_url ? (
-                      <Image
+                      <BlurImage
                         src={candidate.photo_url}
+                        blurhash={candidate.photo_blurhash}
                         alt={candidate.full_name}
                         fill
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -671,12 +645,14 @@ useEffect(() => {
                 >
                   <div className="flex items-center gap-4">
                     {party.logo_url ? (
-                      <Image
+                      <BlurImage
                         src={party.logo_url}
+                        blurhash={party.logo_blurhash}
                         alt={`${party.name} logo`}
                         width={64}
                         height={64}
-                        className="h-16 w-16 rounded-xl border border-gray-100 object-contain"
+                        wrapperClassName="size-16 shrink-0 rounded-xl border border-gray-100"
+                        className="h-16 w-16 object-contain"
                       />
                     ) : (
                       <div className="flex h-16 w-16 items-center justify-center rounded-xl bg-orange-50 text-xl font-bold text-[#ff6600]">

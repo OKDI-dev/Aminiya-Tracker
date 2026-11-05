@@ -1,7 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
+import HeroIllustration from "@/components/hero-illustration";
+import voteIllustration from "../../public/aminiya-vote-illustration-cropped.png";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -114,17 +115,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="relative flex items-center justify-center">
-            <div className="absolute inset-8 rounded-full bg-[#fff0e5] blur-3xl" />
-            <Image
-              src="/aminiya-vote-illustration-cropped.png"
-              alt={t("voteIllustrationAlt")}
-              width={441}
-              height={566}
-              priority
-              className="vote-illustration relative h-auto w-full max-w-[540px] object-contain"
-            />
-          </div>
+          <HeroIllustration src={voteIllustration} alt={t("voteIllustrationAlt")} />
         </div>
       </section>
 

@@ -10,7 +10,8 @@ export async function GET() {
 
     return NextResponse.json(stats, {
       headers: {
-        "Cache-Control": "no-store",
+        "Cache-Control":
+          "public, max-age=0, s-maxage=60, stale-while-revalidate=600",
       },
     });
   } catch (error) {

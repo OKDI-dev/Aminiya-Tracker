@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { usePublicData } from "@/lib/swr";
 import { useLanguage } from "@/components/language-provider";
 import {
   CheckCircle2,
@@ -69,10 +70,27 @@ export default function CommunityIssues() {
   const [state, setState] = useState("Gombe");
   const [lga, setLga] = useState("");
   const [ward, setWard] = useState("");
-  const [areas, setAreas] = useState<ElectoralArea[]>([]);
-  const [gombeStateId, setGombeStateId] = useState("");
   const [selectedLgaId, setSelectedLgaId] = useState("");
-  const [loadingLocations, setLoadingLocations] = useState(true);
+
+  // Locations rarely change: serve the cached list instantly, refresh in background.
+  const {
+    data: locationData,
+    error: locationError,
+    isFirstLoad: loadingLocations,
+  } = usePublicData<{ areas: ElectoralArea[] }>("/api/community-issues");
+  const areas = useMemo<ElectoralArea[]>(
+    () => (Array.isArray(locationData?.areas) ? locationData.areas : []),
+    [locationData]
+  );
+  const gombeStateId = useMemo(
+    () =>
+      areas.find(
+        (area) =>
+          area.area_type === "state" &&
+          area.name.trim().toLowerCase() === "gombe"
+      )?.id ?? "",
+    [areas]
+  );
 
   const lgas: ElectoralArea[] = areas.filter(
     (area) => area.area_type === "lga" && area.parent_id === gombeStateId
@@ -83,56 +101,13 @@ export default function CommunityIssues() {
   );
 
   useEffect(() => {
-    let cancelled = false;
-
-    async function loadLocations() {
-      setLoadingLocations(true);
-
-      try {
-        const response = await fetch("/api/community-issues", {
-          cache: "no-store",
-        });
-
-        if (!response.ok) {
-          throw new Error("Unable to load location information.");
-        }
-
-        const result = await response.json();
-        const loadedAreas: ElectoralArea[] = Array.isArray(result.areas)
-          ? result.areas
-          : [];
-
-        if (cancelled) return;
-
-        setAreas(loadedAreas);
-
-        const gombe = loadedAreas.find(
-          (area) =>
-            area.area_type === "state" &&
-            area.name.trim().toLowerCase() === "gombe"
-        );
-
-        setGombeStateId(gombe?.id ?? "");
-      } catch (error) {
-        console.error("Community issue locations:", error);
-        if (!cancelled) {
-          notify.error(
-            "Location loading failed",
-            "Please refresh the page and try again."
-          );
-        }
-      } finally {
-        if (!cancelled) setLoadingLocations(false);
-      }
-    }
-
-    loadLocations();
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
+    if (!locationError || locationData) return;
+    console.error("Community issue locations:", locationError);
+    notify.error(
+      "Location loading failed",
+      "Please refresh the page and try again."
+    );
+  }, [locationError, locationData]);
   const [community, setCommunity] = useState("");
   const [locationDescription, setLocationDescription] = useState("");
   const [website, setWebsite] = useState("");
@@ -689,7 +664,7 @@ export default function CommunityIssues() {
         </form>
       </section>
 
-      <section className="rounded-2xl border border-gray-200 bg-white p-5 sm:p-7">
+      <section id="track" className="scroll-mt-28 rounded-2xl border border-gray-200 bg-white p-5 sm:p-7">
         <div className="mb-5 flex items-start gap-3">
           <div className="rounded-xl bg-orange-50 p-3 text-[#ff6600]">
             <Search size={23} />
