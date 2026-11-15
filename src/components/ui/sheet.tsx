@@ -22,6 +22,8 @@ type SheetProps = {
   hideTitle?: boolean;
   description?: React.ReactNode;
   children: React.ReactNode;
+  /** Pinned below the scrolling body, so it stays visible however long the content is. */
+  footer?: React.ReactNode;
   className?: string;
   /** Element focused when the sheet opens. */
   initialFocus?: React.RefObject<HTMLElement | null>;
@@ -46,6 +48,7 @@ export function Sheet({
   hideTitle,
   description,
   children,
+  footer,
   className,
   initialFocus,
 }: SheetProps) {
@@ -61,6 +64,7 @@ export function Sheet({
               title={title}
               hideTitle={hideTitle}
               description={description}
+              footer={footer}
               className={className}
               initialFocus={initialFocus}
             >
@@ -79,6 +83,7 @@ function SheetSurface({
   hideTitle,
   description,
   children,
+  footer,
   className,
   initialFocus,
 }: {
@@ -87,11 +92,13 @@ function SheetSurface({
   hideTitle?: boolean;
   description?: React.ReactNode;
   children: React.ReactNode;
+  footer?: React.ReactNode;
   className?: string;
   initialFocus?: React.RefObject<HTMLElement | null>;
 }) {
   const popupRef = React.useRef<HTMLDivElement>(null);
   const scrollRef = React.useRef<HTMLDivElement>(null);
+  const contentRef = React.useRef<HTMLDivElement>(null);
   const heightRef = React.useRef(600);
   const animationRef = React.useRef<AnimationPlaybackControls | null>(null);
 
@@ -146,6 +153,9 @@ function SheetSurface({
     const observer = new ResizeObserver(sync);
     observer.observe(scroller);
     observer.observe(popup);
+    // Content can grow while the sheet is capped at max height (e.g. an
+    // expanding section), which resizes neither box above — watch it too.
+    if (contentRef.current) observer.observe(contentRef.current);
     return () => observer.disconnect();
   }, []);
 
@@ -290,10 +300,19 @@ function SheetSurface({
 
         <div
           ref={scrollRef}
-          className="min-h-0 flex-1 overscroll-contain overflow-y-auto px-3 pb-[max(1rem,env(safe-area-inset-bottom))] select-text"
+          className={cn(
+            "min-h-0 flex-1 overscroll-contain overflow-y-auto px-3 select-text",
+            footer ? "pb-2" : "pb-[max(1rem,env(safe-area-inset-bottom))]"
+          )}
         >
-          {children}
+          <div ref={contentRef}>{children}</div>
         </div>
+
+        {footer ? (
+          <div className="shrink-0 border-t border-black/5 px-3 pt-3 pb-[max(1rem,env(safe-area-inset-bottom))]">
+            {footer}
+          </div>
+        ) : null}
       </DialogPrimitive.Popup>
     </>
   );

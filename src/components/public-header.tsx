@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useId, useRef, useState, useSyncExternalStore } from "react";
 import { usePathname } from "next/navigation";
-import { AnimatePresence, LayoutGroup, motion } from "motion/react";
+import { AnimatePresence, LayoutGroup, motion, useReducedMotion } from "motion/react";
 import {
   ArrowUpRight,
   ChevronDown,
@@ -55,6 +55,8 @@ export default function PublicHeader() {
   const commandMenu = useCommandMenu();
   const scrolled = useScrolled();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [expandedSections, setExpandedSections] = useState<Set<MenuId>>(new Set());
+  const reduceMotion = useReducedMotion();
   const mac = useSyncExternalStore(noopSubscribe, isMacLike, () => false);
   const flyoutId = useId();
   const navRef = useRef<HTMLElement>(null);
@@ -128,6 +130,26 @@ export default function PublicHeader() {
     (pathname === "/" ? topLinks[0] : undefined);
 
   const activeMenu = activeMenuId ? menus[activeMenuId] : null;
+
+  /** Open the sheet with the section holding the current page already expanded. */
+  function openMobileMenu() {
+    const current = (Object.keys(menus) as MenuId[]).filter(
+      (id) =>
+        isActive(menus[id].href) ||
+        menus[id].items.some((item) => isActive(item.href.split("#")[0]))
+    );
+    setExpandedSections(new Set(current));
+    setMobileOpen(true);
+  }
+
+  function toggleSection(id: MenuId) {
+    setExpandedSections((current) => {
+      const next = new Set(current);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }
 
   return (
     <header
@@ -293,7 +315,7 @@ export default function PublicHeader() {
 
           <button
             type="button"
-            onClick={() => setMobileOpen(true)}
+            onClick={openMobileMenu}
             aria-label={t("openNavigation")}
             aria-expanded={mobileOpen}
             className="flex size-10 items-center justify-center rounded-full border border-black/10 bg-white/60 xl:hidden"
@@ -308,60 +330,108 @@ export default function PublicHeader() {
         onOpenChange={setMobileOpen}
         title="Aminiya Tracker"
         description={t("mobileNavigation")}
+        footer={
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center justify-between rounded-2xl bg-black/[0.03] px-4 py-2.5">
+              <span className="text-sm text-[#666]">{t("language")}</span>
+              <LanguageSwitch id="sheet" language={language} setLanguage={setLanguage} label={t("language")} />
+            </div>
+            <Link
+              href="/community-issues"
+              onClick={() => setMobileOpen(false)}
+              className="flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-[#ff6600] text-[16px] font-semibold text-white active:bg-[#e85d00]"
+            >
+              {t("reportIssue")}
+            </Link>
+          </div>
+        }
       >
-        <nav aria-label={t("mobileNavigation")} className="flex flex-col gap-1 pb-2">
+        <nav aria-label={t("mobileNavigation")} className="flex flex-col gap-1 pb-1">
           {topLinks.map((link) => {
-            // Mirror the desktop flyouts exactly so the structure is the same
-            // on every screen size, even where a sub-link repeats a top link.
-            const sub = link.key === "electoral" || link.key === "community" || link.key === "promises"
-              ? menus[link.key as MenuId].items
-              : [];
+            // Same sections and sub-links as the desktop flyouts, collapsed
+            // behind a chevron so the whole menu fits without scrolling.
+            const hasMenu = link.key === "electoral" || link.key === "community" || link.key === "promises";
+            const menuId = link.key as MenuId;
+            const sub = hasMenu ? menus[menuId].items : [];
+            const expanded = hasMenu && expandedSections.has(menuId);
+            const panelId = `mobile-section-${link.key}`;
             const current = activeTop?.href === link.href;
 
             return (
               <div key={link.href}>
-                <Link
-                  href={link.href}
-                  data-nav="lateral"
-                  onClick={() => setMobileOpen(false)}
-                  aria-current={current ? "page" : undefined}
-                  className={`flex min-h-12 items-center rounded-2xl px-4 text-[17px] ${
-                    current ? "bg-[#fff0e5] font-semibold text-[#c24e00]" : "text-[#222] active:bg-black/5"
-                  }`}
-                >
-                  {link.label}
-                </Link>
-                {sub.length ? (
-                  <div className="ml-4 flex flex-col border-l border-black/10 pl-2">
-                    {sub.map((item) => (
-                      <Link
-                        key={item.href + item.title}
-                        href={item.href}
-                        onClick={() => setMobileOpen(false)}
-                        className="flex min-h-11 items-center gap-2.5 rounded-xl px-3 text-[15px] text-[#555] active:bg-black/5"
+                <div className="flex items-center gap-1">
+                  <Link
+                    href={link.href}
+                    data-nav="lateral"
+                    onClick={() => setMobileOpen(false)}
+                    aria-current={current ? "page" : undefined}
+                    className={`flex min-h-12 flex-1 items-center rounded-2xl px-4 text-[17px] ${
+                      current ? "bg-[#fff0e5] font-semibold text-[#c24e00]" : "text-[#222] active:bg-black/5"
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                  {hasMenu ? (
+                    <button
+                      type="button"
+                      onClick={() => toggleSection(menuId)}
+                      aria-expanded={expanded}
+                      aria-controls={expanded ? panelId : undefined}
+                      aria-label={t("navShowPages").replace("{label}", link.label)}
+                      className="flex size-11 shrink-0 items-center justify-center rounded-full text-[#666] active:bg-black/5"
+                    >
+                      <motion.span
+                        animate={{ rotate: expanded ? 180 : 0 }}
+                        transition={springs.snappy}
+                        className="flex"
                       >
-                        <item.icon size={16} className="text-[#e85d00]" />
-                        {item.title}
-                      </Link>
-                    ))}
-                  </div>
-                ) : null}
+                        <ChevronDown size={18} />
+                      </motion.span>
+                    </button>
+                  ) : null}
+                </div>
+
+                <AnimatePresence initial={false}>
+                  {expanded ? (
+                    <motion.div
+                      key="panel"
+                      id={panelId}
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{
+                        height: 0,
+                        opacity: 0,
+                        transition: reduceMotion ? { duration: 0.15 } : springs.exit,
+                      }}
+                      transition={reduceMotion ? { duration: 0.15 } : springs.default}
+                      className="overflow-hidden"
+                    >
+                      <div className="ml-4 flex flex-col border-l border-black/10 pt-0.5 pb-1 pl-2">
+                        {sub.map((item) => {
+                          const itemCurrent =
+                            !item.href.includes("#") && pathname === item.href;
+                          return (
+                            <Link
+                              key={item.href + item.title}
+                              href={item.href}
+                              onClick={() => setMobileOpen(false)}
+                              aria-current={itemCurrent ? "page" : undefined}
+                              className={`flex min-h-11 items-center gap-2.5 rounded-xl px-3 text-[15px] active:bg-black/5 ${
+                                itemCurrent ? "font-semibold text-[#c24e00]" : "text-[#555]"
+                              }`}
+                            >
+                              <item.icon size={16} className="text-[#e85d00]" />
+                              {item.title}
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    </motion.div>
+                  ) : null}
+                </AnimatePresence>
               </div>
             );
           })}
-
-          <div className="mt-3 flex items-center justify-between rounded-2xl bg-black/[0.03] px-4 py-3">
-            <span className="text-sm text-[#666]">{t("language")}</span>
-            <LanguageSwitch id="sheet" language={language} setLanguage={setLanguage} label={t("language")} />
-          </div>
-
-          <Link
-            href="/community-issues"
-            onClick={() => setMobileOpen(false)}
-            className="mt-2 flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-[#ff6600] text-[16px] font-semibold text-white"
-          >
-            {t("reportIssue")}
-          </Link>
         </nav>
       </Sheet>
     </header>
