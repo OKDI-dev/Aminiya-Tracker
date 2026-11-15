@@ -45,11 +45,18 @@ export async function POST(request: Request) {
         "reference_code, category, title, status, public_summary, resolution_summary, submitted_at, updated_at"
       );
 
+    // Titles match case-insensitively but exactly: escape LIKE wildcards.
+    const escapedTitle = searchTerm.replace(/[\\%_]/g, (char: string) => `\\${char}`);
+
     query = isReferenceCode
       ? query.eq("reference_code", searchTerm.toUpperCase())
-      : query.eq("title", searchTerm);
+      : query.ilike("title", escapedTitle);
 
-    const { data, error } = await query.maybeSingle();
+    // Fetch up to two rows so a shared title is reported as ambiguous
+    // rather than failing like an outage.
+    const { data, error } = await query
+      .order("submitted_at", { ascending: false })
+      .limit(2);
 
     if (error) {
       console.error("Community issue tracking query failed:", error.message);
@@ -60,14 +67,28 @@ export async function POST(request: Request) {
       );
     }
 
-    if (!data) {
+    if (!data || data.length === 0) {
       return NextResponse.json(
-        { error: "No report was found with that reference code and title." },
+        {
+          error: isReferenceCode
+            ? "No report was found with that reference code. Check it and try again."
+            : "No report was found with that title. Try your reference code instead.",
+        },
         { status: 404 }
       );
     }
 
-    return NextResponse.json({ success: true, issue: data });
+    if (data.length > 1) {
+      return NextResponse.json(
+        {
+          error:
+            "More than one report has this title. Please use your reference code instead.",
+        },
+        { status: 409 }
+      );
+    }
+
+    return NextResponse.json({ success: true, issue: data[0] });
   } catch (error) {
     console.error("Community issue tracking error:", error);
 

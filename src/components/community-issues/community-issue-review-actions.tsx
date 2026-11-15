@@ -1,63 +1,69 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { AnimatePresence, motion } from "motion/react";
 import { notify } from "@/components/notifications/notify";
 import { useConfirmation } from "@/components/notifications/confirmation-dialog";
+import { useOptimisticReview } from "@/components/admin/use-optimistic-review";
+import {
+  FieldError,
+  SubmitButton,
+  fieldClass,
+  revealField,
+} from "@/components/ui/form-feedback";
+import { springs } from "@/lib/motion";
+import { communityIssueStatusKey } from "@/lib/review-status-keys";
 
 type Props = {
   issueId: string;
   status: string;
 };
 
-const actions: Record<string, { label: string; next: string }[]> = {
-  submitted: [{ label: "Start review", next: "under_review" }],
+const actions: Record<string, { label: string; pending: string; next: string }[]> = {
+  submitted: [{ label: "Start review", pending: "Starting…", next: "under_review" }],
   under_review: [
-    { label: "Request action", next: "action_required" },
-    { label: "Mark resolved", next: "resolved" },
-    { label: "Close issue", next: "closed" },
+    { label: "Request action", pending: "Requesting…", next: "action_required" },
+    { label: "Mark resolved", pending: "Resolving…", next: "resolved" },
+    { label: "Close issue", pending: "Closing…", next: "closed" },
   ],
   action_required: [
-    { label: "Resume review", next: "under_review" },
-    { label: "Mark resolved", next: "resolved" },
-    { label: "Close issue", next: "closed" },
+    { label: "Resume review", pending: "Resuming…", next: "under_review" },
+    { label: "Mark resolved", pending: "Resolving…", next: "resolved" },
+    { label: "Close issue", pending: "Closing…", next: "closed" },
   ],
-  resolved: [{ label: "Reopen issue", next: "under_review" }],
+  resolved: [{ label: "Reopen issue", pending: "Reopening…", next: "under_review" }],
 };
 
-export default function CommunityIssueReviewActions({
-  issueId,
-  status,
-}: Props) {
-  const router = useRouter();
+export default function CommunityIssueReviewActions({ issueId, status }: Props) {
   const confirm = useConfirmation();
+  const { run, settling } = useOptimisticReview(communityIssueStatusKey(issueId), status);
 
   const [notes, setNotes] = useState("");
   const [publicSummary, setPublicSummary] = useState("");
   const [resolutionSummary, setResolutionSummary] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [pendingAction, setPendingAction] = useState<string | null>(null);
+  const [notesError, setNotesError] = useState("");
+  const [resolutionError, setResolutionError] = useState("");
 
   const availableActions = actions[status] ?? [];
+  const canResolve = availableActions.some((action) => action.next === "resolved");
 
   async function submitAction(nextStatus: string) {
-    if (notes.trim().length < 5) {
-      notify.error(
-        "Internal notes required",
-        "Please provide at least 5 characters explaining this review action."
-      );
-      return;
-    }
+    const notesInvalid = notes.trim().length < 5;
+    const resolutionInvalid =
+      nextStatus === "resolved" && resolutionSummary.trim().length < 20;
 
-    if (
-      nextStatus === "resolved" &&
-      resolutionSummary.trim().length < 20
-    ) {
-      notify.error(
-        "Resolution summary required",
-        "Please provide a resolution summary of at least 20 characters."
-      );
-      return;
-    }
+    setNotesError(
+      notesInvalid ? "Write at least 5 characters explaining this action." : ""
+    );
+    setResolutionError(
+      resolutionInvalid
+        ? "Marking resolved needs a resolution summary of at least 20 characters."
+        : ""
+    );
+
+    if (notesInvalid) return revealField("community-review-notes");
+    if (resolutionInvalid) return revealField("community-resolution-summary");
 
     const label = nextStatus.replaceAll("_", " ");
 
@@ -72,45 +78,30 @@ export default function CommunityIssueReviewActions({
 
     if (!confirmed) return;
 
-    setLoading(true);
+    setPendingAction(nextStatus);
 
-    try {
-      const response = await fetch(
-        `/api/admin/community-issues/${issueId}/review`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            status: nextStatus,
-            notes,
-            publicSummary,
-            resolutionSummary,
-          }),
-        }
-      );
+    const result = await run(nextStatus, () =>
+      fetch(`/api/admin/community-issues/${issueId}/review`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          status: nextStatus,
+          notes,
+          publicSummary,
+          resolutionSummary,
+        }),
+      })
+    );
 
-      const result = await response.json();
+    setPendingAction(null);
 
-      if (!response.ok) {
-        throw new Error(result.error || "The action could not be completed.");
-      }
-
-      notify.success(
-        "Community issue updated",
-        `The issue is now ${label}.`
-      );
-
+    if (result.ok) {
+      notify.success("Community issue updated", `The issue is now ${label}.`);
       setNotes("");
       setPublicSummary("");
       setResolutionSummary("");
-      router.refresh();
-    } catch (error) {
-      notify.error(
-        "Unable to update issue",
-        error instanceof Error ? error.message : "Something went wrong."
-      );
-    } finally {
-      setLoading(false);
+    } else {
+      notify.error("Unable to update issue", result.message);
     }
   }
 
@@ -124,6 +115,8 @@ export default function CommunityIssueReviewActions({
       </section>
     );
   }
+
+  const busy = pendingAction !== null || settling;
 
   return (
     <section className="space-y-5 rounded-xl border border-gray-200 bg-white p-5 sm:p-7">
@@ -142,23 +135,29 @@ export default function CommunityIssueReviewActions({
         <textarea
           id="community-review-notes"
           value={notes}
-          onChange={(event) => setNotes(event.target.value)}
+          onChange={(event) => {
+            setNotes(event.target.value);
+            if (notesError && event.target.value.trim().length >= 5) setNotesError("");
+          }}
           rows={4}
           maxLength={5000}
+          aria-invalid={Boolean(notesError) || undefined}
+          aria-describedby="community-review-notes-hint community-review-notes-error"
           placeholder="Record findings, checks performed and reasons for this action..."
-          className="w-full rounded-lg border border-gray-300 px-3 py-3 text-sm outline-none focus:border-[#ff6600] focus:ring-2 focus:ring-orange-100"
+          className={fieldClass(Boolean(notesError))}
         />
-        <p className="mt-1 text-right text-xs text-gray-400">
-          {notes.length}/5000
-        </p>
-        <p className="mt-1 text-xs text-gray-500">
-          Internal notes are visible only to authorised staff.
+        <div className="flex items-start justify-between gap-3">
+          <FieldError id="community-review-notes-error" message={notesError} />
+          <p className="ml-auto mt-1 shrink-0 text-xs text-gray-400">{notes.length}/5000</p>
+        </div>
+        <p id="community-review-notes-hint" className="mt-1 text-xs text-gray-500">
+          Required for every status change. Visible only to authorised staff.
         </p>
       </div>
 
       <div>
         <label htmlFor="community-public-summary" className="mb-2 block text-sm font-medium text-[#171717]">
-          Public update
+          Public update <span className="font-normal text-gray-500">(optional)</span>
         </label>
         <textarea
           id="community-public-summary"
@@ -166,51 +165,71 @@ export default function CommunityIssueReviewActions({
           onChange={(event) => setPublicSummary(event.target.value)}
           rows={3}
           maxLength={2000}
-          placeholder="Optional neutral update that can be displayed on the public tracking page..."
-          className="w-full rounded-lg border border-gray-300 px-3 py-3 text-sm outline-none focus:border-[#ff6600] focus:ring-2 focus:ring-orange-100"
+          placeholder="Neutral update shown to the reporter when they track this issue..."
+          className={fieldClass(false)}
         />
-        <p className="mt-1 text-right text-xs text-gray-400">
-          {publicSummary.length}/2000
-        </p>
+        <p className="mt-1 text-right text-xs text-gray-400">{publicSummary.length}/2000</p>
       </div>
 
-      {availableActions.some((action) => action.next === "resolved") && (
+      {canResolve && (
         <div>
           <label htmlFor="community-resolution-summary" className="mb-2 block text-sm font-medium text-[#171717]">
-            Resolution summary <span className="text-red-600">*</span>
+            Resolution summary
           </label>
           <textarea
             id="community-resolution-summary"
             value={resolutionSummary}
-            onChange={(event) => setResolutionSummary(event.target.value)}
+            onChange={(event) => {
+              setResolutionSummary(event.target.value);
+              if (resolutionError && event.target.value.trim().length >= 20) setResolutionError("");
+            }}
             rows={3}
             maxLength={2000}
+            aria-invalid={Boolean(resolutionError) || undefined}
+            aria-describedby="community-resolution-hint community-resolution-summary-error"
             placeholder="Explain what action was taken and the outcome for the community..."
-            className="w-full rounded-lg border border-gray-300 px-3 py-3 text-sm outline-none focus:border-[#ff6600] focus:ring-2 focus:ring-orange-100"
+            className={fieldClass(Boolean(resolutionError))}
           />
-          <p className="mt-1 text-right text-xs text-gray-400">
-            {resolutionSummary.length}/2000
+          <div className="flex items-start justify-between gap-3">
+            <FieldError id="community-resolution-summary-error" message={resolutionError} />
+            <p className="ml-auto mt-1 shrink-0 text-xs text-gray-400">
+              {resolutionSummary.length}/2000
+            </p>
+          </div>
+          <p id="community-resolution-hint" className="mt-1 text-xs text-gray-500">
+            Required only for <strong>Mark resolved</strong>.
           </p>
         </div>
       )}
 
-      <div className="flex flex-wrap gap-3">
-        {availableActions.map((action) => (
-          <button
-            key={action.next}
-            type="button"
-            disabled={loading}
-            onClick={() => submitAction(action.next)}
-            className={`rounded-lg px-5 py-3 text-sm font-semibold text-white transition disabled:cursor-not-allowed disabled:opacity-50 ${
-              action.next === "closed"
-                ? "bg-red-600 hover:bg-red-700"
-                : "bg-[#ff6600] hover:bg-[#e85d00]"
-            }`}
-          >
-            {loading ? "Processing..." : action.label}
-          </button>
-        ))}
-      </div>
+      <motion.div layout transition={springs.move} className="flex flex-wrap gap-3">
+        <AnimatePresence mode="popLayout" initial={false}>
+          {availableActions.map((action) => (
+            <motion.div
+              key={`${status}:${action.next}`}
+              layout
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.96, transition: springs.exit }}
+              transition={springs.snappy}
+            >
+              <SubmitButton
+                type="button"
+                phase={pendingAction === action.next ? "pending" : "idle"}
+                label={action.label}
+                pendingLabel={action.pending}
+                disabled={busy}
+                onClick={() => submitAction(action.next)}
+                className={`inline-flex items-center justify-center rounded-lg px-5 py-3 text-sm font-semibold text-white transition-colors disabled:cursor-not-allowed disabled:not-data-[phase=pending]:opacity-50 ${
+                  action.next === "closed"
+                    ? "bg-red-600 hover:bg-red-700"
+                    : "bg-[#ff6600] hover:bg-[#e85d00]"
+                }`}
+              />
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </motion.div>
     </section>
   );
 }

@@ -3,6 +3,8 @@ import { FileWarning } from "lucide-react";
 import { requireElectoralStaff } from "@/lib/auth";
 import { adminSupabase } from "@/lib/supabase/admin";
 import IncidentReviewActions from "@/components/incident-review-actions";
+import { OptimisticStatusBadge } from "@/components/admin/optimistic-status";
+import { incidentStatusKey, incidentStatusStyles } from "@/lib/review-status-keys";
 
 export const instant = false;
 
@@ -106,9 +108,11 @@ export default async function IncidentDetailPage({
             <span className="text-sm font-semibold text-[#ff6600]">
               {categoryLabels[incident.category] ?? incident.category}
             </span>
-            <span className="rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold capitalize text-gray-700">
-              {incident.status.replaceAll("_", " ")}
-            </span>
+            <OptimisticStatusBadge
+              statusKey={incidentStatusKey(incident.id)}
+              status={incident.status}
+              styles={incidentStatusStyles}
+            />
           </div>
 
           <h2 className="mt-5 text-lg font-semibold text-[#171717]">

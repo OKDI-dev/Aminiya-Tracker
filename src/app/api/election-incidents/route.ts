@@ -250,7 +250,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const { error: insertError } = await adminSupabase
+    const { data: inserted, error: insertError } = await adminSupabase
       .from("election_incidents")
       .insert({
         election_id: electionId,
@@ -261,10 +261,12 @@ export async function POST(request: Request) {
         polling_unit: pollingUnit || null,
         status: "submitted",
         reported_by: null,
-      });
+      })
+      .select("id")
+      .single();
 
-    if (insertError) {
-      console.error("Incident submission failed:", insertError.message);
+    if (insertError || !inserted) {
+      console.error("Incident submission failed:", insertError?.message);
 
       return NextResponse.json(
         { error: "Your report could not be submitted. Please try again." },
@@ -272,9 +274,12 @@ export async function POST(request: Request) {
       );
     }
 
+    // The row id is the "Incident reference" staff see in the admin workspace,
+    // so a reporter quoting it can be matched to the record directly.
     return NextResponse.json({
       success: true,
       message: "Your incident report has been submitted for review.",
+      reference: inserted.id,
     });
   } catch (error) {
     console.error("Incident API error:", error);

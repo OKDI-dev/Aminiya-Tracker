@@ -4,6 +4,11 @@ import { requireElectoralStaff } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import { adminSupabase } from "@/lib/supabase/admin";
 import CommunityIssueReviewActions from "@/components/community-issues/community-issue-review-actions";
+import { OptimisticStatusBadge } from "@/components/admin/optimistic-status";
+import {
+  communityIssueStatusKey,
+  communityIssueStatusStyles,
+} from "@/lib/review-status-keys";
 
 export const instant = false;
 
@@ -149,9 +154,11 @@ export default async function CommunityIssueDetailPage({
             <span className="text-sm font-semibold text-[#ff6600]">
               {categories[issue.category] ?? issue.category}
             </span>
-            <span className="rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold capitalize text-gray-700">
-              {issue.status.replaceAll("_", " ")}
-            </span>
+            <OptimisticStatusBadge
+              statusKey={communityIssueStatusKey(issue.id)}
+              status={issue.status}
+              styles={communityIssueStatusStyles}
+            />
           </div>
 
           <h2 className="mt-5 text-xl font-bold text-[#171717]">
