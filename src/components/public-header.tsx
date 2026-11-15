@@ -311,11 +311,10 @@ export default function PublicHeader() {
       >
         <nav aria-label={t("mobileNavigation")} className="flex flex-col gap-1 pb-2">
           {topLinks.map((link) => {
+            // Mirror the desktop flyouts exactly so the structure is the same
+            // on every screen size, even where a sub-link repeats a top link.
             const sub = link.key === "electoral" || link.key === "community" || link.key === "promises"
-              ? menus[link.key as MenuId].items.filter(
-                  // Skip the section itself and anything already listed at top level.
-                  (item) => !topLinks.some((top) => top.href === item.href)
-                )
+              ? menus[link.key as MenuId].items
               : [];
             const current = activeTop?.href === link.href;
 
