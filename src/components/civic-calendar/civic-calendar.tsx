@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import { AnimatePresence, LayoutGroup, motion, type Variants } from "motion/react";
 import {
   ArrowLeft,
   ArrowRight,
@@ -12,9 +13,76 @@ import {
   ExternalLink,
   LoaderCircle,
   MapPin,
+  RefreshCw,
+  WifiOff,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { useLanguage } from "@/components/language-provider";
+import { springs } from "@/lib/motion";
+
+/** Month grid slides in the direction of navigation. */
+const monthVariants: Variants = {
+  enter: (direction: number) => ({ x: direction * 48, opacity: 0 }),
+  center: { x: 0, opacity: 1, transition: springs.move },
+  exit: (direction: number) => ({ x: direction * -48, opacity: 0, transition: springs.exit }),
+};
+
+function SkeletonCard() {
+  return (
+    <div className="rounded-2xl border border-[#e7e4e0] bg-white p-4 sm:p-5" aria-hidden="true">
+      <div className="flex items-start gap-3.5">
+        <div className="size-[58px] shrink-0 animate-pulse rounded-xl bg-[#f3eee9] motion-reduce:animate-none" />
+        <div className="flex-1 space-y-2.5">
+          <div className="h-4 w-24 animate-pulse rounded-full bg-[#f3eee9] motion-reduce:animate-none" />
+          <div className="h-4 w-3/4 animate-pulse rounded bg-[#f3eee9] motion-reduce:animate-none" />
+          <div className="h-3 w-1/2 animate-pulse rounded bg-[#f6f3f0] motion-reduce:animate-none" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function LoadError({
+  message,
+  retryLabel,
+  retrying,
+  onRetry,
+  className = "",
+}: {
+  message: string;
+  retryLabel: string;
+  retrying: boolean;
+  onRetry: () => void;
+  className?: string;
+}) {
+  return (
+    <motion.div
+      role="alert"
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={springs.default}
+      className={`flex flex-col items-center gap-3 rounded-2xl border border-[#e7e4e0] bg-white px-6 py-10 text-center text-sm text-[#595959] ${className}`}
+    >
+      <WifiOff size={26} className="text-[#c4bcb4]" aria-hidden="true" />
+      <p className="max-w-sm">{message}</p>
+      <motion.button
+        type="button"
+        onClick={onRetry}
+        disabled={retrying}
+        whileTap={{ scale: 0.96 }}
+        transition={springs.snappy}
+        className="inline-flex items-center gap-2 rounded-lg bg-[#c94f00] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#a84300] disabled:opacity-70"
+      >
+        {retrying ? (
+          <LoaderCircle size={15} className="animate-spin" aria-hidden="true" />
+        ) : (
+          <RefreshCw size={15} aria-hidden="true" />
+        )}
+        {retryLabel}
+      </motion.button>
+    </motion.div>
+  );
+}
 
 type CivicEvent = {
   id: string;
@@ -96,9 +164,12 @@ function getCalendarDates(month: Date) {
 function EventCard({
   event,
   language,
+  index = 0,
 }: {
   event: CivicEvent;
   language: "en" | "ha";
+  /** Position in its list, for a short stagger on entry. */
+  index?: number;
 }) {
   const title = language === "ha" ? event.title_ha : event.title_en;
   const description =
@@ -110,7 +181,13 @@ function EventCard({
   const eventDate = dateFromKey(event.start_date);
 
   return (
-    <article className="group rounded-2xl border border-[#e7e4e0] bg-white p-4 transition duration-200 hover:-translate-y-0.5 hover:border-[#ffbd91] hover:shadow-md sm:p-5">
+    <motion.article
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ ...springs.default, delay: Math.min(index, 6) * 0.05 }}
+      whileHover={{ y: -2 }}
+      className="group rounded-2xl border border-[#e7e4e0] bg-white p-4 transition-[border-color,box-shadow] duration-200 hover:border-[#ffbd91] hover:shadow-md sm:p-5"
+    >
       <div className="flex items-start gap-3.5">
         <div className="flex size-[58px] shrink-0 flex-col items-center justify-center rounded-xl bg-[#fff0e5] text-[#a84300]">
           <span className="text-[10px] font-bold uppercase">
@@ -175,7 +252,7 @@ function EventCard({
           )}
         </div>
       </div>
-    </article>
+    </motion.article>
   );
 }
 
@@ -188,6 +265,9 @@ export default function CivicCalendar({
   const [events, setEvents] = useState<CivicEvent[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [reloadKey, setReloadKey] = useState(0);
+  const [retrying, setRetrying] = useState(false);
+  const [monthDirection, setMonthDirection] = useState(1);
 
   const [today, setToday] = useState("");
   const [selectedDate, setSelectedDate] = useState("2000-01-01");
@@ -226,13 +306,16 @@ export default function CivicCalendar({
       if (!active) return;
 
       if (queryError) {
+        console.error("Unable to load civic events:", queryError.message);
         setError(true);
         setEvents([]);
       } else {
+        setError(false);
         setEvents((data ?? []) as CivicEvent[]);
       }
 
       setLoading(false);
+      setRetrying(false);
     }
 
     void loadEvents();
@@ -240,7 +323,12 @@ export default function CivicCalendar({
     return () => {
       active = false;
     };
-  }, []);
+  }, [reloadKey]);
+
+  function retryLoad() {
+    setRetrying(true);
+    setReloadKey((key) => key + 1);
+  }
 
   const text = {
     en: {
@@ -248,7 +336,8 @@ export default function CivicCalendar({
       title: "Civic Calendar",
       description: "Explore upcoming civic activities, public engagements, educational programmes and important community dates.",
       loading: "Loading civic calendar...",
-      error: "We couldn't load the calendar right now. Please try again later.",
+      error: "We couldn't load the calendar. Check your connection and try again.",
+      retry: "Try again",
       empty: "No events scheduled for this day.",
       emptyHint: "Select another date or explore upcoming activities.",
       upcoming: "Upcoming activities",
@@ -269,7 +358,8 @@ export default function CivicCalendar({
       title: "Kalandar Ayyukan Jama'a",
       description: "Duba ayyukan al'umma masu zuwa, tarukan jama'a, shirye-shiryen wayar da kai da muhimman ranakun al'umma.",
       loading: "Ana loda kalandar...",
-      error: "Ba mu iya buɗe kalandar a yanzu ba. A sake gwadawa daga baya.",
+      error: "Ba mu iya buɗe kalandar ba. Duba haɗin intanet ɗinka sannan ka sake gwadawa.",
+      retry: "Sake gwadawa",
       empty: "Babu wani aiki da aka tsara a wannan rana.",
       emptyHint: "Zaɓi wata rana ko duba ayyukan da ke tafe.",
       upcoming: "Ayyukan da ke tafe",
@@ -328,6 +418,7 @@ export default function CivicCalendar({
   const weekdays = text.weekdays;
 
   function changeMonth(amount: number) {
+    setMonthDirection(amount > 0 ? 1 : -1);
     setDisplayedMonth(
       (current) =>
         new Date(current.getFullYear(), current.getMonth() + amount, 1)
@@ -336,9 +427,13 @@ export default function CivicCalendar({
 
   function goToToday() {
     const current = dateFromKey(today);
+    const target = new Date(current.getFullYear(), current.getMonth(), 1);
+    setMonthDirection(target < displayedMonth ? -1 : 1);
     setSelectedDate(today);
-    setDisplayedMonth(new Date(current.getFullYear(), current.getMonth(), 1));
+    setDisplayedMonth(target);
   }
+
+  const monthKey = `${displayedMonth.getFullYear()}-${displayedMonth.getMonth()}`;
 
   if (compact) {
     const compactEvents = upcomingEvents;
@@ -358,14 +453,17 @@ export default function CivicCalendar({
         </div>
 
         {loading ? (
-          <div className="flex items-center gap-3 rounded-xl border border-[#e7e4e0] bg-white px-5 py-10 text-sm text-[#595959]">
-            <LoaderCircle size={19} className="animate-spin text-[#a84300]" />
-            {text.loading}
+          <div className="grid gap-3" role="status" aria-label={text.loading}>
+            <SkeletonCard />
+            <SkeletonCard />
           </div>
         ) : error ? (
-          <div className="rounded-xl border border-[#e7e4e0] bg-white px-5 py-8 text-sm text-[#595959]">
-            {text.error}
-          </div>
+          <LoadError
+            message={text.error}
+            retryLabel={text.retry}
+            retrying={retrying}
+            onRetry={retryLoad}
+          />
         ) : compactEvents.length === 0 ? (
           <div className="rounded-xl border border-dashed border-[#d9d4ce] bg-white px-5 py-10 text-center">
             <CalendarDays size={30} className="mx-auto text-[#c4bcb4]" />
@@ -373,8 +471,8 @@ export default function CivicCalendar({
           </div>
         ) : (
           <div className="grid gap-3">
-            {compactEvents.map((event) => (
-              <EventCard key={event.id} event={event} language={language} />
+            {compactEvents.map((event, index) => (
+              <EventCard key={event.id} event={event} language={language} index={index} />
             ))}
           </div>
         )}
@@ -405,22 +503,45 @@ export default function CivicCalendar({
       </div>
 
       {loading ? (
-        <div className="flex min-h-64 items-center justify-center gap-3 rounded-2xl border border-[#e7e4e0] bg-white text-sm text-[#595959]">
-          <LoaderCircle size={20} className="animate-spin text-[#a84300]" />
-          {text.loading}
+        <div
+          className="grid items-start gap-6 lg:grid-cols-[minmax(0,1.55fr)_minmax(300px,0.85fr)]"
+          role="status"
+          aria-label={text.loading}
+        >
+          <div className="min-h-[420px] animate-pulse rounded-2xl border border-[#e7e4e0] bg-white motion-reduce:animate-none" />
+          <div className="space-y-3">
+            <SkeletonCard />
+            <SkeletonCard />
+          </div>
         </div>
       ) : error ? (
-        <div className="rounded-2xl border border-[#e7e4e0] bg-white px-6 py-10 text-sm text-[#595959]">
-          {text.error}
-        </div>
+        <LoadError
+          message={text.error}
+          retryLabel={text.retry}
+          retrying={retrying}
+          onRetry={retryLoad}
+          className="min-h-64 justify-center"
+        />
       ) : (
         <>
           <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1.55fr)_minmax(300px,0.85fr)]">
             <div className="overflow-hidden rounded-2xl border border-[#e7e4e0] bg-white shadow-sm">
               <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#eeeae6] px-4 py-4 sm:px-6">
                 <div>
-                  <h2 className="text-lg font-semibold text-[#171717] sm:text-xl">
-                    {formatMonth(displayedMonth, language)}
+                  <h2 className="relative overflow-hidden text-lg font-semibold text-[#171717] sm:text-xl" aria-live="polite">
+                    <AnimatePresence mode="popLayout" initial={false} custom={monthDirection}>
+                      <motion.span
+                        key={monthKey}
+                        custom={monthDirection}
+                        variants={monthVariants}
+                        initial="enter"
+                        animate="center"
+                        exit="exit"
+                        className="block"
+                      >
+                        {formatMonth(displayedMonth, language)}
+                      </motion.span>
+                    </AnimatePresence>
                   </h2>
                   <p className="mt-0.5 text-xs text-[#777]">
                     {text.legend}
@@ -465,7 +586,18 @@ export default function CivicCalendar({
                 ))}
               </div>
 
-              <div className="grid grid-cols-7">
+              <div className="overflow-hidden">
+              <AnimatePresence mode="popLayout" initial={false} custom={monthDirection}>
+              <motion.div
+                key={monthKey}
+                custom={monthDirection}
+                variants={monthVariants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                className="grid grid-cols-7"
+              >
+              <LayoutGroup id={`calendar-${monthKey}`}>
                 {calendarDates.map((date) => {
                   const key = dateKey(date);
                   const inMonth = date.getMonth() === displayedMonth.getMonth();
@@ -489,9 +621,9 @@ export default function CivicCalendar({
                       }`}
                     >
                       <span
-                        className={`flex size-7 items-center justify-center rounded-full text-xs font-medium sm:size-8 sm:text-sm ${
+                        className={`relative flex size-7 items-center justify-center rounded-full text-xs font-medium sm:size-8 sm:text-sm ${
                           selected
-                            ? "bg-[#c94f00] font-bold text-white"
+                            ? "font-bold text-white"
                             : isToday
                               ? "border border-[#c94f00] font-bold text-[#a84300]"
                               : inMonth
@@ -499,7 +631,15 @@ export default function CivicCalendar({
                                 : "text-[#b8b3ad]"
                         }`}
                       >
-                        {date.getDate()}
+                        {selected && (
+                          <motion.span
+                            layoutId="selected-day"
+                            transition={springs.snappy}
+                            className="absolute inset-0 rounded-full bg-[#c94f00]"
+                            aria-hidden="true"
+                          />
+                        )}
+                        <span className="relative">{date.getDate()}</span>
                       </span>
 
                       <span className="mt-2 flex min-h-1.5 items-center justify-center gap-1">
@@ -524,6 +664,9 @@ export default function CivicCalendar({
                     </button>
                   );
                 })}
+              </LayoutGroup>
+              </motion.div>
+              </AnimatePresence>
               </div>
 
               <div className="flex flex-wrap items-center gap-4 px-4 py-3 text-[11px] text-[#777] sm:px-6">
@@ -544,8 +687,19 @@ export default function CivicCalendar({
                   <p className="text-xs font-bold tracking-[0.12em] text-[#a84300] uppercase">
                     {text.selectedDay}
                   </p>
-                  <h2 className="mt-2 text-xl font-semibold text-[#171717]">
-                    {formatDate(selectedDate, language)}
+                  <h2 className="mt-2 text-xl font-semibold text-[#171717]" aria-live="polite">
+                    <AnimatePresence mode="popLayout" initial={false}>
+                      <motion.span
+                        key={selectedDate}
+                        initial={{ opacity: 0, y: 6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -6, transition: springs.exit }}
+                        transition={springs.snappy}
+                        className="block"
+                      >
+                        {formatDate(selectedDate, language)}
+                      </motion.span>
+                    </AnimatePresence>
                   </h2>
                 </div>
                 <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-[#fff0e5] text-[#a84300]">
@@ -555,17 +709,25 @@ export default function CivicCalendar({
 
               <div className="mt-5">
                 {selectedEvents.length > 0 ? (
-                  <div className="grid gap-3">
-                    {selectedEvents.map((event) => (
+                  // Keyed by date so each new selection staggers its cards in.
+                  <div key={selectedDate} className="grid gap-3">
+                    {selectedEvents.map((event, index) => (
                       <EventCard
                         key={event.id}
                         event={event}
                         language={language}
+                        index={index}
                       />
                     ))}
                   </div>
                 ) : (
-                  <div className="rounded-xl border border-dashed border-[#ded8d1] bg-[#faf9f7] px-4 py-8 text-center">
+                  <motion.div
+                    key={`empty-${selectedDate}`}
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={springs.default}
+                    className="rounded-xl border border-dashed border-[#ded8d1] bg-[#faf9f7] px-4 py-8 text-center"
+                  >
                     <CalendarDays size={26} className="mx-auto text-[#c4bcb4]" />
                     <p className="mt-3 text-sm font-semibold text-[#333]">
                       {text.empty}
@@ -573,7 +735,7 @@ export default function CivicCalendar({
                     <p className="mt-1 text-xs leading-5 text-[#777]">
                       {text.emptyHint}
                     </p>
-                  </div>
+                  </motion.div>
                 )}
               </div>
             </aside>
@@ -601,11 +763,12 @@ export default function CivicCalendar({
 
             {upcomingEvents.length > 0 ? (
               <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-                {upcomingEvents.map((event) => (
+                {upcomingEvents.map((event, index) => (
                   <EventCard
                     key={event.id}
                     event={event}
                     language={language}
+                    index={index}
                   />
                 ))}
               </div>

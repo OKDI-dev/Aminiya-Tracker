@@ -1,7 +1,13 @@
 import { request as httpsRequest } from "node:https";
 import { NextResponse } from "next/server";
+import { checkRateLimit, rateLimitResponseInit } from "@/lib/rate-limit";
 
 const MAX_TEXT_LENGTH = 1000;
+/**
+ * Speech requests per IP per hour. The client splits a reply into ~300-char
+ * chunks, so this is roughly ten long replies read aloud.
+ */
+const SPEECH_LIMIT_PER_HOUR = 120;
 const SPEECH_URL = "https://asr.naijallm.com/v1/audio/speech";
 
 function errorResponse(message: string, status: number) {
@@ -73,6 +79,18 @@ export async function POST(request: Request) {
     return errorResponse("Voice playback is not configured.", 503);
   }
 
+  const limit = await checkRateLimit(
+    request,
+    "assistant-speech",
+    SPEECH_LIMIT_PER_HOUR,
+    "Read-aloud has been used a lot in a short time. Please try again later."
+  );
+
+  if (!limit.allowed) {
+    const { body, init } = rateLimitResponseInit(limit);
+    return NextResponse.json(body, init);
+  }
+
   let body: { text?: unknown; language?: unknown };
 
   try {
@@ -110,7 +128,7 @@ export async function POST(request: Request) {
         }
       | undefined;
 
-    for (let attempt = 1; attempt <= 1; attempt++) {
+    for (let attempt = 1; attempt <= 2; attempt++) {
       try {
         providerResponse = await requestSpeech(
           apiKey,

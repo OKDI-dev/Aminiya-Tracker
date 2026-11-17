@@ -1,8 +1,12 @@
 import { randomUUID } from "node:crypto";
 import { request as httpsRequest } from "node:https";
 import { NextResponse } from "next/server";
+import { checkRateLimit, rateLimitResponseInit } from "@/lib/rate-limit";
 
-const MAX_AUDIO_SIZE = 25 * 1024 * 1024;
+/** A 60-second voice question is well under 2 MB; 10 MB leaves headroom. */
+const MAX_AUDIO_SIZE = 10 * 1024 * 1024;
+/** Transcriptions per IP per hour; each one spends NaijaLLM credits. */
+const TRANSCRIBE_LIMIT_PER_HOUR = 15;
 const TRANSCRIPTION_URL =
   "https://asr.naijallm.com/v1/audio/transcriptions";
 
@@ -85,6 +89,25 @@ export async function POST(request: Request) {
     return errorResponse("Voice transcription is not configured.", 503);
   }
 
+  // Check the limit before reading the upload, so blocked callers cost nothing.
+  const limit = await checkRateLimit(
+    request,
+    "assistant-transcribe",
+    TRANSCRIBE_LIMIT_PER_HOUR,
+    "You've used voice input a lot in a short time. Please type your question or try again later."
+  );
+
+  if (!limit.allowed) {
+    const { body, init } = rateLimitResponseInit(limit);
+    return NextResponse.json(body, init);
+  }
+
+  // Reject oversized uploads from the header before buffering the body.
+  const declaredLength = Number(request.headers.get("content-length"));
+  if (Number.isFinite(declaredLength) && declaredLength > MAX_AUDIO_SIZE + 64 * 1024) {
+    return errorResponse("The recording is too long. Keep voice questions under a minute.", 413);
+  }
+
   let formData: FormData;
 
   try {
@@ -102,7 +125,7 @@ export async function POST(request: Request) {
 
   if (audio.size === 0 || audio.size > MAX_AUDIO_SIZE) {
     return errorResponse(
-      "The audio file must be between 1 byte and 25 MB.",
+      "The recording is empty or too long. Keep voice questions under a minute.",
       400
     );
   }
