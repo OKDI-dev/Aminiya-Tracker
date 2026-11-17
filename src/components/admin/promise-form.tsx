@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, Loader2, Save } from "lucide-react";
+import { Loader2, Save } from "lucide-react";
 
 type CandidacyOption = {
   id: string;
@@ -84,12 +84,6 @@ export default function PromiseForm({
 
   return (
     <div className="mx-auto max-w-3xl space-y-6">
-      <Link
-        href="/admin/promises"
-        className="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-[#ff6600]"
-      >
-        <ArrowLeft size={16} /> Back
-      </Link>
 
       <div>
         <h1 className="text-2xl font-bold text-[#171717]">Register a political promise</h1>
@@ -239,7 +233,7 @@ export default function PromiseForm({
             <button
               type="submit"
               disabled={saving}
-              className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#ff6600] px-5 py-3 text-sm font-semibold text-white hover:bg-[#e85d00] disabled:cursor-not-allowed disabled:opacity-60"
+              className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#c94f00] px-5 py-3 text-sm font-semibold text-white hover:bg-[#a84300] disabled:cursor-not-allowed disabled:opacity-60"
             >
               {saving ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}
               {saving ? "Saving..." : "Save as draft"}

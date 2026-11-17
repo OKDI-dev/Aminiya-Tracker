@@ -228,7 +228,7 @@ export default function StaffManagement({
             <button
               type="submit"
               disabled={inviting}
-              className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#ff6600] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#e85d00] disabled:cursor-not-allowed disabled:opacity-50"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#c94f00] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#a84300] disabled:cursor-not-allowed disabled:opacity-50"
             >
               {inviting ? (
                 <>
@@ -415,7 +415,7 @@ export default function StaffManagement({
           <button
             type="submit"
             disabled={saving || !selectedStaff || !newRole || !reason.trim()}
-            className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#ff6600] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#e85d00] disabled:cursor-not-allowed disabled:opacity-50"
+            className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#c94f00] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#a84300] disabled:cursor-not-allowed disabled:opacity-50"
           >
             {saving ? (
               <>

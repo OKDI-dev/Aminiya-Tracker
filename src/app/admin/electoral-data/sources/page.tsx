@@ -4,6 +4,7 @@ import { requireElectoralStaff } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import SourceStatusActions from "@/components/admin/electoral-data/source-status-actions";
 import SourceRecordActions from "@/components/admin/electoral-data/source-record-actions";
+import { OptimisticRow, OptimisticStatusBadge } from "@/components/admin/optimistic-status";
 
 export const instant = false;
 
@@ -65,12 +66,6 @@ export default async function ElectoralSourcesPage({
     <main className="min-h-screen bg-[#f7f8f5] p-5 sm:p-8">
       <div className="mx-auto max-w-7xl space-y-6">
         <div>
-          <Link
-            href="/admin/electoral-data"
-            className="text-sm text-gray-500 transition hover:text-[#ff6600]"
-          >
-            ← Back
-          </Link>
 
           <div className="mt-3 flex flex-wrap items-start justify-between gap-4">
             <div>
@@ -84,7 +79,7 @@ export default async function ElectoralSourcesPage({
 
             <Link
               href="/admin/electoral-data/sources/new"
-              className="rounded-lg bg-[#ff6600] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#e85d00]"
+              className="rounded-lg bg-[#c94f00] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#a84300]"
             >
               Add source
             </Link>
@@ -151,7 +146,7 @@ export default async function ElectoralSourcesPage({
                 </thead>
                 <tbody className="divide-y divide-gray-100">
                   {sources.map((source) => (
-                    <tr key={source.id} className="align-top">
+                    <OptimisticRow key={source.id} rowKey={`electoral_sources:${source.id}`} className="align-top">
                       <td className="max-w-sm px-5 py-4">
                         <p className="font-semibold text-gray-900">{source.title}</p>
                         {source.source_url && (
@@ -178,9 +173,7 @@ export default async function ElectoralSourcesPage({
                           : "Not specified"}
                       </td>
                       <td className="px-5 py-4">
-                        <span className={`rounded-full px-2.5 py-1 text-xs font-semibold ${statusStyles[source.verification_status] ?? statusStyles.pending}`}>
-                          {source.verification_status}
-                        </span>
+                        <OptimisticStatusBadge statusKey={`electoral_sources:${source.id}`} status={source.verification_status} styles={statusStyles} />
                       </td>
                       <td className="px-5 py-4">
                         <div className="space-y-3">
@@ -188,10 +181,10 @@ export default async function ElectoralSourcesPage({
                             sourceId={source.id}
                             status={source.verification_status}
                           />
-                          <SourceRecordActions sourceId={source.id} />
+                          <SourceRecordActions sourceId={source.id} title={source.title} />
                         </div>
                       </td>
-                    </tr>
+                    </OptimisticRow>
                   ))}
                 </tbody>
               </table>

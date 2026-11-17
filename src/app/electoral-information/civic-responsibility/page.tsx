@@ -181,7 +181,7 @@ export default function CivicResponsibilityPage() {
             <div className="mt-6 flex flex-wrap gap-3">
               <Link
                 href="/community-issues"
-                className="inline-flex items-center gap-2 rounded-xl bg-[#ff6600] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#e85d00]"
+                className="inline-flex items-center gap-2 rounded-xl bg-[#c94f00] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#a84300]"
               >
                 {t("crExploreIssues")} <ArrowRight size={16} />
               </Link>

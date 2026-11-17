@@ -1,10 +1,12 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
+import HeroIllustration from "@/components/hero-illustration";
+import voteIllustration from "../../public/aminiya-vote-illustration-cropped.png";
 import {
   ArrowRight,
   ArrowUpRight,
+  Bot,
   BookOpen,
   CheckCircle2,
   MapPin,
@@ -13,6 +15,7 @@ import {
   Target,
 } from "lucide-react";
 import { useLanguage } from "@/components/language-provider";
+import CivicCalendar from "@/components/civic-calendar/civic-calendar";
 
 export default function Home() {
   const { t, language } = useLanguage();
@@ -44,21 +47,6 @@ export default function Home() {
     },
   ];
 
-  const updates = [
-    {
-      category: t("updateCommunityCategory"),
-      title: t("updateCommunityTitle"),
-      location: t("gombeState"),
-      status: t("platformInformation"),
-    },
-    {
-      category: t("updatePoliticalCategory"),
-      title: t("updatePoliticalTitle"),
-      location: t("acrossCommunities"),
-      status: t("ourApproach"),
-    },
-  ];
-
   return (
     <main className="min-h-screen overflow-hidden bg-white text-[#171717]">
       <section className="relative border-b border-[#f0f0f0] bg-[#faf9f7]">
@@ -84,7 +72,7 @@ export default function Home() {
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/elections"
-                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-[#ff6600] px-6 py-3 font-semibold text-white transition hover:bg-[#e85d00]"
+                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-[#c94f00] px-6 py-3 font-semibold text-white transition hover:bg-[#a84300]"
               >
                 {t("exploreElectoralInformation")}
                 <ArrowRight size={18} />
@@ -114,17 +102,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="relative flex items-center justify-center">
-            <div className="absolute inset-8 rounded-full bg-[#fff0e5] blur-3xl" />
-            <Image
-              src="/aminiya-vote-illustration-cropped.png"
-              alt={t("voteIllustrationAlt")}
-              width={441}
-              height={566}
-              priority
-              className="vote-illustration relative h-auto w-full max-w-[540px] object-contain"
-            />
-          </div>
+          <HeroIllustration src={voteIllustration} alt={t("voteIllustrationAlt")} />
         </div>
       </section>
 
@@ -143,14 +121,21 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="mt-10 grid gap-5 md:grid-cols-3">
+        <div className="aminiya-feature-carousel mt-10 overflow-hidden">
+    <div className="aminiya-feature-track flex w-max">
+      {[false, true].map((duplicate) => (
+        <div
+          key={duplicate ? "duplicate-features" : "original-features"}
+          aria-hidden={duplicate ? true : undefined}
+          className="flex shrink-0 gap-5 pr-5"
+        >
           {features.map((feature) => {
             const Icon = feature.icon;
 
             return (
               <article
                 key={feature.number}
-                className="group flex flex-col rounded-2xl border border-[#e8e8e8] bg-white p-6 transition hover:-translate-y-1 hover:border-[#ffbd91] hover:shadow-lg"
+                className="group flex w-[min(85vw,360px)] shrink-0 flex-col rounded-2xl border border-[#e8e8e8] bg-white p-6 transition hover:-translate-y-1 hover:border-[#ffbd91] hover:shadow-lg"
               >
                 <div className="flex items-center justify-between">
                   <div className="flex size-12 items-center justify-center rounded-xl bg-[#fff0e5] text-[#e85d00]">
@@ -179,57 +164,60 @@ export default function Home() {
                 </Link>
               </article>
             );
+
           })}
         </div>
+      ))}
+    </div>
+  </div>
       </section>
 
       <section className="border-y border-[#ededed] bg-[#faf9f7]">
-        <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
-          <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
-            <div>
-              <p className="text-sm font-semibold tracking-[0.15em] text-[#e85d00] uppercase">
-                {t("ourCommitment")}
-              </p>
-
-              <h2 className="mt-3 text-3xl font-semibold tracking-tight">
-                {t("accountabilityEvidenceTitle")}
-              </h2>
-
-              <p className="mt-3 max-w-2xl leading-7 text-[#666]">
-                {t("accountabilityEvidenceDescription")}
-              </p>
-            </div>
-
-            <Link
-              href="/about"
-              className="inline-flex shrink-0 items-center gap-2 text-sm font-semibold text-[#d95300]"
-            >
-              {t("aboutAminiya")} <ArrowRight size={17} />
-            </Link>
+        <div className="mx-auto grid max-w-7xl gap-8 px-5 py-16 sm:px-8 lg:grid-cols-[1.15fr_0.85fr] lg:gap-10">
+          <div className="min-w-0">
+            <CivicCalendar compact />
           </div>
 
-          <div className="mt-8 grid gap-4 md:grid-cols-2">
-            {updates.map((update) => (
-              <article
-                key={update.title}
-                className="rounded-xl border border-[#e7e4e0] bg-white p-6"
-              >
-                <p className="text-xs font-semibold tracking-wide text-[#d95300] uppercase">
-                  {update.category}
-                </p>
+          <div className="flex flex-col justify-center rounded-2xl border border-[#e7e4e0] bg-white p-7 sm:p-9">
+            <div className="flex size-14 items-center justify-center rounded-2xl bg-[#fff0e5] text-[#e85d00]">
+              <Bot size={29} />
+            </div>
 
-                <h3 className="mt-3 text-lg leading-7 font-semibold">
-                  {update.title}
-                </h3>
+            <p className="mt-6 text-xs font-bold tracking-[0.15em] text-[#e85d00] uppercase">
+              {t("meetAminiyaAI")}
+            </p>
 
-                <div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-[#eee] pt-4 text-sm text-[#777]">
-                  <span>{update.location}</span>
-                  <span className="rounded-full bg-[#f4f4f4] px-3 py-1 text-xs">
-                    {update.status}
-                  </span>
-                </div>
-              </article>
-            ))}
+            <h2 className="mt-3 text-3xl font-semibold leading-tight tracking-tight text-[#171717]">
+              {t("aminiyaAIHomepageTitle")}
+            </h2>
+
+            <p className="mt-4 text-sm leading-7 text-[#666]">
+              {t("aminiyaAIHomepageDescription")}
+            </p>
+
+            <ul className="mt-5 space-y-3 text-sm text-[#555]">
+              <li className="flex items-start gap-2">
+                <CheckCircle2 size={17} className="mt-0.5 shrink-0 text-[#ff6600]" />
+                {t("aminiyaAIHelpOne")}
+              </li>
+              <li className="flex items-start gap-2">
+                <CheckCircle2 size={17} className="mt-0.5 shrink-0 text-[#ff6600]" />
+                {t("aminiyaAIHelpTwo")}
+              </li>
+              <li className="flex items-start gap-2">
+                <CheckCircle2 size={17} className="mt-0.5 shrink-0 text-[#ff6600]" />
+                {t("aminiyaAIHelpThree")}
+              </li>
+            </ul>
+
+            <button
+              type="button"
+              onClick={() => window.dispatchEvent(new Event("aminiya:open-assistant"))}
+              className="mt-7 inline-flex min-h-12 w-fit items-center justify-center gap-2 rounded-lg bg-[#c94f00] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#a84300]"
+            >
+              {t("askAminiyaAI")}
+              <ArrowRight size={17} />
+            </button>
           </div>
         </div>
       </section>

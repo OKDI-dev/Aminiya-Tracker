@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import StatusActions from "@/components/admin/electoral-data/status-actions";
+import { OptimisticStatusBadge } from "@/components/admin/optimistic-status";
 
 type Status = "draft" | "published" | "archived";
 
@@ -110,7 +111,7 @@ export default function AreasBrowser({ areas, stateId }: Props) {
 
         <Link
           href="/admin/electoral-data/areas/new"
-          className="rounded-lg bg-[#ff6600] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#e85d00]"
+          className="rounded-lg bg-[#c94f00] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#a84300]"
         >
           Add Electoral Area
         </Link>
@@ -194,9 +195,7 @@ export default function AreasBrowser({ areas, stateId }: Props) {
                         <td className="px-4 py-4 font-medium text-gray-900">{area.name}</td>
                         <td className="px-4 py-4 text-gray-600">{area.code || "—"}</td>
                         <td className="px-4 py-4">
-                          <span className={`rounded-full px-2.5 py-1 text-xs font-medium ${statusStyles[area.publication_status]}`}>
-                            {area.publication_status}
-                          </span>
+                          <OptimisticStatusBadge statusKey={`electoral_areas:${area.id}`} status={area.publication_status} styles={statusStyles} />
                         </td>
                         <td className="px-4 py-4">
                           <button

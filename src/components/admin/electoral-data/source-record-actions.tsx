@@ -1,69 +1,74 @@
 "use client";
 
-import { useState } from "react";
+import { useTransition } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { notify } from "@/components/notifications/notify";
+import { optimisticStore } from "@/lib/optimistic-store";
 
+/**
+ * Delete with Undo instead of a blocking confirmation:
+ * the row disappears immediately; the DELETE is only sent once the
+ * Undo window closes (or the page is hidden), so Undo is a true no-op.
+ */
 export default function SourceRecordActions({
   sourceId,
+  title,
 }: {
   sourceId: string;
+  title?: string;
 }) {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [, startTransition] = useTransition();
+  const rowKey = `electoral_sources:${sourceId}`;
 
-  async function deleteSource() {
-    const confirmed = window.confirm(
-      "Delete this electoral source permanently? This action cannot be undone."
-    );
+  function deleteSource() {
+    optimisticStore.hideRow(rowKey);
 
-    if (!confirmed) return;
+    notify.undoable({
+      message: "Source deleted",
+      description: title ? `“${title}” will be removed permanently.` : undefined,
+      duration: 7000,
+      onUndo: () => optimisticStore.showRow(rowKey),
+      onCommit: async () => {
+        try {
+          const response = await fetch(`/api/admin/electoral-sources/${sourceId}`, {
+            method: "DELETE",
+            keepalive: true,
+          });
+          const result = await response.json().catch(() => ({}));
 
-    setLoading(true);
-    setError("");
+          if (!response.ok) {
+            throw new Error(result?.error || "Unable to delete source.");
+          }
 
-    try {
-      const response = await fetch(
-        `/api/admin/electoral-sources/${sourceId}`,
-        { method: "DELETE" }
-      );
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.error || "Unable to delete source.");
-      }
-
-      router.refresh();
-    } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "An unexpected error occurred."
-      );
-    } finally {
-      setLoading(false);
-    }
+          startTransition(() => router.refresh());
+        } catch (error) {
+          optimisticStore.showRow(rowKey);
+          notify.error(
+            "Source not deleted",
+            error instanceof Error ? error.message : "An unexpected error occurred."
+          );
+        }
+      },
+    });
   }
 
   return (
-    <div className="space-y-2">
-      <div className="flex flex-wrap gap-2">
-        <Link
-          href={`/admin/electoral-data/sources/${sourceId}`}
-          className="rounded-md border border-gray-200 px-2.5 py-1.5 text-xs font-semibold text-gray-700 hover:border-[#ff6600] hover:text-[#ff6600]"
-        >
-          Edit
-        </Link>
-        <button
-          type="button"
-          disabled={loading}
-          onClick={deleteSource}
-          className="rounded-md border border-red-200 px-2.5 py-1.5 text-xs font-semibold text-red-700 hover:bg-red-50 disabled:opacity-50"
-        >
-          {loading ? "Deleting..." : "Delete"}
-        </button>
-      </div>
-      {error && <p className="max-w-56 text-xs text-red-600">{error}</p>}
+    <div className="flex flex-wrap gap-2">
+      <Link
+        href={`/admin/electoral-data/sources/${sourceId}`}
+        className="rounded-md border border-gray-200 px-2.5 py-1.5 text-xs font-semibold text-gray-700 hover:border-[#ff6600] hover:text-[#ff6600]"
+      >
+        Edit
+      </Link>
+      <button
+        type="button"
+        onClick={deleteSource}
+        className="rounded-md border border-red-200 px-2.5 py-1.5 text-xs font-semibold text-red-700 hover:bg-red-50"
+      >
+        Delete
+      </button>
     </div>
   );
 }

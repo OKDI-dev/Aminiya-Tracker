@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import PublicPageHero from "@/components/public-page-hero";
+import { BlurImage } from "@/components/ui/blur-image";
 
 export const instant = false;
 
@@ -80,14 +81,7 @@ export default async function ElectionDetailPage({
         office_title,
         ballot_number,
         manifesto_url,
-        candidate:candidates!inner(
-          id,
-          full_name,
-          biography,
-          photo_url,
-          official_profile_url,
-          publication_status
-        ),
+        candidate:candidates!inner(*),
         party:political_parties(
           id,
           name,
@@ -275,12 +269,16 @@ export default async function ElectionDetailPage({
                   >
                     <div className="flex items-start gap-4">
                       {textValue(candidate, "photo_url") ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img
-                          src={textValue(candidate, "photo_url")}
-                          alt=""
-                          className="size-16 rounded-lg object-cover"
-                        />
+                        <div className="relative size-16 shrink-0 overflow-hidden rounded-lg bg-[#f1f1f1]">
+                          <BlurImage
+                            src={textValue(candidate, "photo_url")}
+                            blurhash={textValue(candidate, "photo_blurhash") || null}
+                            alt=""
+                            fill
+                            sizes="64px"
+                            className="object-cover"
+                          />
+                        </div>
                       ) : (
                         <div className="flex size-16 shrink-0 items-center justify-center rounded-lg bg-[#fff0e5] text-[#b94a00]">
                           <Users size={25} />

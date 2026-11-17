@@ -1,6 +1,5 @@
 import Link from "next/link";
 import {
-  ArrowLeft,
   ClipboardList,
   Clock3,
   AlertCircle,
@@ -95,13 +94,6 @@ export default async function CommunityIssueQueuePage() {
       <header className="border-b border-gray-200 bg-white">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8">
           <div>
-            <Link
-              href="/admin"
-              className="mb-2 inline-flex items-center gap-2 text-sm text-gray-500 hover:text-[#ff6600]"
-            >
-              <ArrowLeft size={16} />
-              Back
-            </Link>
             <h1 className="text-xl font-bold text-[#171717]">
               Community Issues
             </h1>
@@ -197,13 +189,6 @@ export default async function CommunityIssueQueuePage() {
           </>
         )}
 
-        <Link
-          href="/admin"
-          className="inline-flex items-center gap-2 text-sm font-semibold text-[#ff6600] hover:text-[#e85d00]"
-        >
-          <ArrowLeft size={16} />
-          Back
-        </Link>
       </div>
     </main>
   );

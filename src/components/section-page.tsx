@@ -42,7 +42,7 @@ export default function SectionPage({
 
           <Link
             href="/"
-            className="mt-8 inline-flex items-center justify-center rounded-lg bg-[#ff6600] px-5 py-3 font-semibold text-white hover:bg-[#e85d00]"
+            className="mt-8 inline-flex items-center justify-center rounded-lg bg-[#c94f00] px-5 py-3 font-semibold text-white hover:bg-[#a84300]"
           >
             Return to homepage
           </Link>

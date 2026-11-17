@@ -13,6 +13,12 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
     ".*-backup-*/**",
+    "**/*.backup-*",
+    "**/*.backup",
+    "**/*.bak",
+    "**/*.bak-*",
+    ".pre-sync-backup/**",
+    ".translation-backups/**",
     "backups/**",
   ]),
 ]);

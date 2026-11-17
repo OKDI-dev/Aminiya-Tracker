@@ -213,7 +213,7 @@ export default function AreaForm({ areas }: Props) {
         <button
           type="submit"
           disabled={loading || (!!requiredParentType && !parentOptions.length)}
-          className="rounded-lg bg-[#ff6600] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#e85d00] disabled:cursor-not-allowed disabled:opacity-60"
+          className="rounded-lg bg-[#c94f00] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#a84300] disabled:cursor-not-allowed disabled:opacity-60"
         >
           {loading ? "Saving..." : "Save Electoral Area"}
         </button>

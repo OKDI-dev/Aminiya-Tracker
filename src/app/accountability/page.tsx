@@ -348,41 +348,52 @@ export default async function AccountabilityPage() {
             </h2>
           </div>
 
-          <div className="grid gap-5 md:grid-cols-3">
-            {sections.map((section) => {
-              const Icon = section.icon;
-
-              return (
-                <article
-                  key={section.href}
-                  className="rounded-xl border border-gray-200 bg-white p-6"
+          <div className="aminiya-feature-carousel mt-6 overflow-hidden">
+            <div className="aminiya-feature-track flex w-max">
+              {[false, true].map((duplicate) => (
+                <div
+                  key={duplicate ? "duplicate-platform-sections" : "original-platform-sections"}
+                  aria-hidden={duplicate ? true : undefined}
+                  className="flex shrink-0 gap-5 pr-5"
                 >
-                  <Icon size={25} className="text-[#ff6600]" />
-                  <h3 className="mt-5 text-lg font-bold">
-                    <LocalizedText
-                      en={section.title.en}
-                      ha={section.title.ha}
-                    />
-                  </h3>
-                  <p className="mt-3 min-h-20 text-sm leading-6 text-gray-600">
-                    <LocalizedText
-                      en={section.description.en}
-                      ha={section.description.ha}
-                    />
-                  </p>
-                  <Link
-                    href={section.href}
-                    className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#ff6600] hover:underline"
-                  >
-                    <LocalizedText
-                      en={section.label.en}
-                      ha={section.label.ha}
-                    />
-                    <ArrowRight size={16} />
-                  </Link>
-                </article>
-              );
-            })}
+                  {sections.map((section) => {
+                    const Icon = section.icon;
+
+                    return (
+                      <article
+                        key={section.href}
+                        className="flex w-[min(85vw,360px)] shrink-0 flex-col rounded-2xl border border-[#e8e8e8] bg-white p-6 transition hover:-translate-y-1 hover:border-[#ffbd91] hover:shadow-lg"
+                      >
+                        <Icon size={25} className="text-[#ff6600]" />
+                        <h3 className="mt-5 text-lg font-bold">
+                          <LocalizedText
+                            en={section.title.en}
+                            ha={section.title.ha}
+                          />
+                        </h3>
+                        <p className="mt-3 min-h-20 text-sm leading-6 text-gray-600">
+                          <LocalizedText
+                            en={section.description.en}
+                            ha={section.description.ha}
+                          />
+                        </p>
+                        <Link
+                          href={section.href}
+                          tabIndex={duplicate ? -1 : undefined}
+                          className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#ff6600] hover:underline"
+                        >
+                          <LocalizedText
+                            en={section.label.en}
+                            ha={section.label.ha}
+                          />
+                          <ArrowRight size={16} />
+                        </Link>
+                      </article>
+                    );
+                  })}
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 

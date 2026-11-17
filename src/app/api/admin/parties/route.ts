@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { randomUUID } from "node:crypto";
 import { createClient } from "@/lib/supabase/server";
+import { computeBlurhash, isMissingColumnError } from "@/lib/server/blurhash";
 
 const BUCKET = "party-logos";
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
@@ -87,6 +88,7 @@ export async function POST(request: Request) {
     }
 
     let logoUrl: string | null = null;
+    let logoBlurhash: string | null = null;
 
     if (logo instanceof File && logo.size > 0) {
       const extension = allowedMimeTypes[logo.type];
@@ -107,6 +109,7 @@ export async function POST(request: Request) {
 
       const path = `${user.id}/${randomUUID()}.${extension}`;
       const bytes = Buffer.from(await logo.arrayBuffer());
+      logoBlurhash = await computeBlurhash(bytes);
 
       const { error: uploadError } = await supabase.storage
         .from(BUCKET)
@@ -129,17 +132,29 @@ export async function POST(request: Request) {
       logoUrl = publicUrl.publicUrl;
     }
 
-    const { data, error } = await supabase
-      .from("political_parties")
-      .insert({
-        name,
-        acronym,
-        logo_url: logoUrl,
-        official_website: officialWebsite,
-        publication_status: publicationStatus,
-      })
-      .select("id, name, acronym, logo_url")
-      .single();
+    const record = {
+      name,
+      acronym,
+      logo_url: logoUrl,
+      official_website: officialWebsite,
+      publication_status: publicationStatus,
+    };
+
+    const insertParty = (values: Record<string, unknown>) =>
+      supabase
+        .from("political_parties")
+        .insert(values)
+        .select("id, name, acronym, logo_url")
+        .single();
+
+    let { data, error } = await insertParty(
+      logoBlurhash ? { ...record, logo_blurhash: logoBlurhash } : record
+    );
+
+    // Migration 019 not applied yet: save without the placeholder.
+    if (error && logoBlurhash && isMissingColumnError(error)) {
+      ({ data, error } = await insertParty(record));
+    }
 
     if (error) {
       if (uploadedPath) {

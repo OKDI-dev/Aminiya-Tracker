@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { randomUUID } from "node:crypto";
 import { createClient } from "@/lib/supabase/server";
+import { computeBlurhash, isMissingColumnError } from "@/lib/server/blurhash";
 
 const BUCKET = "candidate-photos";
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
@@ -94,6 +95,7 @@ export async function POST(request: Request) {
     }
 
     let photoUrl: string | null = null;
+    let photoBlurhash: string | null = null;
 
     if (photo instanceof File && photo.size > 0) {
       const extension = allowedMimeTypes[photo.type];
@@ -114,6 +116,7 @@ export async function POST(request: Request) {
 
       const path = `${user.id}/${randomUUID()}.${extension}`;
       const bytes = Buffer.from(await photo.arrayBuffer());
+      photoBlurhash = await computeBlurhash(bytes);
 
       const { error: uploadError } = await supabase.storage
         .from(BUCKET)
@@ -136,17 +139,29 @@ export async function POST(request: Request) {
       photoUrl = publicUrl.publicUrl;
     }
 
-    const { data, error } = await supabase
-      .from("candidates")
-      .insert({
-        full_name: fullName,
-        biography,
-        photo_url: photoUrl,
-        official_profile_url: officialProfileUrl,
-        publication_status: publicationStatus,
-      })
-      .select("id, full_name, photo_url")
-      .single();
+    const record = {
+      full_name: fullName,
+      biography,
+      photo_url: photoUrl,
+      official_profile_url: officialProfileUrl,
+      publication_status: publicationStatus,
+    };
+
+    const insertCandidate = (values: Record<string, unknown>) =>
+      supabase
+        .from("candidates")
+        .insert(values)
+        .select("id, full_name, photo_url")
+        .single();
+
+    let { data, error } = await insertCandidate(
+      photoBlurhash ? { ...record, photo_blurhash: photoBlurhash } : record
+    );
+
+    // Migration 019 not applied yet: save without the placeholder.
+    if (error && photoBlurhash && isMissingColumnError(error)) {
+      ({ data, error } = await insertCandidate(record));
+    }
 
     if (error) {
       if (uploadedPath) {

@@ -38,7 +38,15 @@ export async function GET() {
       );
     }
 
-    return NextResponse.json({ areas: data ?? [] });
+    return NextResponse.json(
+      { areas: data ?? [] },
+      {
+        headers: {
+          "Cache-Control":
+            "public, max-age=0, s-maxage=300, stale-while-revalidate=3600",
+        },
+      }
+    );
   } catch (error) {
     console.error("Community issue location GET error:", error);
 
@@ -77,6 +85,10 @@ export async function POST(request: Request) {
       typeof body.location_description === "string"
         ? body.location_description.trim()
         : "";
+    const reporterName =
+      typeof body.reporter_name === "string"
+        ? body.reporter_name.trim()
+        : "";
 
     if (!categories.includes(category)) {
       return NextResponse.json(
@@ -103,6 +115,13 @@ export async function POST(request: Request) {
         lga.length < 2 || lga.length > 100) {
       return NextResponse.json(
         { error: "Please provide a valid state and LGA." },
+        { status: 400 }
+      );
+    }
+
+    if (reporterName.length > 100) {
+      return NextResponse.json(
+        { error: "Your name must not exceed 100 characters." },
         { status: 400 }
       );
     }
@@ -192,6 +211,7 @@ export async function POST(request: Request) {
         ward: ward || null,
         community: community || null,
         location_description: locationDescription || null,
+        reporter_name: reporterName || null,
         status: "submitted",
       });
 

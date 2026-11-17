@@ -1,10 +1,14 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ClipboardList } from "lucide-react";
+import { ClipboardList } from "lucide-react";
 import { requireElectoralStaff } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import { adminSupabase } from "@/lib/supabase/admin";
 import CommunityIssueReviewActions from "@/components/community-issues/community-issue-review-actions";
+import { OptimisticStatusBadge } from "@/components/admin/optimistic-status";
+import {
+  communityIssueStatusKey,
+  communityIssueStatusStyles,
+} from "@/lib/review-status-keys";
 
 export const instant = false;
 
@@ -127,13 +131,6 @@ export default async function CommunityIssueDetailPage({
     <main className="min-h-screen bg-[#f7f8f5]">
       <header className="border-b border-gray-200 bg-white">
         <div className="mx-auto max-w-5xl px-5 py-4 sm:px-8">
-          <Link
-            href="/admin/community-issues"
-            className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-[#ff6600]"
-          >
-            <ArrowLeft size={16} />
-            Back
-          </Link>
 
           <div className="mt-3 flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-orange-50 text-[#ff6600]">
@@ -157,9 +154,11 @@ export default async function CommunityIssueDetailPage({
             <span className="text-sm font-semibold text-[#ff6600]">
               {categories[issue.category] ?? issue.category}
             </span>
-            <span className="rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold capitalize text-gray-700">
-              {issue.status.replaceAll("_", " ")}
-            </span>
+            <OptimisticStatusBadge
+              statusKey={communityIssueStatusKey(issue.id)}
+              status={issue.status}
+              styles={communityIssueStatusStyles}
+            />
           </div>
 
           <h2 className="mt-5 text-xl font-bold text-[#171717]">

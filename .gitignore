@@ -39,3 +39,13 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+!.env.example
+
+# Local backups and temporary files
+.pre-sync-backup/
+.translation-backups/
+.*-backup-*/
+*.backup
+*.backup-*
+*.bak
+*.bak-*

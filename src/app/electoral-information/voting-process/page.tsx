@@ -224,7 +224,7 @@ export default function VotingProcessPage() {
             href="https://www.inecnigeria.org/"
             target="_blank"
             rel="noreferrer"
-            className="mt-5 inline-flex items-center gap-2 rounded-lg bg-[#ff6600] px-5 py-3 text-sm font-semibold text-white hover:bg-[#e85d00]"
+            className="mt-5 inline-flex items-center gap-2 rounded-lg bg-[#c94f00] px-5 py-3 text-sm font-semibold text-white hover:bg-[#a84300]"
           >
             {t("vpVisitInec")} <ExternalLink size={15} />
           </a>

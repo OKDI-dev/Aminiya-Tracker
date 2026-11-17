@@ -338,7 +338,7 @@ export default function ElectionResultForm({
         <button
           type="submit"
           disabled={saving || accreditedExceedsRegistered}
-          className="rounded-lg bg-[#ff6600] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#e85d00] disabled:cursor-not-allowed disabled:opacity-50"
+          className="rounded-lg bg-[#c94f00] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#a84300] disabled:cursor-not-allowed disabled:opacity-50"
         >
           {saving ? "Saving..." : "Save result"}
         </button>

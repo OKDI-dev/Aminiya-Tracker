@@ -207,7 +207,7 @@ export default function VoterRightsPage() {
               href="https://www.inecnigeria.org/voters/education"
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#ff6600] px-5 py-3 text-sm font-semibold text-white hover:bg-[#e85d00]"
+              className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#c94f00] px-5 py-3 text-sm font-semibold text-white hover:bg-[#a84300]"
             >
               {t("vrInecEducation")} <ExternalLink size={15} />
             </a>

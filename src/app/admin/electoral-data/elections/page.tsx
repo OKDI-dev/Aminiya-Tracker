@@ -3,6 +3,7 @@ import { connection } from "next/server";
 import { requireElectoralStaff } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import StatusActions from "@/components/admin/electoral-data/status-actions";
+import { OptimisticStatusBadge } from "@/components/admin/optimistic-status";
 
 export const instant = false;
 
@@ -49,9 +50,6 @@ export default async function ElectionsPage({ searchParams }: { searchParams: Pr
       <div className="mx-auto max-w-7xl space-y-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <Link href="/admin/electoral-data" className="text-sm text-gray-500 hover:text-[#ff6600]">
-              ← Back
-            </Link>
             <h1 className="mt-3 text-2xl font-bold text-[#171717]">Elections</h1>
             <p className="mt-1 text-sm text-gray-600">
               Create and manage elections recorded on Aminiya Tracker.
@@ -59,7 +57,7 @@ export default async function ElectionsPage({ searchParams }: { searchParams: Pr
           </div>
           <Link
             href="/admin/electoral-data/elections/new"
-            className="rounded-lg bg-[#ff6600] px-5 py-3 text-sm font-semibold text-white hover:bg-[#e85d00]"
+            className="rounded-lg bg-[#c94f00] px-5 py-3 text-sm font-semibold text-white hover:bg-[#a84300]"
           >
             Add Election
           </Link>
@@ -104,7 +102,7 @@ export default async function ElectionsPage({ searchParams }: { searchParams: Pr
                 <p className="mt-1 text-sm text-gray-500">Create an election to start building its electoral records.</p>
                 <Link
                   href="/admin/electoral-data/elections/new"
-                  className="mt-5 inline-flex rounded-lg bg-[#ff6600] px-4 py-2.5 text-sm font-semibold text-white"
+                  className="mt-5 inline-flex rounded-lg bg-[#c94f00] px-4 py-2.5 text-sm font-semibold text-white"
                 >
                   Add the first election
                 </Link>
@@ -148,9 +146,7 @@ export default async function ElectionsPage({ searchParams }: { searchParams: Pr
                         </td>
                         <td className="px-5 py-4 text-gray-600">{election.jurisdiction}</td>
                         <td className="px-5 py-4">
-                          <span className={`rounded-full px-2.5 py-1 text-xs font-medium ${statusStyles[election.publication_status] ?? "bg-gray-100 text-gray-700"}`}>
-                            {election.publication_status.replaceAll("_", " ")}
-                          </span>
+                          <OptimisticStatusBadge statusKey={`elections:${election.id}`} status={election.publication_status} styles={statusStyles} />
                         </td>
                         <td className="px-5 py-4">
                           <StatusActions

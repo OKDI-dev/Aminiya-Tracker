@@ -32,6 +32,8 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     const savedLanguage = window.localStorage.getItem(STORAGE_KEY);
 
     if (savedLanguage === "en" || savedLanguage === "ha") {
+      // This intentionally hydrates the saved browser preference after mount.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setLanguageState(savedLanguage);
     }
   }, []);

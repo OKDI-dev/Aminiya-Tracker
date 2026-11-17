@@ -113,7 +113,7 @@ export default function SetPasswordPage() {
     <main className="flex min-h-screen items-center justify-center bg-[#f7f8f5] px-4 py-12">
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
-          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#ff6600] text-white">
+          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#c94f00] text-white">
             <ShieldCheck size={30} />
           </div>
 
@@ -191,7 +191,7 @@ export default function SetPasswordPage() {
             <button
               type="submit"
               disabled={saving}
-              className="w-full rounded-lg bg-[#ff6600] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#e85d00] disabled:cursor-not-allowed disabled:opacity-60"
+              className="w-full rounded-lg bg-[#c94f00] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#a84300] disabled:cursor-not-allowed disabled:opacity-60"
             >
               {saving ? "Setting password..." : "Activate account"}
             </button>

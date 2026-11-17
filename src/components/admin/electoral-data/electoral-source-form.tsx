@@ -208,7 +208,7 @@ export default function ElectoralSourceForm({
         <button
           type="submit"
           disabled={saving}
-          className="rounded-lg bg-[#ff6600] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#e85d00] disabled:opacity-50"
+          className="rounded-lg bg-[#c94f00] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#a84300] disabled:opacity-50"
         >
           {saving
             ? "Saving..."

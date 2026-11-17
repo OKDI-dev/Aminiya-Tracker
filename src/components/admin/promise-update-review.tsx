@@ -2,9 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import {
-  ArrowLeft,
   CheckCircle2,
   Loader2,
   XCircle,
@@ -149,12 +147,6 @@ export default function PromiseUpdateReview({
 
   return (
     <div className="mx-auto max-w-3xl space-y-6">
-      <Link
-        href="/admin/promise-updates"
-        className="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-[#ff6600]"
-      >
-        <ArrowLeft size={16} /> Back
-      </Link>
 
       <div>
         <p className="text-sm text-gray-500">Political promise</p>
@@ -294,7 +286,7 @@ export default function PromiseUpdateReview({
                     className={`inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold disabled:opacity-60 ${
                       item.publiclyVisible
                         ? "border border-red-200 text-red-700 hover:bg-red-50"
-                        : "bg-[#ff6600] text-white hover:bg-[#e85d00]"
+                        : "bg-[#c94f00] text-white hover:bg-[#a84300]"
                     }`}
                   >
                     {updatingEvidenceId === item.id ? (
@@ -376,7 +368,7 @@ export default function PromiseUpdateReview({
               type="button"
               disabled={saving}
               onClick={() => review("approved")}
-              className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#ff6600] px-5 py-3 text-sm font-semibold text-white hover:bg-[#e85d00] disabled:opacity-60"
+              className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#c94f00] px-5 py-3 text-sm font-semibold text-white hover:bg-[#a84300] disabled:opacity-60"
             >
               {saving ? (
                 <Loader2 size={16} className="animate-spin" />
