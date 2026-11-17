@@ -6,7 +6,10 @@ import {
   buildAminiyaSystemPrompt,
   type AssistantLanguage,
 } from "@/lib/aminiya-assistant-prompts";
+import { checkRateLimit, rateLimitResponseInit } from "@/lib/rate-limit";
 
+/** Questions per IP per hour; each one spends Groq credits. */
+const CHAT_LIMIT_PER_HOUR = 30;
 
 // Force IPv4 because this server environment cannot reliably
 // establish outbound IPv6 connections to the Groq API.
@@ -99,6 +102,18 @@ function getDeterministicReply(
 }
 
 export async function POST(request: Request) {
+  const limit = await checkRateLimit(
+    request,
+    "assistant-chat",
+    CHAT_LIMIT_PER_HOUR,
+    "You've asked a lot of questions in a short time. Please try again later."
+  );
+
+  if (!limit.allowed) {
+    const { body, init } = rateLimitResponseInit(limit);
+    return NextResponse.json(body, init);
+  }
+
   let body: ChatRequestBody;
 
   try {
