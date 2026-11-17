@@ -20,6 +20,9 @@ import { createClient } from "@/lib/supabase/client";
 import { useLanguage } from "@/components/language-provider";
 import { prefersReducedMotion, springs } from "@/lib/motion";
 
+/** Give up on the events request after this long and offer Try again. */
+const LOAD_TIMEOUT_MS = 15_000;
+
 /** Month grid slides in the direction of navigation. */
 const monthVariants: Variants = {
   enter: (direction: number) => ({ x: direction * 48, opacity: 0 }),
@@ -471,28 +474,43 @@ export default function CivicCalendar({
     let active = true;
 
     async function loadEvents() {
-      const supabase = createClient();
+      // Every path must end loading: a thrown error (e.g. missing Supabase
+      // config) or a stalled request would otherwise leave the skeleton up
+      // forever with no way to retry.
+      let failed = false;
+      let loaded: CivicEvent[] = [];
 
-      const { data, error: queryError } = await supabase
-        .from("civic_events")
-        .select(
-          "id,title_en,title_ha,description_en,description_ha,category,start_date,end_date,start_time,end_time,venue_en,venue_ha,registration_url"
-        )
-        .eq("status", "published")
-        .order("start_date", { ascending: true })
-        .limit(300);
+      try {
+        const supabase = createClient();
+
+        const { data, error: queryError } = await supabase
+          .from("civic_events")
+          .select(
+            "id,title_en,title_ha,description_en,description_ha,category,start_date,end_date,start_time,end_time,venue_en,venue_ha,registration_url"
+          )
+          .eq("status", "published")
+          .order("start_date", { ascending: true })
+          .limit(300)
+          .abortSignal(AbortSignal.timeout(LOAD_TIMEOUT_MS));
+
+        if (queryError) {
+          console.error("Unable to load civic events:", queryError.message);
+          failed = true;
+        } else {
+          loaded = (data ?? []) as CivicEvent[];
+        }
+      } catch (caught) {
+        console.error(
+          "Unable to load civic events:",
+          caught instanceof Error ? caught.message : caught
+        );
+        failed = true;
+      }
 
       if (!active) return;
 
-      if (queryError) {
-        console.error("Unable to load civic events:", queryError.message);
-        setError(true);
-        setEvents([]);
-      } else {
-        setError(false);
-        setEvents((data ?? []) as CivicEvent[]);
-      }
-
+      setError(failed);
+      setEvents(loaded);
       setLoading(false);
       setRetrying(false);
     }
