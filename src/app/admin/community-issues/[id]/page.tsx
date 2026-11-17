@@ -59,6 +59,24 @@ export default async function CommunityIssueDetailPage({
 
   if (!issue) notFound();
 
+  // The reporter's name is staff-only. Read it with the service client (staff
+  // access was checked above) so it doesn't depend on column grants for
+  // migration 023's new column.
+  const { data: reporter, error: reporterError } = await adminSupabase
+    .from("community_issues")
+    .select("reporter_name")
+    .eq("id", id)
+    .maybeSingle();
+
+  if (reporterError) {
+    console.error("Unable to load reporter name:", reporterError.message);
+  }
+
+  const reporterName =
+    typeof reporter?.reporter_name === "string" && reporter.reporter_name.trim()
+      ? reporter.reporter_name.trim()
+      : null;
+
   const { data: reviews, error: reviewError } = await supabase
     .from("community_issue_reviews")
     .select("id, previous_status, new_status, action_notes, public_summary, created_by, created_at")
@@ -186,6 +204,18 @@ export default async function CommunityIssueDetailPage({
               <p className="text-xs text-gray-500">Community / location</p>
               <p className="mt-1 text-sm font-medium text-[#171717]">
                 {location || "Not provided"}
+              </p>
+            </div>
+            <div>
+              <p className="text-xs text-gray-500">Reported by (staff only)</p>
+              <p className="mt-1 text-sm font-medium text-[#171717]">
+                {reporterError ? (
+                  <span className="text-red-600">Couldn&apos;t load</span>
+                ) : reporterName ? (
+                  reporterName
+                ) : (
+                  <span className="text-gray-500">Anonymous</span>
+                )}
               </p>
             </div>
             <div>

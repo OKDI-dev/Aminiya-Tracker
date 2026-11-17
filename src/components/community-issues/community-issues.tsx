@@ -766,8 +766,13 @@ export default function CommunityIssues() {
                     value={reporterName}
                     onChange={(event) => setReporterName(event.target.value)}
                     placeholder={t("reporterNamePlaceholder")}
+                    aria-describedby="ci-reporter-name-help"
                     className={fieldClass(false)}
                   />
+                  <p id="ci-reporter-name-help" className="mt-1.5 flex items-start gap-1.5 text-xs leading-5 text-gray-500">
+                    <ShieldCheck size={14} className="mt-0.5 shrink-0 text-green-700" aria-hidden="true" />
+                    {t("reporterNameHelp")}
+                  </p>
                 </div>
 
                 <div className="sm:col-span-2">
