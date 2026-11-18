@@ -823,7 +823,11 @@ export default function AminiyaAssistant() {
                       className={`flex flex-col ${message.role === "user" ? "items-end" : "items-start"}`}
                     >
                       <div
-                        className={`max-w-[88%] rounded-2xl px-3.5 py-3 text-sm leading-6 break-words whitespace-pre-wrap transition-colors ${
+                        // pre-wrap only for the user's own text: on rendered markdown it
+                        // turns the newlines between <li>s into blank lines.
+                        className={`max-w-[88%] rounded-2xl px-3.5 py-3 text-sm leading-6 break-words transition-colors ${
+                          message.role === "user" ? "whitespace-pre-wrap" : ""
+                        } ${
                           message.role === "user"
                             ? message.status === "failed"
                               ? "rounded-br-md border border-red-200 bg-red-50 text-red-900"
@@ -833,7 +837,8 @@ export default function AminiyaAssistant() {
                       >
                         {message.role === "assistant" ? (
                           <>
-                            <div className="space-y-1 text-sm leading-5 [&_a]:text-[#a84300] [&_a]:underline [&_h1]:mb-1 [&_h1]:text-base [&_h1]:font-bold [&_h2]:mt-2 [&_h2]:mb-1 [&_h2]:text-sm [&_h2]:font-bold [&_h3]:mt-1 [&_h3]:mb-1 [&_h3]:font-semibold [&_li]:my-0 [&_li]:pl-0.5 [&_li_p]:leading-5 [&_li>p]:my-0 [&_ol]:my-1 [&_ol]:list-decimal [&_ol]:space-y-0.5 [&_ol]:pl-5 [&_p]:my-0 [&_p]:leading-5 [&_p+p]:mt-1 [&_strong]:font-semibold [&_ul]:my-1 [&_ul]:list-disc [&_ul]:space-y-0.5 [&_ul]:pl-5">
+                            {/* Compact chat prose: blocks separated by 0.5rem, list items by 2px. */}
+                            <div className="text-sm leading-[1.45rem] [&>*+*]:mt-2 [&_a]:font-medium [&_a]:text-[#a84300] [&_a]:underline [&_a]:underline-offset-2 [&_h1]:text-[15px] [&_h1]:font-bold [&_h2]:text-sm [&_h2]:font-bold [&_h3]:text-sm [&_h3]:font-semibold [&_li]:pl-0.5 [&_li+li]:mt-0.5 [&_li>p]:m-0 [&_li>ol]:mt-0.5 [&_li>ul]:mt-0.5 [&_li::marker]:text-[#c94f00] [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:m-0 [&_strong]:font-semibold [&_strong]:text-gray-950 [&_ul]:list-disc [&_ul]:pl-5">
                               <ReactMarkdown
                                 remarkPlugins={[remarkGfm]}
                                 components={{

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, LayoutGroup, motion, type Variants } from "motion/react";
 import {
@@ -18,7 +18,7 @@ import {
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { useLanguage } from "@/components/language-provider";
-import { springs } from "@/lib/motion";
+import { prefersReducedMotion, springs } from "@/lib/motion";
 
 /** Month grid slides in the direction of navigation. */
 const monthVariants: Variants = {
@@ -165,11 +165,17 @@ function EventCard({
   event,
   language,
   index = 0,
+  linkLabel,
 }: {
   event: CivicEvent;
   language: "en" | "ha";
   /** Position in its list, for a short stagger on entry. */
   index?: number;
+  /**
+   * Set when the whole card sits inside a link: the nested registration
+   * link is dropped (links can't nest) and this call to action shows instead.
+   */
+  linkLabel?: string;
 }) {
   const title = language === "ha" ? event.title_ha : event.title_en;
   const description =
@@ -186,7 +192,9 @@ function EventCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ ...springs.default, delay: Math.min(index, 6) * 0.05 }}
       whileHover={{ y: -2 }}
-      className="group rounded-2xl border border-[#e7e4e0] bg-white p-4 transition-[border-color,box-shadow] duration-200 hover:border-[#ffbd91] hover:shadow-md sm:p-5"
+      className={`group rounded-2xl border border-[#e7e4e0] bg-white p-4 transition-[border-color,box-shadow] duration-200 hover:border-[#ffbd91] hover:shadow-md sm:p-5 ${
+        linkLabel ? "flex h-full flex-col" : ""
+      }`}
     >
       <div className="flex items-start gap-3.5">
         <div className="flex size-[58px] shrink-0 flex-col items-center justify-center rounded-xl bg-[#fff0e5] text-[#a84300]">
@@ -239,7 +247,7 @@ function EventCard({
             )}
           </div>
 
-          {event.registration_url && (
+          {!linkLabel && event.registration_url && (
             <a
               href={event.registration_url}
               target="_blank"
@@ -252,8 +260,157 @@ function EventCard({
           )}
         </div>
       </div>
+
+      {linkLabel ? (
+        <span className="mt-auto inline-flex items-center gap-1.5 pt-4 text-xs font-semibold text-[#a84300]">
+          {linkLabel}
+          <ArrowRight size={13} className="transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true" />
+        </span>
+      ) : null}
     </motion.article>
   );
+}
+
+/**
+ * Upcoming events as a swipeable strip. Native scroll-snap gives real
+ * touch momentum and trackpad support; the arrows and dots are for mouse
+ * and keyboard users. Each card opens the full calendar on its day.
+ */
+function EventCarousel({
+  events,
+  language,
+  labels,
+}: {
+  events: CivicEvent[];
+  language: "en" | "ha";
+  labels: { previous: string; next: string; openDay: string; slide: string; of: string };
+}) {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [active, setActive] = useState(0);
+
+  const slideWidth = useCallback(() => {
+    const track = trackRef.current;
+    const first = track?.firstElementChild as HTMLElement | null;
+    if (!track || !first) return 0;
+    const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+    return first.offsetWidth + gap;
+  }, []);
+
+  const handleScroll = useCallback(() => {
+    const track = trackRef.current;
+    const width = slideWidth();
+    if (!track || !width) return;
+    setActive(Math.min(events.length - 1, Math.max(0, Math.round(track.scrollLeft / width))));
+  }, [events.length, slideWidth]);
+
+  function goTo(index: number) {
+    const track = trackRef.current;
+    if (!track) return;
+    const clamped = Math.min(events.length - 1, Math.max(0, index));
+    track.scrollTo({
+      left: clamped * slideWidth(),
+      behavior: prefersReducedMotion() ? "auto" : "smooth",
+    });
+  }
+
+  const atStart = active === 0;
+  const atEnd = active >= events.length - 1;
+
+  return (
+    <div
+      role="region"
+      aria-roledescription="carousel"
+      aria-label={labels.slide}
+      onKeyDown={(event) => {
+        if (event.key === "ArrowRight") {
+          event.preventDefault();
+          goTo(active + 1);
+        } else if (event.key === "ArrowLeft") {
+          event.preventDefault();
+          goTo(active - 1);
+        }
+      }}
+    >
+      <div
+        ref={trackRef}
+        onScroll={handleScroll}
+        className="-mx-1 flex snap-x snap-mandatory scroll-px-1 gap-3 overflow-x-auto overscroll-x-contain scroll-smooth px-1 py-1 [scrollbar-width:none] motion-reduce:scroll-auto [&::-webkit-scrollbar]:hidden"
+      >
+        {events.map((event, index) => (
+          <Link
+            key={event.id}
+            href={`/civic-calendar?date=${event.start_date}`}
+            aria-roledescription="slide"
+            aria-label={`${language === "ha" ? event.title_ha : event.title_en}, ${formatDate(event.start_date, language)}. ${labels.openDay}`}
+            className="block w-[86%] shrink-0 snap-start rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#c94f00] sm:w-[72%]"
+          >
+            <EventCard event={event} language={language} index={index} linkLabel={labels.openDay} />
+          </Link>
+        ))}
+      </div>
+
+      {events.length > 1 ? (
+        <div className="mt-4 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-1.5" role="tablist" aria-label={labels.slide}>
+            {events.map((event, index) => (
+              <button
+                key={event.id}
+                type="button"
+                role="tab"
+                aria-selected={index === active}
+                aria-label={`${labels.slide} ${index + 1} ${labels.of} ${events.length}`}
+                onClick={() => goTo(index)}
+                className="flex h-6 items-center"
+              >
+                <motion.span
+                  animate={{
+                    width: index === active ? 20 : 6,
+                    backgroundColor: index === active ? "#c94f00" : "#d9d4ce",
+                  }}
+                  transition={springs.snappy}
+                  className="block h-1.5 rounded-full"
+                />
+              </button>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-1.5">
+            <motion.button
+              type="button"
+              onClick={() => goTo(active - 1)}
+              disabled={atStart}
+              aria-label={labels.previous}
+              whileTap={{ scale: 0.92 }}
+              className="flex size-9 items-center justify-center rounded-full border border-[#e7e4e0] bg-white text-[#555] transition-colors hover:border-[#c94f00] hover:text-[#a84300] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-[#e7e4e0] disabled:hover:text-[#555]"
+            >
+              <ChevronLeft size={18} />
+            </motion.button>
+            <motion.button
+              type="button"
+              onClick={() => goTo(active + 1)}
+              disabled={atEnd}
+              aria-label={labels.next}
+              whileTap={{ scale: 0.92 }}
+              className="flex size-9 items-center justify-center rounded-full border border-[#e7e4e0] bg-white text-[#555] transition-colors hover:border-[#c94f00] hover:text-[#a84300] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-[#e7e4e0] disabled:hover:text-[#555]"
+            >
+              <ChevronRight size={18} />
+            </motion.button>
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+/** A `?date=YYYY-MM-DD` deep link, if present and a real date. */
+function readDateParam(): string | null {
+  try {
+    const value = new URLSearchParams(window.location.search).get("date");
+    if (!value || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return null;
+    return dateKey(dateFromKey(value)) === value ? value : null;
+  } catch {
+    return null;
+  }
 }
 
 export default function CivicCalendar({
@@ -275,18 +432,40 @@ export default function CivicCalendar({
     () => new Date(2000, 0, 1)
   );
 
+  // Set when the page was opened on a specific day (e.g. from the home page).
+  const deepLinkedRef = useRef(false);
+  const dayPanelRef = useRef<HTMLElement>(null);
+
   useEffect(() => {
     const currentDate = new Date();
     const currentKey = dateKey(currentDate);
+    const linked = compact ? null : readDateParam();
+    const focusDate = linked ? dateFromKey(linked) : currentDate;
+    deepLinkedRef.current = Boolean(linked);
 
-    // Initialize the calendar from the browser date after mount.
+    // Initialize the calendar from the browser date (or ?date=) after mount.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setToday(currentKey);
-    setSelectedDate(currentKey);
+    setSelectedDate(linked ?? currentKey);
     setDisplayedMonth(
-      new Date(currentDate.getFullYear(), currentDate.getMonth(), 1)
+      new Date(focusDate.getFullYear(), focusDate.getMonth(), 1)
     );
-  }, []);
+  }, [compact]);
+
+  // Once a deep-linked day has rendered, bring its events into view. On wide
+  // screens the day panel sits beside the grid; on phones it is below it.
+  useEffect(() => {
+    if (loading || !deepLinkedRef.current) return;
+    deepLinkedRef.current = false;
+    const panel = dayPanelRef.current;
+    if (!panel) return;
+    requestAnimationFrame(() => {
+      panel.scrollIntoView({
+        behavior: prefersReducedMotion() ? "auto" : "smooth",
+        block: window.matchMedia("(min-width: 1024px)").matches ? "nearest" : "start",
+      });
+    });
+  }, [loading]);
 
   useEffect(() => {
     let active = true;
@@ -338,6 +517,10 @@ export default function CivicCalendar({
       loading: "Loading civic calendar...",
       error: "We couldn't load the calendar. Check your connection and try again.",
       retry: "Try again",
+      previousEvent: "Previous event",
+      nextEvent: "Next event",
+      openDay: "See it on the calendar",
+      of: "of",
       empty: "No events scheduled for this day.",
       emptyHint: "Select another date or explore upcoming activities.",
       upcoming: "Upcoming activities",
@@ -360,6 +543,10 @@ export default function CivicCalendar({
       loading: "Ana loda kalandar...",
       error: "Ba mu iya buɗe kalandar ba. Duba haɗin intanet ɗinka sannan ka sake gwadawa.",
       retry: "Sake gwadawa",
+      previousEvent: "Aikin da ya gabata",
+      nextEvent: "Aiki na gaba",
+      openDay: "Duba shi a kalanda",
+      of: "cikin",
       empty: "Babu wani aiki da aka tsara a wannan rana.",
       emptyHint: "Zaɓi wata rana ko duba ayyukan da ke tafe.",
       upcoming: "Ayyukan da ke tafe",
@@ -415,6 +602,16 @@ export default function CivicCalendar({
     [events, today]
   );
 
+  // The home page strip shows more than the three cards below the full calendar.
+  const carouselEvents = useMemo(
+    () =>
+      events
+        .filter((event) => (event.end_date || event.start_date) >= today)
+        .sort((a, b) => a.start_date.localeCompare(b.start_date))
+        .slice(0, 10),
+    [events, today]
+  );
+
   const weekdays = text.weekdays;
 
   function changeMonth(amount: number) {
@@ -436,7 +633,7 @@ export default function CivicCalendar({
   const monthKey = `${displayedMonth.getFullYear()}-${displayedMonth.getMonth()}`;
 
   if (compact) {
-    const compactEvents = upcomingEvents;
+    const compactEvents = carouselEvents;
 
     return (
       <section className="h-full">
@@ -470,11 +667,17 @@ export default function CivicCalendar({
             <p className="mt-3 font-semibold text-[#333]">{text.noUpcoming}</p>
           </div>
         ) : (
-          <div className="grid gap-3">
-            {compactEvents.map((event, index) => (
-              <EventCard key={event.id} event={event} language={language} index={index} />
-            ))}
-          </div>
+          <EventCarousel
+            events={compactEvents}
+            language={language}
+            labels={{
+              previous: text.previousEvent,
+              next: text.nextEvent,
+              openDay: text.openDay,
+              slide: text.upcoming,
+              of: text.of,
+            }}
+          />
         )}
 
         <Link
@@ -681,7 +884,10 @@ export default function CivicCalendar({
               </div>
             </div>
 
-            <aside className="rounded-2xl border border-[#e7e4e0] bg-white p-5 shadow-sm sm:p-6">
+            <aside
+              ref={dayPanelRef}
+              className="scroll-mt-24 rounded-2xl border border-[#e7e4e0] bg-white p-5 shadow-sm sm:p-6"
+            >
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <p className="text-xs font-bold tracking-[0.12em] text-[#a84300] uppercase">
