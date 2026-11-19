@@ -28,17 +28,17 @@ function StatCard({
   icon: React.ElementType;
 }) {
   return (
-    <div className="rounded-xl border border-gray-200 bg-white p-5">
+    <div className="rounded-xl border border-line-soft bg-paper-raised p-5">
       <div className="flex items-center justify-between">
-        <p className="text-sm text-gray-500">
+        <p className="text-sm text-ink-subtle">
           <LocalizedText en={label.en} ha={label.ha} />
         </p>
-        <Icon size={21} className="text-[#ff6600]" />
+        <Icon size={21} className="text-signal" />
       </div>
-      <p className="mt-4 text-3xl font-bold text-[#171717]">
+      <p className="mt-4 text-3xl font-bold text-ink">
         {value.toLocaleString("en-NG")}
       </p>
-      <p className="mt-2 text-xs text-gray-500">
+      <p className="mt-2 text-xs text-ink-subtle">
         <LocalizedText en={description.en} ha={description.ha} />
       </p>
     </div>
@@ -53,11 +53,11 @@ function StatusRow({
   value: number;
 }) {
   return (
-    <div className="flex items-center justify-between gap-4 border-b border-gray-100 py-3 last:border-0">
-      <span className="text-sm text-gray-600">
+    <div className="flex items-center justify-between gap-4 border-b border-line-soft py-3 last:border-0">
+      <span className="text-sm text-ink-muted">
         <LocalizedText en={label.en} ha={label.ha} />
       </span>
-      <span className="text-sm font-semibold text-[#171717]">
+      <span className="text-sm font-semibold text-ink">
         {value.toLocaleString("en-NG")}
       </span>
     </div>
@@ -121,7 +121,7 @@ export default async function AccountabilityPage() {
   const stats = await getPublicAccountabilityStats();
 
   return (
-    <main className="min-h-screen bg-[#f7f8f5] text-[#171717]">
+    <main className="min-h-screen bg-paper text-ink">
       <PublicPageHero
         title={
           <>
@@ -130,7 +130,7 @@ export default async function AccountabilityPage() {
               ha="Riƙon Amanar Jama'a"
             />
             <br />
-            <span className="text-[#ff6600]">
+            <span className="text-signal">
               <LocalizedText en="Dashboard" ha="Allon Bayani" />
             </span>
           </>
@@ -146,16 +146,13 @@ export default async function AccountabilityPage() {
       <div className="mx-auto max-w-7xl space-y-12 px-5 py-10 sm:px-8">
         <section>
           <div className="mb-5">
-            <p className="text-sm font-semibold uppercase tracking-wide text-[#ff6600]">
-              <LocalizedText en="Platform overview" ha="Taƙaitaccen Bayanin Dandali" />
-            </p>
-            <h2 className="mt-2 text-2xl font-bold">
+            <h2 className="text-2xl font-bold">
               <LocalizedText
                 en="Accountability at a glance"
                 ha="Taƙaitaccen Bayanin Riƙon Amana"
               />
             </h2>
-            <p className="mt-2 text-sm text-gray-500">
+            <p className="mt-2 text-sm text-ink-subtle">
               <LocalizedText
                 en="Aggregate figures from the platform. Community issue figures do not expose individual reports or submitter information."
                 ha="Jimillar alkaluma daga dandalin. Bayanan matsalolin al'umma ba sa bayyana rahotannin mutum ɗaya ko bayanan waɗanda suka aika da su."
@@ -240,14 +237,14 @@ export default async function AccountabilityPage() {
         </section>
 
         <section className="grid gap-6 lg:grid-cols-2">
-          <div className="rounded-xl border border-gray-200 bg-white p-6">
+          <div className="rounded-xl border border-line-soft bg-paper-raised p-6">
             <div className="flex items-center gap-3">
-              <ClipboardList className="text-[#ff6600]" size={23} />
+              <ClipboardList className="text-signal" size={23} />
               <h2 className="text-lg font-bold">
                 <LocalizedText en="Community issues" ha="Matsalolin Al'umma" />
               </h2>
             </div>
-            <p className="mt-2 text-sm text-gray-500">
+            <p className="mt-2 text-sm text-ink-subtle">
               <LocalizedText
                 en="Current status of submitted community reports."
                 ha="Matsayin rahotannin matsalolin al'umma da aka aika a halin yanzu."
@@ -277,7 +274,7 @@ export default async function AccountabilityPage() {
             </div>
             <Link
               href="/community-issues"
-              className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#ff6600] hover:underline"
+              className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-ink hover:underline"
             >
               <LocalizedText
                 en="Visit Community Issues"
@@ -287,14 +284,14 @@ export default async function AccountabilityPage() {
             </Link>
           </div>
 
-          <div className="rounded-xl border border-gray-200 bg-white p-6">
+          <div className="rounded-xl border border-line-soft bg-paper-raised p-6">
             <div className="flex items-center gap-3">
-              <Target className="text-[#ff6600]" size={23} />
+              <Target className="text-signal" size={23} />
               <h2 className="text-lg font-bold">
                 <LocalizedText en="Political promises" ha="Alkawuran Siyasa" />
               </h2>
             </div>
-            <p className="mt-2 text-sm text-gray-500">
+            <p className="mt-2 text-sm text-ink-subtle">
               <LocalizedText
                 en="Progress status of published political commitments."
                 ha="Matsayin ci gaban alkawuran siyasa da aka wallafa."
@@ -324,7 +321,7 @@ export default async function AccountabilityPage() {
             </div>
             <Link
               href="/promise-tracker"
-              className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#ff6600] hover:underline"
+              className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-ink hover:underline"
             >
               <LocalizedText
                 en="Explore Promise Tracker"
@@ -337,10 +334,7 @@ export default async function AccountabilityPage() {
 
         <section>
           <div className="mb-5">
-            <p className="text-sm font-semibold uppercase tracking-wide text-[#ff6600]">
-              <LocalizedText en="Explore the platform" ha="Bincika Dandalin" />
-            </p>
-            <h2 className="mt-2 text-2xl font-bold">
+            <h2 className="text-2xl font-bold">
               <LocalizedText
                 en="Information and participation"
                 ha="Bayanai da Shiga Ciki"
@@ -362,16 +356,16 @@ export default async function AccountabilityPage() {
                     return (
                       <article
                         key={section.href}
-                        className="flex w-[min(85vw,360px)] shrink-0 flex-col rounded-2xl border border-[#e8e8e8] bg-white p-6 transition hover:-translate-y-1 hover:border-[#ffbd91] hover:shadow-lg"
+                        className="flex w-[min(85vw,360px)] shrink-0 flex-col rounded-2xl border border-line-soft bg-paper-raised p-6 transition hover:-translate-y-1 hover:border-signal/50 hover:shadow-lg"
                       >
-                        <Icon size={25} className="text-[#ff6600]" />
+                        <Icon size={25} className="text-signal" />
                         <h3 className="mt-5 text-lg font-bold">
                           <LocalizedText
                             en={section.title.en}
                             ha={section.title.ha}
                           />
                         </h3>
-                        <p className="mt-3 min-h-20 text-sm leading-6 text-gray-600">
+                        <p className="mt-3 min-h-20 text-sm leading-6 text-ink-muted">
                           <LocalizedText
                             en={section.description.en}
                             ha={section.description.ha}
@@ -380,7 +374,7 @@ export default async function AccountabilityPage() {
                         <Link
                           href={section.href}
                           tabIndex={duplicate ? -1 : undefined}
-                          className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#ff6600] hover:underline"
+                          className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-ink hover:underline"
                         >
                           <LocalizedText
                             en={section.label.en}
@@ -397,7 +391,7 @@ export default async function AccountabilityPage() {
           </div>
         </section>
 
-        <p className="flex items-start gap-2 text-xs leading-5 text-gray-500">
+        <p className="flex items-start gap-2 text-xs leading-5 text-ink-subtle">
           <Clock3 size={15} className="mt-0.5 shrink-0" />
           <LocalizedText
             en="Figures are generated from current platform records and may change as reports are submitted, reviewed and updated. A promise marked fulfilled reflects its recorded progress status; it is not an independent audit certification."

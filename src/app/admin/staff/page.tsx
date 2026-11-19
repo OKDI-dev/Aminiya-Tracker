@@ -31,12 +31,12 @@ export default async function StaffPage() {
 
   if (staffError || historyError) {
     return (
-      <main className="min-h-screen bg-[#f7f8f5] p-6">
-        <div className="mx-auto max-w-4xl rounded-xl border border-red-200 bg-white p-6">
-          <h1 className="text-xl font-bold text-[#171717]">
+      <main className="min-h-screen bg-paper p-6">
+        <div className="mx-auto max-w-4xl rounded-xl border border-red-200 bg-paper-raised p-6">
+          <h1 className="text-xl font-bold text-ink">
             Unable to load staff management
           </h1>
-          <p className="mt-2 text-sm text-gray-600">
+          <p className="mt-2 text-sm text-ink-muted">
             Check the database permissions and try again.
           </p>
         </div>
@@ -45,16 +45,16 @@ export default async function StaffPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#f7f8f5]">
-      <header className="border-b border-gray-200 bg-white">
+    <main className="min-h-screen bg-paper">
+      <header className="border-b border-line-soft bg-paper-raised">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#ff6600] text-white">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-signal text-ink">
               <ShieldCheck size={23} />
             </div>
             <div>
-              <h1 className="font-bold text-[#171717]">Aminiya Tracker</h1>
-              <p className="text-xs text-gray-500">Staff Management</p>
+              <h1 className="font-bold text-ink">Aminiya Tracker</h1>
+              <p className="text-xs text-ink-subtle">Staff Management</p>
             </div>
           </div>
           <LogoutButton />
@@ -65,13 +65,13 @@ export default async function StaffPage() {
         <div>
 
           <div className="mt-5">
-            <p className="text-sm font-semibold text-[#ff6600]">
+            <p className="text-sm font-semibold text-ink">
               ADMINISTRATION
             </p>
-            <h2 className="mt-2 text-3xl font-bold text-[#171717]">
+            <h2 className="mt-2 text-3xl font-bold text-ink">
               Staff management
             </h2>
-            <p className="mt-2 max-w-2xl text-gray-600">
+            <p className="mt-2 max-w-2xl text-ink-muted">
               View authorised personnel, manage access roles and review the
               history of role changes.
             </p>
@@ -79,22 +79,22 @@ export default async function StaffPage() {
         </div>
 
         <section className="grid gap-4 sm:grid-cols-2">
-          <div className="rounded-xl border border-gray-200 bg-white p-5">
-            <div className="flex items-center gap-3 text-gray-500">
+          <div className="rounded-xl border border-line-soft bg-paper-raised p-5">
+            <div className="flex items-center gap-3 text-ink-subtle">
               <Users size={19} />
               <span className="text-sm">Authorised staff</span>
             </div>
-            <p className="mt-3 text-3xl font-bold text-[#171717]">
+            <p className="mt-3 text-3xl font-bold text-ink">
               {profiles.length}
             </p>
           </div>
 
-          <div className="rounded-xl border border-gray-200 bg-white p-5">
-            <div className="flex items-center gap-3 text-gray-500">
+          <div className="rounded-xl border border-line-soft bg-paper-raised p-5">
+            <div className="flex items-center gap-3 text-ink-subtle">
               <History size={19} />
               <span className="text-sm">Recorded role changes</span>
             </div>
-            <p className="mt-3 text-3xl font-bold text-[#171717]">
+            <p className="mt-3 text-3xl font-bold text-ink">
               {changes.length}
             </p>
           </div>

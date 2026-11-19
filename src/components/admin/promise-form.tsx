@@ -80,14 +80,14 @@ export default function PromiseForm({
   }
 
   const fieldClass =
-    "mt-2 w-full rounded-lg border border-gray-300 bg-white px-3 py-3 text-sm text-gray-900 outline-none focus:border-[#ff6600] focus:ring-1 focus:ring-[#ff6600]";
+    "mt-2 w-full rounded-lg border border-line bg-paper-raised px-3 py-3 text-sm text-ink outline-none focus:border-signal focus:ring-1 focus:ring-signal";
 
   return (
     <div className="mx-auto max-w-3xl space-y-6">
 
       <div>
-        <h1 className="text-2xl font-bold text-[#171717]">Register a political promise</h1>
-        <p className="mt-2 text-sm text-gray-600">
+        <h1 className="text-2xl font-bold text-ink">Register a political promise</h1>
+        <p className="mt-2 text-sm text-ink-muted">
           Record a verifiable commitment made by a candidate. New records are saved as drafts.
         </p>
       </div>
@@ -99,16 +99,16 @@ export default function PromiseForm({
       )}
 
       {candidacies.length === 0 ? (
-        <div className="rounded-xl border border-gray-200 bg-white p-6">
-          <p className="font-medium text-gray-900">No published candidacies available.</p>
-          <p className="mt-2 text-sm text-gray-600">
+        <div className="rounded-xl border border-line-soft bg-paper-raised p-6">
+          <p className="font-medium text-ink">No published candidacies available.</p>
+          <p className="mt-2 text-sm text-ink-muted">
             Publish an election, candidate and candidacy before registering promises.
           </p>
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="space-y-5 rounded-xl border border-gray-200 bg-white p-5 sm:p-7">
+        <form onSubmit={handleSubmit} className="space-y-5 rounded-xl border border-line-soft bg-paper-raised p-5 sm:p-7">
           <div>
-            <label htmlFor="candidacy_id" className="text-sm font-medium text-gray-800">
+            <label htmlFor="candidacy_id" className="text-sm font-medium text-ink">
               Candidate and election <span className="text-red-600">*</span>
             </label>
             <select
@@ -126,7 +126,7 @@ export default function PromiseForm({
           </div>
 
           <div>
-            <label htmlFor="title" className="text-sm font-medium text-gray-800">
+            <label htmlFor="title" className="text-sm font-medium text-ink">
               Promise title <span className="text-red-600">*</span>
             </label>
             <input
@@ -142,7 +142,7 @@ export default function PromiseForm({
           </div>
 
           <div>
-            <label htmlFor="description" className="text-sm font-medium text-gray-800">
+            <label htmlFor="description" className="text-sm font-medium text-ink">
               Promise description <span className="text-red-600">*</span>
             </label>
             <textarea
@@ -156,11 +156,11 @@ export default function PromiseForm({
               placeholder="Describe the commitment and include enough context to make it understandable and verifiable."
               className={fieldClass}
             />
-            <p className="mt-1 text-xs text-gray-500">{form.description.length}/10,000 characters</p>
+            <p className="mt-1 text-xs text-ink-subtle">{form.description.length}/10,000 characters</p>
           </div>
 
           <div>
-            <label htmlFor="sector" className="text-sm font-medium text-gray-800">
+            <label htmlFor="sector" className="text-sm font-medium text-ink">
               Sector <span className="text-red-600">*</span>
             </label>
             <select
@@ -179,7 +179,7 @@ export default function PromiseForm({
 
           <div className="grid gap-5 sm:grid-cols-2">
             <div>
-              <label htmlFor="promise_date" className="text-sm font-medium text-gray-800">
+              <label htmlFor="promise_date" className="text-sm font-medium text-ink">
                 Date promise was made
               </label>
               <input
@@ -192,7 +192,7 @@ export default function PromiseForm({
             </div>
 
             <div>
-              <label htmlFor="target_date" className="text-sm font-medium text-gray-800">
+              <label htmlFor="target_date" className="text-sm font-medium text-ink">
                 Target completion date
               </label>
               <input
@@ -207,7 +207,7 @@ export default function PromiseForm({
           </div>
 
           <div>
-            <label htmlFor="source_url" className="text-sm font-medium text-gray-800">
+            <label htmlFor="source_url" className="text-sm font-medium text-ink">
               Source URL
             </label>
             <input
@@ -218,22 +218,22 @@ export default function PromiseForm({
               placeholder="https://..."
               className={fieldClass}
             />
-            <p className="mt-1 text-xs text-gray-500">
+            <p className="mt-1 text-xs text-ink-subtle">
               Link to a manifesto, speech, interview, publication or other supporting source.
             </p>
           </div>
 
-          <div className="flex flex-col-reverse gap-3 border-t border-gray-100 pt-5 sm:flex-row sm:justify-end">
+          <div className="flex flex-col-reverse gap-3 border-t border-line-soft pt-5 sm:flex-row sm:justify-end">
             <Link
               href="/admin/promises"
-              className="rounded-lg border border-gray-300 px-5 py-3 text-center text-sm font-medium text-gray-700 hover:bg-gray-50"
+              className="rounded-lg border border-line px-5 py-3 text-center text-sm font-medium text-ink-muted hover:bg-tint"
             >
               Cancel
             </Link>
             <button
               type="submit"
               disabled={saving}
-              className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#c94f00] px-5 py-3 text-sm font-semibold text-white hover:bg-[#a84300] disabled:cursor-not-allowed disabled:opacity-60"
+              className="inline-flex items-center justify-center gap-2 rounded-lg bg-signal px-5 py-3 text-sm font-semibold text-ink hover:bg-signal-hover disabled:cursor-not-allowed disabled:opacity-60"
             >
               {saving ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}
               {saving ? "Saving..." : "Save as draft"}

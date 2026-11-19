@@ -35,21 +35,21 @@ export default async function PromiseUpdateQueuePage() {
   const rejected = (updates ?? []).filter((item) => item.review_status === "rejected");
 
   return (
-    <main className="min-h-screen bg-[#f7f8f5] p-5 sm:p-8">
+    <main className="min-h-screen bg-paper p-5 sm:p-8">
       <div className="mx-auto max-w-6xl space-y-7">
 
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-sm text-gray-500">Political Promise Tracker</p>
-            <h1 className="mt-1 text-2xl font-bold text-[#171717]">Progress update review</h1>
-            <p className="mt-2 text-sm text-gray-600">
+            <p className="text-sm text-ink-subtle">Political Promise Tracker</p>
+            <h1 className="mt-1 text-2xl font-bold text-ink">Progress update review</h1>
+            <p className="mt-2 text-sm text-ink-muted">
               Review evidence submitted against published political promises.
             </p>
           </div>
 
           <Link
             href="/admin/promise-updates/new"
-            className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#c94f00] px-4 py-3 text-sm font-semibold text-white hover:bg-[#a84300]"
+            className="inline-flex items-center justify-center gap-2 rounded-lg bg-signal px-4 py-3 text-sm font-semibold text-ink hover:bg-signal-hover"
           >
             <Plus size={17} /> Submit update
           </Link>
@@ -61,28 +61,28 @@ export default async function PromiseUpdateQueuePage() {
           <SummaryCard label="Rejected" count={rejected.length} icon={<XCircle size={19} />} />
         </div>
 
-        <section className="overflow-hidden rounded-xl border border-gray-200 bg-white">
-          <div className="border-b border-gray-100 p-5">
-            <h2 className="font-semibold text-gray-900">All progress updates</h2>
+        <section className="overflow-hidden rounded-xl border border-line-soft bg-paper-raised">
+          <div className="border-b border-line-soft p-5">
+            <h2 className="font-semibold text-ink">All progress updates</h2>
           </div>
 
           {(updates ?? []).length === 0 ? (
-            <p className="p-8 text-center text-sm text-gray-500">No progress updates have been submitted.</p>
+            <p className="p-8 text-center text-sm text-ink-subtle">No progress updates have been submitted.</p>
           ) : (
-            <div className="divide-y divide-gray-100">
+            <div className="divide-y divide-line-soft">
               {(updates ?? []).map((item) => (
                 <Link
                   key={item.id}
                   href={`/admin/promise-updates/${item.id}`}
-                  className="block p-5 transition hover:bg-gray-50"
+                  className="block p-5 transition hover:bg-tint"
                 >
                   <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <div className="min-w-0">
-                      <p className="font-semibold text-gray-900">{item.update_title}</p>
-                      <p className="mt-1 text-sm text-gray-600">
+                      <p className="font-semibold text-ink">{item.update_title}</p>
+                      <p className="mt-1 text-sm text-ink-muted">
                         {promiseMap.get(item.promise_id) ?? "Political promise"}
                       </p>
-                      <p className="mt-1 text-xs text-gray-500">
+                      <p className="mt-1 text-xs text-ink-subtle">
                         Update date: {item.update_date} · Progress: {item.progress_status.replaceAll("_", " ")}
                       </p>
                     </div>
@@ -108,11 +108,11 @@ function SummaryCard({
   icon: React.ReactNode;
 }) {
   return (
-    <div className="flex items-center gap-4 rounded-xl border border-gray-200 bg-white p-5">
-      <div className="rounded-lg bg-orange-50 p-3 text-[#ff6600]">{icon}</div>
+    <div className="flex items-center gap-4 rounded-xl border border-line-soft bg-paper-raised p-5">
+      <div className="rounded-lg bg-tint p-3 text-ink">{icon}</div>
       <div>
-        <p className="text-sm text-gray-500">{label}</p>
-        <p className="text-2xl font-bold text-gray-900">{count}</p>
+        <p className="text-sm text-ink-subtle">{label}</p>
+        <p className="text-2xl font-bold text-ink">{count}</p>
       </div>
     </div>
   );
@@ -126,7 +126,7 @@ function StatusLabel({ status }: { status: string }) {
   };
 
   return (
-    <span className={`w-fit rounded-full px-3 py-1 text-xs font-medium ${styles[status] ?? "bg-gray-100 text-gray-700"}`}>
+    <span className={`w-fit rounded-full px-3 py-1 text-xs font-medium ${styles[status] ?? "bg-tint text-ink-muted"}`}>
       {status.replaceAll("_", " ")}
     </span>
   );

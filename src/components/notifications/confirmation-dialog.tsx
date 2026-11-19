@@ -82,7 +82,7 @@ export function ConfirmationProvider({
           ref={cancelButtonRef}
           type="button"
           onClick={() => settle(false)}
-          className="min-h-11 rounded-xl border border-gray-300 bg-white px-5 py-3 text-sm font-semibold text-gray-700 hover:bg-gray-50"
+          className="min-h-11 rounded-xl border border-line bg-paper-raised px-5 py-3 text-sm font-semibold text-ink-muted hover:bg-tint"
         >
           {dialog.cancelText}
         </button>
@@ -90,10 +90,10 @@ export function ConfirmationProvider({
         <button
           type="button"
           onClick={() => settle(true)}
-          className={`min-h-11 rounded-xl px-5 py-3 text-sm font-semibold text-white ${
+          className={`min-h-11 rounded-xl px-5 py-3 text-sm font-semibold ${
             dialog.destructive
-              ? "bg-red-600 hover:bg-red-700"
-              : "bg-[#c94f00] hover:bg-[#a84300]"
+              ? "bg-red-600 text-white hover:bg-red-700"
+              : "bg-signal text-ink hover:bg-signal-hover"
           }`}
         >
           {dialog.confirmText}
@@ -106,7 +106,7 @@ export function ConfirmationProvider({
     <span className="flex items-center gap-3">
       <span
         className={`flex size-10 shrink-0 items-center justify-center rounded-xl ${
-          dialog.destructive ? "bg-red-50 text-red-600" : "bg-orange-50 text-[#ff6600]"
+          dialog.destructive ? "bg-red-50 text-red-600" : "bg-tint text-ink"
         }`}
       >
         <AlertTriangle size={20} aria-hidden="true" />

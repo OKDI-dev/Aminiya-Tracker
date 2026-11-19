@@ -8,13 +8,12 @@ export default function CommunityIssuesPage() {
   const { t } = useLanguage();
 
   return (
-    <main className="min-h-screen bg-[#f7f8f5] text-[#171717]">
+    <main className="min-h-screen bg-paper text-ink">
       <PublicPageHero
-        eyebrow={t("communityPageEyebrow")}
         title={
           <>
             {t("communityHeroTitleFirst")}{" "}
-            <span className="text-[#ff6600]">
+            <span className="text-signal">
               {t("communityHeroTitleSecond")}
             </span>
           </>

@@ -74,7 +74,7 @@ export default async function PromiseUpdateDetailPage({
   );
 
   return (
-    <main className="min-h-screen bg-[#f7f8f5] p-5 sm:p-8">
+    <main className="min-h-screen bg-paper p-5 sm:p-8">
       <PromiseUpdateReview
         updateId={update.id}
         promiseTitle={promiseResult.data?.title ?? "Political promise"}

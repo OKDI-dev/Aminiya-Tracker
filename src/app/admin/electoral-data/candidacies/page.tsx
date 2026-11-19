@@ -10,7 +10,7 @@ export const instant = false;
 const statusStyles: Record<string, string> = {
   published: "bg-green-100 text-green-800",
   draft: "bg-yellow-100 text-yellow-800",
-  archived: "bg-gray-100 text-gray-700",
+  archived: "bg-tint text-ink-muted",
 };
 
 export default async function CandidaciesPage({
@@ -76,18 +76,18 @@ export default async function CandidaciesPage({
   const areaMap = new Map((areas ?? []).map((item) => [item.id, item.name]));
 
   return (
-    <main className="min-h-screen bg-[#f7f8f5] p-5 sm:p-8">
+    <main className="min-h-screen bg-paper p-5 sm:p-8">
       <div className="mx-auto max-w-7xl space-y-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <h1 className="mt-3 text-2xl font-bold text-[#171717]">Candidacies</h1>
-            <p className="mt-1 text-sm text-gray-600">
+            <h1 className="mt-3 text-2xl font-bold text-ink">Candidacies</h1>
+            <p className="mt-1 text-sm text-ink-muted">
               Connect candidates to elections, political parties, offices and electoral areas.
             </p>
           </div>
           <Link
             href="/admin/electoral-data/candidacies/new"
-            className="rounded-lg bg-[#c94f00] px-5 py-3 text-sm font-semibold text-white hover:bg-[#a84300]"
+            className="rounded-lg bg-signal px-5 py-3 text-sm font-semibold text-ink hover:bg-signal-hover"
           >
             Add Candidacy
           </Link>
@@ -98,23 +98,23 @@ export default async function CandidaciesPage({
             Could not load candidacy records: {(error || lookupError)?.message}
           </div>
         ) : (
-          <div className="overflow-hidden rounded-xl border border-gray-200 bg-white">
-            <div className="flex flex-wrap items-center justify-between gap-4 border-b border-gray-100 px-5 py-4">
+          <div className="overflow-hidden rounded-xl border border-line-soft bg-paper-raised">
+            <div className="flex flex-wrap items-center justify-between gap-4 border-b border-line-soft px-5 py-4">
               <div>
-                <h2 className="font-semibold text-[#171717]">Candidacy records</h2>
+                <h2 className="font-semibold text-ink">Candidacy records</h2>
                 <form method="get" className="mt-3 flex flex-wrap items-center gap-2">
                   <input
                     name="q"
                     type="search"
                     defaultValue={searchTerm}
                     placeholder="Search office title"
-                    className="rounded-md border border-gray-200 px-3 py-1.5 text-xs"
+                    className="rounded-md border border-line-soft px-3 py-1.5 text-xs"
                     aria-label="Search office title"
                   />
                   <select
                     name="election"
                     defaultValue={selectedElection}
-                    className="max-w-[230px] rounded-md border border-gray-200 bg-white px-2 py-1.5 text-xs"
+                    className="max-w-[230px] rounded-md border border-line-soft bg-paper-raised px-2 py-1.5 text-xs"
                     aria-label="Filter by election"
                   >
                     <option value="all">All elections</option>
@@ -125,7 +125,7 @@ export default async function CandidaciesPage({
                   <select
                     name="status"
                     defaultValue={selectedStatus}
-                    className="rounded-md border border-gray-200 bg-white px-2 py-1.5 text-xs"
+                    className="rounded-md border border-line-soft bg-paper-raised px-2 py-1.5 text-xs"
                     aria-label="Filter by status"
                   >
                     <option value="all">All statuses</option>
@@ -133,26 +133,26 @@ export default async function CandidaciesPage({
                     <option value="published">Published</option>
                     <option value="archived">Archived</option>
                   </select>
-                  <button type="submit" className="rounded-md bg-[#171717] px-3 py-1.5 text-xs font-medium text-white hover:bg-gray-700">
+                  <button type="submit" className="rounded-md bg-ink px-3 py-1.5 text-xs font-medium text-white hover:bg-ink-raised">
                     Apply
                   </button>
                 </form>
               </div>
-              <span className="text-sm text-gray-500">{candidacies?.length ?? 0} records</span>
+              <span className="text-sm text-ink-subtle">{candidacies?.length ?? 0} records</span>
             </div>
 
             {!candidacies?.length ? (
               <div className="px-5 py-14 text-center">
-                <p className="font-medium text-gray-800">No candidacies found.</p>
-                <p className="mt-1 text-sm text-gray-500">Add a candidacy or adjust your search and filters.</p>
-                <Link href="/admin/electoral-data/candidacies/new" className="mt-5 inline-flex rounded-lg bg-[#c94f00] px-4 py-2.5 text-sm font-semibold text-white">
+                <p className="font-medium text-ink">No candidacies found.</p>
+                <p className="mt-1 text-sm text-ink-subtle">Add a candidacy or adjust your search and filters.</p>
+                <Link href="/admin/electoral-data/candidacies/new" className="mt-5 inline-flex rounded-lg bg-signal px-4 py-2.5 text-sm font-semibold text-ink">
                   Add the first candidacy
                 </Link>
               </div>
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full min-w-[1100px] text-left text-sm">
-                  <thead className="bg-gray-50 text-xs uppercase tracking-wide text-gray-500">
+                  <thead className="bg-tint text-xs uppercase tracking-wide text-ink-subtle">
                     <tr>
                       <th className="px-5 py-3 font-semibold">Candidate</th>
                       <th className="px-5 py-3 font-semibold">Election</th>
@@ -164,23 +164,23 @@ export default async function CandidaciesPage({
                       <th className="px-5 py-3 font-semibold">Actions</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-gray-100">
+                  <tbody className="divide-y divide-line-soft">
                     {candidacies.map((item) => (
-                      <tr key={item.id} className="hover:bg-gray-50">
-                        <td className="px-5 py-4 font-semibold text-gray-900">
+                      <tr key={item.id} className="hover:bg-tint">
+                        <td className="px-5 py-4 font-semibold text-ink">
                           {candidateMap.get(item.candidate_id) ?? "Unknown candidate"}
                         </td>
-                        <td className="px-5 py-4 text-gray-600">
+                        <td className="px-5 py-4 text-ink-muted">
                           {electionMap.get(item.election_id) ?? "Unknown election"}
                         </td>
-                        <td className="px-5 py-4 text-gray-700">{item.office_title}</td>
-                        <td className="px-5 py-4 text-gray-600">
+                        <td className="px-5 py-4 text-ink-muted">{item.office_title}</td>
+                        <td className="px-5 py-4 text-ink-muted">
                           {item.party_id ? partyMap.get(item.party_id) ?? "Unknown party" : "Not specified"}
                         </td>
-                        <td className="px-5 py-4 text-gray-600">
+                        <td className="px-5 py-4 text-ink-muted">
                           {item.electoral_area_id ? areaMap.get(item.electoral_area_id) ?? "Unknown area" : "Not specified"}
                         </td>
-                        <td className="px-5 py-4 text-gray-600">{item.ballot_number || "—"}</td>
+                        <td className="px-5 py-4 text-ink-muted">{item.ballot_number || "—"}</td>
                         <td className="px-5 py-4">
                           <OptimisticStatusBadge statusKey={`candidacies:${item.id}`} status={item.publication_status} styles={statusStyles} />
                         </td>

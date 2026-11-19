@@ -7,15 +7,15 @@ export const communityIssueStatusKey = (issueId: string) => `community_issues:${
 export const incidentStatusKey = (incidentId: string) => `election_incidents:${incidentId}`;
 
 export const communityIssueStatusStyles: Record<string, string> = {
-  submitted: "bg-gray-100 text-gray-700",
+  submitted: "bg-tint text-ink-muted",
   under_review: "bg-blue-100 text-blue-800",
-  action_required: "bg-orange-100 text-orange-800",
+  action_required: "bg-signal/15 text-ink",
   resolved: "bg-green-100 text-green-800",
-  closed: "bg-gray-200 text-gray-700",
+  closed: "bg-line-soft text-ink-muted",
 };
 
 export const incidentStatusStyles: Record<string, string> = {
-  submitted: "bg-gray-100 text-gray-700",
+  submitted: "bg-tint text-ink-muted",
   under_review: "bg-blue-100 text-blue-800",
   verified: "bg-blue-100 text-blue-800",
   published: "bg-green-100 text-green-800",

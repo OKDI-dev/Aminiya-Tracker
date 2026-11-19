@@ -107,9 +107,9 @@ export default function CommunityIssueReviewActions({ issueId, status }: Props) 
 
   if (availableActions.length === 0) {
     return (
-      <section className="rounded-xl border border-gray-200 bg-white p-5">
-        <h3 className="font-semibold text-[#171717]">Review actions</h3>
-        <p className="mt-2 text-sm text-gray-500">
+      <section className="rounded-xl border border-line-soft bg-paper-raised p-5">
+        <h3 className="font-semibold text-ink">Review actions</h3>
+        <p className="mt-2 text-sm text-ink-subtle">
           This issue is closed. No further status changes are available.
         </p>
       </section>
@@ -119,17 +119,17 @@ export default function CommunityIssueReviewActions({ issueId, status }: Props) 
   const busy = pendingAction !== null || settling;
 
   return (
-    <section className="space-y-5 rounded-xl border border-gray-200 bg-white p-5 sm:p-7">
+    <section className="space-y-5 rounded-xl border border-line-soft bg-paper-raised p-5 sm:p-7">
       <div>
-        <h3 className="font-semibold text-[#171717]">Review actions</h3>
-        <p className="mt-1 text-sm text-gray-500">
+        <h3 className="font-semibold text-ink">Review actions</h3>
+        <p className="mt-1 text-sm text-ink-subtle">
           Record your assessment and any public-facing update before changing
           the issue status.
         </p>
       </div>
 
       <div>
-        <label htmlFor="community-review-notes" className="mb-2 block text-sm font-medium text-[#171717]">
+        <label htmlFor="community-review-notes" className="mb-2 block text-sm font-medium text-ink">
           Internal review notes <span className="text-red-600">*</span>
         </label>
         <textarea
@@ -148,16 +148,16 @@ export default function CommunityIssueReviewActions({ issueId, status }: Props) 
         />
         <div className="flex items-start justify-between gap-3">
           <FieldError id="community-review-notes-error" message={notesError} />
-          <p className="ml-auto mt-1 shrink-0 text-xs text-gray-400">{notes.length}/5000</p>
+          <p className="ml-auto mt-1 shrink-0 text-xs text-ink-subtle">{notes.length}/5000</p>
         </div>
-        <p id="community-review-notes-hint" className="mt-1 text-xs text-gray-500">
+        <p id="community-review-notes-hint" className="mt-1 text-xs text-ink-subtle">
           Required for every status change. Visible only to authorised staff.
         </p>
       </div>
 
       <div>
-        <label htmlFor="community-public-summary" className="mb-2 block text-sm font-medium text-[#171717]">
-          Public update <span className="font-normal text-gray-500">(optional)</span>
+        <label htmlFor="community-public-summary" className="mb-2 block text-sm font-medium text-ink">
+          Public update <span className="font-normal text-ink-subtle">(optional)</span>
         </label>
         <textarea
           id="community-public-summary"
@@ -168,12 +168,12 @@ export default function CommunityIssueReviewActions({ issueId, status }: Props) 
           placeholder="Neutral update shown to the reporter when they track this issue..."
           className={fieldClass(false)}
         />
-        <p className="mt-1 text-right text-xs text-gray-400">{publicSummary.length}/2000</p>
+        <p className="mt-1 text-right text-xs text-ink-subtle">{publicSummary.length}/2000</p>
       </div>
 
       {canResolve && (
         <div>
-          <label htmlFor="community-resolution-summary" className="mb-2 block text-sm font-medium text-[#171717]">
+          <label htmlFor="community-resolution-summary" className="mb-2 block text-sm font-medium text-ink">
             Resolution summary
           </label>
           <textarea
@@ -192,11 +192,11 @@ export default function CommunityIssueReviewActions({ issueId, status }: Props) 
           />
           <div className="flex items-start justify-between gap-3">
             <FieldError id="community-resolution-summary-error" message={resolutionError} />
-            <p className="ml-auto mt-1 shrink-0 text-xs text-gray-400">
+            <p className="ml-auto mt-1 shrink-0 text-xs text-ink-subtle">
               {resolutionSummary.length}/2000
             </p>
           </div>
-          <p id="community-resolution-hint" className="mt-1 text-xs text-gray-500">
+          <p id="community-resolution-hint" className="mt-1 text-xs text-ink-subtle">
             Required only for <strong>Mark resolved</strong>.
           </p>
         </div>
@@ -220,10 +220,10 @@ export default function CommunityIssueReviewActions({ issueId, status }: Props) 
                 pendingLabel={action.pending}
                 disabled={busy}
                 onClick={() => submitAction(action.next)}
-                className={`inline-flex items-center justify-center rounded-lg px-5 py-3 text-sm font-semibold text-white transition-colors disabled:cursor-not-allowed disabled:not-data-[phase=pending]:opacity-50 ${
+                className={`inline-flex items-center justify-center rounded-lg px-5 py-3 text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:not-data-[phase=pending]:opacity-50 ${
                   action.next === "closed"
-                    ? "bg-red-600 hover:bg-red-700"
-                    : "bg-[#c94f00] hover:bg-[#a84300]"
+                    ? "bg-red-600 text-white hover:bg-red-700"
+                    : "bg-signal text-ink hover:bg-signal-hover"
                 }`}
               />
             </motion.div>

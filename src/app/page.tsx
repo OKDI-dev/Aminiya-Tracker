@@ -1,12 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import HeroIllustration from "@/components/hero-illustration";
-import voteIllustration from "../../public/aminiya-vote-illustration-cropped.png";
 import {
   ArrowRight,
-  ArrowUpRight,
-  Bot,
   BookOpen,
   CheckCircle2,
   MapPin,
@@ -14,209 +10,190 @@ import {
   ShieldCheck,
   Target,
 } from "lucide-react";
+import type { CSSProperties } from "react";
 import { useLanguage } from "@/components/language-provider";
-import CivicCalendar from "@/components/civic-calendar/civic-calendar";
+import { useReveal } from "@/hooks/use-reveal";
+import HeroCalendar from "@/components/home/hero-calendar";
+import ReportMenu from "@/components/report-menu";
+import BrandRings from "@/components/brand-rings";
+import LiveInGombe from "@/components/home/live-in-gombe";
 
 export default function Home() {
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
+  const cardsRef = useReveal<HTMLUListElement>();
 
-  const features = [
+  // Each row is one large link that names its action.
+  const ways = [
     {
-      number: "01",
       title: t("featureElectoralTitle"),
       description: t("featureElectoralDescription"),
       href: "/elections",
       icon: BookOpen,
-      label: t("exploreElections"),
+      action: t("exploreElections"),
     },
     {
-      number: "02",
       title: t("featureCommunityTitle"),
       description: t("featureCommunityDescription"),
       href: "/community-issues",
       icon: MessageSquareText,
-      label: t("reportIssueAction"),
+      action: t("reportCommunityIssue"),
     },
     {
-      number: "03",
       title: t("featurePromiseTitle"),
       description: t("featurePromiseDescription"),
       href: "/promise-tracker",
       icon: Target,
-      label: t("trackPromises"),
+      action: t("trackPromises"),
     },
   ];
 
+  // Hausa puts the whole idea in one word ("Muryarka."), so the lead-in
+  // words are empty there; render them only when present.
+  const heroLines = [
+    { lead: t("homeHeroLine1"), accent: t("homeHeroAccent1"), tone: "text-white" },
+    { lead: t("homeHeroLine2"), accent: t("homeHeroAccent2"), tone: "text-white" },
+    { lead: t("homeHeroLine3"), accent: t("homeHeroAccent3"), tone: "text-signal" },
+  ];
+
   return (
-    <main className="min-h-screen overflow-hidden bg-white text-[#171717]">
-      <section className="relative border-b border-[#f0f0f0] bg-[#faf9f7]">
-        <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 py-16 sm:px-8 sm:py-24 lg:grid-cols-[1.15fr_0.85fr] lg:py-28">
+    <main data-choreographed className="min-h-screen overflow-hidden bg-paper text-ink">
+      {/* Navy: the 30%. */}
+      <section className="relative isolate overflow-hidden bg-ink text-white">
+        <BrandRings className="top-1/2 left-1/2 lg:left-[74%]" />
+
+        <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 py-14 sm:px-8 sm:py-20 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-14 lg:py-24">
           <div>
-            <h1 className="max-w-2xl text-4xl leading-[1.12] font-semibold tracking-tight sm:text-5xl lg:text-6xl">
-              <span className="text-[#171717]">{t("homeHeroLine1")}</span>{" "}
-              <span className="text-[#ff6600]">{t("homeHeroAccent1")}</span>
-              <br />
-              <span className="text-[#171717]">{t("homeHeroLine2")}</span>{" "}
-              <span className={language === "ha" ? "text-black" : "text-[#ff6600]"}>
-                {t("homeHeroAccent2")}
-              </span>
-              <br />
-              <span className="text-[#171717]">{t("homeHeroLine3")}</span>{" "}
-              <span className="text-[#ff6600]">{t("homeHeroAccent3")}</span>
+            <h1 className="font-heading text-[clamp(2.25rem,8.4vw,4rem)] leading-[0.98] font-extrabold tracking-[-0.04em] lg:text-[clamp(3.25rem,5.2vw,4.25rem)]">
+              {heroLines.map((line, index) => (
+                <span key={line.accent} className="hero-line" style={{ "--i": index } as CSSProperties}>
+                  <span>
+                    {line.lead ? (
+                      <span className="text-on-ink-muted">{line.lead} </span>
+                    ) : null}
+                    <span className={line.tone}>{line.accent}</span>
+                  </span>
+                </span>
+              ))}
             </h1>
 
-            <p className="mt-6 max-w-xl text-base leading-8 text-[#626262] sm:text-lg">
+            <p
+              className="hero-fade mt-7 max-w-xl text-base leading-8 text-on-ink-muted sm:text-lg"
+              style={{ "--d": "430ms" } as CSSProperties}
+            >
               {t("homeIntro")}
             </p>
 
-            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+            <div className="hero-fade mt-9 flex flex-col gap-3 sm:flex-row" style={{ "--d": "530ms" } as CSSProperties}>
               <Link
                 href="/elections"
-                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-[#c94f00] px-6 py-3 font-semibold text-white transition hover:bg-[#a84300]"
+                className="group inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-signal px-6 py-3 text-base font-bold text-ink transition-[background-color,scale] duration-150 hover:bg-signal-hover active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
               >
                 {t("exploreElectoralInformation")}
-                <ArrowRight size={18} />
+                <ArrowRight size={18} className="transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1" />
               </Link>
 
-              <Link
-                href="/community-issues"
-                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg border border-[#d8d8d8] bg-white px-6 py-3 font-semibold transition hover:border-[#ff6600] hover:text-[#d95300]"
-              >
-                {t("reportCommunityIssue")}
-              </Link>
+              <ReportMenu variant="hero" />
             </div>
 
-            <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-3 text-sm text-[#666]">
-              <span className="inline-flex items-center gap-2">
-                <ShieldCheck size={17} className="text-[#ff6600]" />
+            <ul
+              className="hero-fade mt-9 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-on-ink-muted"
+              style={{ "--d": "630ms" } as CSSProperties}
+            >
+              <li className="inline-flex items-center gap-2">
+                <ShieldCheck size={17} className="text-signal" aria-hidden="true" />
                 {t("nonpartisan")}
-              </span>
-              <span className="inline-flex items-center gap-2">
-                <CheckCircle2 size={17} className="text-[#ff6600]" />
-                {t("evidenceLed")}
-              </span>
-              <span className="inline-flex items-center gap-2">
-                <MapPin size={17} className="text-[#ff6600]" />
+              </li>
+              <li className="inline-flex items-center gap-2">
+                <CheckCircle2 size={17} className="text-signal" aria-hidden="true" />
+                {t("reviewedBeforePublishing")}
+              </li>
+              <li className="inline-flex items-center gap-2">
+                <MapPin size={17} className="text-signal" aria-hidden="true" />
                 {t("startingInGombe")}
-              </span>
-            </div>
+              </li>
+            </ul>
           </div>
 
-          <HeroIllustration src={voteIllustration} alt={t("voteIllustrationAlt")} />
+          <div className="hero-card mx-auto w-full max-w-[460px] lg:mr-0">
+            <HeroCalendar />
+          </div>
         </div>
       </section>
 
-      <section id="our-work" className="mx-auto max-w-7xl px-5 py-20 sm:px-8">
+      {/* Paper: the 60%. Three ways in, as clickable cards (static, so they can be read). */}
+      <section id="our-work" className="mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-24">
         <div className="max-w-2xl">
-          <p className="text-sm font-semibold tracking-[0.15em] text-[#e85d00] uppercase">
-            {t("whatYouCanDo")}
-          </p>
-
-          <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
+          <h2 className="font-heading text-3xl font-extrabold tracking-tight sm:text-4xl">
             {t("civicParticipationTitle")}
           </h2>
-
-          <p className="mt-4 leading-7 text-[#666]">
+          <p className="mt-4 text-base leading-7 text-ink-muted">
             {t("civicParticipationDescription")}
           </p>
         </div>
 
-        <div className="aminiya-feature-carousel mt-10 overflow-hidden">
-    <div className="aminiya-feature-track flex w-max">
-      {[false, true].map((duplicate) => (
-        <div
-          key={duplicate ? "duplicate-features" : "original-features"}
-          aria-hidden={duplicate ? true : undefined}
-          className="flex shrink-0 gap-5 pr-5"
-        >
-          {features.map((feature) => {
-            const Icon = feature.icon;
-
+        <ul ref={cardsRef} className="mt-12 grid gap-5 md:grid-cols-3">
+          {ways.map((way, index) => {
+            const Icon = way.icon;
             return (
-              <article
-                key={feature.number}
-                className="group flex w-[min(85vw,360px)] shrink-0 flex-col rounded-2xl border border-[#e8e8e8] bg-white p-6 transition hover:-translate-y-1 hover:border-[#ffbd91] hover:shadow-lg"
-              >
-                <div className="flex items-center justify-between">
-                  <div className="flex size-12 items-center justify-center rounded-xl bg-[#fff0e5] text-[#e85d00]">
-                    <Icon size={24} />
-                  </div>
-
-                  <span className="text-sm font-medium text-[#b5b5b5]">
-                    {feature.number}
-                  </span>
-                </div>
-
-                <h3 className="mt-6 text-xl font-semibold">
-                  {feature.title}
-                </h3>
-
-                <p className="mt-3 flex-1 text-sm leading-7 text-[#666]">
-                  {feature.description}
-                </p>
-
+              <li key={way.href} style={{ "--i": index } as CSSProperties}>
+                {/* The link stays put; its surface lifts. A card that moved itself
+                    would slide out from under a pointer resting on its edge. */}
                 <Link
-                  href={feature.href}
-                  className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-[#d95300] hover:text-[#a84000]"
+                  href={way.href}
+                  className="group block h-full rounded-[22px] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
                 >
-                  {feature.label}
-                  <ArrowUpRight size={17} />
+                  <span className="flex h-full flex-col rounded-[22px] border border-line-soft bg-paper-raised p-6 shadow-[0_1px_2px_rgb(20_33_61/0.04)] transition-[translate,box-shadow,border-color] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-1.5 group-hover:border-line group-hover:shadow-[0_28px_50px_-28px_rgb(20_33_61/0.45)] group-active:translate-y-0 group-active:duration-150 motion-reduce:group-hover:translate-y-0 sm:p-7">
+                    <span className="flex size-12 items-center justify-center rounded-2xl bg-ink text-signal transition-[background-color,color,rotate] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-rotate-6 group-hover:bg-signal group-hover:text-ink motion-reduce:group-hover:rotate-0">
+                      <Icon size={22} aria-hidden="true" />
+                    </span>
+                    <h3 className="mt-6 font-heading text-xl font-bold">{way.title}</h3>
+                    <span className="mt-3 flex-1 text-[15px] leading-7 text-ink-muted">{way.description}</span>
+                    <span className="mt-6 flex items-center justify-between gap-3 border-t border-line-soft pt-5 text-sm font-semibold text-ink">
+                      <span className="underline-offset-4 group-hover:underline">{way.action}</span>
+                      <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-signal text-ink transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1 motion-reduce:group-hover:translate-x-0">
+                        <ArrowRight size={17} aria-hidden="true" />
+                      </span>
+                    </span>
+                  </span>
                 </Link>
-              </article>
+              </li>
             );
-
           })}
-        </div>
-      ))}
-    </div>
-  </div>
+        </ul>
       </section>
 
-      <section className="border-y border-[#ededed] bg-[#faf9f7]">
-        <div className="mx-auto grid max-w-7xl gap-8 px-5 py-16 sm:px-8 lg:grid-cols-[1.15fr_0.85fr] lg:gap-10">
-          <div className="min-w-0">
-            <CivicCalendar compact />
-          </div>
+      {/* Proof, not adjectives: the latest published promise and honest counts. */}
+      <LiveInGombe />
 
-          <div className="flex flex-col justify-center rounded-2xl border border-[#e7e4e0] bg-white p-7 sm:p-9">
-            <div className="flex size-14 items-center justify-center rounded-2xl bg-[#fff0e5] text-[#e85d00]">
-              <Bot size={29} />
-            </div>
-
-            <p className="mt-6 text-xs font-bold tracking-[0.15em] text-[#e85d00] uppercase">
-              {t("meetAminiyaAI")}
-            </p>
-
-            <h2 className="mt-3 text-3xl font-semibold leading-tight tracking-tight text-[#171717]">
+      {/* Navy again for the assistant, so the page closes on the brand ground. */}
+      <section className="bg-ink text-white">
+        <div className="mx-auto grid max-w-7xl gap-10 px-5 py-16 sm:px-8 sm:py-20 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-center">
+          <div>
+            <h2 className="font-heading text-3xl leading-tight font-extrabold tracking-tight sm:text-4xl">
               {t("aminiyaAIHomepageTitle")}
             </h2>
-
-            <p className="mt-4 text-sm leading-7 text-[#666]">
+            <p className="mt-4 max-w-xl text-base leading-7 text-on-ink-muted">
               {t("aminiyaAIHomepageDescription")}
             </p>
+          </div>
 
-            <ul className="mt-5 space-y-3 text-sm text-[#555]">
-              <li className="flex items-start gap-2">
-                <CheckCircle2 size={17} className="mt-0.5 shrink-0 text-[#ff6600]" />
-                {t("aminiyaAIHelpOne")}
-              </li>
-              <li className="flex items-start gap-2">
-                <CheckCircle2 size={17} className="mt-0.5 shrink-0 text-[#ff6600]" />
-                {t("aminiyaAIHelpTwo")}
-              </li>
-              <li className="flex items-start gap-2">
-                <CheckCircle2 size={17} className="mt-0.5 shrink-0 text-[#ff6600]" />
-                {t("aminiyaAIHelpThree")}
-              </li>
+          <div>
+            <ul className="space-y-3 text-[15px] text-white/90">
+              {[t("aminiyaAIHelpOne"), t("aminiyaAIHelpTwo"), t("aminiyaAIHelpThree")].map((item) => (
+                <li key={item} className="flex items-start gap-3">
+                  <CheckCircle2 size={18} className="mt-0.5 shrink-0 text-signal" aria-hidden="true" />
+                  {item}
+                </li>
+              ))}
             </ul>
 
             <button
               type="button"
               onClick={() => window.dispatchEvent(new Event("aminiya:open-assistant"))}
-              className="mt-7 inline-flex min-h-12 w-fit items-center justify-center gap-2 rounded-lg bg-[#c94f00] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#a84300]"
+              className="mt-8 inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-signal px-6 py-3 text-sm font-bold text-ink transition-colors hover:bg-signal-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
             >
               {t("askAminiyaAI")}
-              <ArrowRight size={17} />
+              <ArrowRight size={17} aria-hidden="true" />
             </button>
           </div>
         </div>

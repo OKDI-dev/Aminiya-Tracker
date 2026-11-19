@@ -177,8 +177,8 @@ function AuthenticatedShell({ pathname, children }: { pathname: string; children
         inert={collapsed}
         aria-hidden={collapsed}
         className={cn(
-          "sticky top-0 z-40 hidden h-dvh shrink-0 overflow-hidden bg-white lg:block",
-          !collapsed && "border-r border-black/[0.06]"
+          "sticky top-0 z-40 hidden h-dvh shrink-0 overflow-hidden bg-paper-raised lg:block",
+          !collapsed && "border-r border-ink/[0.06]"
         )}
         aria-label="Administration"
       >
@@ -193,10 +193,10 @@ function AuthenticatedShell({ pathname, children }: { pathname: string; children
             <SidebarNav groups={groups} activeHref={activeHref} layoutId="admin-nav-active" />
           </nav>
 
-          <div className="shrink-0 space-y-1 border-t border-black/[0.06] p-3">
+          <div className="shrink-0 space-y-1 border-t border-ink/[0.06] p-3">
             <Link
               href="/"
-              className="flex min-h-10 items-center gap-3 rounded-xl px-3 text-sm whitespace-nowrap text-[#555] hover:bg-black/[0.04] hover:text-[#171717]"
+              className="flex min-h-10 items-center gap-3 rounded-xl px-3 text-sm whitespace-nowrap text-ink-muted hover:bg-ink/[0.04] hover:text-ink"
             >
               <ExternalLink size={18} className="shrink-0" />
               View public site
@@ -204,10 +204,10 @@ function AuthenticatedShell({ pathname, children }: { pathname: string; children
             <div className="mt-2 flex items-center gap-3 rounded-xl px-2 py-2">
               <Avatar name={name} loading={profile === undefined} />
               <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-semibold text-[#171717]">
+                <p className="truncate text-sm font-semibold text-ink">
                   {profile !== undefined ? name : <span className="skeleton-shimmer inline-block h-3.5 w-24 rounded" />}
                 </p>
-                <p className="truncate text-xs capitalize text-[#777]">
+                <p className="truncate text-xs capitalize text-ink-subtle">
                   {profile ? profile.role.replaceAll("_", " ") : " "}
                 </p>
               </div>
@@ -216,7 +216,7 @@ function AuthenticatedShell({ pathname, children }: { pathname: string; children
                 onClick={signOut}
                 aria-label="Sign out"
                 title="Sign out"
-                className="flex size-9 items-center justify-center rounded-lg text-[#777] hover:bg-red-50 hover:text-red-700"
+                className="flex size-9 items-center justify-center rounded-lg text-ink-subtle hover:bg-red-50 hover:text-red-700"
               >
                 <LogOut size={17} />
               </button>
@@ -249,8 +249,8 @@ function AuthenticatedShell({ pathname, children }: { pathname: string; children
           if ((event.target as HTMLElement).closest("a")) setMobileOpen(false);
         }}>
           <SidebarNav groups={groups} activeHref={activeHref} layoutId="admin-nav-active-mobile" large />
-          <div className="mt-3 grid gap-2 border-t border-black/10 px-1 pt-3">
-            <Link href="/" className="flex min-h-12 items-center gap-3 rounded-2xl px-4 text-[16px] text-[#333] active:bg-black/5">
+          <div className="mt-3 grid gap-2 border-t border-ink/10 px-1 pt-3">
+            <Link href="/" className="flex min-h-12 items-center gap-3 rounded-2xl px-4 text-[16px] text-ink-muted active:bg-ink/5">
               <ExternalLink size={18} /> View public site
             </Link>
             <button type="button" onClick={signOut} className="flex min-h-12 items-center gap-3 rounded-2xl px-4 text-left text-[16px] text-red-700 active:bg-red-50">
@@ -278,7 +278,7 @@ function SidebarNav({
     <LayoutGroup id={layoutId}>
       {groups.map((group, index) => (
         <div key={group.label} className={cn(index > 0 && "mt-4")}>
-          <p className="px-3 pb-1.5 text-[11px] font-semibold tracking-[0.08em] text-[#9a9a9a] uppercase">
+          <p className="px-3 pb-1.5 text-[11px] font-semibold tracking-[0.08em] text-ink-subtle uppercase">
             {group.label}
           </p>
           <ul className="grid gap-0.5">
@@ -294,14 +294,14 @@ function SidebarNav({
                     className={cn(
                       "relative flex items-center gap-3 rounded-xl px-3 whitespace-nowrap transition-colors",
                       large ? "min-h-12 text-[16px]" : "min-h-10 text-sm",
-                      active ? "font-semibold text-[#c24e00]" : "text-[#444] hover:bg-black/[0.04] hover:text-[#171717]"
+                      active ? "font-semibold text-ink" : "text-ink-muted hover:bg-ink/[0.04] hover:text-ink"
                     )}
                   >
                     {active ? (
                       <motion.span
                         layoutId={layoutId}
                         transition={springs.snappy}
-                        className="absolute inset-0 rounded-xl bg-[#fff0e5]"
+                        className="absolute inset-0 rounded-xl bg-tint"
                       />
                     ) : null}
                     <Icon size={large ? 19 : 18} className="relative shrink-0" />
@@ -329,7 +329,7 @@ function Avatar({ name, loading }: { name: string; loading: boolean }) {
       aria-hidden="true"
       className={cn(
         "flex size-9 shrink-0 items-center justify-center rounded-full text-xs font-bold",
-        loading ? "skeleton-shimmer" : "bg-[#171717] text-white"
+        loading ? "skeleton-shimmer" : "bg-ink text-white"
       )}
     >
       {loading ? null : initials || "A"}
@@ -378,7 +378,7 @@ function TopBar({
         type="button"
         onClick={onOpenMenu}
         aria-label="Open administration menu"
-        className="flex size-10 shrink-0 items-center justify-center rounded-full border border-black/10 bg-white/60 lg:hidden"
+        className="flex size-10 shrink-0 items-center justify-center rounded-full border border-ink/10 bg-paper-raised/60 lg:hidden"
       >
         <Menu size={19} />
       </button>
@@ -391,7 +391,7 @@ function TopBar({
         aria-controls="admin-sidebar"
         aria-keyshortcuts="["
         title={`${sidebarOpen ? "Hide" : "Show"} sidebar ( [ )`}
-        className="hidden size-10 shrink-0 items-center justify-center rounded-full text-[#555] hover:bg-black/[0.05] hover:text-[#171717] lg:flex"
+        className="hidden size-10 shrink-0 items-center justify-center rounded-full text-ink-muted hover:bg-ink/[0.05] hover:text-ink lg:flex"
       >
         {sidebarOpen ? <PanelLeftClose size={19} /> : <PanelLeftOpen size={19} />}
       </button>
@@ -400,7 +400,7 @@ function TopBar({
         <Link
           href={parent.href}
           data-nav="back"
-          className="flex h-10 shrink-0 items-center gap-1 rounded-full border border-black/10 bg-white/70 pr-3.5 pl-2 text-sm font-medium text-[#333] hover:border-black/20 hover:text-[#171717]"
+          className="flex h-10 shrink-0 items-center gap-1 rounded-full border border-ink/10 bg-paper-raised/70 pr-3.5 pl-2 text-sm font-medium text-ink-muted hover:border-ink/20 hover:text-ink"
         >
           <ChevronLeft size={18} />
           <span className="max-w-[9rem] truncate">Back</span>
@@ -414,13 +414,13 @@ function TopBar({
             const last = index === crumbs.length - 1;
             return (
               <li key={crumb.href} className="flex min-w-0 items-center gap-1">
-                {index > 0 ? <ChevronRight size={14} className="shrink-0 text-[#bbb]" aria-hidden="true" /> : null}
+                {index > 0 ? <ChevronRight size={14} className="shrink-0 text-ink-subtle" aria-hidden="true" /> : null}
                 {last ? (
-                  <span aria-current="page" className="truncate font-semibold text-[#171717]">
+                  <span aria-current="page" className="truncate font-semibold text-ink">
                     {crumb.label}
                   </span>
                 ) : (
-                  <Link href={crumb.href} data-nav="back" className="truncate text-[#777] hover:text-[#171717]">
+                  <Link href={crumb.href} data-nav="back" className="truncate text-ink-subtle hover:text-ink">
                     {crumb.label}
                   </Link>
                 )}
@@ -437,11 +437,11 @@ function TopBar({
           onPointerEnter={onSearchIntent}
           aria-label="Search admin pages"
           aria-keyshortcuts={mac ? "Meta+K" : "Control+K"}
-          className="flex h-10 items-center gap-2 rounded-full border border-black/10 bg-white/60 px-3 text-sm text-[#666] hover:border-black/20 hover:text-[#171717]"
+          className="flex h-10 items-center gap-2 rounded-full border border-ink/10 bg-paper-raised/60 px-3 text-sm text-ink-muted hover:border-ink/20 hover:text-ink"
         >
           <Search size={16} />
           <span className="hidden md:inline">Jump to…</span>
-          <kbd className="hidden rounded-md border border-black/10 bg-black/[0.03] px-1.5 py-0.5 font-sans text-[11px] whitespace-nowrap text-[#777] md:inline">
+          <kbd className="hidden rounded-md border border-ink/10 bg-ink/[0.03] px-1.5 py-0.5 font-sans text-[11px] whitespace-nowrap text-ink-subtle md:inline">
             {mac ? "⌘K" : "Ctrl K"}
           </kbd>
         </button>

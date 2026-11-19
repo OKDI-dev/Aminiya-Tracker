@@ -10,51 +10,87 @@
    components inherit Aminiya's palette without per-component overrides.
 ------------------------------------------------------------------- */
 :root {
-  --brand-orange: #ff6600;
-  --brand-orange-hover: #c94f00;
-  --brand-orange-soft: #fff0e5;
-  --brand-grey: #808080;
-  --brand-black: #171717;
-  --brand-white: #ffffff;
+  /*
+    Three colours, 60/30/10:
+      60%  paper  #F6F3EC  page and card surfaces
+      30%  navy   #14213D  heroes, primary text, dark controls
+      10%  orange #FF6600  the logo's colour: primary actions and highlights only
+    Everything else is a tint of paper or navy (never a neutral grey), so
+    secondary text, lines and hovers stay inside the system. Status colours
+    (red, green, amber) are semantic and sit outside the brand ratio.
+  */
+  --paper: #f6f3ec;
+  --paper-raised: #fcfaf6;
+  --navy: #14213d;
+  --orange: #ff6600;
 
-  --background: #f7f7f7;
-  --foreground: #171717;
-  --card: #ffffff;
-  --card-foreground: #171717;
-  --popover: #ffffff;
-  --popover-foreground: #171717;
-  --primary: #c94f00;
-  --primary-foreground: #ffffff;
-  --secondary: #f4f4f4;
-  --secondary-foreground: #171717;
-  --muted: #f2f2f2;
-  --muted-foreground: #595959;
-  --accent: #fff0e5;
-  --accent-foreground: #a84300;
+  /* Navy text ramp on paper (contrast on #F6F3EC). */
+  --ink: var(--navy); /* 14.4:1 */
+  --ink-muted: #414b60; /* 8.6:1, secondary text */
+  --ink-subtle: #636a7a; /* 4.9:1, metadata, placeholders */
+  --ink-raised: #22335a; /* hover on navy fills */
+
+  /* Navy-tinted lines and fills on paper. */
+  --line: #d6d6d3; /* navy 14% */
+  --line-soft: #e4e2de; /* navy 8% */
+  --tint: #ebe9e3; /* navy 5%: hover, selected, chips */
+
+  /* Text on navy. */
+  --on-ink: var(--paper);
+  --on-ink-muted: #b9c2d6; /* 8.8:1 on navy: tinted from navy, never a neutral grey */
+
+  /* Orange: fills carry navy text (5.4:1); never small text on paper (2.7:1). */
+  --signal: var(--orange);
+  --signal-hover: #ff7a1f;
+
+  /* Legacy names, kept as aliases while older code migrates. */
+  --brand-orange: var(--orange);
+  --brand-grey: var(--ink-subtle);
+  --canvas: var(--paper);
+  --signal-deep: var(--ink);
+  --signal-soft: var(--tint);
+  --logo-grey: var(--ink-subtle);
+  --logo-grey-on-ink: var(--on-ink-muted);
+
+  /* shadcn semantic tokens, mapped onto the same three colours. */
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: var(--paper-raised);
+  --card-foreground: var(--ink);
+  --popover: var(--paper-raised);
+  --popover-foreground: var(--ink);
+  --primary: var(--orange);
+  --primary-foreground: var(--navy);
+  --secondary: var(--tint);
+  --secondary-foreground: var(--ink);
+  --muted: var(--tint);
+  --muted-foreground: var(--ink-muted);
+  --accent: var(--tint);
+  --accent-foreground: var(--ink);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: #dedede;
-  --input: #d1d1d1;
-  --ring: #ff6600;
-  --chart-1: #ff6600;
-  --chart-2: #171717;
-  --chart-3: #808080;
+  --border: var(--line);
+  --input: var(--line);
+  --ring: var(--orange);
+  --chart-1: var(--orange);
+  --chart-2: var(--navy);
+  --chart-3: var(--ink-subtle);
   --chart-4: #ffb27f;
-  --chart-5: #d95300;
+  --chart-5: var(--ink-raised);
   --radius: 0.625rem;
-  --sidebar: #fafafa;
-  --sidebar-foreground: #171717;
-  --sidebar-primary: #c94f00;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #fff0e5;
-  --sidebar-accent-foreground: #b94a00;
-  --sidebar-border: #e7e7e7;
-  --sidebar-ring: #ff6600;
+  --sidebar: var(--paper-raised);
+  --sidebar-foreground: var(--ink);
+  --sidebar-primary: var(--orange);
+  --sidebar-primary-foreground: var(--navy);
+  --sidebar-accent: var(--tint);
+  --sidebar-accent-foreground: var(--ink);
+  --sidebar-border: var(--line-soft);
+  --sidebar-ring: var(--orange);
 
-  /* Materials (translucent chrome) */
-  --material-chrome: rgb(255 255 255 / 0.72);
-  --material-thick: rgb(255 255 255 / 0.97);
+  /* Materials (translucent chrome), in paper. */
+  --material-chrome: rgb(246 243 236 / 0.82);
+  --material-thick: rgb(252 250 246 / 0.97);
   --material-blur: 20px;
-  --scrim: rgb(23 23 23 / 0.38);
+  --scrim: rgb(20 33 61 / 0.45);
 }
 
 @theme inline {
@@ -62,9 +98,28 @@
   --color-foreground: var(--foreground);
   --color-brand-orange: var(--brand-orange);
   --color-brand-grey: var(--brand-grey);
+  --color-paper: var(--paper);
+  --color-paper-raised: var(--paper-raised);
+  --color-navy: var(--navy);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-subtle: var(--ink-subtle);
+  --color-ink-raised: var(--ink-raised);
+  --color-line: var(--line);
+  --color-line-soft: var(--line-soft);
+  --color-tint: var(--tint);
+  --color-on-ink: var(--on-ink);
+  --color-on-ink-muted: var(--on-ink-muted);
+  --color-signal: var(--signal);
+  --color-signal-hover: var(--signal-hover);
+  --color-signal-deep: var(--signal-deep);
+  --color-signal-soft: var(--signal-soft);
+  --color-canvas: var(--canvas);
+  --color-logo-grey: var(--logo-grey);
+  --color-logo-grey-on-ink: var(--logo-grey-on-ink);
   /* Apple: prefer the platform system font; it ships optical sizing and tracking tables. */
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-heading: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-onest), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-onest), ui-sans-serif, system-ui, sans-serif;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -196,13 +251,23 @@
   }
 
   ::selection {
-    background: #ffe0c7;
-    color: #171717;
+    background: var(--navy);
+    color: var(--paper);
   }
 
   :focus-visible {
-    outline: 3px solid var(--brand-orange);
+    outline: 3px solid var(--orange);
     outline-offset: 3px;
+  }
+
+  input,
+  textarea,
+  [contenteditable] {
+    caret-color: var(--orange);
+  }
+
+  html {
+    scrollbar-color: color-mix(in srgb, var(--navy) 35%, transparent) var(--paper);
   }
 }
 
@@ -269,21 +334,21 @@
   }
 
   .scroll-edge {
-    box-shadow: 0 1px 0 rgb(0 0 0 / 0);
+    box-shadow: 0 1px 0 rgb(20 33 61 / 0);
     transition: box-shadow 240ms ease;
   }
 
   .scroll-edge[data-scrolled="true"] {
     box-shadow:
-      0 1px 0 rgb(0 0 0 / 0.06),
-      0 8px 24px -12px rgb(0 0 0 / 0.12);
+      0 1px 0 rgb(20 33 61 / 0.08),
+      0 8px 24px -12px rgb(20 33 61 / 0.16);
   }
 
   /* Skeleton shimmer: a gentle sweep, not a pulse (lower vestibular load). */
   .skeleton-shimmer {
     position: relative;
     overflow: hidden;
-    background: #ececec;
+    background: var(--line-soft);
   }
 
   .skeleton-shimmer::after {
@@ -294,7 +359,7 @@
     background: linear-gradient(
       90deg,
       transparent,
-      rgb(255 255 255 / 0.65),
+      rgb(252 250 246 / 0.7),
       transparent
     );
     animation: skeleton-sweep 1.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
@@ -487,7 +552,7 @@
 @media (prefers-reduced-transparency: reduce) {
   .material-chrome,
   .material-thick {
-    background: #ffffff;
+    background: var(--paper-raised);
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
   }
@@ -495,19 +560,149 @@
 
 @media (prefers-contrast: more) {
   :root {
-    --border: #9a9a9a;
-    --muted-foreground: #3f3f3f;
+    --border: var(--ink-subtle);
+    --muted-foreground: var(--ink);
   }
 
   .material-chrome,
   .material-thick {
-    background: #ffffff;
+    background: var(--paper-raised);
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
-    border-color: #171717;
+    border-color: var(--navy);
   }
 }
 
+
+/* ------------------------------------------------------------------
+   Home motion
+   One authored moment: the headline rises line by line from behind a
+   mask, then the calendar settles and its civic dates light up. Everything
+   is CSS, so a failed script never leaves the page hidden, and every piece
+   has a reduced-motion path below.
+------------------------------------------------------------------- */
+:root {
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Each headline line is its own mask; the words rise into it. */
+.hero-line {
+  display: block;
+  overflow: clip;
+  /* Room for descenders inside the mask without shifting the layout. */
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+
+.hero-line > span {
+  display: block;
+  animation: hero-line-in 780ms var(--ease-out-expo) both;
+  animation-delay: calc(120ms + var(--i, 0) * 95ms);
+}
+
+@keyframes hero-line-in {
+  from {
+    translate: 0 108%;
+  }
+}
+
+.hero-fade {
+  animation: hero-fade-in 640ms var(--ease-out-expo) both;
+  animation-delay: var(--d, 0ms);
+}
+
+@keyframes hero-fade-in {
+  from {
+    opacity: 0;
+    translate: 0 14px;
+  }
+}
+
+/* The calendar arrives a beat after the headline, out of a soft focus. */
+.hero-card {
+  animation: hero-card-in 900ms var(--ease-out-expo) both;
+  animation-delay: 360ms;
+}
+
+@keyframes hero-card-in {
+  from {
+    opacity: 0;
+    translate: 0 28px;
+    scale: 0.97;
+    filter: blur(6px);
+  }
+}
+
+/* Event dots pop onto their dates in reading order (also on month change). */
+.dot-pop {
+  animation: dot-pop 420ms var(--ease-out-expo) both;
+  animation-delay: calc(min(var(--i, 0), 41) * 12ms);
+}
+
+@keyframes dot-pop {
+  from {
+    opacity: 0;
+    scale: 0;
+  }
+  60% {
+    scale: 1.6;
+  }
+}
+
+/* Scroll reveal for a list that appears as a list (see useReveal). Content
+   is visible by default; only items still below the fold at load wait. */
+[data-reveal="pending"] > * {
+  opacity: 0;
+  translate: 0 20px;
+}
+
+[data-reveal="in"] > * {
+  transition:
+    opacity 520ms ease-out,
+    translate 760ms var(--ease-out-expo);
+  transition-delay: calc(var(--i, 0) * 90ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Keep the arrivals, drop the travel: fades only. */
+  .hero-line > span,
+  .hero-fade,
+  .hero-card,
+  .dot-pop {
+    animation-name: reduced-fade-in;
+    animation-duration: 300ms;
+  }
+
+  [data-reveal="pending"] > * {
+    translate: none;
+  }
+}
+
+@keyframes reduced-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Home hero calendar: the progress bar is the slideshow timer.
+   Pausing the animation pauses the slideshow; animationend advances it. */
+.hero-calendar-progress {
+  transform-origin: left center;
+  animation: hero-calendar-progress var(--hero-slide-ms, 4500ms) linear forwards;
+}
+
+.hero-calendar-progress[data-paused="true"] {
+  animation-play-state: paused;
+}
+
+@keyframes hero-calendar-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
 
 /* Aminiya homepage feature carousel */
 .aminiya-feature-track {
@@ -552,11 +747,12 @@
   }
 }
 
-.page-content main > section,
-.page-content main > header,
-.page-content main > div > section,
-.page-content main > div > header,
-.page-content main > div > div > section {
+/* Pages with their own choreography (the home page) opt out with data-choreographed. */
+.page-content main:not([data-choreographed]) > section,
+.page-content main:not([data-choreographed]) > header,
+.page-content main:not([data-choreographed]) > div > section,
+.page-content main:not([data-choreographed]) > div > header,
+.page-content main:not([data-choreographed]) > div > div > section {
   animation: aminiya-section-enter 560ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
 

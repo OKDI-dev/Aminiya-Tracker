@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function AdminHeader() {
   return (
-    <header className="sticky top-0 z-50 border-b border-[#e7e7e7] bg-white/95 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-line-soft bg-paper-raised/95 backdrop-blur">
       <div className="mx-auto flex min-h-[76px] max-w-7xl items-center justify-between gap-5 px-5 sm:px-8">
         <Link href="/admin" aria-label="Aminiya Tracker administration" className="shrink-0">
           <Image
@@ -16,7 +16,7 @@ export default function AdminHeader() {
           />
         </Link>
 
-        <span className="rounded-lg border border-[#ff6600]/30 bg-[#fff0e5] px-3 py-2 text-xs font-semibold tracking-wide text-[#a84300] sm:px-4 sm:text-sm">
+        <span className="rounded-lg border border-signal/30 bg-tint px-3 py-2 text-xs font-semibold tracking-wide text-ink sm:px-4 sm:text-sm">
           ADMINISTRATION PORTAL
         </span>
       </div>

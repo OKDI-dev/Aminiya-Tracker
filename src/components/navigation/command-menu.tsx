@@ -284,7 +284,7 @@ function CommandMenu({
           </>
         )}
       </CommandList>
-      <div className="hidden items-center justify-between border-t border-black/5 px-4 py-2.5 text-xs text-muted-foreground sm:flex">
+      <div className="hidden items-center justify-between border-t border-ink/5 px-4 py-2.5 text-xs text-muted-foreground sm:flex">
         <span className="flex items-center gap-1.5">
           <Search className="size-3.5" /> Aminiya Tracker
         </span>
@@ -353,7 +353,7 @@ function MenuItem({
 
 function Kbd({ children }: { children: ReactNode }) {
   return (
-    <kbd className="inline-flex min-w-5 items-center justify-center rounded border border-black/10 bg-black/[0.03] px-1 font-sans text-[11px]">
+    <kbd className="inline-flex min-w-5 items-center justify-center rounded border border-ink/10 bg-ink/[0.03] px-1 font-sans text-[11px]">
       {children}
     </kbd>
   );

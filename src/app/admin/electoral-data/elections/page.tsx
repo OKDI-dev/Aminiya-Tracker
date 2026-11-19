@@ -10,7 +10,7 @@ export const instant = false;
 const statusStyles: Record<string, string> = {
   published: "bg-green-100 text-green-800",
   draft: "bg-yellow-100 text-yellow-800",
-  archived: "bg-gray-100 text-gray-700",
+  archived: "bg-tint text-ink-muted",
 };
 
 const electionTypeLabels: Record<string, string> = {
@@ -46,18 +46,18 @@ export default async function ElectionsPage({ searchParams }: { searchParams: Pr
   const { data: elections, error } = await electionsQuery;
 
   return (
-    <div className="min-h-screen bg-[#f7f8f5] p-5 sm:p-8">
+    <div className="min-h-screen bg-paper p-5 sm:p-8">
       <div className="mx-auto max-w-7xl space-y-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <h1 className="mt-3 text-2xl font-bold text-[#171717]">Elections</h1>
-            <p className="mt-1 text-sm text-gray-600">
+            <h1 className="mt-3 text-2xl font-bold text-ink">Elections</h1>
+            <p className="mt-1 text-sm text-ink-muted">
               Create and manage elections recorded on Aminiya Tracker.
             </p>
           </div>
           <Link
             href="/admin/electoral-data/elections/new"
-            className="rounded-lg bg-[#c94f00] px-5 py-3 text-sm font-semibold text-white hover:bg-[#a84300]"
+            className="rounded-lg bg-signal px-5 py-3 text-sm font-semibold text-ink hover:bg-signal-hover"
           >
             Add Election
           </Link>
@@ -68,17 +68,17 @@ export default async function ElectionsPage({ searchParams }: { searchParams: Pr
             Could not load elections: {error.message}
           </div>
         ) : (
-          <div className="overflow-hidden rounded-xl border border-gray-200 bg-white">
-            <div className="flex items-center justify-between border-b border-gray-100 px-5 py-4">
+          <div className="overflow-hidden rounded-xl border border-line-soft bg-paper-raised">
+            <div className="flex items-center justify-between border-b border-line-soft px-5 py-4">
               <div>
-                <h2 className="font-semibold text-[#171717]">Election records</h2>
+                <h2 className="font-semibold text-ink">Election records</h2>
                 <form className="mt-2 flex flex-wrap items-center gap-2">
-                  <label htmlFor="election-status" className="text-xs text-gray-500">Filter by status</label>
+                  <label htmlFor="election-status" className="text-xs text-ink-subtle">Filter by status</label>
                   <select
                     id="election-status"
                     name="status"
                     defaultValue={selectedStatus}
-                    className="rounded-md border border-gray-200 bg-white px-2 py-1.5 text-xs"
+                    className="rounded-md border border-line-soft bg-paper-raised px-2 py-1.5 text-xs"
                   >
                     <option value="all">All statuses</option>
                     <option value="draft">Draft</option>
@@ -87,22 +87,22 @@ export default async function ElectionsPage({ searchParams }: { searchParams: Pr
                   </select>
                   <button
                     type="submit"
-                    className="rounded-md bg-[#171717] px-3 py-1.5 text-xs font-medium text-white hover:bg-gray-700"
+                    className="rounded-md bg-ink px-3 py-1.5 text-xs font-medium text-white hover:bg-ink-raised"
                   >
                     Apply
                   </button>
                 </form>
               </div>
-              <span className="text-sm text-gray-500">{elections?.length ?? 0} records</span>
+              <span className="text-sm text-ink-subtle">{elections?.length ?? 0} records</span>
             </div>
 
             {!elections?.length ? (
               <div className="px-5 py-14 text-center">
-                <p className="font-medium text-gray-800">No elections have been added yet.</p>
-                <p className="mt-1 text-sm text-gray-500">Create an election to start building its electoral records.</p>
+                <p className="font-medium text-ink">No elections have been added yet.</p>
+                <p className="mt-1 text-sm text-ink-subtle">Create an election to start building its electoral records.</p>
                 <Link
                   href="/admin/electoral-data/elections/new"
-                  className="mt-5 inline-flex rounded-lg bg-[#c94f00] px-4 py-2.5 text-sm font-semibold text-white"
+                  className="mt-5 inline-flex rounded-lg bg-signal px-4 py-2.5 text-sm font-semibold text-ink"
                 >
                   Add the first election
                 </Link>
@@ -110,7 +110,7 @@ export default async function ElectionsPage({ searchParams }: { searchParams: Pr
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full min-w-[940px] text-left text-sm">
-                  <thead className="bg-gray-50 text-xs uppercase tracking-wide text-gray-500">
+                  <thead className="bg-tint text-xs uppercase tracking-wide text-ink-subtle">
                     <tr>
                       <th className="px-5 py-3 font-semibold">Election</th>
                       <th className="px-5 py-3 font-semibold">Type</th>
@@ -120,31 +120,31 @@ export default async function ElectionsPage({ searchParams }: { searchParams: Pr
                       <th className="px-5 py-3 font-semibold">Actions</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-gray-100">
+                  <tbody className="divide-y divide-line-soft">
                     {elections.map((election) => (
-                      <tr key={election.id} className="hover:bg-gray-50">
+                      <tr key={election.id} className="hover:bg-tint">
                         <td className="px-5 py-4">
-                          <p className="font-semibold text-gray-900">{election.name}</p>
+                          <p className="font-semibold text-ink">{election.name}</p>
                           {election.official_source_url && (
                             <a
                               href={election.official_source_url}
                               target="_blank"
                               rel="noreferrer"
-                              className="mt-1 inline-block text-xs text-[#e85d00] hover:underline"
+                              className="mt-1 inline-block text-xs text-ink hover:underline"
                             >
                               Official source
                             </a>
                           )}
                         </td>
-                        <td className="px-5 py-4 text-gray-600">
+                        <td className="px-5 py-4 text-ink-muted">
                           {electionTypeLabels[election.election_type] ?? election.election_type}
                         </td>
-                        <td className="px-5 py-4 text-gray-600">
+                        <td className="px-5 py-4 text-ink-muted">
                           {election.election_date
                             ? new Date(`${election.election_date}T00:00:00`).toLocaleDateString("en-GB")
                             : "Not set"}
                         </td>
-                        <td className="px-5 py-4 text-gray-600">{election.jurisdiction}</td>
+                        <td className="px-5 py-4 text-ink-muted">{election.jurisdiction}</td>
                         <td className="px-5 py-4">
                           <OptimisticStatusBadge statusKey={`elections:${election.id}`} status={election.publication_status} styles={statusStyles} />
                         </td>

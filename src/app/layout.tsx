@@ -1,20 +1,16 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Manrope } from "next/font/google";
+import { Onest } from "next/font/google";
 import "./globals.css";
 import NotificationProvider from "@/components/notifications/notification-provider";
 import { ConfirmationProvider } from "@/components/notifications/confirmation-dialog";
 import PublicSiteShell from "@/components/public-site-shell";
 
-const inter = Inter({
+// One family for headings and body. Onest carries the Hausa hooked letters
+// (ɓ ɗ ƙ ƴ and capitals) in latin-ext; Manrope had none of them.
+const onest = Onest({
   subsets: ["latin", "latin-ext"],
   display: "swap",
-  variable: "--font-inter",
-});
-
-const manrope = Manrope({
-  subsets: ["latin", "latin-ext"],
-  display: "swap",
-  variable: "--font-manrope",
+  variable: "--font-onest",
 });
 
 export const metadata: Metadata = {
@@ -28,7 +24,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#ffffff",
+  themeColor: "#f6f3ec",
   // Lets sheets extend under the home indicator; padding uses safe-area insets.
   viewportFit: "cover",
 };
@@ -39,7 +35,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${manrope.variable} font-sans`}>
+    <html lang="en" className={`${onest.variable} font-sans`}>
       <body>
         <NotificationProvider />
         <ConfirmationProvider>

@@ -19,7 +19,7 @@ export default function RotatingHomeWord() {
 
   return (
     <span
-      className="relative inline-grid min-h-[1.12em] overflow-hidden align-bottom text-[#ff6600]"
+      className="relative inline-grid min-h-[1.12em] overflow-hidden align-bottom text-ink"
       aria-live="polite"
       aria-atomic="true"
     >

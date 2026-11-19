@@ -163,20 +163,20 @@ export default function StaffManagement({
 
   return (
     <div className="space-y-8">
-      <section className="rounded-xl border border-gray-200 bg-white p-5 sm:p-6">
+      <section className="rounded-xl border border-line-soft bg-paper-raised p-5 sm:p-6">
         <div className="flex items-center gap-2">
-          <Mail size={20} className="text-[#ff6600]" />
-          <h3 className="font-semibold text-[#171717]">Invite new staff</h3>
+          <Mail size={20} className="text-signal" />
+          <h3 className="font-semibold text-ink">Invite new staff</h3>
         </div>
 
-        <p className="mt-2 text-sm text-gray-500">
+        <p className="mt-2 text-sm text-ink-subtle">
           Invite an authorised team member by email and assign their platform role.
           They will receive an email to access their account.
         </p>
 
         <form onSubmit={handleInviteStaff} className="mt-6 grid gap-5 sm:grid-cols-2">
           <div>
-            <label htmlFor="invite-name" className="mb-2 block text-sm font-medium text-gray-700">
+            <label htmlFor="invite-name" className="mb-2 block text-sm font-medium text-ink-muted">
               Full name
             </label>
             <input
@@ -188,12 +188,12 @@ export default function StaffManagement({
               maxLength={80}
               required
               placeholder="Enter staff member's name"
-              className="w-full rounded-lg border border-gray-300 px-3 py-3 text-sm outline-none focus:border-[#ff6600] focus:ring-2 focus:ring-orange-100"
+              className="w-full rounded-lg border border-line px-3 py-3 text-sm outline-none focus:border-signal focus:ring-2 focus:ring-signal/20"
             />
           </div>
 
           <div>
-            <label htmlFor="invite-email" className="mb-2 block text-sm font-medium text-gray-700">
+            <label htmlFor="invite-email" className="mb-2 block text-sm font-medium text-ink-muted">
               Email address
             </label>
             <input
@@ -204,12 +204,12 @@ export default function StaffManagement({
               maxLength={254}
               required
               placeholder="name@example.com"
-              className="w-full rounded-lg border border-gray-300 px-3 py-3 text-sm outline-none focus:border-[#ff6600] focus:ring-2 focus:ring-orange-100"
+              className="w-full rounded-lg border border-line px-3 py-3 text-sm outline-none focus:border-signal focus:ring-2 focus:ring-signal/20"
             />
           </div>
 
           <div>
-            <label htmlFor="invite-role" className="mb-2 block text-sm font-medium text-gray-700">
+            <label htmlFor="invite-role" className="mb-2 block text-sm font-medium text-ink-muted">
               Assign role
             </label>
             <select
@@ -217,7 +217,7 @@ export default function StaffManagement({
               value={inviteRole}
               onChange={(event) => setInviteRole(event.target.value)}
               required
-              className="w-full rounded-lg border border-gray-300 bg-white px-3 py-3 text-sm outline-none focus:border-[#ff6600] focus:ring-2 focus:ring-orange-100"
+              className="w-full rounded-lg border border-line bg-paper-raised px-3 py-3 text-sm outline-none focus:border-signal focus:ring-2 focus:ring-signal/20"
             >
               <option value="electoral_reviewer">Electoral Reviewer</option>
               <option value="admin">Administrator</option>
@@ -228,7 +228,7 @@ export default function StaffManagement({
             <button
               type="submit"
               disabled={inviting}
-              className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#c94f00] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#a84300] disabled:cursor-not-allowed disabled:opacity-50"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-signal px-5 py-3 text-sm font-semibold text-ink transition hover:bg-signal-hover disabled:cursor-not-allowed disabled:opacity-50"
             >
               {inviting ? (
                 <>
@@ -246,27 +246,27 @@ export default function StaffManagement({
         </form>
       </section>
 
-      <section className="overflow-hidden rounded-xl border border-gray-200 bg-white">
-        <div className="border-b border-gray-200 px-5 py-4">
+      <section className="overflow-hidden rounded-xl border border-line-soft bg-paper-raised">
+        <div className="border-b border-line-soft px-5 py-4">
           <div className="flex items-center gap-2">
-            <Users size={19} className="text-[#ff6600]" />
-            <h3 className="font-semibold text-[#171717]">
+            <Users size={19} className="text-signal" />
+            <h3 className="font-semibold text-ink">
               Authorised personnel
             </h3>
           </div>
-          <p className="mt-1 text-sm text-gray-500">
+          <p className="mt-1 text-sm text-ink-subtle">
             Administrators and electoral reviewers with platform access.
           </p>
         </div>
 
         {staff.length === 0 ? (
-          <p className="p-6 text-sm text-gray-500">
+          <p className="p-6 text-sm text-ink-subtle">
             No authorised staff profiles were found.
           </p>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full min-w-[650px] text-left text-sm">
-              <thead className="bg-gray-50 text-xs uppercase tracking-wide text-gray-500">
+              <thead className="bg-tint text-xs uppercase tracking-wide text-ink-subtle">
                 <tr>
                   <th className="px-5 py-3 font-semibold">Staff member</th>
                   <th className="px-5 py-3 font-semibold">Role</th>
@@ -274,26 +274,26 @@ export default function StaffManagement({
                   <th className="px-5 py-3 font-semibold">User ID</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100">
+              <tbody className="divide-y divide-line-soft">
                 {staff.map((person) => (
                   <tr key={person.user_id}>
-                    <td className="px-5 py-4 font-medium text-[#171717]">
+                    <td className="px-5 py-4 font-medium text-ink">
                       {person.display_name || "Unnamed staff member"}
                       {person.user_id === currentUserId && (
-                        <span className="ml-2 text-xs text-gray-400">
+                        <span className="ml-2 text-xs text-ink-subtle">
                           (You)
                         </span>
                       )}
                     </td>
                     <td className="px-5 py-4">
-                      <span className="rounded-full bg-orange-50 px-3 py-1 text-xs font-medium capitalize text-[#e85d00]">
+                      <span className="rounded-full bg-tint px-3 py-1 text-xs font-medium capitalize text-ink">
                         {formatRole(person.role)}
                       </span>
                     </td>
-                    <td className="px-5 py-4 text-gray-600">
+                    <td className="px-5 py-4 text-ink-muted">
                       {formatDate(person.created_at)}
                     </td>
-                    <td className="px-5 py-4 font-mono text-xs text-gray-500">
+                    <td className="px-5 py-4 font-mono text-xs text-ink-subtle">
                       {person.user_id}
                     </td>
                   </tr>
@@ -304,15 +304,15 @@ export default function StaffManagement({
         )}
       </section>
 
-      <section className="rounded-xl border border-gray-200 bg-white p-5 sm:p-6">
+      <section className="rounded-xl border border-line-soft bg-paper-raised p-5 sm:p-6">
         <div className="flex items-center gap-2">
-          <UserCog size={20} className="text-[#ff6600]" />
-          <h3 className="font-semibold text-[#171717]">
+          <UserCog size={20} className="text-signal" />
+          <h3 className="font-semibold text-ink">
             Change staff role
           </h3>
         </div>
 
-        <p className="mt-2 text-sm text-gray-500">
+        <p className="mt-2 text-sm text-ink-subtle">
           Role changes are restricted to administrators and are recorded in
           the audit history.
         </p>
@@ -321,7 +321,7 @@ export default function StaffManagement({
           <div>
             <label
               htmlFor="staff-member"
-              className="mb-2 block text-sm font-medium text-gray-700"
+              className="mb-2 block text-sm font-medium text-ink-muted"
             >
               Select staff member
             </label>
@@ -333,7 +333,7 @@ export default function StaffManagement({
                 setNewRole("");
               }}
               required
-              className="w-full rounded-lg border border-gray-300 bg-white px-3 py-3 text-sm outline-none focus:border-[#ff6600] focus:ring-2 focus:ring-orange-100"
+              className="w-full rounded-lg border border-line bg-paper-raised px-3 py-3 text-sm outline-none focus:border-signal focus:ring-2 focus:ring-signal/20"
             >
               <option value="">Choose a staff member</option>
               {staff
@@ -351,7 +351,7 @@ export default function StaffManagement({
             <div>
               <label
                 htmlFor="new-role"
-                className="mb-2 block text-sm font-medium text-gray-700"
+                className="mb-2 block text-sm font-medium text-ink-muted"
               >
                 New role
               </label>
@@ -360,7 +360,7 @@ export default function StaffManagement({
                 value={newRole}
                 onChange={(event) => setNewRole(event.target.value)}
                 required
-                className="w-full rounded-lg border border-gray-300 bg-white px-3 py-3 text-sm outline-none focus:border-[#ff6600] focus:ring-2 focus:ring-orange-100"
+                className="w-full rounded-lg border border-line bg-paper-raised px-3 py-3 text-sm outline-none focus:border-signal focus:ring-2 focus:ring-signal/20"
               >
                 <option value="">Select a new role</option>
                 {roleOptions
@@ -377,7 +377,7 @@ export default function StaffManagement({
           <div>
             <label
               htmlFor="change-reason"
-              className="mb-2 block text-sm font-medium text-gray-700"
+              className="mb-2 block text-sm font-medium text-ink-muted"
             >
               Reason for change
             </label>
@@ -390,22 +390,22 @@ export default function StaffManagement({
               maxLength={500}
               rows={3}
               placeholder="Explain why this role change is necessary..."
-              className="w-full rounded-lg border border-gray-300 px-3 py-3 text-sm outline-none focus:border-[#ff6600] focus:ring-2 focus:ring-orange-100"
+              className="w-full rounded-lg border border-line px-3 py-3 text-sm outline-none focus:border-signal focus:ring-2 focus:ring-signal/20"
             />
-            <p className="mt-1 text-xs text-gray-400">
+            <p className="mt-1 text-xs text-ink-subtle">
               5–500 characters. This reason will be saved in the audit history.
             </p>
           </div>
 
           {selectedStaff && newRole && (
-            <div className="rounded-lg border border-orange-200 bg-orange-50 p-4 text-sm text-gray-700">
+            <div className="rounded-lg border border-signal/30 bg-tint p-4 text-sm text-ink-muted">
               You are changing{" "}
               <strong>
                 {selectedStaff.display_name || "this staff member"}
               </strong>{" "}
               from <strong>{formatRole(selectedStaff.role)}</strong> to{" "}
               <strong>{formatRole(newRole)}</strong>.
-              <p className="mt-2 text-xs text-gray-600">
+              <p className="mt-2 text-xs text-ink-muted">
                 The database will reject this change if it would remove the
                 last administrator.
               </p>
@@ -415,7 +415,7 @@ export default function StaffManagement({
           <button
             type="submit"
             disabled={saving || !selectedStaff || !newRole || !reason.trim()}
-            className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#c94f00] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#a84300] disabled:cursor-not-allowed disabled:opacity-50"
+            className="inline-flex items-center justify-center gap-2 rounded-lg bg-signal px-5 py-3 text-sm font-semibold text-ink transition hover:bg-signal-hover disabled:cursor-not-allowed disabled:opacity-50"
           >
             {saving ? (
               <>
@@ -432,25 +432,25 @@ export default function StaffManagement({
         </form>
       </section>
 
-      <section className="overflow-hidden rounded-xl border border-gray-200 bg-white">
-        <div className="border-b border-gray-200 px-5 py-4">
+      <section className="overflow-hidden rounded-xl border border-line-soft bg-paper-raised">
+        <div className="border-b border-line-soft px-5 py-4">
           <div className="flex items-center gap-2">
-            <History size={19} className="text-[#ff6600]" />
-            <h3 className="font-semibold text-[#171717]">
+            <History size={19} className="text-signal" />
+            <h3 className="font-semibold text-ink">
               Role-change history
             </h3>
           </div>
-          <p className="mt-1 text-sm text-gray-500">
+          <p className="mt-1 text-sm text-ink-subtle">
             The latest 50 recorded staff role changes.
           </p>
         </div>
 
         {history.length === 0 ? (
-          <p className="p-6 text-sm text-gray-500">
+          <p className="p-6 text-sm text-ink-subtle">
             No role changes have been recorded yet.
           </p>
         ) : (
-          <div className="divide-y divide-gray-100">
+          <div className="divide-y divide-line-soft">
             {history.map((item) => {
               const target = staff.find(
                 (person) => person.user_id === item.target_user_id
@@ -462,27 +462,27 @@ export default function StaffManagement({
               return (
                 <div key={item.id} className="space-y-2 px-5 py-4">
                   <div className="flex flex-wrap items-center justify-between gap-2">
-                    <p className="text-sm font-semibold text-[#171717]">
+                    <p className="text-sm font-semibold text-ink">
                       {target?.display_name || item.target_user_id}
                     </p>
-                    <span className="text-xs text-gray-500">
+                    <span className="text-xs text-ink-subtle">
                       {formatDate(item.created_at)}
                     </span>
                   </div>
 
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-ink-muted">
                     <span className="capitalize">
                       {formatRole(item.previous_role)}
                     </span>
-                    <span className="mx-2 text-gray-400">→</span>
-                    <span className="font-semibold capitalize text-[#e85d00]">
+                    <span className="mx-2 text-ink-subtle">→</span>
+                    <span className="font-semibold capitalize text-ink">
                       {formatRole(item.new_role)}
                     </span>
                   </p>
 
-                  <p className="text-sm text-gray-600">{item.reason}</p>
+                  <p className="text-sm text-ink-muted">{item.reason}</p>
 
-                  <p className="text-xs text-gray-400">
+                  <p className="text-xs text-ink-subtle">
                     Changed by: {actor?.display_name || item.changed_by}
                   </p>
                 </div>

@@ -96,19 +96,19 @@ export default function PromiseDetail({
   }
 
   const fieldClass =
-    "mt-2 w-full rounded-lg border border-gray-300 bg-white px-3 py-3 text-sm text-gray-900 outline-none focus:border-[#ff6600] focus:ring-1 focus:ring-[#ff6600]";
+    "mt-2 w-full rounded-lg border border-line bg-paper-raised px-3 py-3 text-sm text-ink outline-none focus:border-signal focus:ring-1 focus:ring-signal";
 
   return (
     <div className="mx-auto max-w-3xl space-y-6">
 
       <div>
-        <p className="text-sm text-gray-500">{candidacyLabel}</p>
-        <h1 className="mt-1 text-2xl font-bold text-[#171717]">Manage political promise</h1>
+        <p className="text-sm text-ink-subtle">{candidacyLabel}</p>
+        <h1 className="mt-1 text-2xl font-bold text-ink">Manage political promise</h1>
         <div className="mt-3 flex flex-wrap gap-2 text-xs">
-          <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700">
+          <span className="rounded-full bg-tint px-3 py-1 text-ink-muted">
             Progress: {record.progress_status.replaceAll("_", " ")}
           </span>
-          <span className="rounded-full bg-orange-50 px-3 py-1 text-orange-700">
+          <span className="rounded-full bg-tint px-3 py-1 text-ink">
             Publication: {record.publication_status}
           </span>
         </div>
@@ -126,9 +126,9 @@ export default function PromiseDetail({
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-5 rounded-xl border border-gray-200 bg-white p-5 sm:p-7">
+      <form onSubmit={handleSubmit} className="space-y-5 rounded-xl border border-line-soft bg-paper-raised p-5 sm:p-7">
         <div>
-          <label htmlFor="title" className="text-sm font-medium text-gray-800">Promise title</label>
+          <label htmlFor="title" className="text-sm font-medium text-ink">Promise title</label>
           <input
             id="title"
             required
@@ -141,7 +141,7 @@ export default function PromiseDetail({
         </div>
 
         <div>
-          <label htmlFor="description" className="text-sm font-medium text-gray-800">Description</label>
+          <label htmlFor="description" className="text-sm font-medium text-ink">Description</label>
           <textarea
             id="description"
             required
@@ -155,7 +155,7 @@ export default function PromiseDetail({
         </div>
 
         <div>
-          <label htmlFor="sector" className="text-sm font-medium text-gray-800">Sector</label>
+          <label htmlFor="sector" className="text-sm font-medium text-ink">Sector</label>
           <select
             id="sector"
             required
@@ -171,7 +171,7 @@ export default function PromiseDetail({
 
         <div className="grid gap-5 sm:grid-cols-2">
           <div>
-            <label htmlFor="promise_date" className="text-sm font-medium text-gray-800">Promise date</label>
+            <label htmlFor="promise_date" className="text-sm font-medium text-ink">Promise date</label>
             <input
               id="promise_date"
               type="date"
@@ -181,7 +181,7 @@ export default function PromiseDetail({
             />
           </div>
           <div>
-            <label htmlFor="target_date" className="text-sm font-medium text-gray-800">Target date</label>
+            <label htmlFor="target_date" className="text-sm font-medium text-ink">Target date</label>
             <input
               id="target_date"
               type="date"
@@ -194,7 +194,7 @@ export default function PromiseDetail({
         </div>
 
         <div>
-          <label htmlFor="source_url" className="text-sm font-medium text-gray-800">Source URL</label>
+          <label htmlFor="source_url" className="text-sm font-medium text-ink">Source URL</label>
           <input
             id="source_url"
             type="url"
@@ -205,8 +205,8 @@ export default function PromiseDetail({
           />
         </div>
 
-        <div className="rounded-lg border border-orange-100 bg-orange-50/60 p-4">
-          <label htmlFor="publication_status" className="text-sm font-semibold text-gray-800">
+        <div className="rounded-lg border border-signal/20 bg-tint/60 p-4">
+          <label htmlFor="publication_status" className="text-sm font-semibold text-ink">
             Publication status
           </label>
           <select
@@ -219,16 +219,16 @@ export default function PromiseDetail({
               <option key={value} value={value}>{label}</option>
             ))}
           </select>
-          <p className="mt-2 text-xs text-gray-600">
+          <p className="mt-2 text-xs text-ink-muted">
             Published promises become visible on the public tracker, provided their associated candidacy, candidate and election are also published.
           </p>
         </div>
 
-        <div className="flex justify-end border-t border-gray-100 pt-5">
+        <div className="flex justify-end border-t border-line-soft pt-5">
           <button
             type="submit"
             disabled={saving}
-            className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#c94f00] px-5 py-3 text-sm font-semibold text-white hover:bg-[#a84300] disabled:opacity-60"
+            className="inline-flex items-center justify-center gap-2 rounded-lg bg-signal px-5 py-3 text-sm font-semibold text-ink hover:bg-signal-hover disabled:opacity-60"
           >
             {saving ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}
             {saving ? "Saving..." : "Save changes"}

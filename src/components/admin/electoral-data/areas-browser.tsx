@@ -24,7 +24,7 @@ type Props = {
 const statusStyles: Record<Status, string> = {
   published: "bg-green-100 text-green-800",
   draft: "bg-yellow-100 text-yellow-800",
-  archived: "bg-gray-100 text-gray-700",
+  archived: "bg-tint text-ink-muted",
 };
 
 export default function AreasBrowser({ areas, stateId }: Props) {
@@ -89,14 +89,14 @@ export default function AreasBrowser({ areas, stateId }: Props) {
   return (
     <div className="space-y-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="text-sm text-gray-600">
-          <button onClick={goToLgas} className={!selectedLga ? "font-semibold text-[#ff6600]" : "hover:text-[#ff6600]"}>
+        <div className="text-sm text-ink-muted">
+          <button onClick={goToLgas} className={!selectedLga ? "font-semibold text-ink" : "hover:text-ink"}>
             Gombe State LGAs
           </button>
           {selectedLgaRecord && (
             <>
               <span className="mx-2">/</span>
-              <button onClick={goToWards} className={!selectedWard ? "font-semibold text-[#ff6600]" : "hover:text-[#ff6600]"}>
+              <button onClick={goToWards} className={!selectedWard ? "font-semibold text-ink" : "hover:text-ink"}>
                 {selectedLgaRecord.name} wards
               </button>
             </>
@@ -104,34 +104,34 @@ export default function AreasBrowser({ areas, stateId }: Props) {
           {selectedWardRecord && (
             <>
               <span className="mx-2">/</span>
-              <span className="font-semibold text-[#ff6600]">{selectedWardRecord.name}</span>
+              <span className="font-semibold text-ink">{selectedWardRecord.name}</span>
             </>
           )}
         </div>
 
         <Link
           href="/admin/electoral-data/areas/new"
-          className="rounded-lg bg-[#c94f00] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#a84300]"
+          className="rounded-lg bg-signal px-4 py-2.5 text-sm font-semibold text-ink hover:bg-signal-hover"
         >
           Add Electoral Area
         </Link>
       </div>
 
-      <div className="rounded-xl border border-gray-200 bg-white p-5">
+      <div className="rounded-xl border border-line-soft bg-paper-raised p-5">
         {selectedWardRecord ? (
           <div className="py-10 text-center">
-            <p className="text-lg font-semibold text-gray-900">
+            <p className="text-lg font-semibold text-ink">
               {selectedWardRecord.name}
             </p>
-            <p className="mt-2 text-sm text-gray-600">
+            <p className="mt-2 text-sm text-ink-muted">
               Polling-unit data is not yet available for this ward.
             </p>
-            <p className="mt-1 text-xs text-gray-500">
+            <p className="mt-1 text-xs text-ink-subtle">
               Polling units can be added when verified data becomes available.
             </p>
             <Link
               href="/admin/electoral-data/areas/new"
-              className="mt-5 inline-flex rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:border-[#ff6600] hover:text-[#e85d00]"
+              className="mt-5 inline-flex rounded-lg border border-line px-4 py-2 text-sm font-medium text-ink-muted hover:border-signal hover:text-ink"
             >
               Add Electoral Area
             </Link>
@@ -140,16 +140,16 @@ export default function AreasBrowser({ areas, stateId }: Props) {
           <>
             <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
               <div>
-                <h2 className="font-semibold text-[#171717]">
+                <h2 className="font-semibold text-ink">
                   {selectedLgaRecord ? `${selectedLgaRecord.name} wards` : "Local Government Areas"}
                 </h2>
-                <p className="mt-1 text-xs text-gray-500">
+                <p className="mt-1 text-xs text-ink-subtle">
                   {selectedLgaRecord
                     ? "Select a ward to view its polling-unit data status."
                     : "Select an LGA to explore its wards."}
                 </p>
               </div>
-              <span className="text-sm text-gray-500">
+              <span className="text-sm text-ink-subtle">
                 {filteredAreas.length} records
               </span>
             </div>
@@ -159,12 +159,12 @@ export default function AreasBrowser({ areas, stateId }: Props) {
                 value={search}
                 onChange={(event) => setSearch(event.target.value)}
                 placeholder="Search by name"
-                className="rounded-md border border-gray-200 px-3 py-2 text-sm"
+                className="rounded-md border border-line-soft px-3 py-2 text-sm"
               />
               <select
                 value={statusFilter}
                 onChange={(event) => setStatusFilter(event.target.value)}
-                className="rounded-md border border-gray-200 bg-white px-3 py-2 text-sm"
+                className="rounded-md border border-line-soft bg-paper-raised px-3 py-2 text-sm"
               >
                 <option value="all">All statuses</option>
                 <option value="published">Published</option>
@@ -174,13 +174,13 @@ export default function AreasBrowser({ areas, stateId }: Props) {
             </div>
 
             {!filteredAreas.length ? (
-              <p className="py-10 text-center text-sm text-gray-500">
+              <p className="py-10 text-center text-sm text-ink-subtle">
                 No matching electoral areas found.
               </p>
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full min-w-[650px] text-left text-sm">
-                  <thead className="bg-gray-50 text-xs uppercase tracking-wide text-gray-500">
+                  <thead className="bg-tint text-xs uppercase tracking-wide text-ink-subtle">
                     <tr>
                       <th className="px-4 py-3">Name</th>
                       <th className="px-4 py-3">Code</th>
@@ -189,18 +189,18 @@ export default function AreasBrowser({ areas, stateId }: Props) {
                       <th className="px-4 py-3">Actions</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-gray-100">
+                  <tbody className="divide-y divide-line-soft">
                     {filteredAreas.map((area) => (
-                      <tr key={area.id} className="hover:bg-gray-50">
-                        <td className="px-4 py-4 font-medium text-gray-900">{area.name}</td>
-                        <td className="px-4 py-4 text-gray-600">{area.code || "—"}</td>
+                      <tr key={area.id} className="hover:bg-tint">
+                        <td className="px-4 py-4 font-medium text-ink">{area.name}</td>
+                        <td className="px-4 py-4 text-ink-muted">{area.code || "—"}</td>
                         <td className="px-4 py-4">
                           <OptimisticStatusBadge statusKey={`electoral_areas:${area.id}`} status={area.publication_status} styles={statusStyles} />
                         </td>
                         <td className="px-4 py-4">
                           <button
                             onClick={() => selectedLga ? openWard(area.id) : openLga(area.id)}
-                            className="text-sm font-medium text-[#e85d00] hover:underline"
+                            className="text-sm font-medium text-ink hover:underline"
                           >
                             {selectedLga ? "View ward" : "View wards"} →
                           </button>

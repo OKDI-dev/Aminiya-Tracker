@@ -50,7 +50,7 @@ export default async function PromiseDetailPage({
   }
 
   return (
-    <main className="min-h-screen bg-[#f7f8f5] p-5 sm:p-8">
+    <main className="min-h-screen bg-paper p-5 sm:p-8">
       <PromiseDetail record={record} candidacyLabel={candidacyLabel} />
     </main>
   );

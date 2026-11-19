@@ -92,21 +92,21 @@ export default async function ElectoralDataDashboard() {
   }));
 
   return (
-    <main className="min-h-screen bg-[#f7f8f5]">
-      <header className="border-b border-gray-200 bg-white">
+    <main className="min-h-screen bg-paper">
+      <header className="border-b border-line-soft bg-paper-raised">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8">
           <div>
 
-            <h1 className="text-xl font-bold text-[#171717]">
+            <h1 className="text-xl font-bold text-ink">
               Electoral Data Management
             </h1>
 
-            <p className="mt-1 text-sm text-gray-500">
+            <p className="mt-1 text-sm text-ink-subtle">
               Manage the electoral information used across Aminiya Tracker.
             </p>
           </div>
 
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-orange-50 text-[#ff6600]">
+          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-tint text-ink">
             <Vote size={23} />
           </div>
         </div>
@@ -114,13 +114,13 @@ export default async function ElectoralDataDashboard() {
 
       <div className="mx-auto max-w-7xl space-y-8 px-5 py-8 sm:px-8">
         <section>
-          <p className="text-sm font-medium text-[#ff6600]">
+          <p className="text-sm font-medium text-ink">
             ELECTORAL INFORMATION
           </p>
-          <h2 className="mt-2 text-2xl font-bold text-[#171717]">
+          <h2 className="mt-2 text-2xl font-bold text-ink">
             Electoral data overview
           </h2>
-          <p className="mt-2 max-w-3xl text-sm leading-6 text-gray-600">
+          <p className="mt-2 max-w-3xl text-sm leading-6 text-ink-muted">
             Maintain reliable electoral records, connect candidates to
             electoral contests, manage geographical areas and publish
             results supported by verifiable sources.
@@ -129,10 +129,10 @@ export default async function ElectoralDataDashboard() {
 
         <section>
           <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
-            <h3 className="font-semibold text-[#171717]">
+            <h3 className="font-semibold text-ink">
               Database overview
             </h3>
-            <span className="text-xs text-gray-500">
+            <span className="text-xs text-ink-subtle">
               Total records by category
             </span>
           </div>
@@ -147,13 +147,13 @@ export default async function ElectoralDataDashboard() {
               {counts.map((item) => (
                 <div
                   key={item.table}
-                  className="rounded-xl border border-gray-200 bg-white p-5"
+                  className="rounded-xl border border-line-soft bg-paper-raised p-5"
                 >
-                  <p className="text-sm text-gray-500">{item.label}</p>
-                  <p className="mt-2 text-2xl font-bold text-[#171717]">
+                  <p className="text-sm text-ink-subtle">{item.label}</p>
+                  <p className="mt-2 text-2xl font-bold text-ink">
                     {item.count.toLocaleString("en-NG")}
                   </p>
-                  <p className="mt-1 text-xs text-gray-400">
+                  <p className="mt-1 text-xs text-ink-subtle">
                     Total records
                   </p>
                 </div>
@@ -163,7 +163,7 @@ export default async function ElectoralDataDashboard() {
         </section>
 
         <section>
-          <h3 className="mb-4 font-semibold text-[#171717]">
+          <h3 className="mb-4 font-semibold text-ink">
             Management sections
           </h3>
 
@@ -175,21 +175,21 @@ export default async function ElectoralDataDashboard() {
                 <Link
                   key={section.href}
                   href={section.href}
-                  className="group rounded-xl border border-gray-200 bg-white p-6 transition hover:border-[#ff6600] hover:shadow-sm"
+                  className="group rounded-xl border border-line-soft bg-paper-raised p-6 transition hover:border-signal hover:shadow-sm"
                 >
-                  <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-lg bg-orange-50 text-[#ff6600]">
+                  <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-lg bg-tint text-ink">
                     <Icon size={22} />
                   </div>
 
-                  <h4 className="font-semibold text-[#171717]">
+                  <h4 className="font-semibold text-ink">
                     {section.title}
                   </h4>
 
-                  <p className="mt-2 min-h-12 text-sm leading-6 text-gray-600">
+                  <p className="mt-2 min-h-12 text-sm leading-6 text-ink-muted">
                     {section.description}
                   </p>
 
-                  <div className="mt-5 flex items-center gap-2 text-sm font-semibold text-[#ff6600]">
+                  <div className="mt-5 flex items-center gap-2 text-sm font-semibold text-ink">
                     Manage records
                     <ArrowRight
                       size={16}

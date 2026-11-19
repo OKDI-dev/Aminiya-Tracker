@@ -731,16 +731,16 @@ export default function AminiyaAssistant() {
             animate={{ opacity: 1, scale: 1, y: 0, transition: springs.sheetCalm }}
             exit={{ opacity: 0, scale: 0.94, y: 10, transition: springs.exit }}
             style={{ transformOrigin: "bottom right" }}
-            className="flex h-[min(640px,calc(100dvh-112px))] w-[min(400px,calc(100vw-32px))] flex-col overflow-hidden rounded-2xl border border-black/10 bg-white shadow-2xl shadow-black/20"
+            className="flex h-[min(640px,calc(100dvh-112px))] w-[min(400px,calc(100vw-32px))] flex-col overflow-hidden rounded-2xl border border-ink/10 bg-paper-raised shadow-2xl shadow-ink/20"
           >
-            <header className="flex items-center justify-between gap-3 bg-[#c94f00] px-4 py-4 text-white">
+            <header className="flex items-center justify-between gap-3 bg-ink px-4 py-4 text-white">
               <div className="flex min-w-0 items-center gap-3">
-                <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-white/20">
+                <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-ink-raised text-signal">
                   <Bot size={22} aria-hidden="true" />
                 </div>
                 <div className="min-w-0">
                   <h2 className="truncate text-sm font-semibold">{text.title}</h2>
-                  <p className="truncate text-xs text-white/85">{text.subtitle}</p>
+                  <p className="truncate text-xs text-on-ink-muted">{text.subtitle}</p>
                 </div>
               </div>
 
@@ -756,7 +756,7 @@ export default function AminiyaAssistant() {
                       exit={{ opacity: 0, scale: 0.9, transition: springs.exit }}
                       whileTap={{ scale: 0.95 }}
                       transition={springs.snappy}
-                      className="rounded-lg px-2 py-2 text-xs font-medium text-white/90 hover:bg-white/15"
+                      className="rounded-lg px-2 py-2 text-xs font-medium text-white/90 hover:bg-paper-raised/10"
                     >
                       {text.newChat}
                     </motion.button>
@@ -765,7 +765,7 @@ export default function AminiyaAssistant() {
                 <button
                   type="button"
                   onClick={closeAssistant}
-                  className="rounded-full p-2 hover:bg-white/15"
+                  className="rounded-full p-2 hover:bg-paper-raised/10"
                   aria-label={text.close}
                 >
                   <X size={19} />
@@ -774,7 +774,7 @@ export default function AminiyaAssistant() {
             </header>
 
             <div
-              className="min-h-0 flex-1 space-y-4 overflow-y-auto bg-[#fafafa] px-4 py-4"
+              className="min-h-0 flex-1 space-y-4 overflow-y-auto bg-paper px-4 py-4"
               aria-live="polite"
               aria-relevant="additions"
             >
@@ -784,13 +784,13 @@ export default function AminiyaAssistant() {
                     initial={{ scale: 0.6, opacity: 0, rotate: -10 }}
                     animate={{ scale: 1, opacity: 1, rotate: 0 }}
                     transition={{ ...springs.sheet, delay: 0.08 }}
-                    className="mb-4 flex size-12 items-center justify-center rounded-2xl bg-orange-100 text-[#c94f00]"
+                    className="mb-4 flex size-12 items-center justify-center rounded-2xl bg-signal/15 text-ink"
                   >
                     <Bot size={26} aria-hidden="true" />
                   </motion.div>
 
-                  <h3 className="text-lg font-semibold text-gray-950">{text.welcome}</h3>
-                  <p className="mt-2 text-sm leading-6 text-gray-600">{text.intro}</p>
+                  <h3 className="text-lg font-semibold text-ink">{text.welcome}</h3>
+                  <p className="mt-2 text-sm leading-6 text-ink-muted">{text.intro}</p>
 
                   <div className="mt-6 space-y-2">
                     {text.suggestions.map((suggestion, index) => (
@@ -802,7 +802,7 @@ export default function AminiyaAssistant() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ ...springs.default, delay: 0.12 + index * 0.05 }}
                         whileTap={{ scale: 0.98 }}
-                        className="block w-full rounded-xl border border-gray-200 bg-white px-3 py-3 text-left text-sm text-gray-700 transition-colors hover:border-[#c94f00]/50 hover:bg-orange-50"
+                        className="block w-full rounded-xl border border-line-soft bg-paper-raised px-3 py-3 text-left text-sm text-ink-muted transition-colors hover:border-signal/50 hover:bg-tint"
                       >
                         {suggestion}
                       </motion.button>
@@ -831,31 +831,31 @@ export default function AminiyaAssistant() {
                           message.role === "user"
                             ? message.status === "failed"
                               ? "rounded-br-md border border-red-200 bg-red-50 text-red-900"
-                              : "rounded-br-md bg-[#c94f00] text-white"
-                            : "rounded-bl-md border border-gray-200 bg-white text-gray-800"
+                              : "rounded-br-md bg-signal text-ink"
+                            : "rounded-bl-md border border-line-soft bg-paper-raised text-ink"
                         }`}
                       >
                         {message.role === "assistant" ? (
                           <>
                             {/* Compact chat prose: blocks separated by 0.5rem, list items by 2px. */}
-                            <div className="text-sm leading-[1.45rem] [&>*+*]:mt-2 [&_a]:font-medium [&_a]:text-[#a84300] [&_a]:underline [&_a]:underline-offset-2 [&_h1]:text-[15px] [&_h1]:font-bold [&_h2]:text-sm [&_h2]:font-bold [&_h3]:text-sm [&_h3]:font-semibold [&_li]:pl-0.5 [&_li+li]:mt-0.5 [&_li>p]:m-0 [&_li>ol]:mt-0.5 [&_li>ul]:mt-0.5 [&_li::marker]:text-[#c94f00] [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:m-0 [&_strong]:font-semibold [&_strong]:text-gray-950 [&_ul]:list-disc [&_ul]:pl-5">
+                            <div className="text-sm leading-[1.45rem] [&>*+*]:mt-2 [&_a]:font-medium [&_a]:text-ink [&_a]:underline [&_a]:underline-offset-2 [&_h1]:text-[15px] [&_h1]:font-bold [&_h2]:text-sm [&_h2]:font-bold [&_h3]:text-sm [&_h3]:font-semibold [&_li]:pl-0.5 [&_li+li]:mt-0.5 [&_li>p]:m-0 [&_li>ol]:mt-0.5 [&_li>ul]:mt-0.5 [&_li::marker]:text-signal-deep [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:m-0 [&_strong]:font-semibold [&_strong]:text-ink [&_ul]:list-disc [&_ul]:pl-5">
                               <ReactMarkdown
                                 remarkPlugins={[remarkGfm]}
                                 components={{
                                   table: ({ children }) => (
-                                    <div className="my-3 max-w-full overflow-x-auto rounded-lg border border-gray-200">
+                                    <div className="my-3 max-w-full overflow-x-auto rounded-lg border border-line-soft">
                                       <table className="w-full min-w-[280px] border-collapse text-left text-xs">
                                         {children}
                                       </table>
                                     </div>
                                   ),
                                   th: ({ children }) => (
-                                    <th className="border-b border-gray-200 bg-gray-50 px-2 py-2 font-semibold">
+                                    <th className="border-b border-line-soft bg-tint px-2 py-2 font-semibold">
                                       {children}
                                     </th>
                                   ),
                                   td: ({ children }) => (
-                                    <td className="border-b border-gray-100 px-2 py-2 align-top">
+                                    <td className="border-b border-line-soft px-2 py-2 align-top">
                                       {children}
                                     </td>
                                   ),
@@ -892,7 +892,7 @@ export default function AminiyaAssistant() {
                             onClick={() => void sendMessage(message.content, message.id)}
                             disabled={isLoading}
                             whileTap={{ scale: 0.95 }}
-                            className="inline-flex items-center gap-1 rounded-md border border-red-200 bg-white px-2 py-1 font-semibold text-red-700 hover:bg-red-50 disabled:opacity-50"
+                            className="inline-flex items-center gap-1 rounded-md border border-red-200 bg-paper-raised px-2 py-1 font-semibold text-red-700 hover:bg-red-50 disabled:opacity-50"
                           >
                             <RotateCcw size={12} aria-hidden="true" />
                             {text.retry}
@@ -915,14 +915,14 @@ export default function AminiyaAssistant() {
                     className="flex justify-start"
                   >
                     <div
-                      className="flex items-center gap-1.5 rounded-2xl rounded-bl-md border border-gray-200 bg-white px-4 py-3.5"
+                      className="flex items-center gap-1.5 rounded-2xl rounded-bl-md border border-line-soft bg-paper-raised px-4 py-3.5"
                       role="status"
                       aria-label={text.typing}
                     >
                       {[0, 1, 2].map((dot) => (
                         <motion.span
                           key={dot}
-                          className="size-1.5 rounded-full bg-[#c94f00]/70"
+                          className="size-1.5 rounded-full bg-signal/70"
                           animate={{ y: [0, -4, 0], opacity: [0.5, 1, 0.5] }}
                           transition={{
                             duration: 0.9,
@@ -966,7 +966,7 @@ export default function AminiyaAssistant() {
               <div ref={messagesEndRef} />
             </div>
 
-            <form onSubmit={handleSubmit} className="border-t border-gray-200 bg-white p-3">
+            <form onSubmit={handleSubmit} className="border-t border-line-soft bg-paper-raised p-3">
               <AnimatePresence initial={false}>
                 {busyWithVoice && (
                   <motion.div
@@ -982,7 +982,7 @@ export default function AminiyaAssistant() {
                       className={`mb-2 flex items-center gap-3 rounded-xl px-3 py-2 text-xs ${
                         voicePhase === "listening"
                           ? "bg-red-50 text-red-800"
-                          : "bg-orange-50 text-[#7a3100]"
+                          : "bg-tint text-ink"
                       }`}
                     >
                       {voicePhase === "listening" ? (
@@ -1019,7 +1019,7 @@ export default function AminiyaAssistant() {
                           <button
                             type="button"
                             onClick={cancelTranscription}
-                            className="rounded-md px-2 py-1 font-semibold hover:bg-orange-100"
+                            className="rounded-md px-2 py-1 font-semibold hover:bg-signal/15"
                           >
                             {text.cancel}
                           </button>
@@ -1030,7 +1030,7 @@ export default function AminiyaAssistant() {
                 )}
               </AnimatePresence>
 
-              <div className="flex items-center gap-2 rounded-xl border border-gray-200 bg-gray-50 p-1.5 focus-within:border-[#c94f00] focus-within:ring-2 focus-within:ring-[#c94f00]/10">
+              <div className="flex items-center gap-2 rounded-xl border border-line-soft bg-tint p-1.5 focus-within:border-signal focus-within:ring-2 focus-within:ring-signal/10">
                 <input
                   ref={inputRef}
                   value={input}
@@ -1039,7 +1039,7 @@ export default function AminiyaAssistant() {
                   maxLength={4000}
                   disabled={isLoading || busyWithVoice}
                   aria-label={text.placeholder}
-                  className="min-w-0 flex-1 bg-transparent px-2 py-2 text-sm text-gray-900 outline-none placeholder:text-gray-400 disabled:opacity-60"
+                  className="min-w-0 flex-1 bg-transparent px-2 py-2 text-sm text-ink outline-none placeholder:text-ink-subtle disabled:opacity-60"
                 />
 
                 <motion.button
@@ -1054,7 +1054,7 @@ export default function AminiyaAssistant() {
                   className={`relative flex size-10 shrink-0 items-center justify-center rounded-lg transition-colors disabled:cursor-not-allowed disabled:opacity-40 ${
                     voicePhase === "listening"
                       ? "bg-red-600 text-white"
-                      : "text-gray-500 hover:bg-orange-50 hover:text-[#a84300]"
+                      : "text-ink-subtle hover:bg-tint hover:text-ink"
                   }`}
                 >
                   {voicePhase === "listening" && (
@@ -1089,13 +1089,13 @@ export default function AminiyaAssistant() {
                   aria-label={text.send}
                   whileTap={{ scale: 0.9 }}
                   transition={springs.snappy}
-                  className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-[#c94f00] text-white transition-colors hover:bg-[#a84300] disabled:cursor-not-allowed disabled:opacity-40"
+                  className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-signal text-ink transition-colors hover:bg-signal-hover disabled:cursor-not-allowed disabled:opacity-40"
                 >
                   <Send size={17} />
                 </motion.button>
               </div>
 
-              <p className="mt-2 text-center text-[10px] text-gray-500">{text.disclaimer}</p>
+              <p className="mt-2 text-center text-[10px] text-ink-subtle">{text.disclaimer}</p>
             </form>
           </motion.section>
         )}
@@ -1110,7 +1110,7 @@ export default function AminiyaAssistant() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 8, transition: springs.exit }}
               transition={springs.default}
-              className="rounded-full border border-[#c94f00]/15 bg-white px-3 py-2 text-xs font-semibold text-[#a84300] shadow-md shadow-black/5"
+              className="rounded-full border border-signal/15 bg-paper-raised px-3 py-2 text-xs font-semibold text-ink shadow-md shadow-ink/5"
             >
               {text.badge}
             </motion.span>
@@ -1125,7 +1125,7 @@ export default function AminiyaAssistant() {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.92 }}
           transition={springs.snappy}
-          className="flex size-14 items-center justify-center rounded-full bg-[#c94f00] text-white shadow-lg shadow-orange-900/25 hover:bg-[#a84300] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#c94f00]"
+          className="flex size-14 items-center justify-center rounded-full bg-signal text-ink shadow-lg shadow-orange-900/25 hover:bg-signal-hover focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
         >
           <AnimatePresence mode="popLayout" initial={false}>
             <motion.span
@@ -1187,8 +1187,8 @@ function ReadAloudButton({
       aria-label={state === "idle" ? labels.readResponse : labels.stopReading}
       className={`mt-2 inline-flex items-center gap-1.5 rounded-md px-1.5 py-1 text-xs transition-colors ${
         state === "idle"
-          ? "text-gray-500 hover:bg-orange-50 hover:text-[#a84300]"
-          : "bg-orange-50 text-[#a84300]"
+          ? "text-ink-subtle hover:bg-tint hover:text-ink"
+          : "bg-tint text-ink"
       }`}
     >
       <AnimatePresence mode="popLayout" initial={false}>

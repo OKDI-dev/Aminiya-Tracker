@@ -60,12 +60,12 @@ export default function CivicResponsibilityPage() {
   },
   ];
   return (
-    <main className="min-h-screen bg-[#f7f8f5] text-[#171717]">
-      <section className="border-b border-black/5 bg-white">
+    <main className="min-h-screen bg-paper text-ink">
+      <section className="border-b border-ink/5 bg-paper-raised">
         <div className="mx-auto max-w-5xl px-5 py-6 sm:px-8">
           <Link
             href="/electoral-information"
-            className="inline-flex items-center gap-2 text-sm font-medium text-[#666] transition hover:text-[#ff6600]"
+            className="inline-flex items-center gap-2 text-sm font-medium text-ink-muted transition hover:text-ink"
           >
             <ArrowLeft size={16} />
             {t("crElectoralInformation")}
@@ -75,12 +75,11 @@ export default function CivicResponsibilityPage() {
       </section>
 
       <PublicPageHero
-        eyebrow={t("crEyebrow")}
         title={
           <>
             {t("crTitleStart")}
             <br />
-            <span className="text-[#ff6600]">{t("crTitleEnd")}</span>
+            <span className="text-signal">{t("crTitleEnd")}</span>
           </>
         }
         description={
@@ -90,7 +89,7 @@ export default function CivicResponsibilityPage() {
         }
         containerClassName="max-w-7xl"
       >
-        <div className="mt-6 flex flex-wrap gap-3 text-xs text-[#777]">
+        <div className="mt-6 flex flex-wrap gap-3 text-xs text-on-ink-muted">
           <span>{t("crReadTime")}</span>
           <span>•</span>
           <span>{t("crCommunity")}</span>
@@ -103,10 +102,10 @@ export default function CivicResponsibilityPage() {
         <article className="min-w-0 space-y-10">
           <section>
             <h2 className="text-2xl font-bold">{t("crWhyTitle")}</h2>
-            <p className="mt-4 leading-8 text-[#666]">
+            <p className="mt-4 leading-8 text-ink-muted">
               {t("crWhyText1")}
             </p>
-            <p className="mt-4 leading-8 text-[#666]">
+            <p className="mt-4 leading-8 text-ink-muted">
               {t("crWhyText2")}
             </p>
           </section>
@@ -120,31 +119,31 @@ export default function CivicResponsibilityPage() {
               return (
                 <div
                   key={section.title}
-                  className="rounded-2xl border border-black/5 bg-white p-6"
+                  className="rounded-2xl border border-ink/5 bg-paper-raised p-6"
                 >
                   <div className="flex items-start gap-4">
-                    <div className="rounded-xl bg-[#fff0e6] p-3 text-[#ff6600]">
+                    <div className="rounded-xl bg-tint p-3 text-ink">
                       <Icon size={22} />
                     </div>
                     <div className="min-w-0">
-                      <span className="text-xs font-semibold text-[#ff6600]">
+                      <span className="text-xs font-semibold text-ink">
                         0{index + 1}
                       </span>
                       <h3 className="mt-1 text-lg font-bold">
                         {section.title}
                       </h3>
-                      <p className="mt-3 leading-7 text-[#666]">
+                      <p className="mt-3 leading-7 text-ink-muted">
                         {section.text}
                       </p>
                       <ul className="mt-4 space-y-3">
                         {section.points.map((point) => (
                           <li
                             key={point}
-                            className="flex items-start gap-2 text-sm leading-6 text-[#555]"
+                            className="flex items-start gap-2 text-sm leading-6 text-ink-muted"
                           >
                             <CheckCircle2
                               size={17}
-                              className="mt-1 shrink-0 text-[#ff6600]"
+                              className="mt-1 shrink-0 text-signal"
                             />
                             {point}
                           </li>
@@ -157,14 +156,14 @@ export default function CivicResponsibilityPage() {
             })}
           </section>
 
-          <section className="rounded-2xl border border-[#ffe0cc] bg-[#fff8f2] p-6">
+          <section className="rounded-2xl border border-signal/25 bg-tint/60 p-6">
             <div className="flex items-center gap-3">
-              <ShieldCheck className="text-[#ff6600]" size={24} />
+              <ShieldCheck className="text-signal" size={24} />
               <h2 className="text-xl font-bold">
                 {t("crSafetyTitle")}
               </h2>
             </div>
-            <ul className="mt-5 space-y-3 text-sm leading-7 text-[#555]">
+            <ul className="mt-5 space-y-3 text-sm leading-7 text-ink-muted">
               <li>• {t("crSafety1")}</li>
               <li>• {t("crSafety2")}</li>
               <li>• {t("crSafety3")}</li>
@@ -175,29 +174,29 @@ export default function CivicResponsibilityPage() {
 
           <section>
             <h2 className="text-2xl font-bold">{t("crContinueTitle")}</h2>
-            <p className="mt-4 leading-8 text-[#666]">
+            <p className="mt-4 leading-8 text-ink-muted">
               {t("crContinueText")}
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Link
                 href="/community-issues"
-                className="inline-flex items-center gap-2 rounded-xl bg-[#c94f00] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#a84300]"
+                className="inline-flex items-center gap-2 rounded-xl bg-signal px-5 py-3 text-sm font-semibold text-ink transition hover:bg-signal-hover"
               >
                 {t("crExploreIssues")} <ArrowRight size={16} />
               </Link>
               <Link
                 href="/promises"
-                className="inline-flex items-center gap-2 rounded-xl border border-black/10 bg-white px-5 py-3 text-sm font-semibold transition hover:border-[#ff6600]"
+                className="inline-flex items-center gap-2 rounded-xl border border-ink/10 bg-paper-raised px-5 py-3 text-sm font-semibold transition hover:border-signal"
               >
                 {t("crTrackPromises")} <ArrowRight size={16} />
               </Link>
             </div>
           </section>
 
-          <div className="border-t border-black/10 pt-6">
+          <div className="border-t border-ink/10 pt-6">
             <Link
               href="/electoral-information"
-              className="inline-flex items-center gap-2 text-sm font-semibold text-[#ff6600] hover:underline"
+              className="inline-flex items-center gap-2 text-sm font-semibold text-ink hover:underline"
             >
               <ArrowLeft size={16} />
               {t("crBack")}
@@ -206,9 +205,9 @@ export default function CivicResponsibilityPage() {
         </article>
 
         <aside className="space-y-5">
-          <div className="rounded-2xl border border-black/5 bg-white p-5">
+          <div className="rounded-2xl border border-ink/5 bg-paper-raised p-5">
             <h3 className="font-bold">{t("crGuideTitle")}</h3>
-            <ul className="mt-4 space-y-3 text-sm text-[#666]">
+            <ul className="mt-4 space-y-3 text-sm text-ink-muted">
               <li>{t("crGuide1")}</li>
               <li>{t("crGuide2")}</li>
               <li>{t("crGuide3")}</li>
@@ -216,8 +215,8 @@ export default function CivicResponsibilityPage() {
               <li>{t("crGuide5")}</li>
             </ul>
           </div>
-          <div className="rounded-2xl bg-[#171717] p-5 text-white">
-            <Users size={24} className="text-[#ff6600]" />
+          <div className="rounded-2xl bg-ink p-5 text-white">
+            <Users size={24} className="text-signal" />
             <h3 className="mt-4 font-bold">{t("crVoiceTitle")}</h3>
             <p className="mt-2 text-sm leading-6 text-white/65">
               {t("crVoiceText")}

@@ -153,13 +153,10 @@ export default function ElectionResults() {
     <section className="space-y-6">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-wider text-[#ff6600]">
-            {t("resultsEyebrow")}
-          </p>
-          <h2 className="mt-1 text-2xl font-bold text-[#171717]">
+          <h2 className="text-2xl font-bold text-ink">
             {t("resultsTitle")}
           </h2>
-          <p className="mt-2 text-sm text-gray-600">
+          <p className="mt-2 text-sm text-ink-muted">
             {t("resultsDescription")}
           </p>
         </div>
@@ -168,7 +165,7 @@ export default function ElectionResults() {
           type="button"
           onClick={loadResults}
           disabled={loading}
-          className="inline-flex items-center gap-2 rounded-lg border border-gray-200 px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+          className="inline-flex items-center gap-2 rounded-lg border border-line-soft px-4 py-2 text-sm font-semibold text-ink-muted hover:bg-tint disabled:opacity-50"
         >
           <RefreshCw size={16} className={loading ? "animate-spin" : ""} />
           {t("refresh")}
@@ -176,19 +173,19 @@ export default function ElectionResults() {
       </div>
 
       {!loading && !loadFailed && results.length > 0 && (
-        <div className="rounded-xl border border-gray-200 bg-white p-5">
+        <div className="rounded-xl border border-line-soft bg-paper-raised p-5">
           <div className="mb-4 flex items-center gap-2">
-            <Filter size={18} className="text-[#ff6600]" />
-            <h3 className="font-semibold text-[#171717]">{t("filterResults")}</h3>
+            <Filter size={18} className="text-signal" />
+            <h3 className="font-semibold text-ink">{t("filterResults")}</h3>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            <label className="space-y-2 text-sm font-medium text-gray-700">
+            <label className="space-y-2 text-sm font-medium text-ink-muted">
               {t("election")}
               <select
                 value={electionFilter}
                 onChange={(event) => setElectionFilter(event.target.value)}
-                className="w-full rounded-lg border border-gray-200 bg-white px-3 py-3 text-sm"
+                className="w-full rounded-lg border border-line-soft bg-paper-raised px-3 py-3 text-sm"
               >
                 <option value="all">{t("allElections")}</option>
                 {elections.map((election) => (
@@ -199,12 +196,12 @@ export default function ElectionResults() {
               </select>
             </label>
 
-            <label className="space-y-2 text-sm font-medium text-gray-700">
+            <label className="space-y-2 text-sm font-medium text-ink-muted">
               {t("electoralArea")}
               <select
                 value={areaFilter}
                 onChange={(event) => setAreaFilter(event.target.value)}
-                className="w-full rounded-lg border border-gray-200 bg-white px-3 py-3 text-sm"
+                className="w-full rounded-lg border border-line-soft bg-paper-raised px-3 py-3 text-sm"
               >
                 <option value="all">{t("allElectoralAreas")}</option>
                 {areas.map((area) => (
@@ -215,12 +212,12 @@ export default function ElectionResults() {
               </select>
             </label>
 
-            <label className="space-y-2 text-sm font-medium text-gray-700">
+            <label className="space-y-2 text-sm font-medium text-ink-muted">
               {t("resultClassification")}
               <select
                 value={typeFilter}
                 onChange={(event) => setTypeFilter(event.target.value)}
-                className="w-full rounded-lg border border-gray-200 bg-white px-3 py-3 text-sm"
+                className="w-full rounded-lg border border-line-soft bg-paper-raised px-3 py-3 text-sm"
               >
                 <option value="all">{t("allResultTypes")}</option>
                 <option value="official">{t("officialResults")}</option>
@@ -230,13 +227,13 @@ export default function ElectionResults() {
           </div>
 
           <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-ink-subtle">
               {t("showingRecords").replace("{shown}", String(filteredResults.length)).replace("{total}", String(results.length))}
             </p>
             <button
               type="button"
               onClick={resetFilters}
-              className="text-sm font-semibold text-[#ff6600] hover:underline"
+              className="text-sm font-semibold text-ink hover:underline"
             >
               {t("clearFilters")}
             </button>
@@ -248,35 +245,35 @@ export default function ElectionResults() {
         <ListSkeleton rows={3} label={t("loadingElectionResults")} />
       ) : loadFailed ? (
 
-        <div className="rounded-xl border border-gray-200 bg-white p-6">
-          <p className="text-sm text-gray-700">
+        <div className="rounded-xl border border-line-soft bg-paper-raised p-6">
+          <p className="text-sm text-ink-muted">
             {t("electionResultsUnavailable")}
           </p>
           <button
             type="button"
             onClick={loadResults}
-            className="mt-3 text-sm font-semibold text-[#ff6600]"
+            className="mt-3 text-sm font-semibold text-ink"
           >
             {t("tryAgain")}
           </button>
         </div>
       ) : results.length === 0 ? (
-        <div className="rounded-xl border border-gray-200 bg-white p-8 text-center">
-          <h3 className="font-semibold text-[#171717]">{t("noPublishedResults")}</h3>
-          <p className="mt-2 text-sm text-gray-500">
+        <div className="rounded-xl border border-line-soft bg-paper-raised p-8 text-center">
+          <h3 className="font-semibold text-ink">{t("noPublishedResults")}</h3>
+          <p className="mt-2 text-sm text-ink-subtle">
             {t("resultsWillAppear")}
           </p>
         </div>
       ) : filteredResults.length === 0 ? (
-        <div className="rounded-xl border border-gray-200 bg-white p-8 text-center">
-          <h3 className="font-semibold text-[#171717]">{t("noMatchingResults")}</h3>
-          <p className="mt-2 text-sm text-gray-500">
+        <div className="rounded-xl border border-line-soft bg-paper-raised p-8 text-center">
+          <h3 className="font-semibold text-ink">{t("noMatchingResults")}</h3>
+          <p className="mt-2 text-sm text-ink-subtle">
             {t("changeFilters")}
           </p>
           <button
             type="button"
             onClick={resetFilters}
-            className="mt-4 text-sm font-semibold text-[#ff6600]"
+            className="mt-4 text-sm font-semibold text-ink"
           >
             {t("clearFilters")}
           </button>
@@ -327,10 +324,10 @@ export default function ElectionResults() {
             return (
               <article
                 key={result.id}
-                className="rounded-xl border border-gray-200 bg-white p-5 sm:p-6"
+                className="rounded-xl border border-line-soft bg-paper-raised p-5 sm:p-6"
               >
                 <div className="flex flex-wrap items-center justify-between gap-3">
-                  <span className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                  <span className="text-xs font-semibold uppercase tracking-wide text-ink-subtle">
                     {electionName}
                   </span>
 
@@ -338,7 +335,7 @@ export default function ElectionResults() {
                     className={`rounded-full px-3 py-1 text-xs font-semibold ${
                       result.result_type === "official"
                         ? "bg-green-100 text-green-800"
-                        : "bg-orange-100 text-orange-800"
+                        : "bg-signal/15 text-ink"
                     }`}
                   >
                     {result.result_type === "official"
@@ -348,33 +345,33 @@ export default function ElectionResults() {
                 </div>
 
                 <div className="mt-5">
-                  <h3 className="text-xl font-bold text-[#171717]">
+                  <h3 className="text-xl font-bold text-ink">
                     {candidateName}
                   </h3>
-                  <p className="mt-1 text-sm text-gray-600">{partyName}</p>
-                  <p className="mt-1 text-sm text-gray-500">{areaName}</p>
+                  <p className="mt-1 text-sm text-ink-muted">{partyName}</p>
+                  <p className="mt-1 text-sm text-ink-subtle">{areaName}</p>
                 </div>
 
                 <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
-                  <div className="rounded-lg bg-[#f7f8f5] p-4">
-                    <p className="text-xs text-gray-500">{t("votesReceived")}</p>
-                    <p className="mt-1 text-xl font-bold text-[#171717]">
+                  <div className="rounded-lg bg-paper p-4">
+                    <p className="text-xs text-ink-subtle">{t("votesReceived")}</p>
+                    <p className="mt-1 text-xl font-bold text-ink">
                       {formatVotes(result.votes_count, language)}
                     </p>
                   </div>
 
-                  <div className="rounded-lg bg-[#f7f8f5] p-4">
-                    <p className="text-xs text-gray-500">{t("registeredVoters")}</p>
-                    <p className="mt-1 text-xl font-bold text-[#171717]">
+                  <div className="rounded-lg bg-paper p-4">
+                    <p className="text-xs text-ink-subtle">{t("registeredVoters")}</p>
+                    <p className="mt-1 text-xl font-bold text-ink">
                       {result.registered_voters !== null
                         ? formatVotes(result.registered_voters, language)
                         : "—"}
                     </p>
                   </div>
 
-                  <div className="rounded-lg bg-[#f7f8f5] p-4">
-                    <p className="text-xs text-gray-500">{t("accreditedVoters")}</p>
-                    <p className="mt-1 text-xl font-bold text-[#171717]">
+                  <div className="rounded-lg bg-paper p-4">
+                    <p className="text-xs text-ink-subtle">{t("accreditedVoters")}</p>
+                    <p className="mt-1 text-xl font-bold text-ink">
                       {result.accredited_voters !== null
                         ? formatVotes(result.accredited_voters, language)
                         : "—"}
@@ -383,20 +380,20 @@ export default function ElectionResults() {
                 </div>
 
                 {turnout !== null && (
-                  <p className="mt-4 text-sm text-gray-600">
+                  <p className="mt-4 text-sm text-ink-muted">
                     {t("voterTurnout")}{" "}
-                    <strong className="text-[#171717]">{turnout}%</strong>
+                    <strong className="text-ink">{turnout}%</strong>
                   </p>
                 )}
 
-                <div className="mt-5 border-t border-gray-100 pt-4">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                <div className="mt-5 border-t border-line-soft pt-4">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-ink-subtle">
                     {t("dataSource")}
                   </p>
-                  <p className="mt-1 text-sm text-[#171717]">{sourceName}</p>
+                  <p className="mt-1 text-sm text-ink">{sourceName}</p>
 
                   {result.verification_notes && (
-                    <p className="mt-3 text-sm leading-6 text-gray-600">
+                    <p className="mt-3 text-sm leading-6 text-ink-muted">
                       {result.verification_notes}
                     </p>
                   )}

@@ -185,13 +185,13 @@ export default function AdminLoginPage() {
             initial={{ scale: 0.6, rotate: -12, opacity: 0 }}
             animate={{ scale: 1, rotate: 0, opacity: 1 }}
             transition={{ ...springs.sheet, delay: 0.05 }}
-            className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#c94f00] text-white shadow-lg shadow-orange-900/20"
+            className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-signal text-ink shadow-lg shadow-orange-900/20"
           >
             <ShieldCheck size={30} />
           </motion.div>
 
-          <h1 className="text-2xl font-bold text-[#171717]">Aminiya Tracker</h1>
-          <p className="mt-2 text-sm text-gray-600">Electoral Administration Portal</p>
+          <h1 className="text-2xl font-bold text-ink">Aminiya Tracker</h1>
+          <p className="mt-2 text-sm text-ink-muted">Electoral Administration Portal</p>
         </motion.div>
 
         <motion.div
@@ -199,11 +199,11 @@ export default function AdminLoginPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ ...springs.default, delay: 0.06 }}
-          className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm sm:p-8"
+          className="rounded-2xl border border-line-soft bg-paper-raised p-6 shadow-sm sm:p-8"
         >
           <div className="mb-6">
-            <h2 className="text-xl font-semibold text-[#171717]">Staff Sign In</h2>
-            <p className="mt-1 text-sm text-gray-500">
+            <h2 className="text-xl font-semibold text-ink">Staff Sign In</h2>
+            <p className="mt-1 text-sm text-ink-subtle">
               Sign in with your authorised staff account.
             </p>
           </div>
@@ -221,20 +221,20 @@ export default function AdminLoginPage() {
                   transition={springs.default}
                   className="overflow-hidden"
                 >
-                  <div className="mb-5 rounded-xl border border-orange-200 bg-orange-50 px-4 py-4">
+                  <div className="mb-5 rounded-xl border border-signal/30 bg-tint px-4 py-4">
                     <div className="flex items-start gap-3">
-                      <Timer size={20} className="mt-0.5 shrink-0 text-[#a84300]" aria-hidden="true" />
+                      <Timer size={20} className="mt-0.5 shrink-0 text-ink" aria-hidden="true" />
                       <div className="min-w-0 flex-1">
-                        <p className="text-sm font-semibold text-[#7a3100]">
+                        <p className="text-sm font-semibold text-ink">
                           Sign-in is locked for a few minutes
                         </p>
-                        <p className="mt-1 text-xs leading-5 text-[#8a3a00]">
+                        <p className="mt-1 text-xs leading-5 text-ink">
                           Too many failed attempts from this connection. You can try again in:
                         </p>
                       </div>
                     </div>
                     <p
-                      className="mt-3 text-center font-mono text-4xl font-bold tabular-nums text-[#a84300]"
+                      className="mt-3 text-center font-mono text-4xl font-bold tabular-nums text-ink"
                       aria-label={`${minutes} minutes ${seconds} seconds`}
                     >
                       <NumberFlowGroup>
@@ -282,13 +282,13 @@ export default function AdminLoginPage() {
           <form onSubmit={handleLogin}>
             <fieldset disabled={locked || busy} className="space-y-5 disabled:opacity-70">
               <div>
-                <label htmlFor="email" className="mb-2 block text-sm font-medium text-gray-700">
+                <label htmlFor="email" className="mb-2 block text-sm font-medium text-ink-muted">
                   Email address
                 </label>
                 <div className="relative">
                   <Mail
                     size={18}
-                    className="absolute top-1/2 left-3 -translate-y-1/2 text-gray-400"
+                    className="absolute top-1/2 left-3 -translate-y-1/2 text-ink-subtle"
                     aria-hidden="true"
                   />
                   <input
@@ -303,19 +303,19 @@ export default function AdminLoginPage() {
                       if (error) setError(null);
                     }}
                     placeholder="staff@example.com"
-                    className="w-full rounded-lg border border-gray-300 py-3 pr-3 pl-10 text-sm text-gray-900 outline-none transition focus:border-[#c94f00] focus:ring-2 focus:ring-orange-100 disabled:bg-gray-50"
+                    className="w-full rounded-lg border border-line py-3 pr-3 pl-10 text-sm text-ink outline-none transition focus:border-signal focus:ring-2 focus:ring-signal/20 disabled:bg-tint"
                   />
                 </div>
               </div>
 
               <div>
-                <label htmlFor="password" className="mb-2 block text-sm font-medium text-gray-700">
+                <label htmlFor="password" className="mb-2 block text-sm font-medium text-ink-muted">
                   Password
                 </label>
                 <div className="relative">
                   <LockKeyhole
                     size={18}
-                    className="absolute top-1/2 left-3 -translate-y-1/2 text-gray-400"
+                    className="absolute top-1/2 left-3 -translate-y-1/2 text-ink-subtle"
                     aria-hidden="true"
                   />
                   <input
@@ -331,14 +331,14 @@ export default function AdminLoginPage() {
                     }}
                     placeholder="Enter your password"
                     aria-invalid={error?.title === "Incorrect email or password" || undefined}
-                    className="w-full rounded-lg border border-gray-300 py-3 pr-12 pl-10 text-sm text-gray-900 outline-none transition focus:border-[#c94f00] focus:ring-2 focus:ring-orange-100 disabled:bg-gray-50"
+                    className="w-full rounded-lg border border-line py-3 pr-12 pl-10 text-sm text-ink outline-none transition focus:border-signal focus:ring-2 focus:ring-signal/20 disabled:bg-tint"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword((visible) => !visible)}
                     aria-label={showPassword ? "Hide password" : "Show password"}
                     aria-pressed={showPassword}
-                    className="absolute top-1/2 right-3 -translate-y-1/2 rounded-md p-1 text-gray-400 transition hover:text-gray-700 focus:ring-2 focus:ring-orange-200 focus:outline-none"
+                    className="absolute top-1/2 right-3 -translate-y-1/2 rounded-md p-1 text-ink-subtle transition hover:text-ink-muted focus:ring-2 focus:ring-signal/30 focus:outline-none"
                   >
                     <AnimatePresence mode="popLayout" initial={false}>
                       <motion.span
@@ -362,13 +362,13 @@ export default function AdminLoginPage() {
                 label={locked ? "Locked" : "Sign in"}
                 pendingLabel="Signing in…"
                 successLabel="Signed in"
-                className="inline-flex w-full items-center justify-center rounded-lg bg-[#c94f00] px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#a84300] disabled:cursor-not-allowed disabled:opacity-60 data-[phase=success]:bg-green-700 data-[phase=success]:opacity-100"
+                className="inline-flex w-full items-center justify-center rounded-lg bg-signal px-4 py-3 text-sm font-semibold text-ink transition-colors hover:bg-signal-hover disabled:cursor-not-allowed disabled:opacity-60 data-[phase=success]:bg-green-700 data-[phase=success]:opacity-100"
               />
             </fieldset>
           </form>
         </motion.div>
 
-        <p className="mt-6 text-center text-xs text-gray-500">
+        <p className="mt-6 text-center text-xs text-ink-subtle">
           Restricted access. Authorised electoral personnel only.
         </p>
       </div>

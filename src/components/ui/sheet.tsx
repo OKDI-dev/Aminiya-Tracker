@@ -284,15 +284,15 @@ function SheetSurface({
         }
       >
         <div className="flex shrink-0 cursor-grab justify-center pt-2.5 pb-1 active:cursor-grabbing" aria-hidden="true">
-          <span className="h-1.5 w-10 rounded-full bg-black/15" />
+          <span className="h-1.5 w-10 rounded-full bg-ink/15" />
         </div>
 
         <div className={cn("shrink-0 px-5 pt-1 pb-3", hideTitle && "sr-only")}>
-          <DialogPrimitive.Title className="text-lg font-semibold text-[#171717]">
+          <DialogPrimitive.Title className="text-lg font-semibold text-ink">
             {title}
           </DialogPrimitive.Title>
           {description ? (
-            <DialogPrimitive.Description className="mt-1 text-sm text-[#666]">
+            <DialogPrimitive.Description className="mt-1 text-sm text-ink-muted">
               {description}
             </DialogPrimitive.Description>
           ) : null}
@@ -309,7 +309,7 @@ function SheetSurface({
         </div>
 
         {footer ? (
-          <div className="shrink-0 border-t border-black/5 px-3 pt-3 pb-[max(1rem,env(safe-area-inset-bottom))]">
+          <div className="shrink-0 border-t border-ink/5 px-3 pt-3 pb-[max(1rem,env(safe-area-inset-bottom))]">
             {footer}
           </div>
         ) : null}

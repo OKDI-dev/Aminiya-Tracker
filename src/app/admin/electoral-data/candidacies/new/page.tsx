@@ -26,11 +26,11 @@ export default async function NewCandidacyPage() {
   const error = electionsError || candidatesError || partiesError || areasError;
 
   return (
-    <main className="min-h-screen bg-[#f7f8f5] p-5 sm:p-8">
+    <main className="min-h-screen bg-paper p-5 sm:p-8">
       <div className="mx-auto max-w-3xl space-y-6">
         <div>
-          <h1 className="mt-3 text-2xl font-bold text-[#171717]">Add Candidacy</h1>
-          <p className="mt-1 text-sm text-gray-600">
+          <h1 className="mt-3 text-2xl font-bold text-ink">Add Candidacy</h1>
+          <p className="mt-1 text-sm text-ink-muted">
             Associate a registered candidate with an election and the office they are contesting.
           </p>
         </div>

@@ -60,11 +60,11 @@ const statusMeta: Record<
   string,
   { label: TranslationKey; help: TranslationKey; tone: string }
 > = {
-  submitted: { label: "statusSubmitted", help: "statusSubmittedHelp", tone: "bg-gray-100 text-gray-700" },
+  submitted: { label: "statusSubmitted", help: "statusSubmittedHelp", tone: "bg-tint text-ink-muted" },
   under_review: { label: "statusUnderReview", help: "statusUnderReviewHelp", tone: "bg-blue-100 text-blue-800" },
-  action_required: { label: "statusActionRequired", help: "statusActionRequiredHelp", tone: "bg-orange-100 text-orange-800" },
+  action_required: { label: "statusActionRequired", help: "statusActionRequiredHelp", tone: "bg-signal/15 text-ink" },
   resolved: { label: "statusResolved", help: "statusResolvedHelp", tone: "bg-green-100 text-green-800" },
-  closed: { label: "statusClosed", help: "statusClosedHelp", tone: "bg-gray-200 text-gray-700" },
+  closed: { label: "statusClosed", help: "statusClosedHelp", tone: "bg-line-soft text-ink-muted" },
 };
 
 type ElectoralArea = {
@@ -405,16 +405,16 @@ export default function CommunityIssues() {
 
   return (
     <div className="space-y-8">
-      <section className="scroll-mt-28 rounded-2xl border border-gray-200 bg-white p-5 sm:p-7">
+      <section className="scroll-mt-28 rounded-2xl border border-line-soft bg-paper-raised p-5 sm:p-7">
         <div className="mb-6 flex items-start gap-3">
-          <div className="rounded-xl bg-orange-50 p-3 text-[#ff6600]">
+          <div className="rounded-xl bg-tint p-3 text-ink">
             <FileText size={24} />
           </div>
           <div>
-            <h2 className="text-xl font-semibold text-[#171717]">
+            <h2 className="text-xl font-semibold text-ink">
               {t("communityFormTitle")}
             </h2>
-            <p className="mt-1 text-sm leading-6 text-gray-500">
+            <p className="mt-1 text-sm leading-6 text-ink-subtle">
               {t("communityFormDescription")}
             </p>
           </div>
@@ -436,12 +436,12 @@ export default function CommunityIssues() {
               className={`scroll-mt-28 rounded-xl border p-5 outline-none transition-colors duration-300 ${
                 receipt.phase === "done"
                   ? "border-green-200 bg-green-50"
-                  : "border-gray-200 bg-gray-50"
+                  : "border-line-soft bg-tint"
               }`}
             >
               <div
                 className={`flex items-center gap-2 font-semibold ${
-                  receipt.phase === "done" ? "text-green-800" : "text-gray-800"
+                  receipt.phase === "done" ? "text-green-800" : "text-ink"
                 }`}
               >
                 {receipt.phase === "done" ? (
@@ -456,7 +456,7 @@ export default function CommunityIssues() {
 
               <p
                 className={`mt-2 text-sm leading-6 ${
-                  receipt.phase === "done" ? "text-green-800" : "text-gray-600"
+                  receipt.phase === "done" ? "text-green-800" : "text-ink-muted"
                 }`}
               >
                 {receipt.phase === "done"
@@ -465,17 +465,17 @@ export default function CommunityIssues() {
               </p>
 
               <div className="mt-4">
-                <p className="text-xs font-semibold uppercase tracking-wide text-gray-600">
+                <p className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
                   {t("referenceCodeLabel")}
                 </p>
-                <div className="mt-1 flex min-h-[3.25rem] items-center justify-between gap-2 rounded-lg border border-gray-200 bg-white p-3">
+                <div className="mt-1 flex min-h-[3.25rem] items-center justify-between gap-2 rounded-lg border border-line-soft bg-paper-raised p-3">
                   {receipt.phase === "done" ? (
                     <>
                       <motion.code
                         initial={{ opacity: 0, y: 4 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={springs.default}
-                        className="break-all text-base font-bold tracking-wide text-gray-900"
+                        className="break-all text-base font-bold tracking-wide text-ink"
                       >
                         {receipt.referenceCode}
                       </motion.code>
@@ -484,7 +484,7 @@ export default function CommunityIssues() {
                         whileTap={{ scale: 0.92 }}
                         transition={springs.snappy}
                         onClick={() => copyValue(receipt.referenceCode)}
-                        className="relative shrink-0 rounded-md p-2 text-gray-600 hover:bg-gray-100"
+                        className="relative shrink-0 rounded-md p-2 text-ink-muted hover:bg-tint"
                         aria-label={copied ? t("copied") : t("copyReferenceCode")}
                       >
                         <AnimatePresence mode="popLayout" initial={false}>
@@ -523,7 +523,7 @@ export default function CommunityIssues() {
                     className="overflow-hidden"
                   >
                     <div className="mt-5 space-y-2">
-                      <p className="text-sm font-medium text-gray-700">
+                      <p className="text-sm font-medium text-ink-muted">
                         {t("evidenceUploadProgress").replace(
                           "{percent}",
                           String(Math.round(uploadProgress * 100))
@@ -558,7 +558,7 @@ export default function CommunityIssues() {
                           onClick={() =>
                             uploadEvidence(receipt.referenceCode, receipt.trackingToken, evidence)
                           }
-                          className="mt-3 inline-flex items-center gap-2 rounded-lg bg-[#c94f00] px-4 py-2 text-sm font-semibold text-white hover:bg-[#a84300]"
+                          className="mt-3 inline-flex items-center gap-2 rounded-lg bg-signal px-4 py-2 text-sm font-semibold text-ink hover:bg-signal-hover"
                         />
                       </div>
                     </motion.div>
@@ -591,7 +591,7 @@ export default function CommunityIssues() {
                     whileTap={{ scale: 0.97 }}
                     transition={springs.snappy}
                     onClick={() => trackReference(receipt.referenceCode)}
-                    className="inline-flex items-center gap-2 rounded-lg bg-[#171717] px-4 py-2.5 text-sm font-semibold text-white hover:bg-gray-800"
+                    className="inline-flex items-center gap-2 rounded-lg bg-ink px-4 py-2.5 text-sm font-semibold text-white hover:bg-ink-raised"
                   >
                     <Search size={16} />
                     {t("trackThisReport")}
@@ -606,7 +606,7 @@ export default function CommunityIssues() {
                       setEvidence([]);
                       setEvidenceUploaded(0);
                     }}
-                    className="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+                    className="inline-flex items-center gap-2 rounded-lg border border-line bg-paper-raised px-4 py-2.5 text-sm font-semibold text-ink-muted hover:bg-tint disabled:opacity-50"
                   >
                     <RotateCcw size={16} />
                     {t("submitAnotherIssue")}
@@ -624,7 +624,7 @@ export default function CommunityIssues() {
             >
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="sm:col-span-2">
-                  <label htmlFor={FIELD_IDS.category} className="mb-2 block text-sm font-medium text-gray-700">
+                  <label htmlFor={FIELD_IDS.category} className="mb-2 block text-sm font-medium text-ink-muted">
                     {t("issueCategoryLabel")} *
                   </label>
                   <select
@@ -635,7 +635,7 @@ export default function CommunityIssues() {
                       setCategory(event.target.value);
                       touch("category");
                     }}
-                    className={fieldClass(Boolean(visibleError("category")), "text-gray-900")}
+                    className={fieldClass(Boolean(visibleError("category")), "text-ink")}
                   >
                     <option value="" disabled>
                       {t("selectIssueCategory")}
@@ -650,7 +650,7 @@ export default function CommunityIssues() {
                 </div>
 
                 <div className="sm:col-span-2">
-                  <label htmlFor={FIELD_IDS.title} className="mb-2 block text-sm font-medium text-gray-700">
+                  <label htmlFor={FIELD_IDS.title} className="mb-2 block text-sm font-medium text-ink-muted">
                     {t("issueTitleLabel")} *
                   </label>
                   <input
@@ -666,14 +666,14 @@ export default function CommunityIssues() {
                   />
                   <div className="flex items-start justify-between gap-3">
                     <FieldError id={`${FIELD_IDS.title}-error`} message={visibleError("title")} />
-                    <p className="ml-auto mt-1 shrink-0 text-xs text-gray-400">
+                    <p className="ml-auto mt-1 shrink-0 text-xs text-ink-subtle">
                       {title.length}/150
                     </p>
                   </div>
                 </div>
 
                 <div>
-                  <label htmlFor={FIELD_IDS.lga} className="mb-2 block text-sm font-medium text-gray-700">
+                  <label htmlFor={FIELD_IDS.lga} className="mb-2 block text-sm font-medium text-ink-muted">
                     {t("requiredLga")}
                   </label>
                   <select
@@ -688,7 +688,7 @@ export default function CommunityIssues() {
                       touch("lga");
                     }}
                     disabled={loadingLocations || lgas.length === 0}
-                    className={fieldClass(Boolean(visibleError("lga")), "text-gray-900")}
+                    className={fieldClass(Boolean(visibleError("lga")), "text-ink")}
                   >
                     <option value="" disabled>
                       {loadingLocations ? t("checking") : t("selectLgaPlaceholder")}
@@ -703,7 +703,7 @@ export default function CommunityIssues() {
                 </div>
 
                 <div>
-                  <label htmlFor="ci-ward" className="mb-2 block text-sm font-medium text-gray-700">
+                  <label htmlFor="ci-ward" className="mb-2 block text-sm font-medium text-ink-muted">
                     {t("wardLabel")}
                   </label>
                   <select
@@ -711,7 +711,7 @@ export default function CommunityIssues() {
                     value={ward}
                     onChange={(event) => setWard(event.target.value)}
                     disabled={!selectedLgaId || loadingLocations}
-                    className={fieldClass(false, "text-gray-900")}
+                    className={fieldClass(false, "text-ink")}
                   >
                     <option value="">
                       {selectedLgaId && wards.length === 0
@@ -727,7 +727,7 @@ export default function CommunityIssues() {
                 </div>
 
                 <div>
-                  <label htmlFor="ci-community" className="mb-2 block text-sm font-medium text-gray-700">
+                  <label htmlFor="ci-community" className="mb-2 block text-sm font-medium text-ink-muted">
                     {t("communityLabel")}
                   </label>
                   <input
@@ -741,7 +741,7 @@ export default function CommunityIssues() {
                 </div>
 
                 <div className="sm:col-span-2">
-                  <label htmlFor="ci-location" className="mb-2 block text-sm font-medium text-gray-700">
+                  <label htmlFor="ci-location" className="mb-2 block text-sm font-medium text-ink-muted">
                     {t("additionalLocationLabel")}
                   </label>
                   <input
@@ -755,7 +755,7 @@ export default function CommunityIssues() {
                 </div>
 
                 <div className="sm:col-span-2">
-                  <label htmlFor="ci-reporter-name" className="mb-2 block text-sm font-medium text-gray-700">
+                  <label htmlFor="ci-reporter-name" className="mb-2 block text-sm font-medium text-ink-muted">
                     {t("reporterNameLabel")}
                   </label>
                   <input
@@ -769,14 +769,14 @@ export default function CommunityIssues() {
                     aria-describedby="ci-reporter-name-help"
                     className={fieldClass(false)}
                   />
-                  <p id="ci-reporter-name-help" className="mt-1.5 flex items-start gap-1.5 text-xs leading-5 text-gray-500">
+                  <p id="ci-reporter-name-help" className="mt-1.5 flex items-start gap-1.5 text-xs leading-5 text-ink-subtle">
                     <ShieldCheck size={14} className="mt-0.5 shrink-0 text-green-700" aria-hidden="true" />
                     {t("reporterNameHelp")}
                   </p>
                 </div>
 
                 <div className="sm:col-span-2">
-                  <label htmlFor={FIELD_IDS.description} className="mb-2 block text-sm font-medium text-gray-700">
+                  <label htmlFor={FIELD_IDS.description} className="mb-2 block text-sm font-medium text-ink-muted">
                     {t("describeIssueLabel")} *
                   </label>
                   <textarea
@@ -796,18 +796,18 @@ export default function CommunityIssues() {
                       id={`${FIELD_IDS.description}-error`}
                       message={visibleError("description")}
                     />
-                    <p className="ml-auto mt-1 shrink-0 text-xs text-gray-400">
+                    <p className="ml-auto mt-1 shrink-0 text-xs text-ink-subtle">
                       {t("charactersCount").replace("{count}", String(description.length))}
                     </p>
                   </div>
                 </div>
               </div>
 
-              <div className="rounded-xl border border-dashed border-gray-300 bg-gray-50 p-4">
-                <label htmlFor="ci-evidence" className="mb-2 block text-sm font-medium text-gray-700">
+              <div className="rounded-xl border border-dashed border-line bg-tint p-4">
+                <label htmlFor="ci-evidence" className="mb-2 block text-sm font-medium text-ink-muted">
                   {t("supportingEvidenceOptional")}
                 </label>
-                <p className="mb-3 text-xs leading-5 text-gray-500">
+                <p className="mb-3 text-xs leading-5 text-ink-subtle">
                   {t("evidenceInstructions")}
                 </p>
                 <input
@@ -821,7 +821,7 @@ export default function CommunityIssues() {
                     event.target.value = "";
                     addFiles(incoming);
                   }}
-                  className="block w-full text-sm text-gray-600 file:mr-3 file:rounded-lg file:border-0 file:bg-orange-100 file:px-4 file:py-2 file:font-semibold file:text-orange-800 hover:file:bg-orange-200 disabled:opacity-60"
+                  className="block w-full text-sm text-ink-muted file:mr-3 file:rounded-lg file:border-0 file:bg-signal/15 file:px-4 file:py-2 file:font-semibold file:text-ink hover:file:bg-signal/25 disabled:opacity-60"
                 />
 
                 <motion.ul layout className="mt-3 space-y-2">
@@ -834,11 +834,11 @@ export default function CommunityIssues() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.96, transition: springs.exit }}
                         transition={springs.move}
-                        className="flex items-center justify-between gap-3 rounded-lg bg-white px-3 py-2 text-sm"
+                        className="flex items-center justify-between gap-3 rounded-lg bg-paper-raised px-3 py-2 text-sm"
                       >
-                        <span className="min-w-0 truncate text-gray-700">
+                        <span className="min-w-0 truncate text-ink-muted">
                           {file.name}
-                          <span className="ml-2 text-xs text-gray-400">
+                          <span className="ml-2 text-xs text-ink-subtle">
                             {(file.size / (1024 * 1024)).toFixed(2)} MB
                           </span>
                         </span>
@@ -848,7 +848,7 @@ export default function CommunityIssues() {
                           onClick={() =>
                             setEvidence((current) => current.filter((item) => item.id !== id))
                           }
-                          className="shrink-0 rounded p-1 text-gray-500 hover:bg-gray-100 hover:text-red-600"
+                          className="shrink-0 rounded p-1 text-ink-subtle hover:bg-tint hover:text-red-600"
                           aria-label={t("removeEvidenceLabel").replace("{name}", file.name)}
                         >
                           <X size={16} />
@@ -871,7 +871,7 @@ export default function CommunityIssues() {
                 </label>
               </div>
 
-              <div className="flex items-start gap-2 text-xs leading-5 text-gray-500">
+              <div className="flex items-start gap-2 text-xs leading-5 text-ink-subtle">
                 <ShieldCheck size={17} className="mt-0.5 shrink-0" />
                 <p>{t("privacyReviewNotice")}</p>
               </div>
@@ -900,7 +900,7 @@ export default function CommunityIssues() {
                 icon={<Send size={16} />}
                 label={t("submitCommunityIssue")}
                 pendingLabel={t("submitting")}
-                className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#c94f00] px-5 py-3 font-semibold text-white transition-colors hover:bg-[#a84300] disabled:cursor-not-allowed disabled:not-data-[phase=pending]:opacity-60 sm:w-auto"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-signal px-5 py-3 font-semibold text-ink transition-colors hover:bg-signal-hover disabled:cursor-not-allowed disabled:not-data-[phase=pending]:opacity-60 sm:w-auto"
               />
             </motion.form>
           )}
@@ -911,17 +911,17 @@ export default function CommunityIssues() {
         id="track"
         ref={trackSectionRef}
         tabIndex={-1}
-        className="scroll-mt-28 rounded-2xl border border-gray-200 bg-white p-5 outline-none sm:p-7"
+        className="scroll-mt-28 rounded-2xl border border-line-soft bg-paper-raised p-5 outline-none sm:p-7"
       >
         <div className="mb-5 flex items-start gap-3">
-          <div className="rounded-xl bg-orange-50 p-3 text-[#ff6600]">
+          <div className="rounded-xl bg-tint p-3 text-ink">
             <Search size={23} />
           </div>
           <div>
-            <h2 className="text-xl font-semibold text-[#171717]">
+            <h2 className="text-xl font-semibold text-ink">
               {t("trackReportTitle")}
             </h2>
-            <p className="mt-1 text-sm leading-6 text-gray-500">
+            <p className="mt-1 text-sm leading-6 text-ink-subtle">
               {t("trackReportDescription")}
             </p>
           </div>
@@ -936,7 +936,7 @@ export default function CommunityIssues() {
           className="space-y-4"
         >
           <div>
-            <label htmlFor="ci-track" className="mb-2 block text-sm font-medium text-gray-700">
+            <label htmlFor="ci-track" className="mb-2 block text-sm font-medium text-ink-muted">
               {t("referenceOrTitleLabel")}
             </label>
             <input
@@ -968,7 +968,7 @@ export default function CommunityIssues() {
             icon={<Search size={16} />}
             label={t("trackReport")}
             pendingLabel={t("checking")}
-            className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#171717] px-5 py-3 text-sm font-semibold text-white hover:bg-gray-800 disabled:not-data-[phase=pending]:opacity-60"
+            className="inline-flex items-center justify-center gap-2 rounded-lg bg-ink px-5 py-3 text-sm font-semibold text-white hover:bg-ink-raised disabled:not-data-[phase=pending]:opacity-60"
           />
         </form>
 
@@ -978,7 +978,7 @@ export default function CommunityIssues() {
               key="tracking"
               {...swapTransition}
               aria-hidden="true"
-              className="mt-6 space-y-4 rounded-xl border border-gray-200 bg-gray-50 p-5"
+              className="mt-6 space-y-4 rounded-xl border border-line-soft bg-tint p-5"
             >
               <div className="flex justify-between">
                 <PendingValue className="h-4 w-36" />
@@ -993,10 +993,10 @@ export default function CommunityIssues() {
               key={trackedIssue.reference_code}
               {...swapTransition}
               aria-live="polite"
-              className="mt-6 rounded-xl border border-gray-200 bg-gray-50 p-5"
+              className="mt-6 rounded-xl border border-line-soft bg-tint p-5"
             >
               <div className="flex flex-wrap items-center justify-between gap-3">
-                <span className="text-sm font-semibold text-gray-800">
+                <span className="text-sm font-semibold text-ink">
                   {trackedIssue.reference_code}
                 </span>
                 <span className={`rounded-full px-3 py-1 text-xs font-semibold ${currentStatus.tone}`}>
@@ -1011,10 +1011,10 @@ export default function CommunityIssues() {
                     const reached = stepIndex >= index;
                     return (
                       <li key={step} className="space-y-1.5">
-                        <div className="h-1.5 overflow-hidden rounded-full bg-gray-200">
+                        <div className="h-1.5 overflow-hidden rounded-full bg-line-soft">
                           <motion.div
                             className={`h-full origin-left rounded-full ${
-                              trackedIssue.status === "closed" ? "bg-gray-400" : "bg-[#c94f00]"
+                              trackedIssue.status === "closed" ? "bg-ink-subtle" : "bg-signal"
                             }`}
                             initial={{ scaleX: 0 }}
                             animate={{
@@ -1025,7 +1025,7 @@ export default function CommunityIssues() {
                         </div>
                         <p
                           className={`text-[11px] leading-4 ${
-                            index === stepIndex ? "font-semibold text-gray-900" : "text-gray-500"
+                            index === stepIndex ? "font-semibold text-ink" : "text-ink-subtle"
                           }`}
                           aria-current={index === stepIndex ? "step" : undefined}
                         >
@@ -1035,11 +1035,11 @@ export default function CommunityIssues() {
                     );
                   })}
                 </ol>
-                <p className="mt-3 text-sm leading-6 text-gray-700">{t(currentStatus.help)}</p>
+                <p className="mt-3 text-sm leading-6 text-ink-muted">{t(currentStatus.help)}</p>
               </div>
 
-              <h3 className="mt-4 font-semibold text-gray-900">{trackedIssue.title}</h3>
-              <p className="mt-1 text-sm text-gray-500">
+              <h3 className="mt-4 font-semibold text-ink">{trackedIssue.title}</h3>
+              <p className="mt-1 text-sm text-ink-subtle">
                 {t(
                   categories.find((item) => item.value === trackedIssue.category)?.key ??
                     "categoryOther"
@@ -1047,28 +1047,28 @@ export default function CommunityIssues() {
               </p>
 
               {trackedIssue.public_summary && (
-                <div className="mt-4 rounded-lg bg-white p-4">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                <div className="mt-4 rounded-lg bg-paper-raised p-4">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-ink-subtle">
                     {t("reviewUpdateLabel")}
                   </p>
-                  <p className="mt-2 text-sm leading-6 text-gray-700">
+                  <p className="mt-2 text-sm leading-6 text-ink-muted">
                     {trackedIssue.public_summary}
                   </p>
                 </div>
               )}
 
               {trackedIssue.resolution_summary && (
-                <div className="mt-3 rounded-lg bg-white p-4">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                <div className="mt-3 rounded-lg bg-paper-raised p-4">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-ink-subtle">
                     {t("resolutionUpdateLabel")}
                   </p>
-                  <p className="mt-2 text-sm leading-6 text-gray-700">
+                  <p className="mt-2 text-sm leading-6 text-ink-muted">
                     {trackedIssue.resolution_summary}
                   </p>
                 </div>
               )}
 
-              <div className="mt-4 grid gap-2 border-t border-gray-200 pt-4 text-xs text-gray-500 sm:grid-cols-2">
+              <div className="mt-4 grid gap-2 border-t border-line-soft pt-4 text-xs text-ink-subtle sm:grid-cols-2">
                 <p>
                   {t("submittedDate")}{" "}
                   {new Date(trackedIssue.submitted_at).toLocaleString(locale, {
@@ -1089,9 +1089,9 @@ export default function CommunityIssues() {
         </AnimatePresence>
       </section>
 
-      <div className="flex items-start gap-3 rounded-xl border border-orange-100 bg-orange-50 p-4">
-        <MapPin size={19} className="mt-0.5 shrink-0 text-[#ff6600]" />
-        <p className="text-sm leading-6 text-gray-700">{t("communityAccountabilityNotice")}</p>
+      <div className="flex items-start gap-3 rounded-xl border border-signal/20 bg-tint p-4">
+        <MapPin size={19} className="mt-0.5 shrink-0 text-signal" />
+        <p className="text-sm leading-6 text-ink-muted">{t("communityAccountabilityNotice")}</p>
       </div>
     </div>
   );

@@ -20,7 +20,7 @@ import {
 export const instant = false;
 
 const progressStyles: Record<string, string> = {
-  not_started: "bg-gray-100 text-gray-700",
+  not_started: "bg-tint text-ink-muted",
   in_progress: "bg-blue-50 text-blue-700",
   partially_fulfilled: "bg-amber-50 text-amber-700",
   fulfilled: "bg-green-50 text-green-700",
@@ -72,7 +72,7 @@ export default async function PromiseTrackerPage() {
   ).length;
 
   return (
-    <main className="min-h-screen bg-[#f7f8f5]">
+    <main className="min-h-screen bg-paper">
       <PublicPageHero
         title={
           <>
@@ -81,7 +81,7 @@ export default async function PromiseTrackerPage() {
               ha="Bibiyi Alƙawuran Siyasa."
             />
             <br />
-            <span className="text-[#ff6600]">
+            <span className="text-signal">
               <LocalizedText
                 en="Follow Public Progress."
                 ha="Kasance da Sanin Ci Gaban Aiki."
@@ -99,33 +99,33 @@ export default async function PromiseTrackerPage() {
 
       <div className="mx-auto max-w-7xl space-y-10 px-5 py-10 sm:px-8">
         <section className="grid gap-4 sm:grid-cols-3">
-          <div className="rounded-xl border border-gray-200 bg-white p-5">
-            <Target className="text-[#ff6600]" size={23} />
-            <p className="mt-4 text-sm text-gray-500">
+          <div className="rounded-xl border border-line-soft bg-paper-raised p-5">
+            <Target className="text-signal" size={23} />
+            <p className="mt-4 text-sm text-ink-subtle">
               <LocalizedText en="Published promises" ha="Alƙawuran da aka wallafa" />
             </p>
-            <p className="mt-1 text-3xl font-bold text-[#171717]">{total}</p>
+            <p className="mt-1 text-3xl font-bold text-ink">{total}</p>
           </div>
 
-          <div className="rounded-xl border border-gray-200 bg-white p-5">
+          <div className="rounded-xl border border-line-soft bg-paper-raised p-5">
             <Clock3 className="text-blue-600" size={23} />
-            <p className="mt-4 text-sm text-gray-500">
+            <p className="mt-4 text-sm text-ink-subtle">
               <LocalizedText
                 en="In progress or partially fulfilled"
                 ha="Ana kan aiki ko an cika wani ɓangare"
               />
             </p>
-            <p className="mt-1 text-3xl font-bold text-[#171717]">
+            <p className="mt-1 text-3xl font-bold text-ink">
               {inProgress}
             </p>
           </div>
 
-          <div className="rounded-xl border border-gray-200 bg-white p-5">
+          <div className="rounded-xl border border-line-soft bg-paper-raised p-5">
             <CheckCircle2 className="text-green-600" size={23} />
-            <p className="mt-4 text-sm text-gray-500">
+            <p className="mt-4 text-sm text-ink-subtle">
               <LocalizedText en="Marked as fulfilled" ha="An nuna cewa an cika" />
             </p>
-            <p className="mt-1 text-3xl font-bold text-[#171717]">
+            <p className="mt-1 text-3xl font-bold text-ink">
               {fulfilled}
             </p>
           </div>
@@ -133,13 +133,13 @@ export default async function PromiseTrackerPage() {
 
         <section>
           <div className="mb-6">
-            <h2 className="text-2xl font-bold text-[#171717]">
+            <h2 className="text-2xl font-bold text-ink">
               <LocalizedText
                 en="Published political promises"
                 ha="Alƙawuran siyasa da aka wallafa"
               />
             </h2>
-            <p className="mt-2 text-sm text-gray-600">
+            <p className="mt-2 text-sm text-ink-muted">
               <LocalizedText
                 en="Only promises approved for public viewing are displayed."
                 ha="Alƙawuran da aka amince a nuna wa jama'a ne kawai ake nunawa."
@@ -155,15 +155,15 @@ export default async function PromiseTrackerPage() {
               />
             </div>
           ) : records.length === 0 ? (
-            <div className="rounded-xl border border-gray-200 bg-white p-10 text-center">
-              <Target className="mx-auto text-gray-400" size={32} />
-              <h3 className="mt-4 font-semibold text-[#171717]">
+            <div className="rounded-xl border border-line-soft bg-paper-raised p-10 text-center">
+              <Target className="mx-auto text-ink-subtle" size={32} />
+              <h3 className="mt-4 font-semibold text-ink">
                 <LocalizedText
                   en="No published promises yet"
                   ha="Babu alƙawuran da aka wallafa tukuna"
                 />
               </h3>
-              <p className="mt-2 text-sm text-gray-500">
+              <p className="mt-2 text-sm text-ink-subtle">
                 <LocalizedText
                   en="Published political commitments will appear here when they become available."
                   ha="Alƙawuran siyasa za su bayyana a nan idan an wallafa su."
@@ -200,33 +200,33 @@ export default async function PromiseTrackerPage() {
                 return (
                   <article
                     key={promise.id}
-                    className="rounded-xl border border-gray-200 bg-white p-6"
+                    className="rounded-xl border border-line-soft bg-paper-raised p-6"
                   >
                     <div className="flex flex-wrap items-center justify-between gap-3">
-                      <span className="rounded-full bg-orange-50 px-3 py-1 text-xs font-semibold capitalize text-[#ff6600]">
+                      <span className="rounded-full bg-tint px-3 py-1 text-xs font-semibold capitalize text-ink">
                         <LocalizedSector value={promise.sector} />
                       </span>
 
                       <span
                         className={`rounded-full px-3 py-1 text-xs font-semibold ${
                           progressStyles[promise.progress_status] ??
-                          "bg-gray-100 text-gray-700"
+                          "bg-tint text-ink-muted"
                         }`}
                       >
                         <LocalizedProgress value={promise.progress_status} />
                       </span>
                     </div>
 
-                    <h3 className="mt-5 text-xl font-bold text-[#171717]">
+                    <h3 className="mt-5 text-xl font-bold text-ink">
                       {promise.title}
                     </h3>
 
-                    <p className="mt-3 whitespace-pre-line text-sm leading-6 text-gray-600">
+                    <p className="mt-3 whitespace-pre-line text-sm leading-6 text-ink-muted">
                       {promise.description}
                     </p>
 
-                    <div className="mt-5 space-y-2 border-t border-gray-100 pt-4 text-sm">
-                      <p className="font-semibold text-[#171717]">
+                    <div className="mt-5 space-y-2 border-t border-line-soft pt-4 text-sm">
+                      <p className="font-semibold text-ink">
                         {candidate?.full_name ?? (
                           <LocalizedText
                             en="Candidate not specified"
@@ -234,7 +234,7 @@ export default async function PromiseTrackerPage() {
                           />
                         )}
                       </p>
-                      <p className="text-gray-600">
+                      <p className="text-ink-muted">
                         {candidacy?.office_title ?? (
                           <LocalizedText
                             en="Office not specified"
@@ -243,41 +243,41 @@ export default async function PromiseTrackerPage() {
                         )}
                       </p>
                       {party && (
-                        <p className="text-gray-500">
+                        <p className="text-ink-subtle">
                           {party.name}
                           {party.acronym ? ` (${party.acronym})` : ""}
                         </p>
                       )}
                       {election && (
-                        <p className="text-gray-500">
+                        <p className="text-ink-subtle">
                           {election.name} · {election.jurisdiction}
                         </p>
                       )}
                     </div>
 
-                    <div className="mt-5 grid grid-cols-2 gap-3 rounded-lg bg-gray-50 p-4 text-xs">
+                    <div className="mt-5 grid grid-cols-2 gap-3 rounded-lg bg-tint p-4 text-xs">
                       <div>
-                        <p className="text-gray-500">
+                        <p className="text-ink-subtle">
                           <LocalizedText en="Promise date" ha="Ranar alƙawari" />
                         </p>
-                        <p className="mt-1 font-semibold text-[#171717]">
+                        <p className="mt-1 font-semibold text-ink">
                           <LocalizedDate value={promise.promise_date} />
                         </p>
                       </div>
                       <div>
-                        <p className="text-gray-500">
+                        <p className="text-ink-subtle">
                           <LocalizedText en="Target date" ha="Ranar cimma buri" />
                         </p>
-                        <p className="mt-1 font-semibold text-[#171717]">
+                        <p className="mt-1 font-semibold text-ink">
                           <LocalizedDate value={promise.target_date} />
                         </p>
                       </div>
                     </div>
 
-                    <div className="mt-5 border-t border-gray-100 pt-4">
+                    <div className="mt-5 border-t border-line-soft pt-4">
                       <Link
                         href={`/promise-tracker/${promise.id}`}
-                        className="inline-flex items-center gap-2 text-sm font-semibold text-[#ff6600] hover:underline"
+                        className="inline-flex items-center gap-2 text-sm font-semibold text-ink hover:underline"
                       >
                         <LocalizedText
                           en="View full promise and progress history"
@@ -287,8 +287,8 @@ export default async function PromiseTrackerPage() {
                       </Link>
                     </div>
 
-                    <div className="mt-5 border-t border-gray-100 pt-4">
-                      <h4 className="font-semibold text-[#171717]">
+                    <div className="mt-5 border-t border-line-soft pt-4">
+                      <h4 className="font-semibold text-ink">
                         <LocalizedText
                           en="Approved progress updates"
                           ha="Sabbin bayanan ci gaba da aka amince da su"
@@ -297,7 +297,7 @@ export default async function PromiseTrackerPage() {
                       </h4>
 
                       {updates.length === 0 ? (
-                        <p className="mt-2 text-sm text-gray-500">
+                        <p className="mt-2 text-sm text-ink-subtle">
                           <LocalizedText
                             en="No approved progress updates have been published."
                             ha="Ba a wallafa wani sabon bayanin ci gaba da aka amince da shi ba."
@@ -308,15 +308,15 @@ export default async function PromiseTrackerPage() {
                           {updates.slice(0, 3).map((update) => (
                             <div
                               key={update.id}
-                              className="border-l-2 border-[#ff6600] pl-4"
+                              className="border-l-2 border-signal pl-4"
                             >
-                              <p className="text-xs text-gray-500">
+                              <p className="text-xs text-ink-subtle">
                                 <LocalizedDate value={update.update_date} />
                               </p>
-                              <p className="mt-1 text-sm font-semibold text-[#171717]">
+                              <p className="mt-1 text-sm font-semibold text-ink">
                                 {update.update_title}
                               </p>
-                              <p className="mt-1 text-sm leading-6 text-gray-600">
+                              <p className="mt-1 text-sm leading-6 text-ink-muted">
                                 {update.update_description}
                               </p>
                               {isPublicEvidenceUrl(update.evidence_url) && (
@@ -324,7 +324,7 @@ export default async function PromiseTrackerPage() {
                                   href={update.evidence_url}
                                   target="_blank"
                                   rel="noreferrer"
-                                  className="mt-2 inline-flex items-center gap-1 text-sm font-medium text-[#ff6600] hover:underline"
+                                  className="mt-2 inline-flex items-center gap-1 text-sm font-medium text-ink hover:underline"
                                 >
                                   <LocalizedText
                                     en="View evidence"
@@ -345,7 +345,7 @@ export default async function PromiseTrackerPage() {
           )}
         </section>
 
-        <p className="flex items-center gap-2 text-xs leading-5 text-gray-500">
+        <p className="flex items-center gap-2 text-xs leading-5 text-ink-subtle">
           <CalendarDays size={15} />
           <LocalizedText
             en="Progress information reflects updates reviewed and approved by authorised Aminiya Tracker electoral staff."

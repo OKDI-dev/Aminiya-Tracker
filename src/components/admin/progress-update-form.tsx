@@ -177,16 +177,16 @@ export default function ProgressUpdateForm({
   }
 
   const fieldClass =
-    "mt-2 w-full rounded-lg border border-gray-300 bg-white px-3 py-3 text-sm text-gray-900 outline-none focus:border-[#ff6600] focus:ring-1 focus:ring-[#ff6600]";
+    "mt-2 w-full rounded-lg border border-line bg-paper-raised px-3 py-3 text-sm text-ink outline-none focus:border-signal focus:ring-1 focus:ring-signal";
 
   return (
     <div className="mx-auto max-w-3xl space-y-6">
 
       <div>
-        <h1 className="text-2xl font-bold text-[#171717]">
+        <h1 className="text-2xl font-bold text-ink">
           Submit progress update
         </h1>
-        <p className="mt-2 text-sm text-gray-600">
+        <p className="mt-2 text-sm text-ink-muted">
           Record evidence of progress or challenges relating to a published political promise.
           The update will require review before it changes the public tracker.
         </p>
@@ -208,16 +208,16 @@ export default function ProgressUpdateForm({
       )}
 
       {promises.length === 0 ? (
-        <div className="rounded-xl border border-gray-200 bg-white p-6">
+        <div className="rounded-xl border border-line-soft bg-paper-raised p-6">
           No published promises are available. Publish a promise first.
         </div>
       ) : (
         <form
           onSubmit={handleSubmit}
-          className="space-y-5 rounded-xl border border-gray-200 bg-white p-5 sm:p-7"
+          className="space-y-5 rounded-xl border border-line-soft bg-paper-raised p-5 sm:p-7"
         >
           <div>
-            <label htmlFor="promise_id" className="text-sm font-medium text-gray-800">
+            <label htmlFor="promise_id" className="text-sm font-medium text-ink">
               Political promise *
             </label>
             <select
@@ -238,7 +238,7 @@ export default function ProgressUpdateForm({
           </div>
 
           <div>
-            <label htmlFor="update_title" className="text-sm font-medium text-gray-800">
+            <label htmlFor="update_title" className="text-sm font-medium text-ink">
               Update title *
             </label>
             <input
@@ -255,7 +255,7 @@ export default function ProgressUpdateForm({
           </div>
 
           <div>
-            <label htmlFor="update_description" className="text-sm font-medium text-gray-800">
+            <label htmlFor="update_description" className="text-sm font-medium text-ink">
               Evidence and progress description *
             </label>
             <textarea
@@ -270,14 +270,14 @@ export default function ProgressUpdateForm({
               placeholder="Describe what happened, when it happened, where it happened and what evidence supports this update."
               className={fieldClass}
             />
-            <p className="mt-1 text-xs text-gray-500">
+            <p className="mt-1 text-xs text-ink-subtle">
               {form.update_description.length}/10,000 characters
             </p>
           </div>
 
           <div className="grid gap-5 sm:grid-cols-2">
             <div>
-              <label htmlFor="progress_status" className="text-sm font-medium text-gray-800">
+              <label htmlFor="progress_status" className="text-sm font-medium text-ink">
                 Reported progress status *
               </label>
               <select
@@ -297,7 +297,7 @@ export default function ProgressUpdateForm({
             </div>
 
             <div>
-              <label htmlFor="update_date" className="text-sm font-medium text-gray-800">
+              <label htmlFor="update_date" className="text-sm font-medium text-ink">
                 Date of update *
               </label>
               <input
@@ -313,7 +313,7 @@ export default function ProgressUpdateForm({
           </div>
 
           <div>
-            <label htmlFor="evidence_url" className="text-sm font-medium text-gray-800">
+            <label htmlFor="evidence_url" className="text-sm font-medium text-ink">
               Public evidence URL
             </label>
             <input
@@ -325,7 +325,7 @@ export default function ProgressUpdateForm({
               placeholder="https://..."
               className={fieldClass}
             />
-            <p className="mt-2 text-xs leading-5 text-gray-500">
+            <p className="mt-2 text-xs leading-5 text-ink-subtle">
               Enter a publicly accessible HTTPS link, such as a published
               report, news article or official project page. Do not enter
               private storage links, signed download links or confidential
@@ -334,7 +334,7 @@ export default function ProgressUpdateForm({
           </div>
 
           <div>
-            <label htmlFor="source_id" className="text-sm font-medium text-gray-800">
+            <label htmlFor="source_id" className="text-sm font-medium text-ink">
               Verified electoral source (optional)
             </label>
             <select
@@ -353,16 +353,16 @@ export default function ProgressUpdateForm({
             </select>
           </div>
 
-          <div className="space-y-3 rounded-lg border border-gray-200 p-4">
+          <div className="space-y-3 rounded-lg border border-line-soft p-4">
             <div>
               <label
                 htmlFor="evidence_files"
-                className="flex items-center gap-2 text-sm font-semibold text-gray-800"
+                className="flex items-center gap-2 text-sm font-semibold text-ink"
               >
-                <Upload size={17} className="text-[#ff6600]" />
+                <Upload size={17} className="text-signal" />
                 Attach evidence files (optional)
               </label>
-              <p className="mt-1 text-xs leading-5 text-gray-500">
+              <p className="mt-1 text-xs leading-5 text-ink-subtle">
                 Up to 5 files per progress update. JPEG, PNG, WebP or PDF.
                 Maximum 10 MB per file. Files remain private unless separately
                 approved for public release.
@@ -376,7 +376,7 @@ export default function ProgressUpdateForm({
               multiple
               disabled={saving}
               onChange={(e) => handleFileSelection(e.target.files)}
-              className="block w-full text-sm text-gray-700 file:mr-3 file:rounded-lg file:border-0 file:bg-orange-50 file:px-4 file:py-2 file:font-medium file:text-[#e85d00] hover:file:bg-orange-100 disabled:opacity-60"
+              className="block w-full text-sm text-ink-muted file:mr-3 file:rounded-lg file:border-0 file:bg-tint file:px-4 file:py-2 file:font-medium file:text-ink hover:file:bg-signal/15 disabled:opacity-60"
             />
 
             {files.length > 0 && (
@@ -384,13 +384,13 @@ export default function ProgressUpdateForm({
                 {files.map((file, index) => (
                   <li
                     key={`${file.name}-${file.size}-${index}`}
-                    className="flex items-center justify-between gap-3 rounded-lg bg-gray-50 px-3 py-2"
+                    className="flex items-center justify-between gap-3 rounded-lg bg-tint px-3 py-2"
                   >
                     <div className="flex min-w-0 items-center gap-2">
-                      <FileText size={16} className="shrink-0 text-gray-500" />
+                      <FileText size={16} className="shrink-0 text-ink-subtle" />
                       <div className="min-w-0">
-                        <p className="truncate text-sm text-gray-800">{file.name}</p>
-                        <p className="text-xs text-gray-500">
+                        <p className="truncate text-sm text-ink">{file.name}</p>
+                        <p className="text-xs text-ink-subtle">
                           {(file.size / (1024 * 1024)).toFixed(2)} MB
                         </p>
                       </div>
@@ -400,7 +400,7 @@ export default function ProgressUpdateForm({
                       disabled={saving}
                       onClick={() => removeFile(index)}
                       aria-label={`Remove ${file.name}`}
-                      className="rounded p-1 text-gray-500 hover:bg-red-50 hover:text-red-600 disabled:opacity-50"
+                      className="rounded p-1 text-ink-subtle hover:bg-red-50 hover:text-red-600 disabled:opacity-50"
                     >
                       <X size={16} />
                     </button>
@@ -410,21 +410,21 @@ export default function ProgressUpdateForm({
             )}
 
             {createdUpdateId && (
-              <p className="text-xs font-medium text-orange-700">
+              <p className="text-xs font-medium text-ink">
                 Progress update created. You are now completing its evidence upload.
               </p>
             )}
           </div>
 
-          <div className="rounded-lg border border-orange-100 bg-orange-50 p-4 text-sm text-gray-700">
+          <div className="rounded-lg border border-signal/20 bg-tint p-4 text-sm text-ink-muted">
             This submission will remain pending until an electoral reviewer approves or rejects it.
           </div>
 
-          <div className="flex justify-end border-t border-gray-100 pt-5">
+          <div className="flex justify-end border-t border-line-soft pt-5">
             <button
               type="submit"
               disabled={saving || (!!createdUpdateId && files.length === 0)}
-              className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#c94f00] px-5 py-3 text-sm font-semibold text-white hover:bg-[#a84300] disabled:opacity-60"
+              className="inline-flex items-center justify-center gap-2 rounded-lg bg-signal px-5 py-3 text-sm font-semibold text-ink hover:bg-signal-hover disabled:opacity-60"
             >
               {saving ? (
                 <Loader2 size={16} className="animate-spin" />

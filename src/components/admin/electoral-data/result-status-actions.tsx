@@ -47,8 +47,8 @@ export default function ResultStatusActions({
           onClick={() => change(action.status)}
           className={
             action.primary
-              ? "rounded-md bg-[#c94f00] px-2.5 py-1.5 text-xs font-semibold text-white hover:bg-[#a84300]"
-              : "rounded-md border border-gray-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-gray-700 hover:border-[#ff6600] hover:text-[#ff6600]"
+              ? "rounded-md bg-signal px-2.5 py-1.5 text-xs font-semibold text-ink hover:bg-signal-hover"
+              : "rounded-md border border-line-soft bg-paper-raised px-2.5 py-1.5 text-xs font-semibold text-ink-muted hover:border-signal hover:text-ink"
           }
         >
           {action.label}

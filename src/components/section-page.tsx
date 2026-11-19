@@ -14,26 +14,26 @@ export default function SectionPage({
   status,
 }: SectionPageProps) {
   return (
-    <main className="min-h-screen bg-[#f7f7f7] px-5 py-16 text-[#171717] sm:px-8">
+    <main className="min-h-screen bg-paper px-5 py-16 text-ink sm:px-8">
       <div className="mx-auto max-w-3xl">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 text-sm font-medium text-[#d95300] hover:text-[#a84000]"
+          className="inline-flex items-center gap-2 text-sm font-medium text-ink underline-offset-4 hover:underline"
         >
           <ArrowLeft size={17} />
           Back to Home
         </Link>
 
-        <div className="mt-12 rounded-2xl border border-[#e7e7e7] bg-white p-7 sm:p-10">
+        <div className="mt-12 rounded-2xl border border-line-soft bg-paper-raised p-7 sm:p-10">
            <h1 className="mt-5 text-3xl font-semibold tracking-tight sm:text-4xl">
             {title}
           </h1>
 
-          <p className="mt-5 leading-8 text-[#666]">{description}</p>
+          <p className="mt-5 leading-8 text-ink-muted">{description}</p>
 
-          <div className="mt-8 rounded-xl border border-[#ffcfad] bg-[#fff8f2] p-5">
+          <div className="mt-8 rounded-xl border border-signal/25 bg-tint/60 p-5">
             <p className="font-semibold">{status}</p>
-            <p className="mt-2 text-sm leading-6 text-[#666]">
+            <p className="mt-2 text-sm leading-6 text-ink-muted">
               This section is part of the Aminiya Tracker development plan.
               Its complete functionality will be implemented in subsequent
               development steps.
@@ -42,7 +42,7 @@ export default function SectionPage({
 
           <Link
             href="/"
-            className="mt-8 inline-flex items-center justify-center rounded-lg bg-[#c94f00] px-5 py-3 font-semibold text-white hover:bg-[#a84300]"
+            className="mt-8 inline-flex items-center justify-center rounded-lg bg-signal px-5 py-3 font-semibold text-ink hover:bg-signal-hover"
           >
             Return to homepage
           </Link>

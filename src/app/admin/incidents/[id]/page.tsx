@@ -83,18 +83,18 @@ export default async function IncidentDetailPage({
   );
 
   return (
-    <main className="min-h-screen bg-[#f7f8f5]">
-      <header className="border-b border-gray-200 bg-white">
+    <main className="min-h-screen bg-paper">
+      <header className="border-b border-line-soft bg-paper-raised">
         <div className="mx-auto max-w-5xl px-5 py-4 sm:px-8">
           <div className="mt-3 flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-orange-50 text-[#ff6600]">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-tint text-ink">
               <FileWarning size={22} />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-[#171717]">
+              <h1 className="text-xl font-bold text-ink">
                 Incident details
               </h1>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-ink-subtle">
                 Aminiya Tracker · Review workspace
               </p>
             </div>
@@ -103,9 +103,9 @@ export default async function IncidentDetailPage({
       </header>
 
       <div className="mx-auto max-w-5xl space-y-6 px-5 py-8 sm:px-8">
-        <section className="rounded-xl border border-gray-200 bg-white p-5 sm:p-7">
+        <section className="rounded-xl border border-line-soft bg-paper-raised p-5 sm:p-7">
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <span className="text-sm font-semibold text-[#ff6600]">
+            <span className="text-sm font-semibold text-ink">
               {categoryLabels[incident.category] ?? incident.category}
             </span>
             <OptimisticStatusBadge
@@ -115,35 +115,35 @@ export default async function IncidentDetailPage({
             />
           </div>
 
-          <h2 className="mt-5 text-lg font-semibold text-[#171717]">
+          <h2 className="mt-5 text-lg font-semibold text-ink">
             Original report
           </h2>
-          <p className="mt-3 whitespace-pre-wrap text-sm leading-7 text-gray-700">
+          <p className="mt-3 whitespace-pre-wrap text-sm leading-7 text-ink-muted">
             {incident.description}
           </p>
 
-          <div className="mt-6 grid gap-4 border-t border-gray-100 pt-5 sm:grid-cols-2">
+          <div className="mt-6 grid gap-4 border-t border-line-soft pt-5 sm:grid-cols-2">
             <div>
-              <p className="text-xs text-gray-500">Incident date</p>
-              <p className="mt-1 text-sm font-medium text-[#171717]">
+              <p className="text-xs text-ink-subtle">Incident date</p>
+              <p className="mt-1 text-sm font-medium text-ink">
                 {formatDate(incident.incident_time)}
               </p>
             </div>
             <div>
-              <p className="text-xs text-gray-500">Submitted</p>
-              <p className="mt-1 text-sm font-medium text-[#171717]">
+              <p className="text-xs text-ink-subtle">Submitted</p>
+              <p className="mt-1 text-sm font-medium text-ink">
                 {formatDate(incident.created_at)}
               </p>
             </div>
             <div>
-              <p className="text-xs text-gray-500">Last updated</p>
-              <p className="mt-1 text-sm font-medium text-[#171717]">
+              <p className="text-xs text-ink-subtle">Last updated</p>
+              <p className="mt-1 text-sm font-medium text-ink">
                 {formatDate(incident.updated_at)}
               </p>
             </div>
             <div>
-              <p className="text-xs text-gray-500">Incident reference</p>
-              <p className="mt-1 break-all text-sm font-medium text-[#171717]">
+              <p className="text-xs text-ink-subtle">Incident reference</p>
+              <p className="mt-1 break-all text-sm font-medium text-ink">
                 {incident.id}
               </p>
             </div>
@@ -152,10 +152,10 @@ export default async function IncidentDetailPage({
 
         {incident.verification_notes && (
           <section className="rounded-xl border border-amber-200 bg-amber-50 p-5">
-            <h3 className="font-semibold text-[#171717]">
+            <h3 className="font-semibold text-ink">
               Internal verification notes
             </h3>
-            <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-gray-700">
+            <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-ink-muted">
               {incident.verification_notes}
             </p>
             <p className="mt-3 text-xs text-amber-800">
@@ -166,8 +166,8 @@ export default async function IncidentDetailPage({
 
         {incident.public_summary && (
           <section className="rounded-xl border border-green-200 bg-green-50 p-5">
-            <h3 className="font-semibold text-[#171717]">Public summary</h3>
-            <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-gray-700">
+            <h3 className="font-semibold text-ink">Public summary</h3>
+            <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-ink-muted">
               {incident.public_summary}
             </p>
           </section>
@@ -178,14 +178,14 @@ export default async function IncidentDetailPage({
           status={incident.status}
         />
 
-        <section className="rounded-xl border border-gray-200 bg-white p-5 sm:p-7">
-          <h3 className="font-semibold text-[#171717]">Review history</h3>
-          <p className="mt-1 text-sm text-gray-500">
+        <section className="rounded-xl border border-line-soft bg-paper-raised p-5 sm:p-7">
+          <h3 className="font-semibold text-ink">Review history</h3>
+          <p className="mt-1 text-sm text-ink-subtle">
             Recorded actions and status changes for this incident.
           </p>
 
           {(!reviews || reviews.length === 0) ? (
-            <p className="py-8 text-center text-sm text-gray-500">
+            <p className="py-8 text-center text-sm text-ink-subtle">
               No review actions have been recorded yet.
             </p>
           ) : (
@@ -193,19 +193,19 @@ export default async function IncidentDetailPage({
               {reviews.map((review) => (
                 <div
                   key={review.id}
-                  className="border-l-2 border-[#ff6600] pl-4"
+                  className="border-l-2 border-signal pl-4"
                 >
-                  <p className="text-sm font-semibold capitalize text-[#171717]">
+                  <p className="text-sm font-semibold capitalize text-ink">
                     {review.previous_status.replaceAll("_", " ")}{" "}
-                    <span className="text-gray-400">→</span>{" "}
+                    <span className="text-ink-subtle">→</span>{" "}
                     {review.new_status.replaceAll("_", " ")}
                   </p>
-                  <p className="mt-1 text-xs text-gray-500">
+                  <p className="mt-1 text-xs text-ink-subtle">
                     {reviewerNames.get(review.created_by) ?? "Staff member"} ·{" "}
                     {formatDate(review.created_at)}
                   </p>
                   {review.action_notes && (
-                    <p className="mt-2 whitespace-pre-wrap text-sm leading-6 text-gray-600">
+                    <p className="mt-2 whitespace-pre-wrap text-sm leading-6 text-ink-muted">
                       {review.action_notes}
                     </p>
                   )}

@@ -58,7 +58,7 @@ export default function SourceRecordActions({
     <div className="flex flex-wrap gap-2">
       <Link
         href={`/admin/electoral-data/sources/${sourceId}`}
-        className="rounded-md border border-gray-200 px-2.5 py-1.5 text-xs font-semibold text-gray-700 hover:border-[#ff6600] hover:text-[#ff6600]"
+        className="rounded-md border border-line-soft px-2.5 py-1.5 text-xs font-semibold text-ink-muted hover:border-signal hover:text-ink"
       >
         Edit
       </Link>

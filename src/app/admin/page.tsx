@@ -130,11 +130,11 @@ export default async function AdminDashboard() {
   return (
     <main className="mx-auto max-w-7xl space-y-8 px-4 py-8 sm:px-8">
       <section>
-        <p className="text-sm font-semibold tracking-[0.12em] text-[#e85d00] uppercase">Dashboard</p>
-        <h1 className="mt-2 text-3xl font-semibold text-[#171717] sm:text-4xl">
+        <p className="text-sm font-semibold tracking-[0.12em] text-ink uppercase">Dashboard</p>
+        <h1 className="mt-2 text-3xl font-semibold text-ink sm:text-4xl">
           {greeting}, {displayName}
         </h1>
-        <p className="mt-2 max-w-2xl text-[15px] text-[#666]">
+        <p className="mt-2 max-w-2xl text-[15px] text-ink-muted">
           {awaiting > 0
             ? `${awaiting.toLocaleString("en-NG")} item${awaiting === 1 ? "" : "s"} across the platform need a decision.`
             : "Everything is reviewed. Nothing is waiting on you right now."}
@@ -151,31 +151,31 @@ export default async function AdminDashboard() {
 
       <div className="grid gap-6 xl:grid-cols-[1.25fr_1fr]">
         {/* Work queue */}
-        <section className="rounded-2xl border border-black/[0.06] bg-white">
-          <header className="flex items-center justify-between border-b border-black/[0.06] px-5 py-4">
+        <section className="rounded-2xl border border-ink/[0.06] bg-paper-raised">
+          <header className="flex items-center justify-between border-b border-ink/[0.06] px-5 py-4">
             <div>
-              <h2 className="text-lg font-semibold text-[#171717]">Work queue</h2>
-              <p className="text-sm text-[#777]">Everything waiting for staff, most urgent first.</p>
+              <h2 className="text-lg font-semibold text-ink">Work queue</h2>
+              <p className="text-sm text-ink-subtle">Everything waiting for staff, most urgent first.</p>
             </div>
           </header>
-          <ul className="divide-y divide-black/[0.05]">
+          <ul className="divide-y divide-ink/[0.05]">
             {queue.map((item) => {
               const Icon = item.icon;
               const empty = !item.count;
               return (
                 <li key={item.label}>
-                  <Link href={item.href} className="group flex items-center gap-4 px-5 py-3.5 hover:bg-black/[0.02]">
-                    <span className={`flex size-10 shrink-0 items-center justify-center rounded-xl ${empty ? "bg-[#f3f3f3] text-[#999]" : item.urgent ? "bg-[#fff0e5] text-[#e85d00]" : "bg-[#eef4ff] text-[#2563eb]"}`}>
+                  <Link href={item.href} className="group flex items-center gap-4 px-5 py-3.5 hover:bg-ink/[0.02]">
+                    <span className={`flex size-10 shrink-0 items-center justify-center rounded-xl ${empty ? "bg-tint text-ink-subtle" : item.urgent ? "bg-tint text-ink" : "bg-[#eef4ff] text-[#2563eb]"}`}>
                       <Icon size={19} />
                     </span>
                     <span className="min-w-0 flex-1">
-                      <span className={`block text-sm font-semibold ${empty ? "text-[#888]" : "text-[#171717]"}`}>{item.label}</span>
-                      <span className="block truncate text-[13px] text-[#888]">{item.detail}</span>
+                      <span className={`block text-sm font-semibold ${empty ? "text-ink-subtle" : "text-ink"}`}>{item.label}</span>
+                      <span className="block truncate text-[13px] text-ink-subtle">{item.detail}</span>
                     </span>
-                    <span className={`min-w-10 rounded-full px-2.5 py-1 text-center text-sm font-semibold tabular-nums ${empty ? "text-[#aaa]" : "bg-[#171717] text-white"}`}>
+                    <span className={`min-w-10 rounded-full px-2.5 py-1 text-center text-sm font-semibold tabular-nums ${empty ? "text-ink-subtle" : "bg-ink text-white"}`}>
                       {item.count === null ? "—" : item.count.toLocaleString("en-NG")}
                     </span>
-                    <ArrowRight size={16} className="shrink-0 text-[#bbb] transition-transform group-hover:translate-x-0.5 group-hover:text-[#171717]" />
+                    <ArrowRight size={16} className="shrink-0 text-ink-subtle transition-transform group-hover:translate-x-0.5 group-hover:text-ink" />
                   </Link>
                 </li>
               );
@@ -226,7 +226,7 @@ export default async function AdminDashboard() {
 
       {/* Quick actions */}
       <section>
-        <h2 className="mb-3 text-lg font-semibold text-[#171717]">Quick actions</h2>
+        <h2 className="mb-3 text-lg font-semibold text-ink">Quick actions</h2>
         <div className="flex flex-wrap gap-2">
           {[
             { label: "Add election", href: "/admin/electoral-data/elections/new" },
@@ -240,7 +240,7 @@ export default async function AdminDashboard() {
             <Link
               key={action.href}
               href={action.href}
-              className="inline-flex items-center gap-1.5 rounded-full border border-black/10 bg-white px-4 py-2 text-sm font-medium text-[#333] hover:border-[#ff6600] hover:text-[#c24e00]"
+              className="inline-flex items-center gap-1.5 rounded-full border border-ink/10 bg-paper-raised px-4 py-2 text-sm font-medium text-ink-muted hover:border-signal hover:text-ink"
             >
               <Plus size={15} /> {action.label}
             </Link>
@@ -265,30 +265,30 @@ function StatTile({
   tone?: "accent";
 }) {
   return (
-    <div className={`rounded-2xl border p-5 ${tone === "accent" ? "border-[#ffd2b3] bg-[#fff6ef]" : "border-black/[0.06] bg-white"}`}>
+    <div className={`rounded-2xl border p-5 ${tone === "accent" ? "border-signal/25 bg-tint/60" : "border-ink/[0.06] bg-paper-raised"}`}>
       <div className="flex items-center justify-between">
-        <p className="text-sm font-medium text-[#555]">{label}</p>
-        <Icon size={18} className={tone === "accent" ? "text-[#e85d00]" : "text-[#999]"} aria-hidden="true" />
+        <p className="text-sm font-medium text-ink-muted">{label}</p>
+        <Icon size={18} className={tone === "accent" ? "text-ink" : "text-ink-subtle"} aria-hidden="true" />
       </div>
-      <p className="mt-3 text-4xl font-semibold tracking-tight text-[#171717] tabular-nums">
+      <p className="mt-3 text-4xl font-semibold tracking-tight text-ink tabular-nums">
         {value.toLocaleString("en-NG")}
       </p>
-      <p className="mt-1 text-[13px] text-[#888]">{hint}</p>
+      <p className="mt-1 text-[13px] text-ink-subtle">{hint}</p>
     </div>
   );
 }
 
 function MiniStat({ label, value, href, icon: Icon }: { label: string; value: number | null; href: string; icon: LucideIcon }) {
   return (
-    <Link href={href} className="group flex items-center gap-4 rounded-2xl border border-black/[0.06] bg-white p-4 hover:border-black/15">
-      <span className="flex size-10 items-center justify-center rounded-xl bg-[#f4f4f4] text-[#555]">
+    <Link href={href} className="group flex items-center gap-4 rounded-2xl border border-ink/[0.06] bg-paper-raised p-4 hover:border-ink/15">
+      <span className="flex size-10 items-center justify-center rounded-xl bg-tint text-ink-muted">
         <Icon size={18} />
       </span>
       <span className="min-w-0 flex-1">
-        <span className="block text-2xl font-semibold text-[#171717] tabular-nums">{value === null ? "—" : value.toLocaleString("en-NG")}</span>
-        <span className="block truncate text-[13px] text-[#777]">{label}</span>
+        <span className="block text-2xl font-semibold text-ink tabular-nums">{value === null ? "—" : value.toLocaleString("en-NG")}</span>
+        <span className="block truncate text-[13px] text-ink-subtle">{label}</span>
       </span>
-      <ArrowRight size={16} className="text-[#bbb] transition-transform group-hover:translate-x-0.5 group-hover:text-[#171717]" />
+      <ArrowRight size={16} className="text-ink-subtle transition-transform group-hover:translate-x-0.5 group-hover:text-ink" />
     </Link>
   );
 }
@@ -303,18 +303,18 @@ function Breakdown({ title, href, segments }: { title: string; href: string; seg
   const unavailable = segments.every((segment) => segment.value === null);
 
   return (
-    <section className="rounded-2xl border border-black/[0.06] bg-white p-5">
+    <section className="rounded-2xl border border-ink/[0.06] bg-paper-raised p-5">
       <div className="flex items-baseline justify-between gap-3">
-        <h2 className="text-base font-semibold text-[#171717]">{title}</h2>
-        <Link href={href} className="shrink-0 text-sm font-medium text-[#c24e00] hover:text-[#e85d00]">
+        <h2 className="text-base font-semibold text-ink">{title}</h2>
+        <Link href={href} className="shrink-0 text-sm font-medium text-ink underline-offset-4 hover:underline">
           View all
         </Link>
       </div>
-      <p className="mt-0.5 text-[13px] text-[#888]">
+      <p className="mt-0.5 text-[13px] text-ink-subtle">
         {unavailable ? "Counts unavailable" : `${total.toLocaleString("en-NG")} total`}
       </p>
 
-      <div className="mt-4 flex h-3 w-full gap-[2px] overflow-hidden rounded-full bg-[#f1f1f1]" aria-hidden="true">
+      <div className="mt-4 flex h-3 w-full gap-[2px] overflow-hidden rounded-full bg-tint" aria-hidden="true">
         {total > 0
           ? segments
               .filter((segment) => (segment.value ?? 0) > 0)
@@ -333,12 +333,12 @@ function Breakdown({ title, href, segments }: { title: string; href: string; seg
         {segments.map((segment) => (
           <li key={segment.key} className="flex items-center gap-2 text-[13px]">
             <span className="size-2.5 shrink-0 rounded-full" style={{ backgroundColor: segment.color }} aria-hidden="true" />
-            <span className="min-w-0 flex-1 truncate text-[#555]">{segment.label}</span>
-            <span className="font-semibold text-[#171717] tabular-nums">
+            <span className="min-w-0 flex-1 truncate text-ink-muted">{segment.label}</span>
+            <span className="font-semibold text-ink tabular-nums">
               {segment.value === null ? "—" : segment.value.toLocaleString("en-NG")}
             </span>
             {total > 0 && segment.value !== null ? (
-              <span className="w-9 text-right text-[#999] tabular-nums">{Math.round((segment.value / total) * 100)}%</span>
+              <span className="w-9 text-right text-ink-subtle tabular-nums">{Math.round((segment.value / total) * 100)}%</span>
             ) : null}
           </li>
         ))}
@@ -350,12 +350,12 @@ function Breakdown({ title, href, segments }: { title: string; href: string; seg
 const statusChip: Record<string, string> = {
   submitted: "bg-blue-50 text-blue-700",
   under_review: "bg-amber-50 text-amber-700",
-  action_required: "bg-orange-50 text-orange-700",
+  action_required: "bg-tint text-ink",
   resolved: "bg-green-50 text-green-700",
   verified: "bg-teal-50 text-teal-700",
   published: "bg-green-50 text-green-700",
-  closed: "bg-gray-100 text-gray-600",
-  dismissed: "bg-gray-100 text-gray-600",
+  closed: "bg-tint text-ink-muted",
+  dismissed: "bg-tint text-ink-muted",
 };
 
 function RecentList({
@@ -370,25 +370,25 @@ function RecentList({
   rows: { id: string; href: string; primary: string; secondary: string; status: string }[];
 }) {
   return (
-    <section className="rounded-2xl border border-black/[0.06] bg-white">
-      <header className="flex items-center justify-between border-b border-black/[0.06] px-5 py-4">
-        <h2 className="text-base font-semibold text-[#171717]">{title}</h2>
-        <Link href={href} className="text-sm font-medium text-[#c24e00] hover:text-[#e85d00]">
+    <section className="rounded-2xl border border-ink/[0.06] bg-paper-raised">
+      <header className="flex items-center justify-between border-b border-ink/[0.06] px-5 py-4">
+        <h2 className="text-base font-semibold text-ink">{title}</h2>
+        <Link href={href} className="text-sm font-medium text-ink underline-offset-4 hover:underline">
           View all
         </Link>
       </header>
       {rows.length === 0 ? (
-        <p className="px-5 py-10 text-center text-sm text-[#888]">{empty}</p>
+        <p className="px-5 py-10 text-center text-sm text-ink-subtle">{empty}</p>
       ) : (
-        <ul className="divide-y divide-black/[0.05]">
+        <ul className="divide-y divide-ink/[0.05]">
           {rows.map((row) => (
             <li key={row.id}>
-              <Link href={row.href} className="flex items-center gap-3 px-5 py-3 hover:bg-black/[0.02]">
+              <Link href={row.href} className="flex items-center gap-3 px-5 py-3 hover:bg-ink/[0.02]">
                 <span className="min-w-0 flex-1">
-                  <span className="block truncate text-sm font-medium text-[#171717] capitalize">{row.primary}</span>
-                  <span className="block truncate text-[13px] text-[#888]">{row.secondary}</span>
+                  <span className="block truncate text-sm font-medium text-ink capitalize">{row.primary}</span>
+                  <span className="block truncate text-[13px] text-ink-subtle">{row.secondary}</span>
                 </span>
-                <span className={`shrink-0 rounded-full px-2.5 py-1 text-xs font-medium capitalize ${statusChip[row.status] ?? "bg-gray-100 text-gray-600"}`}>
+                <span className={`shrink-0 rounded-full px-2.5 py-1 text-xs font-medium capitalize ${statusChip[row.status] ?? "bg-tint text-ink-muted"}`}>
                   {row.status.replaceAll("_", " ")}
                 </span>
               </Link>

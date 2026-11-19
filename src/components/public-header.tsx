@@ -23,6 +23,7 @@ import { useCommandMenu, isMacLike } from "@/components/navigation/command-menu"
 import { Sheet } from "@/components/ui/sheet";
 import { springs } from "@/lib/motion";
 import { useSafeTriangleMenu } from "@/hooks/use-safe-triangle-menu";
+import ReportMenu, { reportDestinations } from "@/components/report-menu";
 import logo from "../../public/aminiya-logo-png.png";
 
 type MenuId = "electoral" | "community";
@@ -147,14 +148,14 @@ export default function PublicHeader() {
       data-scrolled={scrolled}
       className="material-chrome scroll-edge sticky top-0 z-50"
     >
-      <div className="mx-auto flex min-h-[72px] max-w-7xl items-center justify-between gap-4 px-4 sm:px-8">
+      <div className="mx-auto flex min-h-[72px] max-w-7xl items-center justify-between gap-4 px-4 sm:px-8 xl:px-6">
         <Link href="/" aria-label="Aminiya Tracker home" className="shrink-0" data-nav="lateral">
           <Image
             src={logo}
             alt="Aminiya Tracker"
             priority
             placeholder="blur"
-            className="h-auto w-[150px] sm:w-[170px]"
+            className="h-auto w-[124px] min-[400px]:w-[140px] sm:w-[170px] xl:w-[150px] 2xl:w-[165px]"
           />
         </Link>
 
@@ -183,17 +184,17 @@ export default function PublicHeader() {
                     data-nav="lateral"
                     onClick={closeMenu}
                     aria-current={activeTop?.href === link.href ? "page" : undefined}
-                    className={`relative rounded-full px-3 py-2 text-sm whitespace-nowrap transition-colors ${
+                    className={`relative rounded-full px-3 py-2 text-sm whitespace-nowrap transition-colors xl:px-2.5 ${
                       activeTop?.href === link.href
-                        ? "font-semibold text-[#a84300]"
-                        : "text-[#3d3d3d] hover:text-[#171717]"
-                    } ${hasMenu ? "pr-1.5" : ""}`}
+                        ? "font-semibold text-ink"
+                        : "text-ink-muted hover:text-ink"
+                    } ${hasMenu ? "pr-1.5 xl:pr-1.5" : ""}`}
                   >
                     {activeTop?.href === link.href ? (
                       <motion.span
                         layoutId="nav-active-pill"
                         transition={springs.snappy}
-                        className="absolute inset-0 -z-10 rounded-full bg-[#fff0e5]"
+                        className="absolute inset-0 -z-10 rounded-full bg-tint"
                       />
                     ) : null}
                     {link.label}
@@ -205,7 +206,7 @@ export default function PublicHeader() {
                       aria-controls={flyoutId}
                       aria-label={t("navShowPages").replace("{label}", link.label)}
                       onClick={() => setActiveMenu(expanded ? null : menuId)}
-                      className="flex size-7 items-center justify-center rounded-full text-[#777] hover:bg-black/5 hover:text-[#171717]"
+                      className="flex size-7 items-center justify-center rounded-full text-ink-subtle hover:bg-ink/5 hover:text-ink"
                     >
                       <motion.span
                         animate={{ rotate: expanded ? 180 : 0 }}
@@ -232,7 +233,7 @@ export default function PublicHeader() {
                 exit={{ opacity: 0, y: -4, scale: 0.98, filter: "blur(4px)", transition: springs.exit }}
                 transition={springs.default}
                 style={{ transformOrigin: "top left" }}
-                className="material-thick absolute top-[calc(100%+12px)] left-0 w-[420px] overflow-hidden rounded-2xl border border-black/5 p-2 shadow-[0_24px_60px_-20px_rgb(0_0_0/0.3)]"
+                className="material-thick absolute top-[calc(100%+12px)] left-0 w-[420px] overflow-hidden rounded-2xl border border-ink/5 p-2 shadow-[0_24px_60px_-20px_rgb(0_0_0/0.3)]"
               >
                 <AnimatePresence mode="popLayout" initial={false}>
                   <motion.ul
@@ -250,17 +251,17 @@ export default function PublicHeader() {
                           <Link
                             href={item.href}
                             onClick={closeMenu}
-                            className="group flex gap-3 rounded-xl p-3 hover:bg-black/[0.04] focus-visible:bg-black/[0.04]"
+                            className="group flex gap-3 rounded-xl p-3 hover:bg-ink/[0.04] focus-visible:bg-ink/[0.04]"
                           >
-                            <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-[#fff0e5] text-[#a84300]">
+                            <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-tint text-ink">
                               <Icon size={18} />
                             </span>
                             <span className="min-w-0">
-                              <span className="flex items-center gap-1 text-sm font-semibold text-[#171717]">
+                              <span className="flex items-center gap-1 text-sm font-semibold text-ink">
                                 {item.title}
                                 <ArrowUpRight size={14} className="opacity-0 transition-opacity group-hover:opacity-60" />
                               </span>
-                              <span className="mt-0.5 block text-[13px] leading-5 text-[#666]">
+                              <span className="mt-0.5 block text-[13px] leading-5 text-ink-muted">
                                 {item.description}
                               </span>
                             </span>
@@ -275,7 +276,7 @@ export default function PublicHeader() {
           </AnimatePresence>
         </nav>
 
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex shrink-0 items-center gap-2 sm:gap-3 xl:gap-2 2xl:gap-3">
           <button
             type="button"
             onClick={commandMenu.open}
@@ -283,32 +284,27 @@ export default function PublicHeader() {
             onFocus={commandMenu.prefetch}
             aria-label={t("navSearch")}
             aria-keyshortcuts={mac ? "Meta+K" : "Control+K"}
-            className="flex h-10 items-center gap-2 rounded-full border border-black/10 bg-white/60 px-3 text-sm text-[#666] hover:border-black/20 hover:text-[#171717] sm:pr-2"
+            className="flex h-10 items-center gap-2 rounded-full border border-ink/10 bg-paper-raised/60 px-3 text-sm text-ink-muted hover:border-ink/20 hover:text-ink sm:pr-2"
           >
             <Search size={16} />
-            <span className="hidden 2xl:inline">{t("navSearch")}</span>
-            <kbd className="hidden rounded-md border border-black/10 bg-black/[0.03] px-1.5 py-0.5 font-sans text-[11px] whitespace-nowrap text-[#777] lg:inline">
+            <kbd className="hidden rounded-md border border-ink/10 bg-ink/[0.03] px-1.5 py-0.5 font-sans text-[11px] whitespace-nowrap text-ink-subtle lg:inline xl:hidden">
               {mac ? "⌘K" : "Ctrl K"}
             </kbd>
           </button>
 
-          <div className="hidden sm:block">
+          {/* Always in the header: Hausa readers shouldn't have to find it in a menu. */}
+          <div>
             <LanguageSwitch id="header" language={language} setLanguage={setLanguage} label={t("language")} />
           </div>
 
-          <Link
-            href="/community-issues"
-            className="hidden rounded-full bg-[#c94f00] px-4 py-2.5 text-sm font-semibold whitespace-nowrap text-white hover:bg-[#a84300] sm:inline-flex"
-          >
-            {t("reportIssue")}
-          </Link>
+          <ReportMenu variant="header" />
 
           <button
             type="button"
             onClick={openMobileMenu}
             aria-label={t("openNavigation")}
             aria-expanded={mobileOpen}
-            className="flex size-10 items-center justify-center rounded-full border border-black/10 bg-white/60 xl:hidden"
+            className="flex size-10 items-center justify-center rounded-full border border-ink/10 bg-paper-raised/60 xl:hidden"
           >
             <Menu size={20} />
           </button>
@@ -319,20 +315,26 @@ export default function PublicHeader() {
         open={mobileOpen}
         onOpenChange={setMobileOpen}
         title="Aminiya Tracker"
-        description={t("mobileNavigation")}
         footer={
           <div className="flex flex-col gap-2">
-            <div className="flex items-center justify-between rounded-2xl bg-black/[0.03] px-4 py-2.5">
-              <span className="text-sm text-[#666]">{t("language")}</span>
-              <LanguageSwitch id="sheet" language={language} setLanguage={setLanguage} label={t("language")} />
+            {/* In the sheet both report types are one tap away instead of behind a menu. */}
+            <p className="px-1 pt-1 text-xs font-semibold text-ink-muted">{t("reportIssue")}</p>
+            <div className="grid grid-cols-2 gap-2">
+              {[
+                { href: reportDestinations.community, icon: MessageSquareText, label: t("reportMenuCommunityTitle") },
+                { href: reportDestinations.incident, icon: ShieldAlert, label: t("reportMenuIncidentTitle") },
+              ].map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setMobileOpen(false)}
+                  className="flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-ink px-3 text-center text-[15px] leading-tight font-semibold text-white active:bg-ink-raised"
+                >
+                  <item.icon size={17} className="shrink-0 text-signal" aria-hidden="true" />
+                  {item.label}
+                </Link>
+              ))}
             </div>
-            <Link
-              href="/community-issues"
-              onClick={() => setMobileOpen(false)}
-              className="flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-[#c94f00] text-[16px] font-semibold text-white active:bg-[#a84300]"
-            >
-              {t("reportIssue")}
-            </Link>
           </div>
         }
       >
@@ -356,7 +358,7 @@ export default function PublicHeader() {
                     onClick={() => setMobileOpen(false)}
                     aria-current={current ? "page" : undefined}
                     className={`flex min-h-12 flex-1 items-center rounded-2xl px-4 text-[17px] ${
-                      current ? "bg-[#fff0e5] font-semibold text-[#a84300]" : "text-[#222] active:bg-black/5"
+                      current ? "bg-tint font-semibold text-ink" : "text-ink-muted active:bg-ink/5"
                     }`}
                   >
                     {link.label}
@@ -368,7 +370,7 @@ export default function PublicHeader() {
                       aria-expanded={expanded}
                       aria-controls={expanded ? panelId : undefined}
                       aria-label={t("navShowPages").replace("{label}", link.label)}
-                      className="flex size-11 shrink-0 items-center justify-center rounded-full text-[#666] active:bg-black/5"
+                      className="flex size-11 shrink-0 items-center justify-center rounded-full text-ink-muted active:bg-ink/5"
                     >
                       <motion.span
                         animate={{ rotate: expanded ? 180 : 0 }}
@@ -396,7 +398,7 @@ export default function PublicHeader() {
                       transition={reduceMotion ? { duration: 0.15 } : springs.default}
                       className="overflow-hidden"
                     >
-                      <div className="ml-4 flex flex-col border-l border-black/10 pt-0.5 pb-1 pl-2">
+                      <div className="ml-4 flex flex-col border-l border-ink/10 pt-0.5 pb-1 pl-2">
                         {sub.map((item) => {
                           const itemCurrent =
                             !item.href.includes("#") && pathname === item.href;
@@ -406,11 +408,11 @@ export default function PublicHeader() {
                               href={item.href}
                               onClick={() => setMobileOpen(false)}
                               aria-current={itemCurrent ? "page" : undefined}
-                              className={`flex min-h-11 items-center gap-2.5 rounded-xl px-3 text-[15px] active:bg-black/5 ${
-                                itemCurrent ? "font-semibold text-[#a84300]" : "text-[#555]"
+                              className={`flex min-h-11 items-center gap-2.5 rounded-xl px-3 text-[15px] active:bg-ink/5 ${
+                                itemCurrent ? "font-semibold text-ink" : "text-ink-muted"
                               }`}
                             >
-                              <item.icon size={16} className="text-[#a84300]" />
+                              <item.icon size={16} className="text-ink" />
                               {item.title}
                             </Link>
                           );
@@ -444,7 +446,7 @@ function LanguageSwitch({
       <div
         role="group"
         aria-label={label}
-        className="relative flex items-center gap-0.5 rounded-full border border-black/10 bg-white/60 p-1"
+        className="relative flex items-center rounded-full border border-ink/10 bg-paper-raised/60 p-0.5"
       >
         {(["en", "ha"] as const).map((code) => {
           const selected = language === code;
@@ -454,15 +456,15 @@ function LanguageSwitch({
               type="button"
               onClick={() => setLanguage(code)}
               aria-pressed={selected}
-              className={`relative rounded-full px-3 py-1.5 text-xs font-semibold tracking-wide ${
-                selected ? "text-white" : "text-[#555] hover:text-[#171717]"
+              className={`relative flex h-10 min-w-10 items-center justify-center rounded-full px-2.5 text-xs font-semibold tracking-wide sm:h-9 sm:px-3 ${
+                selected ? "text-white" : "text-ink-muted hover:text-ink"
               }`}
             >
               {selected ? (
                 <motion.span
                   layoutId="lang-pill"
                   transition={springs.snappy}
-                  className="absolute inset-0 rounded-full bg-[#c94f00]"
+                  className="absolute inset-0 rounded-full bg-ink"
                 />
               ) : null}
               <span className="relative">{code.toUpperCase()}</span>

@@ -82,16 +82,16 @@ export default function CandidateForm() {
   }
 
   const inputClass =
-    "mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-900 outline-none focus:border-[#ff6600] focus:ring-2 focus:ring-orange-100";
+    "mt-1 w-full rounded-lg border border-line bg-paper-raised px-3 py-2.5 text-sm text-ink outline-none focus:border-signal focus:ring-2 focus:ring-signal/20";
 
   return (
     <form
       onSubmit={handleSubmit}
       encType="multipart/form-data"
-      className="space-y-5 rounded-xl border border-gray-200 bg-white p-5 sm:p-7"
+      className="space-y-5 rounded-xl border border-line-soft bg-paper-raised p-5 sm:p-7"
     >
       <div>
-        <label htmlFor="full_name" className="text-sm font-medium text-gray-800">
+        <label htmlFor="full_name" className="text-sm font-medium text-ink">
           Full name *
         </label>
         <input
@@ -105,17 +105,17 @@ export default function CandidateForm() {
       </div>
 
       <div>
-        <label htmlFor="photo" className="text-sm font-medium text-gray-800">
+        <label htmlFor="photo" className="text-sm font-medium text-ink">
           Candidate photograph
         </label>
 
-        <div className="mt-2 flex flex-col gap-4 rounded-xl border border-dashed border-gray-300 p-4 sm:flex-row sm:items-center">
-          <div className="flex h-28 w-28 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-gray-100">
+        <div className="mt-2 flex flex-col gap-4 rounded-xl border border-dashed border-line p-4 sm:flex-row sm:items-center">
+          <div className="flex h-28 w-28 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-tint">
             {preview ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={preview} alt="Candidate photo preview" className="h-full w-full object-cover" />
             ) : (
-              <span className="text-xs text-gray-400">Photo preview</span>
+              <span className="text-xs text-ink-subtle">Photo preview</span>
             )}
           </div>
 
@@ -126,20 +126,20 @@ export default function CandidateForm() {
               type="file"
               accept="image/jpeg,image/png,image/webp"
               onChange={handlePhotoChange}
-              className="block w-full text-sm text-gray-600 file:mr-3 file:rounded-lg file:border-0 file:bg-orange-50 file:px-4 file:py-2 file:font-medium file:text-[#e85d00] hover:file:bg-orange-100"
+              className="block w-full text-sm text-ink-muted file:mr-3 file:rounded-lg file:border-0 file:bg-tint file:px-4 file:py-2 file:font-medium file:text-ink hover:file:bg-signal/15"
             />
-            <p className="mt-2 text-xs text-gray-500">
+            <p className="mt-2 text-xs text-ink-subtle">
               JPG, PNG or WebP. Maximum file size: 5 MB.
             </p>
             {fileName && (
-              <p className="mt-1 truncate text-xs text-gray-700">{fileName}</p>
+              <p className="mt-1 truncate text-xs text-ink-muted">{fileName}</p>
             )}
           </div>
         </div>
       </div>
 
       <div>
-        <label htmlFor="biography" className="text-sm font-medium text-gray-800">
+        <label htmlFor="biography" className="text-sm font-medium text-ink">
           Biography
         </label>
         <textarea
@@ -150,11 +150,11 @@ export default function CandidateForm() {
           className={inputClass}
           placeholder="Provide a factual biography, background and relevant public experience."
         />
-        <p className="mt-1 text-xs text-gray-500">Maximum 10,000 characters.</p>
+        <p className="mt-1 text-xs text-ink-subtle">Maximum 10,000 characters.</p>
       </div>
 
       <div>
-        <label htmlFor="official_profile_url" className="text-sm font-medium text-gray-800">
+        <label htmlFor="official_profile_url" className="text-sm font-medium text-ink">
           Official profile URL
         </label>
         <input
@@ -168,7 +168,7 @@ export default function CandidateForm() {
       </div>
 
       <div>
-        <label htmlFor="publication_status" className="text-sm font-medium text-gray-800">
+        <label htmlFor="publication_status" className="text-sm font-medium text-ink">
           Publication status
         </label>
         <select
@@ -181,7 +181,7 @@ export default function CandidateForm() {
           <option value="published">Published</option>
           <option value="archived">Archived</option>
         </select>
-        <p className="mt-1 text-xs text-gray-500">
+        <p className="mt-1 text-xs text-ink-subtle">
           Only published candidate profiles are visible to the public.
         </p>
       </div>
@@ -192,18 +192,18 @@ export default function CandidateForm() {
         </div>
       )}
 
-      <div className="flex flex-wrap justify-end gap-3 border-t border-gray-100 pt-5">
+      <div className="flex flex-wrap justify-end gap-3 border-t border-line-soft pt-5">
         <button
           type="button"
           onClick={() => router.back()}
-          className="rounded-lg border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
+          className="rounded-lg border border-line px-4 py-2.5 text-sm font-medium text-ink-muted hover:bg-tint"
         >
           Cancel
         </button>
         <button
           type="submit"
           disabled={loading}
-          className="rounded-lg bg-[#c94f00] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#a84300] disabled:cursor-not-allowed disabled:opacity-60"
+          className="rounded-lg bg-signal px-5 py-2.5 text-sm font-semibold text-ink hover:bg-signal-hover disabled:cursor-not-allowed disabled:opacity-60"
         >
           {loading ? "Saving..." : "Save Candidate"}
         </button>

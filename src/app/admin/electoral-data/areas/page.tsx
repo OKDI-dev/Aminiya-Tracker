@@ -28,13 +28,13 @@ export default async function ElectoralAreasPage() {
   const error = stateResult.error ?? areasResult.error;
 
   return (
-    <main className="min-h-screen bg-[#f7f8f5] p-5 sm:p-8">
+    <main className="min-h-screen bg-paper p-5 sm:p-8">
       <div className="mx-auto max-w-7xl space-y-6">
         <div>
-          <h1 className="mt-3 text-2xl font-bold text-[#171717]">
+          <h1 className="mt-3 text-2xl font-bold text-ink">
             Electoral Areas
           </h1>
-          <p className="mt-1 text-sm text-gray-600">
+          <p className="mt-1 text-sm text-ink-muted">
             Browse Gombe State by Local Government Area and ward. Polling-unit
             data will be added when available.
           </p>
