@@ -72,18 +72,18 @@ export function SpringDialog({
                     exit={{ opacity: 0, scale: 0.97, y: 6, filter: "blur(4px)", transition: springs.exit }}
                     transition={springs.default}
                     className={cn(
-                      "pointer-events-auto data-closed:pointer-events-none w-full max-w-md rounded-2xl border border-black/5 bg-white shadow-[0_24px_64px_-16px_rgb(0_0_0/0.3)] outline-none",
+                      "pointer-events-auto data-closed:pointer-events-none w-full max-w-md rounded-2xl border border-ink/5 bg-paper-raised shadow-[0_24px_64px_-16px_rgb(0_0_0/0.3)] outline-none",
                       className
                     )}
                   />
                 }
               >
                 <div className={cn(hideTitle && "sr-only")}>
-                  <DialogPrimitive.Title className="text-lg font-semibold text-[#171717]">
+                  <DialogPrimitive.Title className="text-lg font-semibold text-ink">
                     {title}
                   </DialogPrimitive.Title>
                   {description ? (
-                    <DialogPrimitive.Description className="mt-2 text-sm leading-6 text-[#5f5f5f]">
+                    <DialogPrimitive.Description className="mt-2 text-sm leading-6 text-ink-muted">
                       {description}
                     </DialogPrimitive.Description>
                   ) : null}

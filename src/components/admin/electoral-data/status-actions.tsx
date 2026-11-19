@@ -34,7 +34,7 @@ export default function StatusActions({ table, id, status }: Props) {
   });
 
   const buttonClass =
-    "rounded-md border border-gray-200 bg-white px-2.5 py-1.5 text-xs font-medium text-gray-700 hover:border-[#ff6600] hover:text-[#e85d00]";
+    "rounded-md border border-line-soft bg-paper-raised px-2.5 py-1.5 text-xs font-medium text-ink-muted hover:border-signal hover:text-ink";
 
   return (
     <div className="flex min-w-[150px] flex-wrap gap-2">
@@ -42,7 +42,7 @@ export default function StatusActions({ table, id, status }: Props) {
         <button
           type="button"
           onClick={() => change("published")}
-          className="rounded-md bg-[#c94f00] px-2.5 py-1.5 text-xs font-semibold text-white hover:bg-[#a84300]"
+          className="rounded-md bg-signal px-2.5 py-1.5 text-xs font-semibold text-ink hover:bg-signal-hover"
         >
           Publish
         </button>

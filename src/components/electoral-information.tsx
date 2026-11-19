@@ -2,12 +2,13 @@
 
 import { notify } from "@/components/notifications/notify";
 import ElectionIncidents from "@/components/election-incidents";
+import BrandRings from "@/components/brand-rings";
 import ElectionResults from "@/components/election-results";
 
 import { motion } from "motion/react";
 import { BlurImage } from "@/components/ui/blur-image";
 import { CardGridSkeleton } from "@/components/skeletons";
-import { springs } from "@/lib/motion";
+import { prefersReducedMotion, springs } from "@/lib/motion";
 import { usePublicData } from "@/lib/swr";
 import {
   DIRECTORY_KEY,
@@ -208,15 +209,31 @@ const [activeTab, setActiveTab] = useState<Section>("education");
   // Allow navbar and command-menu links to open a specific Electoral Information section.
   useEffect(() => {
     const syncSectionFromHash = () => {
+      // "#report-incident" (from the Report menu) opens the incidents section
+      // and brings the report form itself into view.
+      const reportIncident = window.location.hash === "#report-incident";
       const match = window.location.hash.match(/^#section-(education|candidates|results|incidents|insights)$/);
-      if (!match) return;
+      if (!match && !reportIncident) return;
 
-      const section = match[1] as Section;
+      const section = (reportIncident ? "incidents" : match![1]) as Section;
       startTransition(() => {
         setActiveTab(section);
         setSearch("");
         setCategory("All topics");
       });
+
+      if (reportIncident) {
+        let tries = 0;
+        const reveal = () => {
+          const form = document.getElementById("report-incident");
+          if (form) {
+            form.scrollIntoView({ behavior: prefersReducedMotion() ? "auto" : "smooth", block: "start" });
+          } else if (tries++ < 20) {
+            requestAnimationFrame(reveal);
+          }
+        };
+        requestAnimationFrame(reveal);
+      }
     };
 
     syncSectionFromHash();
@@ -274,28 +291,29 @@ const [activeTab, setActiveTab] = useState<Section>("education");
     activeTab === "education" ? null : sections[activeTab];
 
   return (
-    <main className="min-h-screen bg-[#f7f7f7] text-[#171717]">
-      <section className="border-b border-[#e8e8e8] bg-white">
-        <div className="mx-auto max-w-7xl px-5 py-8 sm:px-8 sm:py-12">
+    <main className="min-h-screen bg-paper text-ink">
+      <section className="relative isolate overflow-hidden bg-ink text-white">
+        <BrandRings className="top-1/2 left-[92%] hidden sm:block" size={900} />
+        <div className="mx-auto max-w-7xl px-5 py-10 sm:px-8 sm:py-16">
 
           <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
             <div className="max-w-3xl">
-               <h1 className="text-3xl font-semibold tracking-tight sm:text-5xl">
+              <h1 className="font-heading text-[clamp(2rem,6.5vw,3.5rem)] leading-[1.02] font-extrabold tracking-[-0.035em]">
                 {t("electoralHeroTitle")}
                 <br />
-                <span className="text-[#ff6600]">
+                <span className="text-signal">
                   {t("electoralHeroSubtitle")}
                 </span>
               </h1>
 
-              <p className="mt-5 max-w-2xl text-base leading-7 text-[#666] sm:text-lg sm:leading-8">
+              <p className="mt-5 max-w-2xl text-base leading-7 text-on-ink-muted sm:text-lg sm:leading-8">
                 {t("electoralHeroDescription")}
               </p>
 
               <div className="mt-6">
                 <Link
                   href="/elections"
-                  className="inline-flex min-h-11 items-center gap-2 rounded-lg bg-[#c94f00] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#a84300]"
+                  className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-signal px-6 py-3 text-sm font-bold text-ink transition hover:bg-signal-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
                 >
                   {t("exploreElections")}
                   <ArrowRight size={17} />
@@ -303,13 +321,13 @@ const [activeTab, setActiveTab] = useState<Section>("education");
               </div>
             </div>
 
-            <div className="rounded-xl border border-[#e8e8e8] bg-[#fafafa] p-4 lg:w-64">
-              <div className="flex items-center gap-2 text-sm font-semibold">
-                <MapPin size={17} className="text-[#e85d00]" />
+            <div className="rounded-2xl border border-white/10 bg-paper-raised/[0.04] p-5 lg:w-64">
+              <div className="flex items-center gap-2 text-sm font-semibold text-on-ink-muted">
+                <MapPin size={17} className="text-signal" />
                 {t("initialFocus")}
               </div>
               <p className="mt-2 text-lg font-semibold">{t("gombeState")}</p>
-              <p className="mt-1 text-sm leading-6 text-[#777]">
+              <p className="mt-1 text-sm leading-6 text-on-ink-muted">
                 {t("expandToStates")}
               </p>
             </div>
@@ -321,7 +339,7 @@ const [activeTab, setActiveTab] = useState<Section>("education");
         <div
           role="tablist"
           aria-label="Electoral information categories"
-          className="flex gap-2 overflow-x-auto border-b border-[#e3e3e3] pb-3"
+          className="flex gap-2 overflow-x-auto border-b border-line-soft pb-3"
         >
           {tabs.map((tab) => (
             <button
@@ -338,15 +356,15 @@ const [activeTab, setActiveTab] = useState<Section>("education");
               }}
               className={`relative shrink-0 rounded-lg px-4 py-3 text-sm font-medium transition-colors ${
                 activeTab === tab.id
-                  ? "text-white"
-                  : "bg-white text-[#555] hover:bg-[#fff0e5] hover:text-[#b94a00]"
+                  ? "font-semibold text-ink"
+                  : "bg-paper-raised text-ink-muted hover:bg-tint hover:text-ink"
               }`}
             >
               {activeTab === tab.id ? (
                 <motion.span
                   layoutId="electoral-tab-pill"
                   transition={springs.snappy}
-                  className="absolute inset-0 rounded-lg bg-[#c94f00]"
+                  className="absolute inset-0 rounded-lg bg-signal"
                 />
               ) : null}
               <span className="relative">
@@ -369,7 +387,7 @@ const [activeTab, setActiveTab] = useState<Section>("education");
                   <h2 className="text-2xl font-semibold tracking-tight">
                     {t("civicEducation")}
                   </h2>
-                  <p className="mt-2 max-w-2xl text-sm leading-6 text-[#777]">
+                  <p className="mt-2 max-w-2xl text-sm leading-6 text-ink-subtle">
                     {t("civicEducationDescription")}
                   </p>
                 </div>
@@ -379,13 +397,13 @@ const [activeTab, setActiveTab] = useState<Section>("education");
                     <span className="sr-only">{t("searchEducationalGuides")}</span>
                     <Search
                       size={18}
-                      className="absolute left-3 top-1/2 -translate-y-1/2 text-[#888]"
+                      className="absolute left-3 top-1/2 -translate-y-1/2 text-ink-subtle"
                     />
                     <input
                       value={search}
                       onChange={(event) => setSearch(event.target.value)}
                       placeholder={t("searchTopics")}
-                      className="min-h-11 w-full rounded-lg border border-[#ddd] bg-white py-2 pl-10 pr-4 text-sm outline-none focus:border-[#ff6600] sm:w-56"
+                      className="min-h-11 w-full rounded-lg border border-line bg-paper-raised py-2 pl-10 pr-4 text-sm outline-none focus:border-signal sm:w-56"
                     />
                   </label>
 
@@ -394,7 +412,7 @@ const [activeTab, setActiveTab] = useState<Section>("education");
                     <select
                       value={category}
                       onChange={(event) => setCategory(event.target.value)}
-                      className="min-h-11 w-full appearance-none rounded-lg border border-[#ddd] bg-white py-2 pl-3 pr-9 text-sm outline-none focus:border-[#ff6600] sm:w-52"
+                      className="min-h-11 w-full appearance-none rounded-lg border border-line bg-paper-raised py-2 pl-3 pr-9 text-sm outline-none focus:border-signal sm:w-52"
                     >
                       <option value="All topics">{t("allTopics")}</option>
                       {localizedLessons.map((lesson) => (
@@ -405,7 +423,7 @@ const [activeTab, setActiveTab] = useState<Section>("education");
                     </select>
                     <ChevronDown
                       size={16}
-                      className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[#888]"
+                      className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-ink-subtle"
                     />
                   </label>
                 </div>
@@ -419,13 +437,13 @@ const [activeTab, setActiveTab] = useState<Section>("education");
                   return (
                     <article
                       key={lesson.href}
-                      className="rounded-2xl border border-[#e7e7e7] bg-white p-6 transition hover:border-[#ffbd91] sm:p-7"
+                      className="rounded-2xl border border-line-soft bg-paper-raised p-6 transition hover:border-signal/50 sm:p-7"
                     >
                       <div className="flex items-start justify-between gap-4">
-                        <div className="flex size-12 items-center justify-center rounded-xl bg-[#fff0e5] text-[#e85d00]">
+                        <div className="flex size-12 items-center justify-center rounded-xl bg-tint text-ink">
                           <Icon size={24} />
                         </div>
-                        <span className="rounded-full bg-[#f4f4f4] px-3 py-1.5 text-xs text-[#666]">
+                        <span className="rounded-full bg-tint px-3 py-1.5 text-xs text-ink-muted">
                           {lesson.displayCategory}
                         </span>
                       </div>
@@ -433,48 +451,48 @@ const [activeTab, setActiveTab] = useState<Section>("education");
                       <h3 className="mt-5 text-xl font-semibold">
                         {lesson.displayTitle}
                       </h3>
-                      <p className="mt-3 text-sm leading-7 text-[#666]">
+                      <p className="mt-3 text-sm leading-7 text-ink-muted">
                         {lesson.displayDescription}
                       </p>
 
                       {isExpanded && (
-                        <div className="mt-5 rounded-xl bg-[#faf9f7] p-4">
+                        <div className="mt-5 rounded-xl bg-paper p-4">
                           <h4 className="font-semibold">{t("keyTopics")}</h4>
                           <ul className="mt-3 space-y-2">
                             {lesson.displayTopics.map((topic) => (
                               <li
                                 key={topic}
-                                className="flex items-center gap-2 text-sm text-[#555]"
+                                className="flex items-center gap-2 text-sm text-ink-muted"
                               >
                                 <CheckCircle2
                                   size={16}
-                                  className="shrink-0 text-[#e85d00]"
+                                  className="shrink-0 text-ink"
                                 />
                                 {topic}
                               </li>
                             ))}
                           </ul>
-                          <p className="mt-4 text-xs leading-5 text-[#777]">
+                          <p className="mt-4 text-xs leading-5 text-ink-subtle">
                             {t("introductoryTopicSummary")}
                           </p>
                         </div>
                       )}
 
-                      <div className="mt-6 flex items-center justify-between gap-3 border-t border-[#eee] pt-4">
-                        <span className="flex items-center gap-2 text-xs text-[#777]">
+                      <div className="mt-6 flex items-center justify-between gap-3 border-t border-line-soft pt-4">
+                        <span className="flex items-center gap-2 text-xs text-ink-subtle">
                           <CalendarDays size={15} />
                           {lesson.displayReading}
                         </span>
                         {lesson.href ? (
                           <Link
                             href={lesson.href}
-                            className="inline-flex items-center gap-2 text-sm font-semibold text-[#d95300] hover:text-[#a84000]"
+                            className="inline-flex items-center gap-2 text-sm font-semibold text-ink underline-offset-4 hover:underline"
                           >
                             {t("exploreTopic")}
                             <ArrowRight size={16} />
                           </Link>
                         ) : (
-                          <span className="text-xs text-[#999]">
+                          <span className="text-xs text-ink-subtle">
                             {t("comingSoon")}
                           </span>
                         )}
@@ -485,10 +503,10 @@ const [activeTab, setActiveTab] = useState<Section>("education");
               </div>
 
               {filteredLessons.length === 0 && (
-                <div className="mt-8 rounded-2xl border border-dashed border-[#ddd] bg-white px-6 py-12 text-center">
-                  <Search size={28} className="mx-auto text-[#999]" />
+                <div className="mt-8 rounded-2xl border border-dashed border-line bg-paper-raised px-6 py-12 text-center">
+                  <Search size={28} className="mx-auto text-ink-subtle" />
                   <h3 className="mt-4 font-semibold">{t("noTopicsFound")}</h3>
-                  <p className="mt-2 text-sm text-[#777]">
+                  <p className="mt-2 text-sm text-ink-subtle">
                     {t("tryAnotherSearch")}
                   </p>
                   <button
@@ -497,28 +515,28 @@ const [activeTab, setActiveTab] = useState<Section>("education");
                       setSearch("");
                       setCategory("All topics");
                     }}
-                    className="mt-4 text-sm font-semibold text-[#d95300]"
+                    className="mt-4 text-sm font-semibold text-ink"
                   >
                     {t("clearFilters")}
                   </button>
                 </div>
               )}
 
-              <div className="mt-8 flex items-start gap-3 rounded-xl border border-[#f0d9c8] bg-[#fffaf6] p-4 sm:p-5">
+              <div className="mt-8 flex items-start gap-3 rounded-xl border border-signal/25 bg-tint/60 p-4 sm:p-5">
                 <Info
                   size={20}
-                  className="mt-0.5 shrink-0 text-[#d95300]"
+                  className="mt-0.5 shrink-0 text-ink"
                 />
                 <div>
                   <h3 className="font-semibold">{t("useReliableInformation")}</h3>
-                  <p className="mt-1 text-sm leading-6 text-[#666]">
+                  <p className="mt-1 text-sm leading-6 text-ink-muted">
                     {t("electoralRulesNotice")}
                   </p>
                   <a
                     href="https://www.inecnigeria.org/"
                     target="_blank"
                     rel="noreferrer"
-                    className="mt-2 inline-flex items-center gap-2 text-sm font-semibold text-[#d95300]"
+                    className="mt-2 inline-flex items-center gap-2 text-sm font-semibold text-ink"
                   >
                     {t("visitInecWebsite")}
                     <ArrowRight size={15} />
@@ -532,22 +550,22 @@ const [activeTab, setActiveTab] = useState<Section>("education");
     {recordsLoading ? (
       <CardGridSkeleton media count={6} label="Loading electoral records…" />
     ) : recordsLoadFailed ? (
-      <div className="rounded-2xl border border-gray-200 bg-white p-6 text-center">
-        <p className="font-medium text-gray-700">
+      <div className="rounded-2xl border border-line-soft bg-paper-raised p-6 text-center">
+        <p className="font-medium text-ink-muted">
           Electoral records are temporarily unavailable.
         </p>
         <div className="mt-4 flex flex-wrap justify-center gap-3">
           <button
             type="button"
             onClick={() => void reloadDirectory()}
-            className="rounded-lg bg-[#c94f00] px-5 py-2 text-sm font-semibold text-white hover:bg-[#a84300]"
+            className="rounded-lg bg-signal px-5 py-2 text-sm font-semibold text-ink hover:bg-signal-hover"
           >
             {t("tryAgain")}
           </button>
           <button
             type="button"
             onClick={() => setActiveTab("education")}
-            className="rounded-lg border border-gray-200 px-5 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50"
+            className="rounded-lg border border-line-soft px-5 py-2 text-sm font-semibold text-ink-muted hover:bg-tint"
           >
             Return to Civic Education
           </button>
@@ -558,27 +576,24 @@ const [activeTab, setActiveTab] = useState<Section>("education");
         <section className="space-y-5">
           <div className="flex flex-wrap items-end justify-between gap-3">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-wider text-[#ff6600]">
-                {t("electoralDirectory")}
-              </p>
-              <h2 className="mt-1 text-2xl font-bold text-[#171717]">
+              <h2 className="text-2xl font-bold text-ink">
                 {t("candidates")}
               </h2>
-              <p className="mt-2 text-sm text-gray-600">
+              <p className="mt-2 text-sm text-ink-muted">
                 {t("candidateProfilesDescription")}
               </p>
             </div>
-            <span className="rounded-full bg-orange-50 px-4 py-2 text-sm font-semibold text-[#ff6600]">
+            <span className="rounded-full bg-tint px-4 py-2 text-sm font-semibold text-ink">
               {candidates.length} {t("candidateCount")}
             </span>
           </div>
 
           {candidates.length === 0 ? (
-            <div className="rounded-2xl border border-dashed border-gray-300 bg-white p-8 text-center">
-              <h3 className="font-semibold text-gray-800">
+            <div className="rounded-2xl border border-dashed border-line bg-paper-raised p-8 text-center">
+              <h3 className="font-semibold text-ink">
                 {t("noPublishedCandidates")}
               </h3>
-              <p className="mt-2 text-sm text-gray-500">
+              <p className="mt-2 text-sm text-ink-subtle">
                 {t("candidateProfilesPending")}
               </p>
             </div>
@@ -587,9 +602,9 @@ const [activeTab, setActiveTab] = useState<Section>("education");
               {candidates.map((candidate) => (
                 <article
                   key={candidate.id}
-                  className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm"
+                  className="overflow-hidden rounded-2xl border border-line-soft bg-paper-raised shadow-sm"
                 >
-                  <div className="relative flex h-44 items-center justify-center bg-gray-100">
+                  <div className="relative flex h-44 items-center justify-center bg-tint">
                     {candidate.photo_url ? (
                       <BlurImage
                         src={candidate.photo_url}
@@ -600,16 +615,16 @@ const [activeTab, setActiveTab] = useState<Section>("education");
                         className="object-cover"
                       />
                     ) : (
-                      <div className="flex h-20 w-20 items-center justify-center rounded-full bg-orange-100 text-3xl font-bold text-[#ff6600]">
+                      <div className="flex h-20 w-20 items-center justify-center rounded-full bg-signal/15 text-3xl font-bold text-ink">
                         {candidate.full_name.charAt(0).toUpperCase()}
                       </div>
                     )}
                   </div>
                   <div className="space-y-3 p-5">
-                    <h3 className="text-lg font-bold text-[#171717]">
+                    <h3 className="text-lg font-bold text-ink">
                       {candidate.full_name}
                     </h3>
-                    <p className="text-sm leading-6 text-gray-600">
+                    <p className="text-sm leading-6 text-ink-muted">
                       {candidate.biography || t("noBiography")}
                     </p>
                     {candidate.official_profile_url && (
@@ -617,7 +632,7 @@ const [activeTab, setActiveTab] = useState<Section>("education");
                         href={candidate.official_profile_url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex text-sm font-semibold text-[#ff6600] hover:underline"
+                        className="inline-flex text-sm font-semibold text-ink hover:underline"
                       >
                         {t("viewOfficialProfile")} →
                       </a>
@@ -632,27 +647,24 @@ const [activeTab, setActiveTab] = useState<Section>("education");
         <section className="space-y-5">
           <div className="flex flex-wrap items-end justify-between gap-3">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-wider text-[#ff6600]">
-                {t("politicalOrganisations")}
-              </p>
-              <h2 className="mt-1 text-2xl font-bold text-[#171717]">
+              <h2 className="text-2xl font-bold text-ink">
                 {t("politicalParties")}
               </h2>
-              <p className="mt-2 text-sm text-gray-600">
+              <p className="mt-2 text-sm text-ink-muted">
                 {t("politicalPartiesDescription")}
               </p>
             </div>
-            <span className="rounded-full bg-orange-50 px-4 py-2 text-sm font-semibold text-[#ff6600]">
+            <span className="rounded-full bg-tint px-4 py-2 text-sm font-semibold text-ink">
               {parties.length} {t("partyCount")}
             </span>
           </div>
 
           {parties.length === 0 ? (
-            <div className="rounded-2xl border border-dashed border-gray-300 bg-white p-8 text-center">
-              <h3 className="font-semibold text-gray-800">
+            <div className="rounded-2xl border border-dashed border-line bg-paper-raised p-8 text-center">
+              <h3 className="font-semibold text-ink">
                 {t("noPublishedParties")}
               </h3>
-              <p className="mt-2 text-sm text-gray-500">
+              <p className="mt-2 text-sm text-ink-subtle">
                 {t("partyProfilesPending")}
               </p>
             </div>
@@ -661,7 +673,7 @@ const [activeTab, setActiveTab] = useState<Section>("education");
               {parties.map((party) => (
                 <article
                   key={party.id}
-                  className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm"
+                  className="rounded-2xl border border-line-soft bg-paper-raised p-5 shadow-sm"
                 >
                   <div className="flex items-center gap-4">
                     {party.logo_url ? (
@@ -671,20 +683,20 @@ const [activeTab, setActiveTab] = useState<Section>("education");
                         alt={`${party.name} logo`}
                         width={64}
                         height={64}
-                        wrapperClassName="size-16 shrink-0 rounded-xl border border-gray-100"
+                        wrapperClassName="size-16 shrink-0 rounded-xl border border-line-soft"
                         className="h-16 w-16 object-contain"
                       />
                     ) : (
-                      <div className="flex h-16 w-16 items-center justify-center rounded-xl bg-orange-50 text-xl font-bold text-[#ff6600]">
+                      <div className="flex h-16 w-16 items-center justify-center rounded-xl bg-tint text-xl font-bold text-ink">
                         {(party.acronym || party.name).slice(0, 3).toUpperCase()}
                       </div>
                     )}
                     <div>
-                      <h3 className="font-bold text-[#171717]">
+                      <h3 className="font-bold text-ink">
                         {party.name}
                       </h3>
                       {party.acronym && (
-                        <p className="mt-1 text-sm text-gray-500">
+                        <p className="mt-1 text-sm text-ink-subtle">
                           {party.acronym}
                         </p>
                       )}
@@ -697,7 +709,7 @@ const [activeTab, setActiveTab] = useState<Section>("education");
                         href={party.official_website}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#ff6600] hover:underline"
+                        className="text-ink hover:underline"
                       >
                         {t("officialWebsite")} →
                       </a>
@@ -707,7 +719,7 @@ const [activeTab, setActiveTab] = useState<Section>("education");
                         href={party.manifesto_url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#ff6600] hover:underline"
+                        className="text-ink hover:underline"
                       >
                         {t("viewManifesto")} →
                       </a>
@@ -726,35 +738,35 @@ const [activeTab, setActiveTab] = useState<Section>("education");
 ) : activeTab === "incidents" ? (
   <ElectionIncidents />
 ) : currentSection ? (
-            <div className="rounded-2xl border border-[#e7e7e7] bg-white p-6 sm:p-10">
-              <div className="flex size-14 items-center justify-center rounded-2xl bg-[#fff0e5] text-[#e85d00]">
+            <div className="rounded-2xl border border-line-soft bg-paper-raised p-6 sm:p-10">
+              <div className="flex size-14 items-center justify-center rounded-2xl bg-tint text-ink">
                 <currentSection.icon size={28} />
               </div>
 
               <h2 className="mt-6 text-2xl font-semibold sm:text-3xl">
                 {activeTab === "insights" ? t("sectionInsightsTitle") : currentSection.title}
               </h2>
-              <p className="mt-3 max-w-2xl text-sm leading-7 text-[#666] sm:text-base">
+              <p className="mt-3 max-w-2xl text-sm leading-7 text-ink-muted sm:text-base">
                 {activeTab === "insights" ? t("sectionInsightsDescription") : currentSection.description}
               </p>
 
-              <div className="mt-7 flex items-start gap-3 rounded-xl border border-[#e7e7e7] bg-[#fafafa] p-5">
+              <div className="mt-7 flex items-start gap-3 rounded-xl border border-line-soft bg-paper p-5">
                 <Info
                   size={20}
-                  className="mt-0.5 shrink-0 text-[#808080]"
+                  className="mt-0.5 shrink-0 text-ink-subtle"
                 />
                 <div>
                   <p className="font-semibold">{activeTab === "insights" ? t("sectionInsightsNote") : currentSection.note}</p>
-                  <p className="mt-2 text-sm leading-6 text-[#777]">
+                  <p className="mt-2 text-sm leading-6 text-ink-subtle">
                     {activeTab === "insights" ? t("sectionDataNotice") : "This section will display records only after the corresponding data source and review process are established. No election results, candidate records or incident reports are being presented as real data here."}
                   </p>
                 </div>
               </div>
 
               {activeTab === "insights" && (
-                <div className="mt-6 rounded-xl bg-[#faf9f7] p-5">
+                <div className="mt-6 rounded-xl bg-paper p-5">
                   <h3 className="font-semibold">{t("plannedAnalysis")}</h3>
-                  <ul className="mt-3 space-y-2 text-sm leading-6 text-[#666]">
+                  <ul className="mt-3 space-y-2 text-sm leading-6 text-ink-muted">
                     <li>• {t("voteDistribution")}</li>
                     <li>• {t("resultsCoverage")}</li>
                     <li>• {t("sourceLinkedReports")}</li>
@@ -765,7 +777,7 @@ const [activeTab, setActiveTab] = useState<Section>("education");
               <div className="mt-7">
                 <Link
                   href="/about"
-                  className="inline-flex items-center gap-2 text-sm font-semibold text-[#d95300] hover:text-[#a84000]"
+                  className="inline-flex items-center gap-2 text-sm font-semibold text-ink underline-offset-4 hover:underline"
                 >
                   {t("verificationApproach")}
                   <ArrowRight size={17} />
@@ -776,24 +788,24 @@ const [activeTab, setActiveTab] = useState<Section>("education");
         </div>
       </section>
 
-      <section className="border-t border-[#e7e7e7] bg-white">
+      <section className="border-t border-line-soft bg-paper-raised">
         <div className="mx-auto flex max-w-7xl flex-col gap-4 px-5 py-8 sm:px-8 md:flex-row md:items-center md:justify-between">
           <div>
             <h2 className="font-semibold">{t("continueParticipating")}</h2>
-            <p className="mt-1 text-sm text-[#777]">
+            <p className="mt-1 text-sm text-ink-subtle">
               {t("continueParticipatingDescription")}
             </p>
           </div>
           <div className="flex flex-wrap gap-3">
             <Link
               href="/community-issues"
-              className="rounded-lg border border-[#ddd] px-4 py-3 text-sm font-semibold hover:border-[#ff6600]"
+              className="rounded-lg border border-line px-4 py-3 text-sm font-semibold hover:border-signal"
             >
               {t("communityIssues")}
             </Link>
             <Link
               href="/promise-tracker"
-              className="rounded-lg bg-[#c94f00] px-4 py-3 text-sm font-semibold text-white hover:bg-[#a84300]"
+              className="rounded-lg bg-signal px-4 py-3 text-sm font-semibold text-ink hover:bg-signal-hover"
             >
               {t("promiseTracker")}
             </Link>

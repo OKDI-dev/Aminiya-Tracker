@@ -19,10 +19,10 @@ import { prefersReducedMotion, springs } from "@/lib/motion";
 
 /** Border/background classes for an input in its normal or invalid state. */
 export function fieldClass(invalid: boolean, extra = "") {
-  return `w-full rounded-lg border px-3 py-3 text-sm outline-none transition-colors duration-150 disabled:bg-gray-100 ${
+  return `w-full rounded-lg border px-3 py-3 text-sm outline-none transition-colors duration-150 disabled:bg-tint ${
     invalid
       ? "border-red-400 bg-red-50/40 focus:border-red-500 focus:ring-2 focus:ring-red-100"
-      : "border-gray-300 bg-white focus:border-[#ff6600] focus:ring-2 focus:ring-orange-100"
+      : "border-line bg-paper-raised focus:border-signal focus:ring-2 focus:ring-signal/20"
   } ${extra}`;
 }
 
@@ -191,10 +191,10 @@ export function ProgressBar({ value, label }: { value: number; label: string }) 
       aria-valuemin={0}
       aria-valuemax={100}
       aria-valuenow={Math.round(clamped * 100)}
-      className="h-1.5 w-full overflow-hidden rounded-full bg-orange-100"
+      className="h-1.5 w-full overflow-hidden rounded-full bg-signal/15"
     >
       <motion.div
-        className="h-full origin-left rounded-full bg-[#ff6600]"
+        className="h-full origin-left rounded-full bg-signal"
         initial={{ scaleX: 0 }}
         animate={{ scaleX: clamped }}
         transition={springs.default}
@@ -208,7 +208,7 @@ export function PendingValue({ className = "h-5 w-48" }: { className?: string })
   return (
     <span
       aria-hidden="true"
-      className={`inline-block animate-pulse rounded-md bg-gray-200 motion-reduce:animate-none ${className}`}
+      className={`inline-block animate-pulse rounded-md bg-line-soft motion-reduce:animate-none ${className}`}
     />
   );
 }

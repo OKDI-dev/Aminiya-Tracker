@@ -20,7 +20,7 @@ type Source = {
 type Election = { id: string; name: string; election_date: string | null };
 
 const inputClass =
-  "mt-1 w-full rounded-lg border border-gray-200 bg-white px-3 py-3 text-sm text-gray-800 outline-none focus:border-[#ff6600]";
+  "mt-1 w-full rounded-lg border border-line-soft bg-paper-raised px-3 py-3 text-sm text-ink outline-none focus:border-signal";
 
 export default function ElectionResultForm({
   elections,
@@ -140,9 +140,9 @@ export default function ElectionResultForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 rounded-xl border border-gray-200 bg-white p-5 sm:p-7">
+    <form onSubmit={handleSubmit} className="space-y-6 rounded-xl border border-line-soft bg-paper-raised p-5 sm:p-7">
       <div className="grid gap-5 sm:grid-cols-2">
-        <label className="text-sm font-medium text-gray-800">
+        <label className="text-sm font-medium text-ink">
           Election *
           <select
             required
@@ -159,7 +159,7 @@ export default function ElectionResultForm({
           </select>
         </label>
 
-        <label className="text-sm font-medium text-gray-800">
+        <label className="text-sm font-medium text-ink">
           Electoral area *
           <select
             required
@@ -178,13 +178,13 @@ export default function ElectionResultForm({
       </div>
 
       {selectedArea && (
-        <p className="text-xs text-gray-500">
+        <p className="text-xs text-ink-subtle">
           Selected area: {selectedArea.name} · {selectedArea.area_type.replaceAll("_", " ")}
         </p>
       )}
 
       <div className="grid gap-5 sm:grid-cols-2">
-        <label className="text-sm font-medium text-gray-800">
+        <label className="text-sm font-medium text-ink">
           Candidate
           <select
             value={candidateId}
@@ -200,7 +200,7 @@ export default function ElectionResultForm({
           </select>
         </label>
 
-        <label className="text-sm font-medium text-gray-800">
+        <label className="text-sm font-medium text-ink">
           Political party
           <select
             value={partyId}
@@ -217,12 +217,12 @@ export default function ElectionResultForm({
         </label>
       </div>
 
-      <p className="text-xs text-gray-500">
+      <p className="text-xs text-ink-subtle">
         Select a candidate, a party, or both. At least one is required.
       </p>
 
       <div className="grid gap-5 sm:grid-cols-3">
-        <label className="text-sm font-medium text-gray-800">
+        <label className="text-sm font-medium text-ink">
           Votes received *
           <input
             required
@@ -235,7 +235,7 @@ export default function ElectionResultForm({
           />
         </label>
 
-        <label className="text-sm font-medium text-gray-800">
+        <label className="text-sm font-medium text-ink">
           Registered voters
           <input
             type="number"
@@ -247,7 +247,7 @@ export default function ElectionResultForm({
           />
         </label>
 
-        <label className="text-sm font-medium text-gray-800">
+        <label className="text-sm font-medium text-ink">
           Accredited voters
           <input
             type="number"
@@ -261,7 +261,7 @@ export default function ElectionResultForm({
       </div>
 
       <div className="grid gap-5 sm:grid-cols-2">
-        <label className="text-sm font-medium text-gray-800">
+        <label className="text-sm font-medium text-ink">
           Result classification *
           <select
             value={resultType}
@@ -273,7 +273,7 @@ export default function ElectionResultForm({
           </select>
         </label>
 
-        <label className="text-sm font-medium text-gray-800">
+        <label className="text-sm font-medium text-ink">
           Initial status *
           <select
             value={publicationStatus}
@@ -286,7 +286,7 @@ export default function ElectionResultForm({
         </label>
       </div>
 
-      <label className="block text-sm font-medium text-gray-800">
+      <label className="block text-sm font-medium text-ink">
         Supporting electoral source
         <select
           value={sourceId}
@@ -302,7 +302,7 @@ export default function ElectionResultForm({
         </select>
       </label>
 
-      <label className="block text-sm font-medium text-gray-800">
+      <label className="block text-sm font-medium text-ink">
         Verification notes
         <textarea
           rows={4}
@@ -331,14 +331,14 @@ export default function ElectionResultForm({
         <button
           type="button"
           onClick={() => router.back()}
-          className="rounded-lg border border-gray-200 px-5 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gray-50"
+          className="rounded-lg border border-line-soft px-5 py-2.5 text-sm font-semibold text-ink-muted hover:bg-tint"
         >
           Cancel
         </button>
         <button
           type="submit"
           disabled={saving || accreditedExceedsRegistered}
-          className="rounded-lg bg-[#c94f00] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#a84300] disabled:cursor-not-allowed disabled:opacity-50"
+          className="rounded-lg bg-signal px-5 py-2.5 text-sm font-semibold text-ink hover:bg-signal-hover disabled:cursor-not-allowed disabled:opacity-50"
         >
           {saving ? "Saving..." : "Save result"}
         </button>

@@ -53,57 +53,57 @@ export default function ElectionForm() {
     }
   }
 
-  const inputClass = "mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-900 outline-none focus:border-[#ff6600] focus:ring-2 focus:ring-orange-100";
+  const inputClass = "mt-1 w-full rounded-lg border border-line bg-paper-raised px-3 py-2.5 text-sm text-ink outline-none focus:border-signal focus:ring-2 focus:ring-signal/20";
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5 rounded-xl border border-gray-200 bg-white p-5 sm:p-7">
+    <form onSubmit={handleSubmit} className="space-y-5 rounded-xl border border-line-soft bg-paper-raised p-5 sm:p-7">
       <div>
-        <label htmlFor="name" className="text-sm font-medium text-gray-800">Election name *</label>
+        <label htmlFor="name" className="text-sm font-medium text-ink">Election name *</label>
         <input id="name" name="name" required maxLength={200} className={inputClass} placeholder="e.g. 2027 Gombe State Governorship Election" />
       </div>
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label htmlFor="election_type" className="text-sm font-medium text-gray-800">Election type *</label>
+          <label htmlFor="election_type" className="text-sm font-medium text-ink">Election type *</label>
           <select id="election_type" name="election_type" required className={inputClass} defaultValue="">
             <option value="" disabled>Select election type</option>
             {electionTypes.map(([value, label]) => <option key={value} value={value}>{label}</option>)}
           </select>
         </div>
         <div>
-          <label htmlFor="election_date" className="text-sm font-medium text-gray-800">Election date</label>
+          <label htmlFor="election_date" className="text-sm font-medium text-ink">Election date</label>
           <input id="election_date" name="election_date" type="date" className={inputClass} />
         </div>
       </div>
 
       <div>
-        <label htmlFor="jurisdiction" className="text-sm font-medium text-gray-800">Jurisdiction *</label>
+        <label htmlFor="jurisdiction" className="text-sm font-medium text-ink">Jurisdiction *</label>
         <input id="jurisdiction" name="jurisdiction" required maxLength={150} defaultValue="Nigeria" className={inputClass} placeholder="e.g. Gombe State, Nigeria" />
-        <p className="mt-1 text-xs text-gray-500">Specify the geographic area covered by this election.</p>
+        <p className="mt-1 text-xs text-ink-subtle">Specify the geographic area covered by this election.</p>
       </div>
 
       <div>
-        <label htmlFor="official_source_url" className="text-sm font-medium text-gray-800">Official source URL</label>
+        <label htmlFor="official_source_url" className="text-sm font-medium text-ink">Official source URL</label>
         <input id="official_source_url" name="official_source_url" type="url" maxLength={2048} className={inputClass} placeholder="https://..." />
       </div>
 
       <div>
-        <label htmlFor="publication_status" className="text-sm font-medium text-gray-800">Publication status</label>
+        <label htmlFor="publication_status" className="text-sm font-medium text-ink">Publication status</label>
         <select id="publication_status" name="publication_status" defaultValue="draft" className={inputClass}>
           <option value="draft">Draft</option>
           <option value="published">Published</option>
           <option value="archived">Archived</option>
         </select>
-        <p className="mt-1 text-xs text-gray-500">Only published elections are visible to the public.</p>
+        <p className="mt-1 text-xs text-ink-subtle">Only published elections are visible to the public.</p>
       </div>
 
       {error && <div role="alert" className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">{error}</div>}
 
-      <div className="flex flex-wrap justify-end gap-3 border-t border-gray-100 pt-5">
-        <button type="button" onClick={() => router.back()} className="rounded-lg border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50">
+      <div className="flex flex-wrap justify-end gap-3 border-t border-line-soft pt-5">
+        <button type="button" onClick={() => router.back()} className="rounded-lg border border-line px-4 py-2.5 text-sm font-medium text-ink-muted hover:bg-tint">
           Cancel
         </button>
-        <button type="submit" disabled={loading} className="rounded-lg bg-[#c94f00] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#a84300] disabled:cursor-not-allowed disabled:opacity-60">
+        <button type="submit" disabled={loading} className="rounded-lg bg-signal px-5 py-2.5 text-sm font-semibold text-ink hover:bg-signal-hover disabled:cursor-not-allowed disabled:opacity-60">
           {loading ? "Saving..." : "Save Election"}
         </button>
       </div>

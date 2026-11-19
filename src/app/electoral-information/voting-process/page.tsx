@@ -4,7 +4,6 @@ import Link from "next/link";
 import {
   ArrowLeft,
   ArrowRight,
-  BookOpen,
   CalendarDays,
   CheckCircle2,
   ExternalLink,
@@ -60,19 +59,13 @@ export default function VotingProcessPage() {
   ];
 
   return (
-    <main className="min-h-screen bg-[#f7f8f5]">
+    <main className="min-h-screen bg-paper">
       <div className="mx-auto max-w-5xl px-5 py-8 sm:px-8">
 
         <PublicPageHero
-          eyebrow={
-            <>
-              <BookOpen size={15} />
-              {t("vpEyebrow")}
-            </>
-          }
           title={
           <>
-            <span className="text-[#ff6600]">{t("vpTitle")}</span>
+            <span className="text-signal">{t("vpTitle")}</span>
           </>
         }
           description={
@@ -81,8 +74,9 @@ export default function VotingProcessPage() {
             </>
           }
           containerClassName="max-w-7xl"
+          className="rounded-3xl"
         >
-          <div className="mt-6 flex flex-wrap items-center gap-5 text-sm text-[#777]">
+          <div className="mt-6 flex flex-wrap items-center gap-5 text-sm text-on-ink-muted">
             <span className="flex items-center gap-2">
               <CalendarDays size={16} /> {t("vpGuide")}
             </span>
@@ -91,35 +85,35 @@ export default function VotingProcessPage() {
         </PublicPageHero>
 
         <section className="py-12">
-          <h2 className="text-2xl font-bold text-[#171717]">
+          <h2 className="text-2xl font-bold text-ink">
             {t("vpWhyTitle")}
           </h2>
-          <p className="mt-4 text-sm leading-8 text-gray-600">
+          <p className="mt-4 text-sm leading-8 text-ink-muted">
             {t("vpWhyText")}
           </p>
         </section>
 
-        <section className="rounded-2xl border border-gray-200 bg-white p-6 sm:p-8">
+        <section className="rounded-2xl border border-line-soft bg-paper-raised p-6 sm:p-8">
           <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-orange-50 text-[#ff6600]">
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-tint text-ink">
               <CalendarDays size={22} />
             </div>
-            <h2 className="text-2xl font-bold text-[#171717]">
+            <h2 className="text-2xl font-bold text-ink">
               {t("vpBeforeTitle")}
             </h2>
           </div>
-          <p className="mt-3 text-sm leading-7 text-gray-600">
+          <p className="mt-3 text-sm leading-7 text-ink-muted">
             {t("vpBeforeText")}
           </p>
           <div className="mt-7 space-y-5">
             {preparation.map((item, index) => (
               <div key={item.title} className="flex gap-4">
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-orange-50 text-sm font-bold text-[#ff6600]">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-tint text-sm font-bold text-ink">
                   {index + 1}
                 </span>
                 <div>
-                  <h3 className="font-semibold text-[#171717]">{item.title}</h3>
-                  <p className="mt-1 text-sm leading-7 text-gray-600">{item.text}</p>
+                  <h3 className="font-semibold text-ink">{item.title}</h3>
+                  <p className="mt-1 text-sm leading-7 text-ink-muted">{item.text}</p>
                 </div>
               </div>
             ))}
@@ -128,48 +122,48 @@ export default function VotingProcessPage() {
             href="https://www.inecnigeria.org/"
             target="_blank"
             rel="noreferrer"
-            className="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-[#e85d00] hover:underline"
+            className="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-ink hover:underline"
           >
             {t("vpCheckInec")} <ExternalLink size={14} />
           </a>
         </section>
 
         <section className="py-14">
-          <h2 className="text-2xl font-bold text-[#171717]">
+          <h2 className="text-2xl font-bold text-ink">
             {t("vpPollingTitle")}
           </h2>
-          <p className="mt-3 text-sm leading-7 text-gray-600">
+          <p className="mt-3 text-sm leading-7 text-ink-muted">
             {t("vpPollingIntro")}
           </p>
           <div className="mt-7 space-y-4">
             {votingSteps.map((item, index) => (
               <article
                 key={item.title}
-                className="flex gap-4 rounded-2xl border border-gray-200 bg-white p-5"
+                className="flex gap-4 rounded-2xl border border-line-soft bg-paper-raised p-5"
               >
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-orange-50 text-sm font-bold text-[#ff6600]">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-tint text-sm font-bold text-ink">
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <div>
-                  <h3 className="font-semibold text-[#171717]">{item.title}</h3>
-                  <p className="mt-2 text-sm leading-7 text-gray-600">{item.text}</p>
+                  <h3 className="font-semibold text-ink">{item.title}</h3>
+                  <p className="mt-2 text-sm leading-7 text-ink-muted">{item.text}</p>
                 </div>
               </article>
             ))}
           </div>
         </section>
 
-        <section className="rounded-2xl border border-gray-200 bg-white p-6 sm:p-8">
-          <h2 className="text-2xl font-bold text-[#171717]">
+        <section className="rounded-2xl border border-line-soft bg-paper-raised p-6 sm:p-8">
+          <h2 className="text-2xl font-bold text-ink">
             {t("vpAfterTitle")}
           </h2>
           <div className="mt-6 grid gap-5 sm:grid-cols-2">
             {postVoting.map(([title, text]) => (
               <div key={title} className="flex gap-3">
-                <CheckCircle2 className="mt-1 shrink-0 text-[#ff6600]" size={19} />
+                <CheckCircle2 className="mt-1 shrink-0 text-signal" size={19} />
                 <div>
-                  <h3 className="font-semibold text-[#171717]">{title}</h3>
-                  <p className="mt-1 text-sm leading-7 text-gray-600">{text}</p>
+                  <h3 className="font-semibold text-ink">{title}</h3>
+                  <p className="mt-1 text-sm leading-7 text-ink-muted">{text}</p>
                 </div>
               </div>
             ))}
@@ -178,22 +172,22 @@ export default function VotingProcessPage() {
 
         <section className="py-14">
           <div className="flex items-center gap-3">
-            <ShieldCheck size={25} className="text-[#ff6600]" />
-            <h2 className="text-2xl font-bold text-[#171717]">
+            <ShieldCheck size={25} className="text-signal" />
+            <h2 className="text-2xl font-bold text-ink">
               {t("vpRightsTitle")}
             </h2>
           </div>
           <ul className="mt-6 space-y-4">
             {rights.map((right) => (
-              <li key={right} className="flex gap-3 text-sm leading-7 text-gray-700">
-                <CheckCircle2 size={19} className="mt-1 shrink-0 text-[#ff6600]" />
+              <li key={right} className="flex gap-3 text-sm leading-7 text-ink-muted">
+                <CheckCircle2 size={19} className="mt-1 shrink-0 text-signal" />
                 {right}
               </li>
             ))}
           </ul>
         </section>
 
-        <section className="rounded-2xl bg-[#171717] p-6 text-white sm:p-8">
+        <section className="rounded-2xl bg-ink p-6 text-white sm:p-8">
           <h2 className="text-2xl font-bold">{t("vpFaqTitle")}</h2>
           <div className="mt-6 divide-y divide-white/10">
             {faqs.map((item) => (
@@ -201,7 +195,7 @@ export default function VotingProcessPage() {
                 <summary className="cursor-pointer list-none font-semibold">
                   <span className="flex items-center justify-between gap-4">
                     {item.q}
-                    <span className="text-xl text-[#ff6600] group-open:rotate-45">+</span>
+                    <span className="text-xl text-ink group-open:rotate-45">+</span>
                   </span>
                 </summary>
                 <p className="mt-3 text-sm leading-7 text-white/65">{item.a}</p>
@@ -210,36 +204,36 @@ export default function VotingProcessPage() {
           </div>
         </section>
 
-        <section className="mt-10 rounded-2xl border border-orange-100 bg-orange-50 p-6 sm:p-8">
+        <section className="mt-10 rounded-2xl border border-signal/20 bg-tint p-6 sm:p-8">
           <div className="flex items-center gap-3">
-            <MapPin className="text-[#ff6600]" size={23} />
-            <h2 className="text-xl font-bold text-[#171717]">
+            <MapPin className="text-signal" size={23} />
+            <h2 className="text-xl font-bold text-ink">
               {t("vpOfficialTitle")}
             </h2>
           </div>
-          <p className="mt-3 text-sm leading-7 text-gray-600">
+          <p className="mt-3 text-sm leading-7 text-ink-muted">
             {t("vpOfficialText")}
           </p>
           <a
             href="https://www.inecnigeria.org/"
             target="_blank"
             rel="noreferrer"
-            className="mt-5 inline-flex items-center gap-2 rounded-lg bg-[#c94f00] px-5 py-3 text-sm font-semibold text-white hover:bg-[#a84300]"
+            className="mt-5 inline-flex items-center gap-2 rounded-lg bg-signal px-5 py-3 text-sm font-semibold text-ink hover:bg-signal-hover"
           >
             {t("vpVisitInec")} <ExternalLink size={15} />
           </a>
         </section>
 
-        <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-gray-200 pt-6">
+        <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-line-soft pt-6">
           <Link
             href="/electoral-information"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-gray-600 hover:text-[#ff6600]"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-ink-muted hover:text-ink"
           >
             <ArrowLeft size={16} /> {t("vpBack")}
           </Link>
           <Link
             href="/community-issues"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-[#e85d00] hover:underline"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-ink hover:underline"
           >
             {t("vpCommunity")} <ArrowRight size={16} />
           </Link>

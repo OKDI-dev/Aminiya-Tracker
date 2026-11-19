@@ -116,7 +116,7 @@ const statusOptions: { value: EventStatus; label: string; help: string }[] = [
 ];
 
 const statusStyles: Record<EventStatus, string> = {
-  draft: "bg-gray-100 text-gray-700",
+  draft: "bg-tint text-ink-muted",
   published: "bg-green-100 text-green-800",
   cancelled: "bg-red-100 text-red-700",
 };
@@ -238,21 +238,21 @@ function Field({
 }) {
   return (
     <div className="space-y-2">
-      <label htmlFor={htmlFor} className="block text-sm font-semibold text-gray-700">
+      <label htmlFor={htmlFor} className="block text-sm font-semibold text-ink-muted">
         {label}
       </label>
       {children}
-      {hint ? <p className="text-xs text-gray-500">{hint}</p> : null}
+      {hint ? <p className="text-xs text-ink-subtle">{hint}</p> : null}
       {errorId ? <FieldError id={errorId} message={error} /> : null}
     </div>
   );
 }
 
 function inputClass(invalid = false) {
-  return `w-full rounded-lg border px-3 py-2.5 text-sm text-gray-900 outline-none transition-colors ${
+  return `w-full rounded-lg border px-3 py-2.5 text-sm text-ink outline-none transition-colors ${
     invalid
       ? "border-red-400 bg-red-50/40 focus:border-red-500 focus:ring-2 focus:ring-red-100"
-      : "border-gray-300 bg-white focus:border-[#c94f00] focus:ring-2 focus:ring-orange-100"
+      : "border-line bg-paper-raised focus:border-signal focus:ring-2 focus:ring-signal/20"
   }`;
 }
 
@@ -504,12 +504,12 @@ export default function CivicEventsManager() {
     <div className="mx-auto max-w-6xl space-y-7">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <div className="mb-2 flex items-center gap-2 text-sm font-semibold text-[#a84300]">
+          <div className="mb-2 flex items-center gap-2 text-sm font-semibold text-ink">
             <CalendarDays size={17} />
             Civic engagement
           </div>
-          <h1 className="text-2xl font-bold tracking-tight text-gray-950 sm:text-3xl">Civic Calendar</h1>
-          <p className="mt-2 max-w-2xl text-sm leading-6 text-gray-600">
+          <h1 className="text-2xl font-bold tracking-tight text-ink sm:text-3xl">Civic Calendar</h1>
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-ink-muted">
             Publish and manage civic activities, community engagements, youth
             programmes, electoral events and other important dates.
           </p>
@@ -520,7 +520,7 @@ export default function CivicEventsManager() {
           onClick={() => openForm(emptyForm, null)}
           whileTap={{ scale: 0.96 }}
           transition={springs.snappy}
-          className="inline-flex items-center gap-2 rounded-lg bg-[#c94f00] px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#a84300]"
+          className="inline-flex items-center gap-2 rounded-lg bg-signal px-4 py-2.5 text-sm font-semibold text-ink transition-colors hover:bg-signal-hover"
         >
           <Plus size={17} />
           Create event
@@ -533,11 +533,11 @@ export default function CivicEventsManager() {
           { label: "Published", value: publishedCount },
           { label: "Drafts", value: draftCount },
         ].map((item) => (
-          <div key={item.label} className="rounded-xl border border-gray-200 bg-white p-5">
-            <p className="text-sm text-gray-500">{item.label}</p>
-            <p className="mt-2 text-2xl font-bold text-gray-950 tabular-nums">
+          <div key={item.label} className="rounded-xl border border-line-soft bg-paper-raised p-5">
+            <p className="text-sm text-ink-subtle">{item.label}</p>
+            <p className="mt-2 text-2xl font-bold text-ink tabular-nums">
               {loading ? (
-                <span className="inline-block h-7 w-10 animate-pulse rounded-md bg-gray-200 motion-reduce:animate-none" />
+                <span className="inline-block h-7 w-10 animate-pulse rounded-md bg-line-soft motion-reduce:animate-none" />
               ) : (
                 <NumberFlow value={item.value} />
               )}
@@ -562,7 +562,7 @@ export default function CivicEventsManager() {
               <button
                 type="button"
                 onClick={() => void loadEvents()}
-                className="inline-flex items-center gap-1.5 rounded-md border border-red-200 bg-white px-3 py-1.5 text-xs font-semibold hover:bg-red-50"
+                className="inline-flex items-center gap-1.5 rounded-md border border-red-200 bg-paper-raised px-3 py-1.5 text-xs font-semibold hover:bg-red-50"
               >
                 <RefreshCw size={13} /> Try again
               </button>
@@ -586,16 +586,16 @@ export default function CivicEventsManager() {
               tabIndex={-1}
               onSubmit={handleSubmit}
               noValidate
-              className="space-y-6 rounded-xl border border-gray-200 bg-white p-5 outline-none sm:p-7"
+              className="space-y-6 rounded-xl border border-line-soft bg-paper-raised p-5 outline-none sm:p-7"
             >
               <div className="flex items-center justify-between gap-3">
-                <h2 className="text-lg font-bold text-gray-950">
+                <h2 className="text-lg font-bold text-ink">
                   {editingId ? "Edit event" : "Create a civic event"}
                 </h2>
                 <button
                   type="button"
                   onClick={() => void requestClose()}
-                  className="rounded-lg p-2 text-gray-500 hover:bg-gray-100"
+                  className="rounded-lg p-2 text-ink-subtle hover:bg-tint"
                   aria-label="Close event form"
                 >
                   <X size={19} />
@@ -667,13 +667,13 @@ export default function CivicEventsManager() {
                 </Field>
 
                 <div className="space-y-2">
-                  <span id="ce-status-label" className="block text-sm font-semibold text-gray-700">
+                  <span id="ce-status-label" className="block text-sm font-semibold text-ink-muted">
                     Who can see it
                   </span>
                   <div
                     role="radiogroup"
                     aria-labelledby="ce-status-label"
-                    className="grid grid-cols-3 rounded-lg border border-gray-300 bg-gray-50 p-1"
+                    className="grid grid-cols-3 rounded-lg border border-line bg-tint p-1"
                   >
                     {statusOptions.map((option) => {
                       const selected = form.status === option.value;
@@ -685,14 +685,14 @@ export default function CivicEventsManager() {
                           aria-checked={selected}
                           onClick={() => updateField("status", option.value)}
                           className={`relative rounded-md px-2 py-1.5 text-sm font-semibold transition-colors ${
-                            selected ? "text-gray-950" : "text-gray-500 hover:text-gray-800"
+                            selected ? "text-ink" : "text-ink-subtle hover:text-ink"
                           }`}
                         >
                           {selected && (
                             <motion.span
                               layoutId="ce-status-pill"
                               transition={springs.snappy}
-                              className="absolute inset-0 rounded-md bg-white shadow-sm ring-1 ring-black/5"
+                              className="absolute inset-0 rounded-md bg-paper-raised shadow-sm ring-1 ring-ink/5"
                             />
                           )}
                           <span className="relative">{option.label}</span>
@@ -707,7 +707,7 @@ export default function CivicEventsManager() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -4, transition: springs.exit }}
                       transition={springs.snappy}
-                      className="text-xs text-gray-600"
+                      className="text-xs text-ink-muted"
                     >
                       {statusHelp}
                     </motion.p>
@@ -802,19 +802,19 @@ export default function CivicEventsManager() {
                 </div>
               </div>
 
-              <div className="flex flex-wrap gap-3 border-t border-gray-100 pt-5">
+              <div className="flex flex-wrap gap-3 border-t border-line-soft pt-5">
                 {/* Saving is optimistic: the form closes and the row shows "Saving…". */}
                 <SubmitButton
                   phase="idle"
                   icon={<Check size={17} />}
                   label={submitLabel}
                   pendingLabel="Saving…"
-                  className="inline-flex items-center gap-2 rounded-lg bg-[#c94f00] px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#a84300] disabled:cursor-not-allowed disabled:opacity-60"
+                  className="inline-flex items-center gap-2 rounded-lg bg-signal px-5 py-2.5 text-sm font-semibold text-ink transition-colors hover:bg-signal-hover disabled:cursor-not-allowed disabled:opacity-60"
                 />
                 <button
                   type="button"
                   onClick={() => void requestClose()}
-                  className="rounded-lg border border-gray-300 px-5 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gray-50"
+                  className="rounded-lg border border-line px-5 py-2.5 text-sm font-semibold text-ink-muted hover:bg-tint"
                 >
                   Close
                 </button>
@@ -824,11 +824,11 @@ export default function CivicEventsManager() {
         )}
       </AnimatePresence>
 
-      <section className="overflow-hidden rounded-xl border border-gray-200 bg-white">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-gray-100 px-5 py-4">
+      <section className="overflow-hidden rounded-xl border border-line-soft bg-paper-raised">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line-soft px-5 py-4">
           <div>
-            <h2 className="font-bold text-gray-950">All civic events</h2>
-            <p className="mt-1 text-xs text-gray-500">
+            <h2 className="font-bold text-ink">All civic events</h2>
+            <p className="mt-1 text-xs text-ink-subtle">
               Drafts and cancelled events are only visible to authorized staff.
             </p>
           </div>
@@ -836,7 +836,7 @@ export default function CivicEventsManager() {
             type="button"
             onClick={() => void loadEvents()}
             disabled={loading}
-            className="inline-flex items-center gap-2 rounded-lg border border-gray-200 px-3 py-2 text-xs font-semibold text-gray-600 hover:bg-gray-50 disabled:opacity-50"
+            className="inline-flex items-center gap-2 rounded-lg border border-line-soft px-3 py-2 text-xs font-semibold text-ink-muted hover:bg-tint disabled:opacity-50"
           >
             <RefreshCw size={14} className={loading ? "animate-spin" : ""} />
             Refresh
@@ -844,15 +844,15 @@ export default function CivicEventsManager() {
         </div>
 
         {loading && events.length === 0 ? (
-          <div className="divide-y divide-gray-100" aria-busy="true" aria-label="Loading events">
+          <div className="divide-y divide-line-soft" aria-busy="true" aria-label="Loading events">
             {[0, 1, 2].map((row) => (
               <div key={row} className="flex items-center justify-between gap-4 px-5 py-5">
                 <div className="flex-1 space-y-2">
-                  <div className="h-4 w-20 animate-pulse rounded-full bg-gray-200 motion-reduce:animate-none" />
-                  <div className="h-4 w-2/3 animate-pulse rounded bg-gray-200 motion-reduce:animate-none" />
-                  <div className="h-3 w-1/3 animate-pulse rounded bg-gray-100 motion-reduce:animate-none" />
+                  <div className="h-4 w-20 animate-pulse rounded-full bg-line-soft motion-reduce:animate-none" />
+                  <div className="h-4 w-2/3 animate-pulse rounded bg-line-soft motion-reduce:animate-none" />
+                  <div className="h-3 w-1/3 animate-pulse rounded bg-tint motion-reduce:animate-none" />
                 </div>
-                <div className="h-8 w-28 animate-pulse rounded-lg bg-gray-100 motion-reduce:animate-none" />
+                <div className="h-8 w-28 animate-pulse rounded-lg bg-tint motion-reduce:animate-none" />
               </div>
             ))}
           </div>
@@ -863,14 +863,14 @@ export default function CivicEventsManager() {
             transition={springs.default}
             className="px-5 py-14 text-center"
           >
-            <CalendarDays className="mx-auto mb-3 text-gray-300" size={34} />
-            <p className="font-semibold text-gray-800">No civic events yet</p>
-            <p className="mt-1 text-sm text-gray-500">
+            <CalendarDays className="mx-auto mb-3 text-ink/30" size={34} />
+            <p className="font-semibold text-ink">No civic events yet</p>
+            <p className="mt-1 text-sm text-ink-subtle">
               Create an event to start building the public calendar.
             </p>
           </motion.div>
         ) : (
-          <ul className="divide-y divide-gray-100">
+          <ul className="divide-y divide-line-soft">
             <AnimatePresence initial={false}>
               {events.map((event) => {
                 const pending = pendingIds.has(event.id);
@@ -901,19 +901,19 @@ export default function CivicEventsManager() {
                               {event.status}
                             </motion.span>
                           </AnimatePresence>
-                          <span className="text-xs text-gray-500">
+                          <span className="text-xs text-ink-subtle">
                             {categories.find((item) => item.value === event.category)?.label ?? "Other"}
                           </span>
                           {pending ? (
-                            <span className="inline-flex items-center gap-1 text-xs font-medium text-[#a84300]">
+                            <span className="inline-flex items-center gap-1 text-xs font-medium text-ink">
                               <LoaderCircle size={12} className="animate-spin" aria-hidden="true" />
                               Saving…
                             </span>
                           ) : null}
                         </div>
-                        <h3 className="font-semibold text-gray-950">{event.title_en}</h3>
-                        <p className="mt-0.5 text-sm text-gray-500">{event.title_ha}</p>
-                        <p className="mt-2 text-xs text-gray-500">
+                        <h3 className="font-semibold text-ink">{event.title_en}</h3>
+                        <p className="mt-0.5 text-sm text-ink-subtle">{event.title_ha}</p>
+                        <p className="mt-2 text-xs text-ink-subtle">
                           {formatDate(event.start_date)}
                           {event.end_date && event.end_date !== event.start_date
                             ? ` – ${formatDate(event.end_date)}`
@@ -934,7 +934,7 @@ export default function CivicEventsManager() {
                             whileTap={{ scale: 0.95 }}
                             className={`inline-flex items-center gap-2 rounded-lg border px-3 py-2 text-xs font-semibold disabled:opacity-50 ${
                               event.status === "published"
-                                ? "border-gray-200 text-gray-700 hover:bg-gray-50"
+                                ? "border-line-soft text-ink-muted hover:bg-tint"
                                 : "border-green-200 text-green-800 hover:bg-green-50"
                             }`}
                           >
@@ -947,7 +947,7 @@ export default function CivicEventsManager() {
                           onClick={() => openForm(toForm(event), event.id)}
                           disabled={pending || isTemp}
                           whileTap={{ scale: 0.95 }}
-                          className="inline-flex items-center gap-2 rounded-lg border border-gray-200 px-3 py-2 text-xs font-semibold text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+                          className="inline-flex items-center gap-2 rounded-lg border border-line-soft px-3 py-2 text-xs font-semibold text-ink-muted hover:bg-tint disabled:opacity-50"
                         >
                           <Pencil size={14} />
                           Edit

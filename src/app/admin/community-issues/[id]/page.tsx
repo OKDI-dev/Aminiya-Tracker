@@ -146,19 +146,19 @@ export default async function CommunityIssueDetailPage({
   ].filter(Boolean).join(", ");
 
   return (
-    <main className="min-h-screen bg-[#f7f8f5]">
-      <header className="border-b border-gray-200 bg-white">
+    <main className="min-h-screen bg-paper">
+      <header className="border-b border-line-soft bg-paper-raised">
         <div className="mx-auto max-w-5xl px-5 py-4 sm:px-8">
 
           <div className="mt-3 flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-orange-50 text-[#ff6600]">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-tint text-ink">
               <ClipboardList size={22} />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-[#171717]">
+              <h1 className="text-xl font-bold text-ink">
                 Community issue details
               </h1>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-ink-subtle">
                 Aminiya Tracker · Review workspace
               </p>
             </div>
@@ -167,9 +167,9 @@ export default async function CommunityIssueDetailPage({
       </header>
 
       <div className="mx-auto max-w-5xl space-y-6 px-5 py-8 sm:px-8">
-        <section className="rounded-xl border border-gray-200 bg-white p-5 sm:p-7">
+        <section className="rounded-xl border border-line-soft bg-paper-raised p-5 sm:p-7">
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <span className="text-sm font-semibold text-[#ff6600]">
+            <span className="text-sm font-semibold text-ink">
               {categories[issue.category] ?? issue.category}
             </span>
             <OptimisticStatusBadge
@@ -179,55 +179,55 @@ export default async function CommunityIssueDetailPage({
             />
           </div>
 
-          <h2 className="mt-5 text-xl font-bold text-[#171717]">
+          <h2 className="mt-5 text-xl font-bold text-ink">
             {issue.title}
           </h2>
 
-          <p className="mt-4 whitespace-pre-wrap text-sm leading-7 text-gray-700">
+          <p className="mt-4 whitespace-pre-wrap text-sm leading-7 text-ink-muted">
             {issue.description}
           </p>
 
-          <div className="mt-6 grid gap-4 border-t border-gray-100 pt-5 sm:grid-cols-2">
+          <div className="mt-6 grid gap-4 border-t border-line-soft pt-5 sm:grid-cols-2">
             <div>
-              <p className="text-xs text-gray-500">Reference</p>
-              <p className="mt-1 break-all text-sm font-medium text-[#171717]">
+              <p className="text-xs text-ink-subtle">Reference</p>
+              <p className="mt-1 break-all text-sm font-medium text-ink">
                 {issue.reference_code}
               </p>
             </div>
             <div>
-              <p className="text-xs text-gray-500">Submitted</p>
-              <p className="mt-1 text-sm font-medium text-[#171717]">
+              <p className="text-xs text-ink-subtle">Submitted</p>
+              <p className="mt-1 text-sm font-medium text-ink">
                 {formatDate(issue.submitted_at)}
               </p>
             </div>
             <div>
-              <p className="text-xs text-gray-500">Community / location</p>
-              <p className="mt-1 text-sm font-medium text-[#171717]">
+              <p className="text-xs text-ink-subtle">Community / location</p>
+              <p className="mt-1 text-sm font-medium text-ink">
                 {location || "Not provided"}
               </p>
             </div>
             <div>
-              <p className="text-xs text-gray-500">Reported by (staff only)</p>
-              <p className="mt-1 text-sm font-medium text-[#171717]">
+              <p className="text-xs text-ink-subtle">Reported by (staff only)</p>
+              <p className="mt-1 text-sm font-medium text-ink">
                 {reporterError ? (
                   <span className="text-red-600">Couldn&apos;t load</span>
                 ) : reporterName ? (
                   reporterName
                 ) : (
-                  <span className="text-gray-500">Anonymous</span>
+                  <span className="text-ink-subtle">Anonymous</span>
                 )}
               </p>
             </div>
             <div>
-              <p className="text-xs text-gray-500">Last updated</p>
-              <p className="mt-1 text-sm font-medium text-[#171717]">
+              <p className="text-xs text-ink-subtle">Last updated</p>
+              <p className="mt-1 text-sm font-medium text-ink">
                 {formatDate(issue.updated_at)}
               </p>
             </div>
             {issue.location_description && (
               <div className="sm:col-span-2">
-                <p className="text-xs text-gray-500">Additional location details</p>
-                <p className="mt-1 whitespace-pre-wrap text-sm text-[#171717]">
+                <p className="text-xs text-ink-subtle">Additional location details</p>
+                <p className="mt-1 whitespace-pre-wrap text-sm text-ink">
                   {issue.location_description}
                 </p>
               </div>
@@ -237,8 +237,8 @@ export default async function CommunityIssueDetailPage({
 
         {issue.public_summary && (
           <section className="rounded-xl border border-blue-200 bg-blue-50 p-5">
-            <h3 className="font-semibold text-[#171717]">Current public update</h3>
-            <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-gray-700">
+            <h3 className="font-semibold text-ink">Current public update</h3>
+            <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-ink-muted">
               {issue.public_summary}
             </p>
           </section>
@@ -246,8 +246,8 @@ export default async function CommunityIssueDetailPage({
 
         {issue.resolution_summary && (
           <section className="rounded-xl border border-green-200 bg-green-50 p-5">
-            <h3 className="font-semibold text-[#171717]">Resolution summary</h3>
-            <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-gray-700">
+            <h3 className="font-semibold text-ink">Resolution summary</h3>
+            <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-ink-muted">
               {issue.resolution_summary}
             </p>
           </section>
@@ -258,9 +258,9 @@ export default async function CommunityIssueDetailPage({
           status={issue.status}
         />
 
-        <section className="rounded-xl border border-gray-200 bg-white p-5 sm:p-7">
-          <h3 className="font-semibold text-[#171717]">Supporting evidence</h3>
-          <p className="mt-1 text-sm text-gray-500">
+        <section className="rounded-xl border border-line-soft bg-paper-raised p-5 sm:p-7">
+          <h3 className="font-semibold text-ink">Supporting evidence</h3>
+          <p className="mt-1 text-sm text-ink-subtle">
             Private files submitted with this community issue. Download links
             expire after two minutes.
           </p>
@@ -270,25 +270,25 @@ export default async function CommunityIssueDetailPage({
               Evidence files could not be loaded. Please refresh the page and try again.
             </p>
           ) : evidence.length === 0 ? (
-            <p className="py-8 text-center text-sm text-gray-500">
+            <p className="py-8 text-center text-sm text-ink-subtle">
               No supporting evidence has been uploaded for this issue.
             </p>
           ) : (
-            <ul className="mt-5 divide-y divide-gray-100">
+            <ul className="mt-5 divide-y divide-line-soft">
               {evidence.map((file) => (
                 <li
                   key={file.id}
                   className="flex flex-col justify-between gap-3 py-4 sm:flex-row sm:items-center"
                 >
                   <div className="flex min-w-0 items-start gap-3">
-                    <div className="rounded-lg bg-orange-50 p-2 text-[#ff6600]">
+                    <div className="rounded-lg bg-tint p-2 text-ink">
                       <ClipboardList size={19} />
                     </div>
                     <div className="min-w-0">
-                      <p className="break-all text-sm font-medium text-[#171717]">
+                      <p className="break-all text-sm font-medium text-ink">
                         {file.original_filename}
                       </p>
-                      <p className="mt-1 text-xs text-gray-500">
+                      <p className="mt-1 text-xs text-ink-subtle">
                         {file.mime_type} · {formatFileSize(file.file_size)} ·{" "}
                         {formatDate(file.uploaded_at)}
                       </p>
@@ -300,7 +300,7 @@ export default async function CommunityIssueDetailPage({
                       href={file.signedUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex shrink-0 items-center justify-center rounded-lg border border-gray-200 px-4 py-2 text-sm font-semibold text-[#171717] hover:border-[#ff6600] hover:text-[#ff6600]"
+                      className="inline-flex shrink-0 items-center justify-center rounded-lg border border-line-soft px-4 py-2 text-sm font-semibold text-ink hover:border-signal hover:text-ink"
                     >
                       Download file
                     </a>
@@ -315,36 +315,36 @@ export default async function CommunityIssueDetailPage({
           )}
         </section>
 
-        <section className="rounded-xl border border-gray-200 bg-white p-5 sm:p-7">
-          <h3 className="font-semibold text-[#171717]">Review history</h3>
-          <p className="mt-1 text-sm text-gray-500">
+        <section className="rounded-xl border border-line-soft bg-paper-raised p-5 sm:p-7">
+          <h3 className="font-semibold text-ink">Review history</h3>
+          <p className="mt-1 text-sm text-ink-subtle">
             Recorded status changes and staff actions for this issue.
           </p>
 
           {!reviews || reviews.length === 0 ? (
-            <p className="py-8 text-center text-sm text-gray-500">
+            <p className="py-8 text-center text-sm text-ink-subtle">
               No review actions have been recorded yet.
             </p>
           ) : (
             <div className="mt-5 space-y-5">
               {reviews.map((review) => (
-                <div key={review.id} className="border-l-2 border-[#ff6600] pl-4">
-                  <p className="text-sm font-semibold capitalize text-[#171717]">
+                <div key={review.id} className="border-l-2 border-signal pl-4">
+                  <p className="text-sm font-semibold capitalize text-ink">
                     {review.previous_status?.replaceAll("_", " ") ?? "Initial"}{" "}
-                    <span className="text-gray-400">→</span>{" "}
+                    <span className="text-ink-subtle">→</span>{" "}
                     {review.new_status.replaceAll("_", " ")}
                   </p>
-                  <p className="mt-1 text-xs text-gray-500">
+                  <p className="mt-1 text-xs text-ink-subtle">
                     {reviewerNames.get(review.created_by) ?? "Staff member"} ·{" "}
                     {formatDate(review.created_at)}
                   </p>
                   {review.action_notes && (
-                    <p className="mt-2 whitespace-pre-wrap text-sm leading-6 text-gray-600">
+                    <p className="mt-2 whitespace-pre-wrap text-sm leading-6 text-ink-muted">
                       {review.action_notes}
                     </p>
                   )}
                   {review.public_summary && (
-                    <p className="mt-2 rounded-lg bg-blue-50 p-3 text-sm leading-6 text-gray-700">
+                    <p className="mt-2 rounded-lg bg-blue-50 p-3 text-sm leading-6 text-ink-muted">
                       Public update: {review.public_summary}
                     </p>
                   )}

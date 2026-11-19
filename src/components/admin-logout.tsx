@@ -29,7 +29,7 @@ export default function LogoutButton() {
       type="button"
       onClick={handleLogout}
       disabled={loading}
-      className="flex items-center gap-2 rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium text-gray-700 transition hover:border-red-200 hover:bg-red-50 hover:text-red-700 disabled:opacity-50"
+      className="flex items-center gap-2 rounded-lg border border-line-soft px-4 py-2 text-sm font-medium text-ink-muted transition hover:border-red-200 hover:bg-red-50 hover:text-red-700 disabled:opacity-50"
     >
       <LogOut size={16} />
       {loading ? "Signing out..." : "Sign out"}

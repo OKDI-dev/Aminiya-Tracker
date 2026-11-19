@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 const inputClass =
-  "mt-1 w-full rounded-lg border border-gray-200 bg-white px-3 py-3 text-sm text-gray-800 outline-none focus:border-[#ff6600]";
+  "mt-1 w-full rounded-lg border border-line-soft bg-paper-raised px-3 py-3 text-sm text-ink outline-none focus:border-signal";
 
 type Source = {
   id: string;
@@ -82,9 +82,9 @@ export default function ElectoralSourceForm({
   return (
     <form
       onSubmit={handleSubmit}
-      className="space-y-5 rounded-xl border border-gray-200 bg-white p-5 sm:p-7"
+      className="space-y-5 rounded-xl border border-line-soft bg-paper-raised p-5 sm:p-7"
     >
-      <label className="block text-sm font-medium text-gray-800">
+      <label className="block text-sm font-medium text-ink">
         Source title *
         <input
           required
@@ -96,7 +96,7 @@ export default function ElectoralSourceForm({
         />
       </label>
 
-      <label className="block text-sm font-medium text-gray-800">
+      <label className="block text-sm font-medium text-ink">
         Publisher / issuing organisation *
         <input
           required
@@ -109,7 +109,7 @@ export default function ElectoralSourceForm({
       </label>
 
       <div className="grid gap-5 sm:grid-cols-2">
-        <label className="block text-sm font-medium text-gray-800">
+        <label className="block text-sm font-medium text-ink">
           Source type *
           <select
             required
@@ -127,7 +127,7 @@ export default function ElectoralSourceForm({
           </select>
         </label>
 
-        <label className="block text-sm font-medium text-gray-800">
+        <label className="block text-sm font-medium text-ink">
           Publication date
           <input
             type="date"
@@ -138,7 +138,7 @@ export default function ElectoralSourceForm({
         </label>
       </div>
 
-      <label className="block text-sm font-medium text-gray-800">
+      <label className="block text-sm font-medium text-ink">
         Source URL
         <input
           type="url"
@@ -151,7 +151,7 @@ export default function ElectoralSourceForm({
       </label>
 
       {!editing && (
-        <label className="block text-sm font-medium text-gray-800">
+        <label className="block text-sm font-medium text-ink">
           Initial verification status
           <select
             value={verificationStatus}
@@ -160,21 +160,21 @@ export default function ElectoralSourceForm({
           >
             <option value="pending">Pending review</option>
           </select>
-          <span className="mt-1 block text-xs text-gray-500">
+          <span className="mt-1 block text-xs text-ink-subtle">
             New sources enter the pending review process.
           </span>
         </label>
       )}
 
       {editing && (
-        <div className="rounded-lg bg-gray-50 p-3 text-sm text-gray-700">
+        <div className="rounded-lg bg-tint p-3 text-sm text-ink-muted">
           Current verification status:{" "}
           <strong className="capitalize">{verificationStatus}</strong>.
           Use the verification controls on the sources list to change it.
         </div>
       )}
 
-      <label className="block text-sm font-medium text-gray-800">
+      <label className="block text-sm font-medium text-ink">
         Notes
         <textarea
           rows={4}
@@ -186,7 +186,7 @@ export default function ElectoralSourceForm({
         />
       </label>
 
-      <p className="rounded-lg bg-orange-50 p-3 text-xs leading-5 text-orange-900">
+      <p className="rounded-lg bg-tint p-3 text-xs leading-5 text-ink">
         Only mark a source as verified after checking that it is authentic,
         attributable to the stated publisher and relevant to the information it supports.
       </p>
@@ -201,14 +201,14 @@ export default function ElectoralSourceForm({
         <button
           type="button"
           onClick={() => router.back()}
-          className="rounded-lg border border-gray-200 px-5 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gray-50"
+          className="rounded-lg border border-line-soft px-5 py-2.5 text-sm font-semibold text-ink-muted hover:bg-tint"
         >
           Cancel
         </button>
         <button
           type="submit"
           disabled={saving}
-          className="rounded-lg bg-[#c94f00] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#a84300] disabled:opacity-50"
+          className="rounded-lg bg-signal px-5 py-2.5 text-sm font-semibold text-ink hover:bg-signal-hover disabled:opacity-50"
         >
           {saving
             ? "Saving..."

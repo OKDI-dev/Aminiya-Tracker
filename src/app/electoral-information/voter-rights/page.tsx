@@ -74,19 +74,13 @@ export default function VoterRightsPage() {
   ];
 
   return (
-    <main className="min-h-screen bg-[#f7f8f5]">
+    <main className="min-h-screen bg-paper">
       <div className="mx-auto max-w-5xl px-5 py-8 sm:px-8">
 
         <PublicPageHero
-          eyebrow={
-            <>
-              <ShieldCheck size={15} />
-              {t("vrEyebrow")}
-            </>
-          }
           title={
           <>
-            <span className="text-[#171717]">{t("vrTitle")}</span>
+            <span className="text-white">{t("vrTitle")}</span>
           </>
         }
           description={
@@ -95,57 +89,55 @@ export default function VoterRightsPage() {
             </>
           }
           containerClassName="max-w-7xl"
+          className="rounded-3xl"
         >
-          <div className="mt-6 flex flex-wrap items-center gap-5 text-sm text-[#777]">
+          <div className="mt-6 flex flex-wrap items-center gap-5 text-sm text-on-ink-muted">
             <span>{t("vrReadTime")}</span>
             <span>{t("vrCategory")}</span>
           </div>
         </PublicPageHero>
 
         <section className="py-12">
-          <h2 className="text-2xl font-bold text-[#171717]">
+          <h2 className="text-2xl font-bold text-ink">
             {t("vrWhyTitle")}
           </h2>
-          <p className="mt-4 text-sm leading-8 text-gray-600">
+          <p className="mt-4 text-sm leading-8 text-ink-muted">
             {t("vrWhyText1")}
           </p>
-          <p className="mt-4 text-sm leading-8 text-gray-600">
+          <p className="mt-4 text-sm leading-8 text-ink-muted">
             {t("vrWhyText2")}
           </p>
         </section>
 
         <section>
-          <h2 className="text-2xl font-bold text-[#171717]">
+          <h2 className="text-2xl font-bold text-ink">
             {t("vrImportantTitle")}
           </h2>
           <div className="mt-7 space-y-5">
-            {rights.map((right, index) => {
+            {rights.map((right) => {
               const Icon = right.icon;
               return (
                 <article
                   key={right.title}
-                  className="rounded-2xl border border-gray-200 bg-white p-6 sm:p-8"
+                  className="rounded-2xl border border-line-soft bg-paper-raised p-6 sm:p-8"
                 >
                   <div className="flex items-start gap-4">
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-orange-50 text-[#e85d00]">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-tint text-ink">
                       <Icon size={23} />
                     </div>
                     <div className="min-w-0">
-                      <p className="text-xs font-semibold uppercase tracking-wider text-[#e85d00]">
-                        {t("vrRightLabel")} {index + 1}
-                      </p>
-                      <h3 className="mt-1 text-xl font-bold text-[#171717]">
+                      <h3 className="text-xl font-bold text-ink">
                         {right.title}
                       </h3>
-                      <p className="mt-3 text-sm leading-7 text-gray-600">
+                      <p className="mt-3 text-sm leading-7 text-ink-muted">
                         {right.description}
                       </p>
                       <ul className="mt-5 space-y-3">
                         {right.points.map((point) => (
-                          <li key={point} className="flex gap-3 text-sm leading-7 text-gray-700">
+                          <li key={point} className="flex gap-3 text-sm leading-7 text-ink-muted">
                             <CheckCircle2
                               size={17}
-                              className="mt-1 shrink-0 text-[#e85d00]"
+                              className="mt-1 shrink-0 text-ink"
                             />
                             {point}
                           </li>
@@ -159,32 +151,32 @@ export default function VoterRightsPage() {
           </div>
         </section>
 
-        <section className="mt-14 rounded-2xl border border-orange-100 bg-orange-50 p-6 sm:p-8">
+        <section className="mt-14 rounded-2xl border border-signal/20 bg-tint p-6 sm:p-8">
           <div className="flex items-center gap-3">
-            <MessageSquareWarning size={24} className="text-[#e85d00]" />
-            <h2 className="text-xl font-bold text-[#171717]">
+            <MessageSquareWarning size={24} className="text-ink" />
+            <h2 className="text-xl font-bold text-ink">
               {t("vrWarningTitle")}
             </h2>
           </div>
-          <p className="mt-3 text-sm leading-7 text-gray-600">
+          <p className="mt-3 text-sm leading-7 text-ink-muted">
             {t("vrWarningIntro")}
           </p>
           <ul className="mt-5 space-y-3">
             {warningSigns.map((item) => (
-              <li key={item} className="flex gap-3 text-sm leading-7 text-gray-700">
-                <CheckCircle2 size={17} className="mt-1 shrink-0 text-[#e85d00]" />
+              <li key={item} className="flex gap-3 text-sm leading-7 text-ink-muted">
+                <CheckCircle2 size={17} className="mt-1 shrink-0 text-ink" />
                 {item}
               </li>
             ))}
           </ul>
-          <p className="mt-5 text-sm leading-7 text-gray-600">
+          <p className="mt-5 text-sm leading-7 text-ink-muted">
             {t("vrWarningSafety")}
           </p>
         </section>
 
-        <section className="mt-10 rounded-2xl bg-[#171717] p-6 text-white sm:p-8">
+        <section className="mt-10 rounded-2xl bg-ink p-6 text-white sm:p-8">
           <div className="flex items-center gap-3">
-            <HandHeart size={24} className="text-[#ff6600]" />
+            <HandHeart size={24} className="text-signal" />
             <h2 className="text-2xl font-bold">{t("vrAccessTitle")}</h2>
           </div>
           <p className="mt-4 text-sm leading-7 text-white/70">
@@ -195,11 +187,11 @@ export default function VoterRightsPage() {
           </p>
         </section>
 
-        <section className="mt-10 rounded-2xl border border-gray-200 bg-white p-6 sm:p-8">
-          <h2 className="text-xl font-bold text-[#171717]">
+        <section className="mt-10 rounded-2xl border border-line-soft bg-paper-raised p-6 sm:p-8">
+          <h2 className="text-xl font-bold text-ink">
             {t("vrHelpTitle")}
           </h2>
-          <p className="mt-3 text-sm leading-7 text-gray-600">
+          <p className="mt-3 text-sm leading-7 text-ink-muted">
             {t("vrHelpText")}
           </p>
           <div className="mt-6 flex flex-col gap-4 sm:flex-row">
@@ -207,7 +199,7 @@ export default function VoterRightsPage() {
               href="https://www.inecnigeria.org/voters/education"
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#c94f00] px-5 py-3 text-sm font-semibold text-white hover:bg-[#a84300]"
+              className="inline-flex items-center justify-center gap-2 rounded-xl bg-signal px-5 py-3 text-sm font-semibold text-ink hover:bg-signal-hover"
             >
               {t("vrInecEducation")} <ExternalLink size={15} />
             </a>
@@ -215,7 +207,7 @@ export default function VoterRightsPage() {
               href="https://inecnigeria.org/elections/guidelines"
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-xl border border-gray-200 px-5 py-3 text-sm font-semibold text-[#171717] hover:border-[#ff6600]"
+              className="inline-flex items-center justify-center gap-2 rounded-xl border border-line-soft px-5 py-3 text-sm font-semibold text-ink hover:border-signal"
             >
               {t("vrInecGuidelines")} <ExternalLink size={15} />
             </a>
@@ -223,23 +215,23 @@ export default function VoterRightsPage() {
               href="https://nass.gov.ng/documents/download/11248"
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-xl border border-gray-200 px-5 py-3 text-sm font-semibold text-[#171717] hover:border-[#ff6600]"
+              className="inline-flex items-center justify-center gap-2 rounded-xl border border-line-soft px-5 py-3 text-sm font-semibold text-ink hover:border-signal"
             >
               {t("vrElectoralAct")} <ExternalLink size={15} />
             </a>
           </div>
         </section>
 
-        <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-gray-200 pt-6">
+        <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-line-soft pt-6">
           <Link
             href="/electoral-information"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-gray-600 hover:text-[#e85d00]"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-ink-muted hover:text-ink"
           >
             <ArrowLeft size={16} /> {t("vrBack")}
           </Link>
           <Link
             href="/electoral-information/voting-process"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-[#e85d00] hover:underline"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-ink hover:underline"
           >
             {t("vrNext")} <ArrowRight size={16} />
           </Link>

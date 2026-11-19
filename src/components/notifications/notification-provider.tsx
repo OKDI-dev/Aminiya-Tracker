@@ -20,11 +20,11 @@ export default function NotificationProvider() {
       toastOptions={{
         classNames: {
           toast:
-            "font-sans rounded-2xl! shadow-[0_12px_32px_-12px_rgb(0_0_0/0.25)]! border-black/5! squircle",
+            "font-sans rounded-2xl! shadow-[0_12px_32px_-12px_rgb(0_0_0/0.25)]! border-ink/5! squircle",
           title: "font-semibold",
           description: "text-sm",
           actionButton:
-            "bg-[#171717]! text-white! font-semibold! rounded-lg! px-3!",
+            "bg-ink! text-white! font-semibold! rounded-lg! px-3!",
         },
       }}
     />

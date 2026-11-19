@@ -149,53 +149,53 @@ export default function PromiseUpdateReview({
     <div className="mx-auto max-w-3xl space-y-6">
 
       <div>
-        <p className="text-sm text-gray-500">Political promise</p>
-        <h1 className="mt-1 text-2xl font-bold text-[#171717]">{promiseTitle}</h1>
-        <span className="mt-3 inline-flex rounded-full bg-gray-100 px-3 py-1 text-xs font-medium capitalize text-gray-700">
+        <p className="text-sm text-ink-subtle">Political promise</p>
+        <h1 className="mt-1 text-2xl font-bold text-ink">{promiseTitle}</h1>
+        <span className="mt-3 inline-flex rounded-full bg-tint px-3 py-1 text-xs font-medium capitalize text-ink-muted">
           {reviewStatus.replaceAll("_", " ")}
         </span>
       </div>
 
-      <section className="space-y-4 rounded-xl border border-gray-200 bg-white p-5 sm:p-7">
+      <section className="space-y-4 rounded-xl border border-line-soft bg-paper-raised p-5 sm:p-7">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+          <p className="text-xs font-semibold uppercase tracking-wide text-ink-subtle">
             Progress update
           </p>
-          <h2 className="mt-2 text-xl font-semibold text-gray-900">{updateTitle}</h2>
+          <h2 className="mt-2 text-xl font-semibold text-ink">{updateTitle}</h2>
         </div>
 
-        <div className="grid gap-4 border-y border-gray-100 py-4 sm:grid-cols-2">
+        <div className="grid gap-4 border-y border-line-soft py-4 sm:grid-cols-2">
           <div>
-            <p className="text-xs text-gray-500">Reported progress status</p>
-            <p className="mt-1 font-medium capitalize text-gray-900">
+            <p className="text-xs text-ink-subtle">Reported progress status</p>
+            <p className="mt-1 font-medium capitalize text-ink">
               {progressStatus.replaceAll("_", " ")}
             </p>
           </div>
           <div>
-            <p className="text-xs text-gray-500">Date of update</p>
-            <p className="mt-1 font-medium text-gray-900">{updateDate}</p>
+            <p className="text-xs text-ink-subtle">Date of update</p>
+            <p className="mt-1 font-medium text-ink">{updateDate}</p>
           </div>
         </div>
 
         <div>
-          <h3 className="text-sm font-semibold text-gray-800">
+          <h3 className="text-sm font-semibold text-ink">
             Description and evidence
           </h3>
-          <p className="mt-2 whitespace-pre-wrap text-sm leading-7 text-gray-700">
+          <p className="mt-2 whitespace-pre-wrap text-sm leading-7 text-ink-muted">
             {updateDescription}
           </p>
         </div>
 
         {evidenceUrl && (
-          <div className="rounded-lg bg-gray-50 p-4">
-            <p className="text-xs font-semibold text-gray-500">
+          <div className="rounded-lg bg-tint p-4">
+            <p className="text-xs font-semibold text-ink-subtle">
               Supporting evidence URL
             </p>
             <a
               href={evidenceUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-2 block break-all text-sm text-[#e85d00] underline"
+              className="mt-2 block break-all text-sm text-ink underline"
             >
               {evidenceUrl}
             </a>
@@ -203,24 +203,24 @@ export default function PromiseUpdateReview({
         )}
 
         {sourceTitle && (
-          <div className="rounded-lg bg-gray-50 p-4">
-            <p className="text-xs text-gray-500">Linked verified source</p>
-            <p className="mt-1 text-sm font-medium text-gray-900">{sourceTitle}</p>
+          <div className="rounded-lg bg-tint p-4">
+            <p className="text-xs text-ink-subtle">Linked verified source</p>
+            <p className="mt-1 text-sm font-medium text-ink">{sourceTitle}</p>
           </div>
         )}
       </section>
 
-      <section className="space-y-4 rounded-xl border border-gray-200 bg-white p-5 sm:p-7">
+      <section className="space-y-4 rounded-xl border border-line-soft bg-paper-raised p-5 sm:p-7">
         <div>
-          <h2 className="font-semibold text-gray-900">Uploaded evidence files</h2>
-          <p className="mt-1 text-sm text-gray-500">
+          <h2 className="font-semibold text-ink">Uploaded evidence files</h2>
+          <p className="mt-1 text-sm text-ink-subtle">
             Files are private by default. Public release is a separate decision
             from approving the progress update.
           </p>
         </div>
 
         {evidence.length === 0 ? (
-          <p className="rounded-lg bg-gray-50 p-4 text-sm text-gray-500">
+          <p className="rounded-lg bg-tint p-4 text-sm text-ink-subtle">
             No file attachments have been uploaded for this update.
           </p>
         ) : (
@@ -228,18 +228,18 @@ export default function PromiseUpdateReview({
             {evidence.map((item) => (
               <div
                 key={item.id}
-                className="space-y-3 rounded-lg border border-gray-200 p-4"
+                className="space-y-3 rounded-lg border border-line-soft p-4"
               >
                 <div className="flex items-start gap-3">
-                  <FileText className="mt-1 shrink-0 text-[#e85d00]" size={20} />
+                  <FileText className="mt-1 shrink-0 text-ink" size={20} />
                   <div className="min-w-0 flex-1">
-                    <p className="break-all text-sm font-semibold text-gray-900">
+                    <p className="break-all text-sm font-semibold text-ink">
                       {item.originalFilename}
                     </p>
-                    <p className="mt-1 text-xs text-gray-500">
+                    <p className="mt-1 text-xs text-ink-subtle">
                       {item.mimeType} · {formatSize(item.fileSize)}
                     </p>
-                    <p className="mt-1 text-xs text-gray-500">
+                    <p className="mt-1 text-xs text-ink-subtle">
                       Uploaded {new Date(item.createdAt).toLocaleString()}
                     </p>
                   </div>
@@ -247,7 +247,7 @@ export default function PromiseUpdateReview({
                     className={`shrink-0 rounded-full px-2.5 py-1 text-xs font-medium ${
                       item.publiclyVisible
                         ? "bg-green-50 text-green-700"
-                        : "bg-gray-100 text-gray-600"
+                        : "bg-tint text-ink-muted"
                     }`}
                   >
                     {item.publiclyVisible ? "Public" : "Private"}
@@ -260,7 +260,7 @@ export default function PromiseUpdateReview({
                       href={item.signedUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-sm font-medium text-[#e85d00] hover:underline"
+                      className="inline-flex items-center gap-1.5 text-sm font-medium text-ink hover:underline"
                     >
                       <ExternalLink size={15} />
                       Preview / download
@@ -272,13 +272,13 @@ export default function PromiseUpdateReview({
                   )}
 
                   {item.publiclyVisible && item.publishedAt && (
-                    <span className="text-xs text-gray-500">
+                    <span className="text-xs text-ink-subtle">
                       Released {new Date(item.publishedAt).toLocaleString()}
                     </span>
                   )}
                 </div>
 
-                <div className="border-t border-gray-100 pt-3">
+                <div className="border-t border-line-soft pt-3">
                   <button
                     type="button"
                     disabled={!!updatingEvidenceId}
@@ -286,7 +286,7 @@ export default function PromiseUpdateReview({
                     className={`inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold disabled:opacity-60 ${
                       item.publiclyVisible
                         ? "border border-red-200 text-red-700 hover:bg-red-50"
-                        : "bg-[#c94f00] text-white hover:bg-[#a84300]"
+                        : "bg-signal text-ink hover:bg-signal-hover"
                     }`}
                   >
                     {updatingEvidenceId === item.id ? (
@@ -317,16 +317,16 @@ export default function PromiseUpdateReview({
       </section>
 
       {isPending && (
-        <section className="space-y-4 rounded-xl border border-gray-200 bg-white p-5 sm:p-7">
+        <section className="space-y-4 rounded-xl border border-line-soft bg-paper-raised p-5 sm:p-7">
           <div>
-            <h2 className="font-semibold text-gray-900">Reviewer assessment</h2>
-            <p className="mt-1 text-sm text-gray-500">
+            <h2 className="font-semibold text-ink">Reviewer assessment</h2>
+            <p className="mt-1 text-sm text-ink-subtle">
               Record your assessment. A reason is required when rejecting an update.
             </p>
           </div>
 
           <div>
-            <label htmlFor="review_notes" className="text-sm font-medium text-gray-800">
+            <label htmlFor="review_notes" className="text-sm font-medium text-ink">
               Review notes
             </label>
             <textarea
@@ -336,7 +336,7 @@ export default function PromiseUpdateReview({
               value={notes}
               onChange={(event) => setNotes(event.target.value)}
               placeholder="Explain your decision or identify any evidence gaps..."
-              className="mt-2 w-full rounded-lg border border-gray-300 px-3 py-3 text-sm outline-none focus:border-[#ff6600] focus:ring-1 focus:ring-[#ff6600]"
+              className="mt-2 w-full rounded-lg border border-line px-3 py-3 text-sm outline-none focus:border-signal focus:ring-1 focus:ring-signal"
             />
           </div>
 
@@ -368,7 +368,7 @@ export default function PromiseUpdateReview({
               type="button"
               disabled={saving}
               onClick={() => review("approved")}
-              className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#c94f00] px-5 py-3 text-sm font-semibold text-white hover:bg-[#a84300] disabled:opacity-60"
+              className="inline-flex items-center justify-center gap-2 rounded-lg bg-signal px-5 py-3 text-sm font-semibold text-ink hover:bg-signal-hover disabled:opacity-60"
             >
               {saving ? (
                 <Loader2 size={16} className="animate-spin" />
@@ -382,7 +382,7 @@ export default function PromiseUpdateReview({
       )}
 
       {!isPending && (
-        <div className="rounded-lg border border-gray-200 bg-white p-4 text-sm text-gray-600">
+        <div className="rounded-lg border border-line-soft bg-paper-raised p-4 text-sm text-ink-muted">
           This progress update has already been reviewed. You can still manage
           the public visibility of its evidence files above.
         </div>

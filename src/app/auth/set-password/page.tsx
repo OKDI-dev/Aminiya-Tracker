@@ -101,8 +101,8 @@ export default function SetPasswordPage() {
 
   if (checking || !authorized) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-[#f7f8f5] px-4">
-        <p className="text-sm text-gray-500">
+      <main className="flex min-h-screen items-center justify-center bg-paper px-4">
+        <p className="text-sm text-ink-subtle">
           {checking ? "Verifying your staff account..." : "Redirecting..."}
         </p>
       </main>
@@ -110,28 +110,28 @@ export default function SetPasswordPage() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-[#f7f8f5] px-4 py-12">
+    <main className="flex min-h-screen items-center justify-center bg-paper px-4 py-12">
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
-          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#c94f00] text-white">
+          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-signal text-ink">
             <ShieldCheck size={30} />
           </div>
 
-          <h1 className="text-2xl font-bold text-[#171717]">
+          <h1 className="text-2xl font-bold text-ink">
             Aminiya Tracker
           </h1>
 
-          <p className="mt-2 text-sm text-gray-600">
+          <p className="mt-2 text-sm text-ink-muted">
             Staff account activation
           </p>
         </div>
 
-        <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm sm:p-8">
-          <h2 className="text-xl font-semibold text-[#171717]">
+        <div className="rounded-2xl border border-line-soft bg-paper-raised p-6 shadow-sm sm:p-8">
+          <h2 className="text-xl font-semibold text-ink">
             Set your password
           </h2>
 
-          <p className="mt-2 text-sm text-gray-500">
+          <p className="mt-2 text-sm text-ink-subtle">
             Create a secure password to complete your staff account setup.
           </p>
 
@@ -139,7 +139,7 @@ export default function SetPasswordPage() {
             <div>
               <label
                 htmlFor="new-password"
-                className="mb-2 block text-sm font-medium text-gray-700"
+                className="mb-2 block text-sm font-medium text-ink-muted"
               >
                 New password
               </label>
@@ -147,7 +147,7 @@ export default function SetPasswordPage() {
               <div className="relative">
                 <LockKeyhole
                   size={18}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-ink-subtle"
                 />
                 <input
                   id="new-password"
@@ -158,7 +158,7 @@ export default function SetPasswordPage() {
                   value={password}
                   onChange={(event) => setPassword(event.target.value)}
                   placeholder="At least 12 characters"
-                  className="w-full rounded-lg border border-gray-300 py-3 pl-10 pr-3 text-sm text-gray-900 outline-none transition focus:border-[#ff6600] focus:ring-2 focus:ring-orange-100"
+                  className="w-full rounded-lg border border-line py-3 pl-10 pr-3 text-sm text-ink outline-none transition focus:border-signal focus:ring-2 focus:ring-signal/20"
                 />
               </div>
             </div>
@@ -166,7 +166,7 @@ export default function SetPasswordPage() {
             <div>
               <label
                 htmlFor="confirm-password"
-                className="mb-2 block text-sm font-medium text-gray-700"
+                className="mb-2 block text-sm font-medium text-ink-muted"
               >
                 Confirm password
               </label>
@@ -180,25 +180,25 @@ export default function SetPasswordPage() {
                 value={confirmPassword}
                 onChange={(event) => setConfirmPassword(event.target.value)}
                 placeholder="Enter your password again"
-                className="w-full rounded-lg border border-gray-300 px-3 py-3 text-sm text-gray-900 outline-none transition focus:border-[#ff6600] focus:ring-2 focus:ring-orange-100"
+                className="w-full rounded-lg border border-line px-3 py-3 text-sm text-ink outline-none transition focus:border-signal focus:ring-2 focus:ring-signal/20"
               />
             </div>
 
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-ink-subtle">
               Use at least 12 characters. A unique password is recommended.
             </p>
 
             <button
               type="submit"
               disabled={saving}
-              className="w-full rounded-lg bg-[#c94f00] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#a84300] disabled:cursor-not-allowed disabled:opacity-60"
+              className="w-full rounded-lg bg-signal px-4 py-3 text-sm font-semibold text-ink transition hover:bg-signal-hover disabled:cursor-not-allowed disabled:opacity-60"
             >
               {saving ? "Setting password..." : "Activate account"}
             </button>
           </form>
         </div>
 
-        <p className="mt-6 text-center text-xs text-gray-500">
+        <p className="mt-6 text-center text-xs text-ink-subtle">
           Restricted access. Authorised electoral personnel only.
         </p>
       </div>

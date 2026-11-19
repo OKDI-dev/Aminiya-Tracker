@@ -97,12 +97,12 @@ export default function AreaForm({ areas }: Props) {
   }
 
   const inputClass =
-    "mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-900 outline-none focus:border-[#ff6600] focus:ring-2 focus:ring-orange-100";
+    "mt-1 w-full rounded-lg border border-line bg-paper-raised px-3 py-2.5 text-sm text-ink outline-none focus:border-signal focus:ring-2 focus:ring-signal/20";
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5 rounded-xl border border-gray-200 bg-white p-5 sm:p-7">
+    <form onSubmit={handleSubmit} className="space-y-5 rounded-xl border border-line-soft bg-paper-raised p-5 sm:p-7">
       <div>
-        <label htmlFor="name" className="text-sm font-medium text-gray-800">
+        <label htmlFor="name" className="text-sm font-medium text-ink">
           Area name *
         </label>
         <input
@@ -117,7 +117,7 @@ export default function AreaForm({ areas }: Props) {
       </div>
 
       <div>
-        <label htmlFor="area_type" className="text-sm font-medium text-gray-800">
+        <label htmlFor="area_type" className="text-sm font-medium text-ink">
           Area type *
         </label>
         <select
@@ -134,7 +134,7 @@ export default function AreaForm({ areas }: Props) {
 
       {requiredParentType ? (
         <div>
-          <label htmlFor="parent_id" className="text-sm font-medium text-gray-800">
+          <label htmlFor="parent_id" className="text-sm font-medium text-ink">
             Parent area *
           </label>
           <select
@@ -156,7 +156,7 @@ export default function AreaForm({ areas }: Props) {
           )}
         </div>
       ) : (
-        <div className="rounded-lg bg-orange-50 p-3 text-sm text-gray-700">
+        <div className="rounded-lg bg-tint p-3 text-sm text-ink-muted">
           {areaType === "state"
             ? "States are stored without a parent to preserve compatibility with the existing incident-reporting system."
             : "Country records are stored without a parent."}
@@ -164,7 +164,7 @@ export default function AreaForm({ areas }: Props) {
       )}
 
       <div>
-        <label htmlFor="code" className="text-sm font-medium text-gray-800">
+        <label htmlFor="code" className="text-sm font-medium text-ink">
           Area code
         </label>
         <input
@@ -178,7 +178,7 @@ export default function AreaForm({ areas }: Props) {
       </div>
 
       <div>
-        <label htmlFor="publication_status" className="text-sm font-medium text-gray-800">
+        <label htmlFor="publication_status" className="text-sm font-medium text-ink">
           Publication status
         </label>
         <select
@@ -191,7 +191,7 @@ export default function AreaForm({ areas }: Props) {
           <option value="published">Published</option>
           <option value="archived">Archived</option>
         </select>
-        <p className="mt-1 text-xs text-gray-500">
+        <p className="mt-1 text-xs text-ink-subtle">
           Only published areas are available in public electoral features.
         </p>
       </div>
@@ -202,18 +202,18 @@ export default function AreaForm({ areas }: Props) {
         </div>
       )}
 
-      <div className="flex flex-wrap justify-end gap-3 border-t border-gray-100 pt-5">
+      <div className="flex flex-wrap justify-end gap-3 border-t border-line-soft pt-5">
         <button
           type="button"
           onClick={() => router.back()}
-          className="rounded-lg border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
+          className="rounded-lg border border-line px-4 py-2.5 text-sm font-medium text-ink-muted hover:bg-tint"
         >
           Cancel
         </button>
         <button
           type="submit"
           disabled={loading || (!!requiredParentType && !parentOptions.length)}
-          className="rounded-lg bg-[#c94f00] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#a84300] disabled:cursor-not-allowed disabled:opacity-60"
+          className="rounded-lg bg-signal px-5 py-2.5 text-sm font-semibold text-ink hover:bg-signal-hover disabled:cursor-not-allowed disabled:opacity-60"
         >
           {loading ? "Saving..." : "Save Electoral Area"}
         </button>

@@ -34,13 +34,13 @@ export default function AboutPage() {
   ];
 
   return (
-    <main className="min-h-screen bg-[#f7f7f7] text-[#171717]">
+    <main className="min-h-screen bg-paper text-ink">
       <PublicPageHero
         title={
           <>
             {t("aboutHeroTitle")}
             <br />
-            <span className="text-[#ff6600]">
+            <span className="text-signal">
               {t("aboutHeroAccent")}
             </span>
           </>
@@ -61,9 +61,9 @@ export default function AboutPage() {
               return (
                 <article
                   key={index}
-                  className="rounded-2xl border border-[#e7e7e7] bg-white p-6"
+                  className="rounded-2xl border border-line-soft bg-paper-raised p-6"
                 >
-                  <div className="flex size-12 items-center justify-center rounded-xl bg-[#fff0e5] text-[#e85d00]">
+                  <div className="flex size-12 items-center justify-center rounded-xl bg-tint text-ink">
                     <Icon size={24} />
                   </div>
 
@@ -71,7 +71,7 @@ export default function AboutPage() {
                     {pillar.title}
                   </h3>
 
-                  <p className="mt-3 text-sm leading-7 text-[#666]">
+                  <p className="mt-3 text-sm leading-7 text-ink-muted">
                     {pillar.description}
                   </p>
                 </article>
@@ -80,19 +80,19 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <section className="mt-14 rounded-2xl border border-[#e7e7e7] bg-white p-7 sm:p-9">
+        <section className="mt-14 rounded-2xl border border-line-soft bg-paper-raised p-7 sm:p-9">
           <h2 className="text-2xl font-semibold">
             {t("aboutPrinciples")}
           </h2>
 
-          <ul className="mt-5 space-y-3 leading-7 text-[#555]">
+          <ul className="mt-5 space-y-3 leading-7 text-ink-muted">
             {principles.map((principle, index) => (
               <li key={index}>• {principle}</li>
             ))}
           </ul>
         </section>
 
-        <p className="mt-8 text-sm leading-6 text-[#777]">
+        <p className="mt-8 text-sm leading-6 text-ink-subtle">
           {t("aboutDevelopmentNotice")}
         </p>
       </div>

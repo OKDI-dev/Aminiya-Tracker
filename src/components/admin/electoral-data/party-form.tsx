@@ -79,16 +79,16 @@ export default function PartyForm() {
   }
 
   const inputClass =
-    "mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-900 outline-none focus:border-[#ff6600] focus:ring-2 focus:ring-orange-100";
+    "mt-1 w-full rounded-lg border border-line bg-paper-raised px-3 py-2.5 text-sm text-ink outline-none focus:border-signal focus:ring-2 focus:ring-signal/20";
 
   return (
     <form
       onSubmit={handleSubmit}
       encType="multipart/form-data"
-      className="space-y-5 rounded-xl border border-gray-200 bg-white p-5 sm:p-7"
+      className="space-y-5 rounded-xl border border-line-soft bg-paper-raised p-5 sm:p-7"
     >
       <div>
-        <label htmlFor="name" className="text-sm font-medium text-gray-800">
+        <label htmlFor="name" className="text-sm font-medium text-ink">
           Political party name *
         </label>
         <input
@@ -102,7 +102,7 @@ export default function PartyForm() {
       </div>
 
       <div>
-        <label htmlFor="acronym" className="text-sm font-medium text-gray-800">
+        <label htmlFor="acronym" className="text-sm font-medium text-ink">
           Acronym
         </label>
         <input
@@ -115,16 +115,16 @@ export default function PartyForm() {
       </div>
 
       <div>
-        <label htmlFor="logo" className="text-sm font-medium text-gray-800">
+        <label htmlFor="logo" className="text-sm font-medium text-ink">
           Party logo
         </label>
-        <div className="mt-2 flex flex-col gap-4 rounded-xl border border-dashed border-gray-300 p-4 sm:flex-row sm:items-center">
-          <div className="flex h-28 w-28 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-gray-100">
+        <div className="mt-2 flex flex-col gap-4 rounded-xl border border-dashed border-line p-4 sm:flex-row sm:items-center">
+          <div className="flex h-28 w-28 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-tint">
             {preview ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={preview} alt="Party logo preview" className="h-full w-full object-contain p-2" />
             ) : (
-              <span className="text-xs text-gray-400">Logo preview</span>
+              <span className="text-xs text-ink-subtle">Logo preview</span>
             )}
           </div>
           <div className="min-w-0 flex-1">
@@ -134,18 +134,18 @@ export default function PartyForm() {
               type="file"
               accept="image/jpeg,image/png,image/webp"
               onChange={handleLogoChange}
-              className="block w-full text-sm text-gray-600 file:mr-3 file:rounded-lg file:border-0 file:bg-orange-50 file:px-4 file:py-2 file:font-medium file:text-[#e85d00] hover:file:bg-orange-100"
+              className="block w-full text-sm text-ink-muted file:mr-3 file:rounded-lg file:border-0 file:bg-tint file:px-4 file:py-2 file:font-medium file:text-ink hover:file:bg-signal/15"
             />
-            <p className="mt-2 text-xs text-gray-500">
+            <p className="mt-2 text-xs text-ink-subtle">
               JPG, PNG or WebP. Maximum file size: 5 MB.
             </p>
-            {fileName && <p className="mt-1 truncate text-xs text-gray-700">{fileName}</p>}
+            {fileName && <p className="mt-1 truncate text-xs text-ink-muted">{fileName}</p>}
           </div>
         </div>
       </div>
 
       <div>
-        <label htmlFor="official_website" className="text-sm font-medium text-gray-800">
+        <label htmlFor="official_website" className="text-sm font-medium text-ink">
           Official website
         </label>
         <input
@@ -159,7 +159,7 @@ export default function PartyForm() {
       </div>
 
       <div>
-        <label htmlFor="publication_status" className="text-sm font-medium text-gray-800">
+        <label htmlFor="publication_status" className="text-sm font-medium text-ink">
           Publication status
         </label>
         <select id="publication_status" name="publication_status" defaultValue="draft" className={inputClass}>
@@ -167,7 +167,7 @@ export default function PartyForm() {
           <option value="published">Published</option>
           <option value="archived">Archived</option>
         </select>
-        <p className="mt-1 text-xs text-gray-500">
+        <p className="mt-1 text-xs text-ink-subtle">
           Only published party profiles are visible to the public.
         </p>
       </div>
@@ -178,18 +178,18 @@ export default function PartyForm() {
         </div>
       )}
 
-      <div className="flex flex-wrap justify-end gap-3 border-t border-gray-100 pt-5">
+      <div className="flex flex-wrap justify-end gap-3 border-t border-line-soft pt-5">
         <button
           type="button"
           onClick={() => router.back()}
-          className="rounded-lg border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
+          className="rounded-lg border border-line px-4 py-2.5 text-sm font-medium text-ink-muted hover:bg-tint"
         >
           Cancel
         </button>
         <button
           type="submit"
           disabled={loading}
-          className="rounded-lg bg-[#c94f00] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#a84300] disabled:cursor-not-allowed disabled:opacity-60"
+          className="rounded-lg bg-signal px-5 py-2.5 text-sm font-semibold text-ink hover:bg-signal-hover disabled:cursor-not-allowed disabled:opacity-60"
         >
           {loading ? "Saving..." : "Save Political Party"}
         </button>

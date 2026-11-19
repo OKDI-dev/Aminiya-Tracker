@@ -39,7 +39,7 @@ export default function SourceStatusActions({
           key={action.status}
           type="button"
           onClick={() => change(action.status)}
-          className="rounded-md border border-gray-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-gray-700 hover:border-[#ff6600] hover:text-[#ff6600]"
+          className="rounded-md border border-line-soft bg-paper-raised px-2.5 py-1.5 text-xs font-semibold text-ink-muted hover:border-signal hover:text-ink"
         >
           {action.label}
         </button>

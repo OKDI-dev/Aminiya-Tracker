@@ -58,7 +58,7 @@ export default async function NewPromisePage() {
     });
 
   return (
-    <main className="min-h-screen bg-[#f7f8f5] p-5 sm:p-8">
+    <main className="min-h-screen bg-paper p-5 sm:p-8">
       <PromiseForm candidacies={options} />
     </main>
   );

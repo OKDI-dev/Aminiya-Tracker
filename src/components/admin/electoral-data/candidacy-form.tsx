@@ -98,7 +98,7 @@ export default function CandidacyForm({
   const [otherPosition, setOtherPosition] = useState("");
 
   const inputClass =
-    "mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-900 outline-none focus:border-[#ff6600] focus:ring-2 focus:ring-orange-100";
+    "mt-1 w-full rounded-lg border border-line bg-paper-raised px-3 py-2.5 text-sm text-ink outline-none focus:border-signal focus:ring-2 focus:ring-signal/20";
 
   const selectedElection = elections.find(
     (item) => item.id === electionId
@@ -249,10 +249,10 @@ export default function CandidacyForm({
   return (
     <form
       onSubmit={handleSubmit}
-      className="space-y-5 rounded-xl border border-gray-200 bg-white p-5 sm:p-7"
+      className="space-y-5 rounded-xl border border-line-soft bg-paper-raised p-5 sm:p-7"
     >
       <div>
-        <label htmlFor="election_id" className="text-sm font-medium text-gray-800">
+        <label htmlFor="election_id" className="text-sm font-medium text-ink">
           Election *
         </label>
         <select
@@ -278,7 +278,7 @@ export default function CandidacyForm({
       </div>
 
       <div>
-        <label htmlFor="candidate_id" className="text-sm font-medium text-gray-800">
+        <label htmlFor="candidate_id" className="text-sm font-medium text-ink">
           Candidate *
         </label>
         <select
@@ -298,7 +298,7 @@ export default function CandidacyForm({
       </div>
 
       <div>
-        <label htmlFor="office_title" className="text-sm font-medium text-gray-800">
+        <label htmlFor="office_title" className="text-sm font-medium text-ink">
           Office or position contested *
         </label>
         <select
@@ -334,15 +334,15 @@ export default function CandidacyForm({
 
       {selectedPosition?.areaType === "state" && (
         <div>
-          <label className="text-sm font-medium text-gray-800">
+          <label className="text-sm font-medium text-ink">
             Election area
           </label>
           <input
             readOnly
             value={gombeState?.name ?? "Gombe State record unavailable"}
-            className={`${inputClass} bg-gray-50`}
+            className={`${inputClass} bg-tint`}
           />
-          <p className="mt-1 text-xs text-gray-500">
+          <p className="mt-1 text-xs text-ink-subtle">
             The governorship contest covers the entire state.
           </p>
         </div>
@@ -350,7 +350,7 @@ export default function CandidacyForm({
 
       {selectedPosition?.areaType === "senatorial_district" && (
         <div>
-          <label htmlFor="electoral_area_id" className="text-sm font-medium text-gray-800">
+          <label htmlFor="electoral_area_id" className="text-sm font-medium text-ink">
             Senatorial district *
           </label>
           <select
@@ -375,7 +375,7 @@ export default function CandidacyForm({
 
       {selectedPosition?.areaType === "federal_constituency" && (
         <div>
-          <label htmlFor="electoral_area_id" className="text-sm font-medium text-gray-800">
+          <label htmlFor="electoral_area_id" className="text-sm font-medium text-ink">
             Federal constituency *
           </label>
           <select
@@ -400,7 +400,7 @@ export default function CandidacyForm({
 
       {selectedPosition?.areaType === "state_constituency" && (
         <div>
-          <label htmlFor="electoral_area_id" className="text-sm font-medium text-gray-800">
+          <label htmlFor="electoral_area_id" className="text-sm font-medium text-ink">
             State constituency *
           </label>
           <select
@@ -425,7 +425,7 @@ export default function CandidacyForm({
 
       {selectedPosition?.areaType === "lga" && (
         <div>
-          <label htmlFor="electoral_area_id" className="text-sm font-medium text-gray-800">
+          <label htmlFor="electoral_area_id" className="text-sm font-medium text-ink">
             Local Government Area *
           </label>
           <select
@@ -446,7 +446,7 @@ export default function CandidacyForm({
       {selectedPosition?.areaType === "ward" && (
         <div className="space-y-4">
           <div>
-            <label htmlFor="lga_id" className="text-sm font-medium text-gray-800">
+            <label htmlFor="lga_id" className="text-sm font-medium text-ink">
               Local Government Area *
             </label>
             <select
@@ -466,7 +466,7 @@ export default function CandidacyForm({
             </select>
           </div>
           <div>
-            <label htmlFor="electoral_area_id" className="text-sm font-medium text-gray-800">
+            <label htmlFor="electoral_area_id" className="text-sm font-medium text-ink">
               Ward *
             </label>
             <select
@@ -487,7 +487,7 @@ export default function CandidacyForm({
       )}
 
       {position === "President" && (
-        <p className="rounded-lg bg-orange-50 p-3 text-sm text-orange-800">
+        <p className="rounded-lg bg-tint p-3 text-sm text-ink">
           Presidential candidacies are national contests and do not require a
           state or constituency selection.
         </p>
@@ -497,7 +497,7 @@ export default function CandidacyForm({
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label htmlFor="party_id" className="text-sm font-medium text-gray-800">
+          <label htmlFor="party_id" className="text-sm font-medium text-ink">
             Political party
           </label>
           <select id="party_id" name="party_id" defaultValue="" className={inputClass}>
@@ -508,7 +508,7 @@ export default function CandidacyForm({
           </select>
         </div>
         <div>
-          <label htmlFor="ballot_number" className="text-sm font-medium text-gray-800">
+          <label htmlFor="ballot_number" className="text-sm font-medium text-ink">
             Ballot number
           </label>
           <input
@@ -522,7 +522,7 @@ export default function CandidacyForm({
       </div>
 
       <div>
-        <label htmlFor="publication_status" className="text-sm font-medium text-gray-800">
+        <label htmlFor="publication_status" className="text-sm font-medium text-ink">
           Publication status
         </label>
         <select
@@ -538,7 +538,7 @@ export default function CandidacyForm({
       </div>
 
       <div>
-        <label htmlFor="manifesto_url" className="text-sm font-medium text-gray-800">
+        <label htmlFor="manifesto_url" className="text-sm font-medium text-ink">
           Candidacy manifesto URL
         </label>
         <input
@@ -549,7 +549,7 @@ export default function CandidacyForm({
           className={inputClass}
           placeholder="https://..."
         />
-        <p className="mt-1 text-xs text-gray-500">
+        <p className="mt-1 text-xs text-ink-subtle">
           Optional link to the candidate&apos;s manifesto for this election.
         </p>
       </div>
@@ -560,18 +560,18 @@ export default function CandidacyForm({
         </div>
       )}
 
-      <div className="flex flex-wrap justify-end gap-3 border-t border-gray-100 pt-5">
+      <div className="flex flex-wrap justify-end gap-3 border-t border-line-soft pt-5">
         <button
           type="button"
           onClick={() => router.back()}
-          className="rounded-lg border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
+          className="rounded-lg border border-line px-4 py-2.5 text-sm font-medium text-ink-muted hover:bg-tint"
         >
           Cancel
         </button>
         <button
           type="submit"
           disabled={loading || !elections.length || !candidates.length}
-          className="rounded-lg bg-[#c94f00] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#a84300] disabled:cursor-not-allowed disabled:opacity-60"
+          className="rounded-lg bg-signal px-5 py-2.5 text-sm font-semibold text-ink hover:bg-signal-hover disabled:cursor-not-allowed disabled:opacity-60"
         >
           {loading ? "Saving..." : "Save Candidacy"}
         </button>

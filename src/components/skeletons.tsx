@@ -18,7 +18,7 @@ function LoadingRegion({ label, children, className }: { label: string; children
 
 export function CardSkeleton({ media = false, lines = 3 }: { media?: boolean; lines?: number }) {
   return (
-    <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white">
+    <div className="overflow-hidden rounded-2xl border border-line-soft bg-paper-raised">
       {media ? <Bone className="h-44 rounded-none" /> : null}
       <div className="space-y-3 p-5">
         {!media ? (
@@ -60,14 +60,14 @@ export function ListSkeleton({ rows = 4, label = "Loading…" }: { rows?: number
   return (
     <LoadingRegion label={label} className="grid gap-4">
       {Array.from({ length: rows }).map((_, index) => (
-        <div key={index} className="rounded-xl border border-gray-200 bg-white p-5">
+        <div key={index} className="rounded-xl border border-line-soft bg-paper-raised p-5">
           <div className="flex items-center justify-between">
             <Bone className="h-6 w-28 rounded-full" />
             <Bone className="h-6 w-20 rounded-full" />
           </div>
           <Bone className="mt-4 h-3.5 w-full" />
           <Bone className="mt-2 h-3.5 w-4/5" />
-          <div className="mt-4 grid gap-3 border-t border-gray-100 pt-4 sm:grid-cols-3">
+          <div className="mt-4 grid gap-3 border-t border-line-soft pt-4 sm:grid-cols-3">
             <Bone className="h-3 w-3/4" />
             <Bone className="h-3 w-2/3" />
             <Bone className="h-3 w-1/2" />
@@ -80,12 +80,12 @@ export function ListSkeleton({ rows = 4, label = "Loading…" }: { rows?: number
 
 export function TableSkeleton({ rows = 6, columns = 5, label = "Loading records…" }: { rows?: number; columns?: number; label?: string }) {
   return (
-    <LoadingRegion label={label} className="overflow-hidden rounded-xl border border-gray-200 bg-white">
-      <div className="flex items-center justify-between border-b border-gray-100 px-5 py-4">
+    <LoadingRegion label={label} className="overflow-hidden rounded-xl border border-line-soft bg-paper-raised">
+      <div className="flex items-center justify-between border-b border-line-soft px-5 py-4">
         <Bone className="h-5 w-40" />
         <Bone className="h-4 w-16" />
       </div>
-      <div className="divide-y divide-gray-100">
+      <div className="divide-y divide-line-soft">
         {Array.from({ length: rows }).map((_, row) => (
           <div key={row} className="grid gap-4 px-5 py-4" style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }}>
             {Array.from({ length: columns }).map((_, column) => (
@@ -100,7 +100,7 @@ export function TableSkeleton({ rows = 6, columns = 5, label = "Loading records�
 
 export function HeroSkeleton() {
   return (
-    <section className="border-b border-[#e8e8e8] bg-white px-5 py-8 sm:px-8 sm:py-12">
+    <section className="border-b border-line-soft bg-paper-raised px-5 py-8 sm:px-8 sm:py-12">
       <div className="mx-auto max-w-7xl">
         <Bone className="h-10 w-full max-w-xl sm:h-14" />
         <Bone className="mt-3 h-10 w-2/3 max-w-md sm:h-14" />
@@ -115,7 +115,7 @@ export function StatRowSkeleton({ count = 3 }: { count?: number }) {
   return (
     <div className="grid gap-4 sm:grid-cols-3">
       {Array.from({ length: count }).map((_, index) => (
-        <div key={index} className="rounded-xl border border-gray-200 bg-white p-5">
+        <div key={index} className="rounded-xl border border-line-soft bg-paper-raised p-5">
           <Bone className="size-6 rounded-lg" />
           <Bone className="mt-4 h-3.5 w-32" />
           <Bone className="mt-2 h-8 w-16" />
@@ -140,7 +140,7 @@ export function PageSkeleton({
 }) {
   return (
     <ViewTransition exit="skeleton-out" default="none">
-      <main className={cn("min-h-screen", admin ? "bg-[#f7f8f5] p-5 sm:p-8" : "bg-[#f7f8f5]")}>
+      <main className={cn("min-h-screen", admin ? "bg-paper p-5 sm:p-8" : "bg-paper")}>
         {admin ? (
           <div className="mx-auto max-w-7xl space-y-6">
             <div className="flex items-end justify-between gap-4">

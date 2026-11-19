@@ -106,9 +106,9 @@ export default function IncidentReviewActions({ incidentId, status }: Props) {
 
   if (availableActions.length === 0) {
     return (
-      <section className="rounded-xl border border-gray-200 bg-white p-5">
-        <h3 className="font-semibold text-[#171717]">Review actions</h3>
-        <p className="mt-2 text-sm text-gray-500">
+      <section className="rounded-xl border border-line-soft bg-paper-raised p-5">
+        <h3 className="font-semibold text-ink">Review actions</h3>
+        <p className="mt-2 text-sm text-ink-subtle">
           This incident has reached its current final status. No further
           review action is available.
         </p>
@@ -126,22 +126,22 @@ export default function IncidentReviewActions({ incidentId, status }: Props) {
   const busy = pendingAction !== null || settling;
 
   return (
-    <section className="space-y-5 rounded-xl border border-gray-200 bg-white p-5 sm:p-7">
+    <section className="space-y-5 rounded-xl border border-line-soft bg-paper-raised p-5 sm:p-7">
       <div>
-        <h3 className="font-semibold text-[#171717]">Review actions</h3>
-        <p className="mt-1 text-sm text-gray-500">
+        <h3 className="font-semibold text-ink">Review actions</h3>
+        <p className="mt-1 text-sm text-ink-subtle">
           Record your assessment before changing the incident status.
         </p>
       </div>
 
       {needsNotes && (
         <div>
-          <label htmlFor="review-notes" className="mb-2 block text-sm font-medium text-[#171717]">
+          <label htmlFor="review-notes" className="mb-2 block text-sm font-medium text-ink">
             Internal review notes{" "}
             {notesRequired ? (
               <span className="text-red-600">*</span>
             ) : (
-              <span className="font-normal text-gray-500">(optional)</span>
+              <span className="font-normal text-ink-subtle">(optional)</span>
             )}
           </label>
           <textarea
@@ -160,17 +160,17 @@ export default function IncidentReviewActions({ incidentId, status }: Props) {
           />
           <div className="flex items-start justify-between gap-3">
             <FieldError id="review-notes-error" message={notesError} />
-            <p className="ml-auto mt-1 shrink-0 text-xs text-gray-400">{notes.length}/5000</p>
+            <p className="ml-auto mt-1 shrink-0 text-xs text-ink-subtle">{notes.length}/5000</p>
           </div>
           {notesRequired && (
-            <p className="mt-1 text-xs text-gray-500">Required to verify or dismiss.</p>
+            <p className="mt-1 text-xs text-ink-subtle">Required to verify or dismiss.</p>
           )}
         </div>
       )}
 
       {needsSummary && (
         <div>
-          <label htmlFor="public-summary" className="mb-2 block text-sm font-medium text-[#171717]">
+          <label htmlFor="public-summary" className="mb-2 block text-sm font-medium text-ink">
             Public summary <span className="text-red-600">*</span>
           </label>
           <textarea
@@ -189,11 +189,11 @@ export default function IncidentReviewActions({ incidentId, status }: Props) {
           />
           <div className="flex items-start justify-between gap-3">
             <FieldError id="public-summary-error" message={summaryError} />
-            <p className="ml-auto mt-1 shrink-0 text-xs text-gray-400">
+            <p className="ml-auto mt-1 shrink-0 text-xs text-ink-subtle">
               {publicSummary.length}/2000
             </p>
           </div>
-          <p className="mt-1 text-xs text-gray-500">
+          <p className="mt-1 text-xs text-ink-subtle">
             Only this summary—not the original report or internal notes—will
             be displayed publicly.
           </p>
@@ -218,10 +218,10 @@ export default function IncidentReviewActions({ incidentId, status }: Props) {
                 pendingLabel={action.pending}
                 disabled={busy}
                 onClick={() => submitAction(action.next)}
-                className={`inline-flex items-center justify-center rounded-lg px-5 py-3 text-sm font-semibold text-white transition-colors disabled:cursor-not-allowed disabled:not-data-[phase=pending]:opacity-50 ${
+                className={`inline-flex items-center justify-center rounded-lg px-5 py-3 text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:not-data-[phase=pending]:opacity-50 ${
                   action.next === "dismissed"
-                    ? "bg-red-600 hover:bg-red-700"
-                    : "bg-[#c94f00] hover:bg-[#a84300]"
+                    ? "bg-red-600 text-white hover:bg-red-700"
+                    : "bg-signal text-ink hover:bg-signal-hover"
                 }`}
               />
             </motion.div>

@@ -160,9 +160,8 @@ export default async function ElectionDetailPage({
   });
 
   return (
-    <main className="min-h-screen bg-[#f7f8f5] text-[#171717]">
+    <main className="min-h-screen bg-paper text-ink">
       <PublicPageHero
-        eyebrow="Election profile"
         title={
           <>
             {election.name}
@@ -178,7 +177,7 @@ export default async function ElectionDetailPage({
         <div className="mt-6 flex flex-wrap gap-3">
           <Link
             href="/elections"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-[#b94a00] hover:text-[#e85d00]"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-signal hover:text-white"
           >
             <ArrowLeft size={16} />
             All elections
@@ -188,7 +187,7 @@ export default async function ElectionDetailPage({
               href={election.official_source_url}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 text-sm font-semibold text-gray-600 hover:text-[#b94a00]"
+              className="inline-flex items-center gap-2 text-sm font-semibold text-on-ink-muted hover:text-white"
             >
               Official election source
               <ExternalLink size={15} />
@@ -199,29 +198,29 @@ export default async function ElectionDetailPage({
 
       <div className="mx-auto max-w-7xl space-y-10 px-5 py-10 sm:px-8">
         <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <div className="rounded-xl border border-gray-200 bg-white p-5">
-            <Vote size={22} className="text-[#ff6600]" />
-            <p className="mt-4 text-sm text-gray-500">Election type</p>
+          <div className="rounded-xl border border-line-soft bg-paper-raised p-5">
+            <Vote size={22} className="text-signal" />
+            <p className="mt-4 text-sm text-ink-subtle">Election type</p>
             <p className="mt-1 font-semibold">
               {electionTypeLabels[election.election_type] ??
                 election.election_type}
             </p>
           </div>
-          <div className="rounded-xl border border-gray-200 bg-white p-5">
-            <CalendarDays size={22} className="text-[#ff6600]" />
-            <p className="mt-4 text-sm text-gray-500">Election date</p>
+          <div className="rounded-xl border border-line-soft bg-paper-raised p-5">
+            <CalendarDays size={22} className="text-signal" />
+            <p className="mt-4 text-sm text-ink-subtle">Election date</p>
             <p className="mt-1 font-semibold">
               {formatDate(election.election_date)}
             </p>
           </div>
-          <div className="rounded-xl border border-gray-200 bg-white p-5">
-            <MapPin size={22} className="text-[#ff6600]" />
-            <p className="mt-4 text-sm text-gray-500">Jurisdiction</p>
+          <div className="rounded-xl border border-line-soft bg-paper-raised p-5">
+            <MapPin size={22} className="text-signal" />
+            <p className="mt-4 text-sm text-ink-subtle">Jurisdiction</p>
             <p className="mt-1 font-semibold">{election.jurisdiction}</p>
           </div>
-          <div className="rounded-xl border border-gray-200 bg-white p-5">
-            <Users size={22} className="text-[#ff6600]" />
-            <p className="mt-4 text-sm text-gray-500">Published candidacies</p>
+          <div className="rounded-xl border border-line-soft bg-paper-raised p-5">
+            <Users size={22} className="text-signal" />
+            <p className="mt-4 text-sm text-ink-subtle">Published candidacies</p>
             <p className="mt-1 text-2xl font-bold">
               {visibleCandidacies.length.toLocaleString("en-NG")}
             </p>
@@ -231,7 +230,7 @@ export default async function ElectionDetailPage({
         <section>
           <div className="mb-5">
             <h2 className="text-2xl font-bold">Candidates and parties</h2>
-            <p className="mt-1 text-sm text-gray-500">
+            <p className="mt-1 text-sm text-ink-subtle">
               Published candidacies associated with this election.
             </p>
           </div>
@@ -241,16 +240,16 @@ export default async function ElectionDetailPage({
               Candidate information could not be loaded.
             </div>
           ) : visibleCandidacies.length === 0 ? (
-            <div className="rounded-xl border border-gray-200 bg-white p-8 text-center">
-              <Users size={28} className="mx-auto text-gray-400" />
+            <div className="rounded-xl border border-line-soft bg-paper-raised p-8 text-center">
+              <Users size={28} className="mx-auto text-ink-subtle" />
               <h3 className="mt-3 font-semibold">No published candidacies yet</h3>
-              <p className="mt-2 text-sm text-gray-500">
+              <p className="mt-2 text-sm text-ink-subtle">
                 Candidate and party information will appear here when approved
                 records are available.
               </p>
               <Link
                 href="/electoral-information"
-                className="mt-4 inline-flex text-sm font-semibold text-[#b94a00] hover:text-[#e85d00]"
+                className="mt-4 inline-flex text-sm font-semibold text-ink underline-offset-4 hover:underline"
               >
                 Visit the electoral information centre →
               </Link>
@@ -265,11 +264,11 @@ export default async function ElectionDetailPage({
                 return (
                   <article
                     key={item.id}
-                    className="rounded-xl border border-gray-200 bg-white p-5"
+                    className="rounded-xl border border-line-soft bg-paper-raised p-5"
                   >
                     <div className="flex items-start gap-4">
                       {textValue(candidate, "photo_url") ? (
-                        <div className="relative size-16 shrink-0 overflow-hidden rounded-lg bg-[#f1f1f1]">
+                        <div className="relative size-16 shrink-0 overflow-hidden rounded-lg bg-tint">
                           <BlurImage
                             src={textValue(candidate, "photo_url")}
                             blurhash={textValue(candidate, "photo_blurhash") || null}
@@ -280,7 +279,7 @@ export default async function ElectionDetailPage({
                           />
                         </div>
                       ) : (
-                        <div className="flex size-16 shrink-0 items-center justify-center rounded-lg bg-[#fff0e5] text-[#b94a00]">
+                        <div className="flex size-16 shrink-0 items-center justify-center rounded-lg bg-tint text-ink">
                           <Users size={25} />
                         </div>
                       )}
@@ -289,10 +288,10 @@ export default async function ElectionDetailPage({
                         <h3 className="font-semibold">
                           {textValue(candidate, "full_name", "Candidate")}
                         </h3>
-                        <p className="mt-1 text-sm text-gray-600">
+                        <p className="mt-1 text-sm text-ink-muted">
                           {textValue(item, "office_title", "Office not specified")}
                         </p>
-                        <p className="mt-1 text-sm font-medium text-[#b94a00]">
+                        <p className="mt-1 text-sm font-medium text-ink">
                           {textValue(party, "acronym") ||
                             textValue(party, "name", "Independent / party not listed")}
                         </p>
@@ -300,24 +299,24 @@ export default async function ElectionDetailPage({
                     </div>
 
                     {area && (
-                      <p className="mt-4 text-sm text-gray-500">
+                      <p className="mt-4 text-sm text-ink-subtle">
                         Electoral area: {textValue(area, "name")}
                       </p>
                     )}
 
                     {textValue(candidate, "biography") && (
-                      <p className="mt-3 line-clamp-4 text-sm leading-6 text-gray-600">
+                      <p className="mt-3 line-clamp-4 text-sm leading-6 text-ink-muted">
                         {textValue(candidate, "biography")}
                       </p>
                     )}
 
-                    <div className="mt-4 flex flex-wrap gap-4 border-t border-gray-100 pt-4">
+                    <div className="mt-4 flex flex-wrap gap-4 border-t border-line-soft pt-4">
                       {textValue(candidate, "official_profile_url") && (
                         <a
                           href={textValue(candidate, "official_profile_url")}
                           target="_blank"
                           rel="noreferrer"
-                          className="text-sm font-medium text-[#b94a00] hover:text-[#e85d00]"
+                          className="text-sm font-medium text-ink underline-offset-4 hover:underline"
                         >
                           Candidate profile ↗
                         </a>
@@ -327,7 +326,7 @@ export default async function ElectionDetailPage({
                           href={textValue(party, "official_website")}
                           target="_blank"
                           rel="noreferrer"
-                          className="text-sm font-medium text-gray-600 hover:text-[#b94a00]"
+                          className="text-sm font-medium text-ink-muted hover:text-ink"
                         >
                           Party website ↗
                         </a>
@@ -337,7 +336,7 @@ export default async function ElectionDetailPage({
                           href={textValue(item, "manifesto_url")}
                           target="_blank"
                           rel="noreferrer"
-                          className="text-sm font-medium text-gray-600 hover:text-[#b94a00]"
+                          className="text-sm font-medium text-ink-muted hover:text-ink"
                         >
                           Candidacy manifesto ↗
                         </a>
@@ -353,13 +352,13 @@ export default async function ElectionDetailPage({
         <section>
           <div className="mb-5">
             <h2 className="text-2xl font-bold">Electoral areas</h2>
-            <p className="mt-1 text-sm text-gray-500">
+            <p className="mt-1 text-sm text-ink-subtle">
               Areas associated with the published candidacies in this election.
             </p>
           </div>
 
           {uniqueAreas.size === 0 ? (
-            <div className="rounded-xl border border-gray-200 bg-white p-6 text-sm text-gray-500">
+            <div className="rounded-xl border border-line-soft bg-paper-raised p-6 text-sm text-ink-subtle">
               No electoral areas have been associated with published candidacies yet.
             </div>
           ) : (
@@ -367,7 +366,7 @@ export default async function ElectionDetailPage({
               {Array.from(uniqueAreas.values()).map((area) => (
                 <span
                   key={area}
-                  className="rounded-full border border-gray-200 bg-white px-4 py-2 text-sm text-gray-700"
+                  className="rounded-full border border-line-soft bg-paper-raised px-4 py-2 text-sm text-ink-muted"
                 >
                   {area}
                 </span>
@@ -378,10 +377,10 @@ export default async function ElectionDetailPage({
 
         <section>
           <div className="mb-5 flex items-center gap-3">
-            <ChartNoAxesCombined size={23} className="text-[#ff6600]" />
+            <ChartNoAxesCombined size={23} className="text-signal" />
             <div>
               <h2 className="text-2xl font-bold">Published election results</h2>
-              <p className="mt-1 text-sm text-gray-500">
+              <p className="mt-1 text-sm text-ink-subtle">
                 Results displayed here have been approved for public viewing.
               </p>
             </div>
@@ -392,18 +391,18 @@ export default async function ElectionDetailPage({
               Election results could not be loaded.
             </div>
           ) : visibleResults.length === 0 ? (
-            <div className="rounded-xl border border-gray-200 bg-white p-8 text-center">
-              <ChartNoAxesCombined size={28} className="mx-auto text-gray-400" />
+            <div className="rounded-xl border border-line-soft bg-paper-raised p-8 text-center">
+              <ChartNoAxesCombined size={28} className="mx-auto text-ink-subtle" />
               <h3 className="mt-3 font-semibold">No published results yet</h3>
-              <p className="mt-2 text-sm text-gray-500">
+              <p className="mt-2 text-sm text-ink-subtle">
                 Results will appear here when verified records are published.
               </p>
             </div>
           ) : (
-            <div className="overflow-hidden rounded-xl border border-gray-200 bg-white">
+            <div className="overflow-hidden rounded-xl border border-line-soft bg-paper-raised">
               <div className="overflow-x-auto">
                 <table className="w-full min-w-[650px] text-left text-sm">
-                  <thead className="bg-gray-50 text-xs uppercase tracking-wide text-gray-500">
+                  <thead className="bg-tint text-xs uppercase tracking-wide text-ink-subtle">
                     <tr>
                       <th className="px-5 py-3 font-semibold">Candidate / Party</th>
                       <th className="px-5 py-3 font-semibold">Electoral area</th>
@@ -412,7 +411,7 @@ export default async function ElectionDetailPage({
                       <th className="px-5 py-3 font-semibold">Source</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-gray-100">
+                  <tbody className="divide-y divide-line-soft">
                     {visibleResults.map((result) => {
                       const candidate = one(result.candidate);
                       const party = one(result.party);
@@ -427,12 +426,12 @@ export default async function ElectionDetailPage({
                                 textValue(party, "name", "Candidate / party not listed")}
                             </p>
                             {textValue(party, "acronym") && (
-                              <p className="mt-1 text-xs text-gray-500">
+                              <p className="mt-1 text-xs text-ink-subtle">
                                 {textValue(party, "acronym")}
                               </p>
                             )}
                           </td>
-                          <td className="px-5 py-4 text-gray-600">
+                          <td className="px-5 py-4 text-ink-muted">
                             {textValue(area, "name", "Not specified")}
                           </td>
                           <td className="px-5 py-4 font-semibold tabular-nums">
@@ -451,12 +450,12 @@ export default async function ElectionDetailPage({
                                 href={textValue(source, "source_url")}
                                 target="_blank"
                                 rel="noreferrer"
-                                className="text-[#b94a00] hover:underline"
+                                className="text-ink hover:underline"
                               >
                                 {textValue(source, "title", "View source")} ↗
                               </a>
                             ) : (
-                              <span className="text-gray-400">Not listed</span>
+                              <span className="text-ink-subtle">Not listed</span>
                             )}
                           </td>
                         </tr>
@@ -468,7 +467,7 @@ export default async function ElectionDetailPage({
             </div>
           )}
 
-          <p className="mt-4 text-xs leading-5 text-gray-500">
+          <p className="mt-4 text-xs leading-5 text-ink-subtle">
             Published results are shown with their recorded classification.
             Provisional results should not be interpreted as final official results.
           </p>

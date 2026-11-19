@@ -60,33 +60,33 @@ export default async function ElectoralSourcesPage({
   const { data: sources, error } = await query;
 
   const inputClass =
-    "w-full rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm text-gray-800";
+    "w-full rounded-lg border border-line-soft bg-paper-raised px-3 py-2.5 text-sm text-ink";
 
   return (
-    <main className="min-h-screen bg-[#f7f8f5] p-5 sm:p-8">
+    <main className="min-h-screen bg-paper p-5 sm:p-8">
       <div className="mx-auto max-w-7xl space-y-6">
         <div>
 
           <div className="mt-3 flex flex-wrap items-start justify-between gap-4">
             <div>
-              <h1 className="text-2xl font-bold text-[#171717]">
+              <h1 className="text-2xl font-bold text-ink">
                 Electoral Sources
               </h1>
-              <p className="mt-1 text-sm text-gray-600">
+              <p className="mt-1 text-sm text-ink-muted">
                 Register and verify sources used to support electoral information and results.
               </p>
             </div>
 
             <Link
               href="/admin/electoral-data/sources/new"
-              className="rounded-lg bg-[#c94f00] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#a84300]"
+              className="rounded-lg bg-signal px-4 py-2.5 text-sm font-semibold text-ink hover:bg-signal-hover"
             >
               Add source
             </Link>
           </div>
         </div>
 
-        <form className="grid gap-3 rounded-xl border border-gray-200 bg-white p-4 sm:grid-cols-4">
+        <form className="grid gap-3 rounded-xl border border-line-soft bg-paper-raised p-4 sm:grid-cols-4">
           <input
             name="search"
             defaultValue={params.search ?? ""}
@@ -110,13 +110,13 @@ export default async function ElectoralSourcesPage({
             <option value="rejected">Rejected</option>
           </select>
 
-          <button className="rounded-lg border border-gray-200 px-4 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gray-50">
+          <button className="rounded-lg border border-line-soft px-4 py-2.5 text-sm font-semibold text-ink-muted hover:bg-tint">
             Apply filters
           </button>
         </form>
 
-        <section className="overflow-hidden rounded-xl border border-gray-200 bg-white">
-          <div className="border-b border-gray-100 px-5 py-4 text-sm text-gray-600">
+        <section className="overflow-hidden rounded-xl border border-line-soft bg-paper-raised">
+          <div className="border-b border-line-soft px-5 py-4 text-sm text-ink-muted">
             {sources?.length ?? 0} source record{sources?.length === 1 ? "" : "s"}
           </div>
 
@@ -126,15 +126,15 @@ export default async function ElectoralSourcesPage({
             </div>
           ) : !sources?.length ? (
             <div className="p-10 text-center">
-              <h2 className="font-semibold text-[#171717]">No sources found</h2>
-              <p className="mt-2 text-sm text-gray-500">
+              <h2 className="font-semibold text-ink">No sources found</h2>
+              <p className="mt-2 text-sm text-ink-subtle">
                 Register an official document, government publication, observer report or other source.
               </p>
             </div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full min-w-[1000px] text-left text-sm">
-                <thead className="bg-gray-50 text-xs uppercase tracking-wide text-gray-500">
+                <thead className="bg-tint text-xs uppercase tracking-wide text-ink-subtle">
                   <tr>
                     <th className="px-5 py-3">Source</th>
                     <th className="px-5 py-3">Publisher</th>
@@ -144,23 +144,23 @@ export default async function ElectoralSourcesPage({
                     <th className="px-5 py-3">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-100">
+                <tbody className="divide-y divide-line-soft">
                   {sources.map((source) => (
                     <OptimisticRow key={source.id} rowKey={`electoral_sources:${source.id}`} className="align-top">
                       <td className="max-w-sm px-5 py-4">
-                        <p className="font-semibold text-gray-900">{source.title}</p>
+                        <p className="font-semibold text-ink">{source.title}</p>
                         {source.source_url && (
                           <a
                             href={source.source_url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="mt-1 block break-all text-xs text-[#ff6600] hover:underline"
+                            className="mt-1 block break-all text-xs text-ink hover:underline"
                           >
                             Open source
                           </a>
                         )}
                         {source.notes && (
-                          <p className="mt-2 line-clamp-2 text-xs text-gray-500">
+                          <p className="mt-2 line-clamp-2 text-xs text-ink-subtle">
                             {source.notes}
                           </p>
                         )}

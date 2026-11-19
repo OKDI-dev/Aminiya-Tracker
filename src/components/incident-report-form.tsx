@@ -238,10 +238,10 @@ export default function IncidentReportForm() {
   }
 
   return (
-    <section className="scroll-mt-28 rounded-2xl border border-gray-200 bg-white p-5 sm:p-6">
+    <section id="report-incident" className="scroll-mt-28 rounded-2xl border border-line-soft bg-paper-raised p-5 sm:p-6">
       <div className="mb-5">
-        <h3 className="text-lg font-semibold text-[#171717]">{t("reportIncidentTitle")}</h3>
-        <p className="mt-1 text-sm leading-6 text-gray-500">{t("reportIncidentDescription")}</p>
+        <h3 className="text-lg font-semibold text-ink">{t("reportIncidentTitle")}</h3>
+        <p className="mt-1 text-sm leading-6 text-ink-subtle">{t("reportIncidentDescription")}</p>
       </div>
 
       <AnimatePresence mode="wait" initial={false}>
@@ -258,12 +258,12 @@ export default function IncidentReportForm() {
             tabIndex={-1}
             aria-live="polite"
             className={`scroll-mt-28 rounded-xl border p-5 outline-none transition-colors duration-300 ${
-              receipt.phase === "done" ? "border-green-200 bg-green-50" : "border-gray-200 bg-gray-50"
+              receipt.phase === "done" ? "border-green-200 bg-green-50" : "border-line-soft bg-tint"
             }`}
           >
             <div
               className={`flex items-center gap-2 font-semibold ${
-                receipt.phase === "done" ? "text-green-800" : "text-gray-800"
+                receipt.phase === "done" ? "text-green-800" : "text-ink"
               }`}
             >
               {receipt.phase === "done" ? (
@@ -276,24 +276,24 @@ export default function IncidentReportForm() {
 
             <p
               className={`mt-2 text-sm leading-6 ${
-                receipt.phase === "done" ? "text-green-800" : "text-gray-600"
+                receipt.phase === "done" ? "text-green-800" : "text-ink-muted"
               }`}
             >
               {receipt.phase === "done" ? t("incidentReceiptHelp") : t("generatingReference")}
             </p>
 
             <div className="mt-4">
-              <p className="text-xs font-semibold uppercase tracking-wide text-gray-600">
+              <p className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
                 {t("incidentReferenceLabel")}
               </p>
-              <div className="mt-1 flex min-h-[3.25rem] items-center justify-between gap-2 rounded-lg border border-gray-200 bg-white p-3">
+              <div className="mt-1 flex min-h-[3.25rem] items-center justify-between gap-2 rounded-lg border border-line-soft bg-paper-raised p-3">
                 {receipt.phase === "done" && receipt.reference ? (
                   <>
                     <motion.code
                       initial={{ opacity: 0, y: 4 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={springs.default}
-                      className="break-all text-sm font-bold text-gray-900"
+                      className="break-all text-sm font-bold text-ink"
                     >
                       {receipt.reference}
                     </motion.code>
@@ -302,7 +302,7 @@ export default function IncidentReportForm() {
                       whileTap={{ scale: 0.92 }}
                       transition={springs.snappy}
                       onClick={() => copyReference(receipt.reference)}
-                      className="shrink-0 rounded-md p-2 text-gray-600 hover:bg-gray-100"
+                      className="shrink-0 rounded-md p-2 text-ink-muted hover:bg-tint"
                       aria-label={copied ? t("copied") : t("copyReferenceCode")}
                     >
                       <AnimatePresence mode="popLayout" initial={false}>
@@ -337,7 +337,7 @@ export default function IncidentReportForm() {
                 transition={{ ...springs.default, delay: 0.1 }}
                 whileTap={{ scale: 0.97 }}
                 onClick={() => setReceipt(null)}
-                className="mt-5 inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gray-50"
+                className="mt-5 inline-flex items-center gap-2 rounded-lg border border-line bg-paper-raised px-4 py-2.5 text-sm font-semibold text-ink-muted hover:bg-tint"
               >
                 <RotateCcw size={16} />
                 {t("reportAnotherIncident")}
@@ -353,7 +353,7 @@ export default function IncidentReportForm() {
             className="space-y-4"
           >
             <div>
-              <label htmlFor={FIELD_IDS.election} className="mb-2 block text-sm font-medium text-gray-700">
+              <label htmlFor={FIELD_IDS.election} className="mb-2 block text-sm font-medium text-ink-muted">
                 {t("requiredElection")}
               </label>
               <select
@@ -386,7 +386,7 @@ export default function IncidentReportForm() {
             </div>
 
             <div>
-              <label htmlFor={FIELD_IDS.state} className="mb-2 block text-sm font-medium text-gray-700">
+              <label htmlFor={FIELD_IDS.state} className="mb-2 block text-sm font-medium text-ink-muted">
                 {t("requiredState")}
               </label>
               <select
@@ -413,7 +413,7 @@ export default function IncidentReportForm() {
             </div>
 
             <div>
-              <label htmlFor={FIELD_IDS.lga} className="mb-2 block text-sm font-medium text-gray-700">
+              <label htmlFor={FIELD_IDS.lga} className="mb-2 block text-sm font-medium text-ink-muted">
                 {t("requiredLga")}
               </label>
               <select
@@ -439,7 +439,7 @@ export default function IncidentReportForm() {
             </div>
 
             <div>
-              <label htmlFor="ir-ward" className="mb-2 block text-sm font-medium text-gray-700">
+              <label htmlFor="ir-ward" className="mb-2 block text-sm font-medium text-ink-muted">
                 {t("wardRegistrationArea")}
               </label>
               <select
@@ -458,11 +458,11 @@ export default function IncidentReportForm() {
                   </option>
                 ))}
               </select>
-              <p className="mt-1 text-xs text-gray-400">{t("inecAreaNote")}</p>
+              <p className="mt-1 text-xs text-ink-subtle">{t("inecAreaNote")}</p>
             </div>
 
             <div>
-              <label htmlFor="ir-polling-unit" className="mb-2 block text-sm font-medium text-gray-700">
+              <label htmlFor="ir-polling-unit" className="mb-2 block text-sm font-medium text-ink-muted">
                 {t("pollingUnitNameCode")}
               </label>
               <input
@@ -477,7 +477,7 @@ export default function IncidentReportForm() {
             </div>
 
             <div>
-              <label htmlFor={FIELD_IDS.category} className="mb-2 block text-sm font-medium text-gray-700">
+              <label htmlFor={FIELD_IDS.category} className="mb-2 block text-sm font-medium text-ink-muted">
                 {t("requiredIncidentCategory")}
               </label>
               <select
@@ -501,7 +501,7 @@ export default function IncidentReportForm() {
             </div>
 
             <div>
-              <label htmlFor="ir-time" className="mb-2 block text-sm font-medium text-gray-700">
+              <label htmlFor="ir-time" className="mb-2 block text-sm font-medium text-ink-muted">
                 {t("whenDidItHappen")}
               </label>
               <input
@@ -514,7 +514,7 @@ export default function IncidentReportForm() {
             </div>
 
             <div>
-              <label htmlFor={FIELD_IDS.description} className="mb-2 block text-sm font-medium text-gray-700">
+              <label htmlFor={FIELD_IDS.description} className="mb-2 block text-sm font-medium text-ink-muted">
                 {t("describeIncident")}
               </label>
               <textarea
@@ -531,7 +531,7 @@ export default function IncidentReportForm() {
               />
               <div className="flex items-start justify-between gap-3">
                 <FieldError id={`${FIELD_IDS.description}-error`} message={visibleError("description")} />
-                <p className="ml-auto mt-1 shrink-0 text-xs text-gray-400">
+                <p className="ml-auto mt-1 shrink-0 text-xs text-ink-subtle">
                   {t("characters").replace("{count}", String(description.length))}
                 </p>
               </div>
@@ -556,7 +556,7 @@ export default function IncidentReportForm() {
               </p>
             )}
 
-            <div className="flex items-start gap-2 text-xs leading-5 text-gray-500">
+            <div className="flex items-start gap-2 text-xs leading-5 text-ink-subtle">
               <ShieldCheck size={17} className="mt-0.5 shrink-0" />
               <p>{t("privacyWarning")}</p>
             </div>
@@ -588,7 +588,7 @@ export default function IncidentReportForm() {
               disabled={
                 loadingOptions || optionsFailed || elections.length === 0 || states.length === 0
               }
-              className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#c94f00] px-5 py-3 font-medium text-white transition-colors hover:bg-[#a84300] disabled:cursor-not-allowed disabled:not-data-[phase=pending]:opacity-60 sm:w-auto"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-signal px-5 py-3 font-medium text-ink transition-colors hover:bg-signal-hover disabled:cursor-not-allowed disabled:not-data-[phase=pending]:opacity-60 sm:w-auto"
             />
           </motion.form>
         )}

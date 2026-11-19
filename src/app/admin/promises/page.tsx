@@ -20,7 +20,7 @@ const progressLabels: Record<string, string> = {
 };
 
 const progressStyles: Record<string, string> = {
-  not_started: "bg-gray-100 text-gray-700",
+  not_started: "bg-tint text-ink-muted",
   in_progress: "bg-blue-50 text-blue-700",
   partially_fulfilled: "bg-amber-50 text-amber-700",
   fulfilled: "bg-green-50 text-green-700",
@@ -28,7 +28,7 @@ const progressStyles: Record<string, string> = {
 };
 
 const publicationStyles: Record<string, string> = {
-  draft: "bg-gray-100 text-gray-700",
+  draft: "bg-tint text-ink-muted",
   published: "bg-green-50 text-green-700",
   archived: "bg-amber-50 text-amber-700",
 };
@@ -60,10 +60,10 @@ function SummaryCard({
   icon: React.ReactNode;
 }) {
   return (
-    <div className="rounded-xl border border-gray-200 bg-white p-5">
-      <div className="mb-3 text-[#ff6600]">{icon}</div>
-      <p className="text-sm text-gray-500">{label}</p>
-      <p className="mt-1 text-2xl font-bold text-[#171717]">{value}</p>
+    <div className="rounded-xl border border-line-soft bg-paper-raised p-5">
+      <div className="mb-3 text-ink">{icon}</div>
+      <p className="text-sm text-ink-subtle">{label}</p>
+      <p className="mt-1 text-2xl font-bold text-ink">{value}</p>
     </div>
   );
 }
@@ -192,16 +192,16 @@ export default async function PromiseManagementPage() {
   );
 
   return (
-    <main className="min-h-screen bg-[#f7f8f5]">
-      <header className="border-b border-gray-200 bg-white">
+    <main className="min-h-screen bg-paper">
+      <header className="border-b border-line-soft bg-paper-raised">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8">
           <div>
-            <h1 className="text-xl font-bold text-[#171717]">
+            <h1 className="text-xl font-bold text-ink">
               Political Promise Tracker
             </h1>
           </div>
 
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-orange-50 text-[#ff6600]">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-tint text-ink">
             <FileCheck2 size={22} />
           </div>
         </div>
@@ -210,13 +210,13 @@ export default async function PromiseManagementPage() {
       <div className="mx-auto max-w-7xl space-y-8 px-5 py-8 sm:px-8">
         <section className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-sm font-medium text-[#ff6600]">
+            <p className="text-sm font-medium text-ink">
               POLITICAL ACCOUNTABILITY
             </p>
-            <h2 className="mt-2 text-2xl font-bold text-[#171717]">
+            <h2 className="mt-2 text-2xl font-bold text-ink">
               Promise management
             </h2>
-            <p className="mt-2 max-w-2xl text-sm leading-6 text-gray-600">
+            <p className="mt-2 max-w-2xl text-sm leading-6 text-ink-muted">
               Register public commitments, associate them with candidates and
               electoral contests, and monitor evidence-based implementation.
             </p>
@@ -224,7 +224,7 @@ export default async function PromiseManagementPage() {
 
           <Link
             href="/admin/promises/new"
-            className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#c94f00] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#a84300]"
+            className="inline-flex items-center justify-center gap-2 rounded-lg bg-signal px-5 py-3 text-sm font-semibold text-ink transition hover:bg-signal-hover"
           >
             <Plus size={17} />
             Add a promise
@@ -261,17 +261,17 @@ export default async function PromiseManagementPage() {
               />
             </section>
 
-            <section className="overflow-hidden rounded-xl border border-gray-200 bg-white">
-              <div className="flex flex-col gap-2 border-b border-gray-200 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
+            <section className="overflow-hidden rounded-xl border border-line-soft bg-paper-raised">
+              <div className="flex flex-col gap-2 border-b border-line-soft px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
-                  <h3 className="font-semibold text-[#171717]">
+                  <h3 className="font-semibold text-ink">
                     Registered promises
                   </h3>
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-ink-subtle">
                     Latest 100 records
                   </p>
                 </div>
-                <span className="text-sm text-gray-500">
+                <span className="text-sm text-ink-subtle">
                   {promises.length} promises loaded
                 </span>
               </div>
@@ -280,24 +280,24 @@ export default async function PromiseManagementPage() {
                 <div className="px-5 py-16 text-center">
                   <FileCheck2
                     size={36}
-                    className="mx-auto text-gray-400"
+                    className="mx-auto text-ink-subtle"
                   />
-                  <h4 className="mt-4 font-semibold text-[#171717]">
+                  <h4 className="mt-4 font-semibold text-ink">
                     No promises registered yet
                   </h4>
-                  <p className="mt-1 text-sm text-gray-500">
+                  <p className="mt-1 text-sm text-ink-subtle">
                     Add a political commitment to begin monitoring its progress.
                   </p>
                   <Link
                     href="/admin/promises/new"
-                    className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#ff6600] hover:text-[#e85d00]"
+                    className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-ink underline-offset-4 hover:underline"
                   >
                     <Plus size={16} />
                     Register the first promise
                   </Link>
                 </div>
               ) : (
-                <div className="divide-y divide-gray-100">
+                <div className="divide-y divide-line-soft">
                   {promises.map((promise) => {
                     const candidacy = candidacyMap.get(promise.candidacy_id);
                     const candidate = candidacy
@@ -314,24 +314,24 @@ export default async function PromiseManagementPage() {
                       <Link
                         key={promise.id}
                         href={`/admin/promises/${promise.id}`}
-                        className="block space-y-3 px-5 py-5 transition hover:bg-orange-50/40"
+                        className="block space-y-3 px-5 py-5 transition hover:bg-tint/40"
                       >
                         <div className="flex flex-wrap items-start justify-between gap-3">
-                          <h4 className="max-w-3xl font-semibold text-[#171717]">
+                          <h4 className="max-w-3xl font-semibold text-ink">
                             {promise.title}
                           </h4>
 
                           <span
                             className={`rounded-full px-3 py-1 text-xs font-semibold ${
                               publicationStyles[promise.publication_status] ??
-                              "bg-gray-100 text-gray-700"
+                              "bg-tint text-ink-muted"
                             }`}
                           >
                             {promise.publication_status.replaceAll("_", " ")}
                           </span>
                         </div>
 
-                        <p className="text-sm text-gray-600">
+                        <p className="text-sm text-ink-muted">
                           {candidate?.full_name ?? "Candidate unavailable"}
                           {" · "}
                           {party?.acronym || party?.name || "Independent / party unavailable"}
@@ -339,7 +339,7 @@ export default async function PromiseManagementPage() {
                           {candidacy?.office_title ?? "Office unavailable"}
                         </p>
 
-                        <div className="flex flex-wrap items-center gap-2 text-xs text-gray-500">
+                        <div className="flex flex-wrap items-center gap-2 text-xs text-ink-subtle">
                           <span>
                             {election?.name ?? "Election unavailable"}
                           </span>
@@ -351,7 +351,7 @@ export default async function PromiseManagementPage() {
                           <span
                             className={`rounded-full px-2.5 py-1 font-medium ${
                               progressStyles[promise.progress_status] ??
-                              "bg-gray-100 text-gray-700"
+                              "bg-tint text-ink-muted"
                             }`}
                           >
                             {progressLabels[promise.progress_status] ??

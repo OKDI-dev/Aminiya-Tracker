@@ -29,12 +29,25 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguageState] = useState<Language>("en");
 
   useEffect(() => {
-    const savedLanguage = window.localStorage.getItem(STORAGE_KEY);
+    let savedLanguage: string | null = null;
+    try {
+      savedLanguage = window.localStorage.getItem(STORAGE_KEY);
+    } catch {
+      // Storage blocked (private mode): fall through to the browser language.
+    }
 
-    if (savedLanguage === "en" || savedLanguage === "ha") {
-      // This intentionally hydrates the saved browser preference after mount.
+    // A saved choice wins; otherwise open in Hausa when the browser asks for it.
+    const preferred =
+      savedLanguage === "en" || savedLanguage === "ha"
+        ? savedLanguage
+        : navigator.languages?.some((code) => code.toLowerCase().startsWith("ha"))
+          ? "ha"
+          : null;
+
+    if (preferred) {
+      // This intentionally hydrates the browser preference after mount.
       // eslint-disable-next-line react-hooks/set-state-in-effect
-      setLanguageState(savedLanguage);
+      setLanguageState(preferred);
     }
   }, []);
 
@@ -44,7 +57,11 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   const setLanguage = useCallback((nextLanguage: Language) => {
     setLanguageState(nextLanguage);
-    window.localStorage.setItem(STORAGE_KEY, nextLanguage);
+    try {
+      window.localStorage.setItem(STORAGE_KEY, nextLanguage);
+    } catch {
+      // Not persisted; the choice still applies for this visit.
+    }
   }, []);
 
   const t = useCallback(

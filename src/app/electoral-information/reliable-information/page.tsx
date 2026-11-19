@@ -34,12 +34,12 @@ export default function ReliableInformationPage() {
   ];
 
   return (
-    <main className="min-h-screen bg-[#f7f8f5] text-[#171717]">
-      <section className="border-b border-black/5 bg-white">
+    <main className="min-h-screen bg-paper text-ink">
+      <section className="border-b border-ink/5 bg-paper-raised">
         <div className="mx-auto max-w-5xl px-5 py-6 sm:px-8">
           <Link
             href="/electoral-information"
-            className="inline-flex items-center gap-2 text-sm font-medium text-[#666] transition hover:text-[#ff6600]"
+            className="inline-flex items-center gap-2 text-sm font-medium text-ink-muted transition hover:text-ink"
           >
             <ArrowLeft size={16} />
             {t("riBack")}
@@ -48,12 +48,11 @@ export default function ReliableInformationPage() {
       </section>
 
       <PublicPageHero
-        eyebrow={t("riEyebrow")}
         title={t("riHeroTitle")}
         description={t("riHeroDescription")}
         containerClassName="max-w-7xl"
       >
-        <div className="mt-6 flex flex-wrap gap-3 text-xs text-[#777]">
+        <div className="mt-6 flex flex-wrap gap-3 text-xs text-on-ink-muted">
           <span>{t("riReadTime")}</span>
           <span>•</span>
           <span>{t("riTopicVerification")}</span>
@@ -66,8 +65,8 @@ export default function ReliableInformationPage() {
         <article className="min-w-0 space-y-10">
           <section>
             <h2 className="text-2xl font-bold">{t("riWhyTitle")}</h2>
-            <p className="mt-4 leading-8 text-[#666]">{t("riWhyText1")}</p>
-            <p className="mt-4 leading-8 text-[#666]">{t("riWhyText2")}</p>
+            <p className="mt-4 leading-8 text-ink-muted">{t("riWhyText1")}</p>
+            <p className="mt-4 leading-8 text-ink-muted">{t("riWhyText2")}</p>
           </section>
 
           <section>
@@ -76,15 +75,15 @@ export default function ReliableInformationPage() {
               {checks.map((item, index) => (
                 <div
                   key={item.title}
-                  className="rounded-2xl border border-black/5 bg-white p-6"
+                  className="rounded-2xl border border-ink/5 bg-paper-raised p-6"
                 >
                   <div className="flex items-start gap-4">
-                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#fff0e6] text-sm font-bold text-[#ff6600]">
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-tint text-sm font-bold text-ink">
                       {index + 1}
                     </span>
                     <div>
                       <h3 className="font-bold">{item.title}</h3>
-                      <p className="mt-2 text-sm leading-7 text-[#666]">
+                      <p className="mt-2 text-sm leading-7 text-ink-muted">
                         {item.text}
                       </p>
                     </div>
@@ -94,23 +93,23 @@ export default function ReliableInformationPage() {
             </div>
           </section>
 
-          <section className="rounded-2xl border border-[#ffe0cc] bg-[#fff8f2] p-6">
+          <section className="rounded-2xl border border-signal/25 bg-tint/60 p-6">
             <div className="flex items-center gap-3">
-              <TriangleAlert className="text-[#ff6600]" size={24} />
+              <TriangleAlert className="text-signal" size={24} />
               <h2 className="text-xl font-bold">{t("riWarningsTitle")}</h2>
             </div>
-            <p className="mt-3 text-sm leading-7 text-[#666]">
+            <p className="mt-3 text-sm leading-7 text-ink-muted">
               {t("riWarningsIntro")}
             </p>
             <ul className="mt-5 space-y-3">
               {warningSigns.map((item) => (
                 <li
                   key={item}
-                  className="flex items-start gap-2 text-sm leading-6 text-[#555]"
+                  className="flex items-start gap-2 text-sm leading-6 text-ink-muted"
                 >
                   <TriangleAlert
                     size={16}
-                    className="mt-1 shrink-0 text-[#ff6600]"
+                    className="mt-1 shrink-0 text-signal"
                   />
                   {item}
                 </li>
@@ -120,21 +119,21 @@ export default function ReliableInformationPage() {
 
           <section>
             <h2 className="text-2xl font-bold">{t("riSourcesTitle")}</h2>
-            <p className="mt-4 leading-8 text-[#666]">{t("riSourcesIntro")}</p>
+            <p className="mt-4 leading-8 text-ink-muted">{t("riSourcesIntro")}</p>
 
             <div className="mt-6 grid gap-4 sm:grid-cols-2">
               <a
                 href="https://www.inecnigeria.org/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-2xl border border-black/5 bg-white p-5 transition hover:border-[#ff6600]"
+                className="rounded-2xl border border-ink/5 bg-paper-raised p-5 transition hover:border-signal"
               >
-                <Globe className="text-[#ff6600]" size={22} />
+                <Globe className="text-signal" size={22} />
                 <h3 className="mt-3 font-bold">{t("riInecTitle")}</h3>
-                <p className="mt-2 text-sm leading-6 text-[#666]">
+                <p className="mt-2 text-sm leading-6 text-ink-muted">
                   {t("riInecDescription")}
                 </p>
-                <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[#ff6600]">
+                <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-ink">
                   {t("riVisitWebsite")} <ExternalLink size={14} />
                 </span>
               </a>
@@ -143,31 +142,31 @@ export default function ReliableInformationPage() {
                 href="https://www.inecnigeria.org/voters/education"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-2xl border border-black/5 bg-white p-5 transition hover:border-[#ff6600]"
+                className="rounded-2xl border border-ink/5 bg-paper-raised p-5 transition hover:border-signal"
               >
-                <FileSearch className="text-[#ff6600]" size={22} />
+                <FileSearch className="text-signal" size={22} />
                 <h3 className="mt-3 font-bold">{t("riVoterEducationTitle")}</h3>
-                <p className="mt-2 text-sm leading-6 text-[#666]">
+                <p className="mt-2 text-sm leading-6 text-ink-muted">
                   {t("riVoterEducationDescription")}
                 </p>
-                <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[#ff6600]">
+                <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-ink">
                   {t("riExploreResources")} <ExternalLink size={14} />
                 </span>
               </a>
             </div>
           </section>
 
-          <section className="rounded-2xl border border-black/5 bg-white p-6">
+          <section className="rounded-2xl border border-ink/5 bg-paper-raised p-6">
             <div className="flex items-center gap-3">
-              <ShieldCheck className="text-[#ff6600]" size={24} />
+              <ShieldCheck className="text-signal" size={24} />
               <h2 className="text-xl font-bold">{t("riShareTitle")}</h2>
             </div>
-            <ul className="mt-5 space-y-3 text-sm leading-7 text-[#555]">
+            <ul className="mt-5 space-y-3 text-sm leading-7 text-ink-muted">
               {["riShare1", "riShare2", "riShare3", "riShare4"].map((key) => (
                 <li key={key} className="flex items-start gap-2">
                   <CheckCircle2
                     size={17}
-                    className="mt-1 shrink-0 text-[#ff6600]"
+                    className="mt-1 shrink-0 text-signal"
                   />
                   {t(key as
                     | "riShare1"
@@ -179,10 +178,10 @@ export default function ReliableInformationPage() {
             </ul>
           </section>
 
-          <div className="border-t border-black/10 pt-6">
+          <div className="border-t border-ink/10 pt-6">
             <Link
               href="/electoral-information"
-              className="inline-flex items-center gap-2 text-sm font-semibold text-[#ff6600] hover:underline"
+              className="inline-flex items-center gap-2 text-sm font-semibold text-ink hover:underline"
             >
               <ArrowLeft size={16} />
               {t("riBackToInformation")}
@@ -191,9 +190,9 @@ export default function ReliableInformationPage() {
         </article>
 
         <aside className="space-y-5">
-          <div className="rounded-2xl border border-black/5 bg-white p-5">
+          <div className="rounded-2xl border border-ink/5 bg-paper-raised p-5">
             <h3 className="font-bold">{t("riSidebarTitle")}</h3>
-            <ul className="mt-4 space-y-3 text-sm text-[#666]">
+            <ul className="mt-4 space-y-3 text-sm text-ink-muted">
               <li>{t("riSidebar1")}</li>
               <li>{t("riSidebar2")}</li>
               <li>{t("riSidebar3")}</li>
@@ -201,8 +200,8 @@ export default function ReliableInformationPage() {
               <li>{t("riSidebar5")}</li>
             </ul>
           </div>
-          <div className="rounded-2xl bg-[#171717] p-5 text-white">
-            <Search size={24} className="text-[#ff6600]" />
+          <div className="rounded-2xl bg-ink p-5 text-white">
+            <Search size={24} className="text-signal" />
             <h3 className="mt-4 font-bold">{t("riPauseTitle")}</h3>
             <p className="mt-2 text-sm leading-6 text-white/65">
               {t("riPauseText")}
