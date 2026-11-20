@@ -11,8 +11,6 @@ import {
   Clock3,
   LoaderCircle,
   MapPin,
-  Pause,
-  Play,
   RefreshCw,
 } from "lucide-react";
 import { useLanguage } from "@/components/language-provider";
@@ -72,7 +70,6 @@ export default function HeroCalendar() {
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState(1);
   // null = follow the default: play, unless the OS asks for reduced motion.
-  const [playChoice, setPlayChoice] = useState<boolean | null>(null);
   const [hovered, setHovered] = useState(false);
   const [focused, setFocused] = useState(false);
   const [dragging, setDragging] = useState(false);
@@ -97,7 +94,9 @@ export default function HeroCalendar() {
   const event: CivicEvent | undefined = upcoming[active];
   const focusKey = event ? focusDateOf(event, today) : today;
 
-  const playing = (playChoice ?? !reduceMotion) && count > 1;
+  // Plays unless the OS asks for reduced motion; hover, focus, an open menu
+  // or a drag hold it still.
+  const playing = !reduceMotion && count > 1;
   const paused = !playing || hovered || focused || menuOpen || dragging;
 
   function goTo(target: number) {
@@ -156,18 +155,12 @@ export default function HeroCalendar() {
         </h2>
 
         {count > 1 ? (
-          <div className="-mr-2 flex shrink-0 items-center">
+          <div className="-mr-1.5 flex shrink-0 items-center">
             <ControlButton label={t("heroCalendarPrevious")} onClick={() => goTo(active - 1)}>
-              <ChevronLeft size={17} />
-            </ControlButton>
-            <ControlButton
-              label={playing ? t("heroCalendarPause") : t("heroCalendarPlay")}
-              onClick={() => setPlayChoice(!playing)}
-            >
-              {playing ? <Pause size={14} /> : <Play size={14} className="translate-x-px" />}
+              <ChevronLeft size={15} />
             </ControlButton>
             <ControlButton label={t("heroCalendarNext")} onClick={() => goTo(active + 1)}>
-              <ChevronRight size={17} />
+              <ChevronRight size={15} />
             </ControlButton>
           </div>
         ) : null}
@@ -346,10 +339,10 @@ function ControlButton({
       aria-label={label}
       whileTap={{ scale: 0.9 }}
       transition={springs.snappy}
-      className="group/control flex size-11 items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-ink"
+      className="group/control flex size-10 items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-ink"
     >
-      {/* 44px hit area around a 36px visible ring. */}
-      <span className="flex size-9 items-center justify-center rounded-full border border-ink/15 text-ink-muted transition-colors group-hover/control:border-ink group-hover/control:text-ink">
+      {/* 40px hit area around a small 28px ring. */}
+      <span className="flex size-7 items-center justify-center rounded-full border border-ink/15 text-ink-muted transition-colors group-hover/control:border-ink group-hover/control:text-ink">
         {children}
       </span>
     </motion.button>
