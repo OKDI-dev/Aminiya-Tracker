@@ -577,7 +577,7 @@
 /* ------------------------------------------------------------------
    Home motion
    One authored moment: the headline rises line by line from behind a
-   mask, then the calendar settles and its civic dates light up. Everything
+   mask, then the Civic Calendar card settles and starts sliding. Everything
    is CSS, so a failed script never leaves the page hidden, and every piece
    has a reduced-motion path below.
 ------------------------------------------------------------------- */
@@ -633,22 +633,6 @@
   }
 }
 
-/* Event dots pop onto their dates in reading order (also on month change). */
-.dot-pop {
-  animation: dot-pop 420ms var(--ease-out-expo) both;
-  animation-delay: calc(min(var(--i, 0), 41) * 12ms);
-}
-
-@keyframes dot-pop {
-  from {
-    opacity: 0;
-    scale: 0;
-  }
-  60% {
-    scale: 1.6;
-  }
-}
-
 /* Scroll reveal for a list that appears as a list (see useReveal). Content
    is visible by default; only items still below the fold at load wait. */
 [data-reveal="pending"] > * {
@@ -667,8 +651,7 @@
   /* Keep the arrivals, drop the travel: fades only. */
   .hero-line > span,
   .hero-fade,
-  .hero-card,
-  .dot-pop {
+  .hero-card {
     animation-name: reduced-fade-in;
     animation-duration: 300ms;
   }
