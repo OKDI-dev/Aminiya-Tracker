@@ -82,6 +82,25 @@ export function formatDate(value: string, language: "en" | "ha") {
   }).format(date);
 }
 
+/**
+ * A compact day range: "22–23 Nov", "30 Nov – 2 Dec", with the year only
+ * when the range isn't in the current year.
+ */
+export function formatDateRange(start: string, end: string, language: "en" | "ha") {
+  const a = dateFromKey(start);
+  const b = dateFromKey(end);
+  const month = (d: Date) =>
+    language === "ha"
+      ? hausaShortMonths[d.getMonth()]
+      : new Intl.DateTimeFormat("en-NG", { month: "short" }).format(d);
+  const year = b.getFullYear() !== new Date().getFullYear() ? ` ${b.getFullYear()}` : "";
+
+  if (a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth()) {
+    return `${a.getDate()}–${b.getDate()} ${month(b)}${year}`;
+  }
+  return `${a.getDate()} ${month(a)} – ${b.getDate()} ${month(b)}${year}`;
+}
+
 /** Long form for screen-reader labels, e.g. "19 November 2026". */
 export function formatLongDate(date: Date, language: "en" | "ha") {
   if (language === "ha") {

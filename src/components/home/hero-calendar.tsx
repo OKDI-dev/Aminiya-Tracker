@@ -1,14 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState, useSyncExternalStore, type CSSProperties } from "react";
-import {
-  AnimatePresence,
-  LayoutGroup,
-  motion,
-  useReducedMotion,
-  type Variants,
-} from "motion/react";
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore, type CSSProperties } from "react";
+import { AnimatePresence, motion, useReducedMotion, type PanInfo, type Variants } from "motion/react";
 import {
   ArrowUpRight,
   CalendarDays,
@@ -28,11 +22,9 @@ import {
   categoryLabels,
   dateFromKey,
   dateKey,
-  formatLongDate,
-  formatMonth,
+  formatDateRange,
   formatShortMonth,
   formatTime,
-  groupEventsByDate,
   upcomingFrom,
   useCivicEvents,
   type CivicEvent,
@@ -40,19 +32,16 @@ import {
 
 /** How long each event stays up while the slideshow plays. */
 const SLIDE_MS = 4500;
-/** Enough to usually carry the slideshow past the current month. */
 const MAX_EVENTS = 12;
+/** A swipe this far (px) or this fast (px/s) moves to the neighbouring event. */
+const SWIPE_DISTANCE = 60;
+const SWIPE_VELOCITY = 400;
 
-const weekdays = {
-  en: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-  ha: ["Lit", "Tal", "Lar", "Alh", "Jum", "Asa", "Lah"],
-};
-
-/** Grid and ticket slide the way time moves: later dates come from the right. */
+/** Events slide the way time moves: later events come in from the right. */
 const slideVariants: Variants = {
-  enter: (direction: number) => ({ x: direction * 40, opacity: 0 }),
+  enter: (direction: number) => ({ x: direction * 56, opacity: 0 }),
   center: { x: 0, opacity: 1, transition: springs.move },
-  exit: (direction: number) => ({ x: direction * -40, opacity: 0, transition: springs.exit }),
+  exit: (direction: number) => ({ x: direction * -56, opacity: 0, transition: springs.exit }),
 };
 
 // Today's date as a store: empty on the server (no locale/timezone guess),
@@ -64,25 +53,16 @@ const subscribeToday = (callback: () => void) => {
 const getToday = () => dateKey(new Date());
 const getServerToday = () => "";
 
-/** Always six weeks, so the card keeps one height as months change. */
-function sixWeekGrid(month: Date) {
-  const offset = (month.getDay() + 6) % 7;
-  return Array.from(
-    { length: 42 },
-    (_, index) => new Date(month.getFullYear(), month.getMonth(), index - offset + 1)
-  );
-}
-
 /** The day to show for an event: its start, or today if it's already running. */
 function focusDateOf(event: CivicEvent, today: string) {
   return event.start_date < today ? today : event.start_date;
 }
 
-function monthOf(key: string) {
-  const date = dateFromKey(key);
-  return new Date(date.getFullYear(), date.getMonth(), 1);
-}
-
+/**
+ * The home hero's Civic Calendar: one upcoming event at a time, sliding on
+ * to the next. Arrows, swipe and the keyboard move it; hover, focus, an open
+ * menu or a reduced-motion preference hold it still.
+ */
 export default function HeroCalendar() {
   const { language, t } = useLanguage();
   const { events, loading, error, retrying, retry } = useCivicEvents();
@@ -95,8 +75,11 @@ export default function HeroCalendar() {
   const [playChoice, setPlayChoice] = useState<boolean | null>(null);
   const [hovered, setHovered] = useState(false);
   const [focused, setFocused] = useState(false);
+  const [dragging, setDragging] = useState(false);
   // Menus render in a portal outside this card, so hover/focus can't see them.
   const [menuOpen, setMenuOpen] = useState(false);
+  // A swipe ends with a click on the link underneath; this swallows it.
+  const swipedRef = useRef(false);
 
   useEffect(() => {
     const onMenu = (event: Event) => setMenuOpen(Boolean((event as CustomEvent<boolean>).detail));
@@ -108,68 +91,53 @@ export default function HeroCalendar() {
     () => (today ? upcomingFrom(events, today, MAX_EVENTS) : []),
     [events, today]
   );
-  const eventsByDate = useMemo(() => groupEventsByDate(events), [events]);
-
-  // Days you can tap to jump to: each maps to its first upcoming event.
-  const indexByDate = useMemo(() => {
-    const map = new Map<string, number>();
-    for (const [key, list] of groupEventsByDate(upcoming)) {
-      if (key >= today) map.set(key, upcoming.indexOf(list[0]));
-    }
-    return map;
-  }, [upcoming, today]);
 
   const count = upcoming.length;
   const active = count ? index % count : 0;
   const event: CivicEvent | undefined = upcoming[active];
   const focusKey = event ? focusDateOf(event, today) : today;
-  const month = focusKey ? monthOf(focusKey) : null;
-  const monthKey = month ? `${month.getFullYear()}-${month.getMonth()}` : "pending";
 
   const playing = (playChoice ?? !reduceMotion) && count > 1;
-  const paused = !playing || hovered || focused || menuOpen;
-
-  // Days the current event spans, drawn as a soft band behind the dates.
-  const activeSpan = useMemo(() => {
-    if (!event) return new Set<string>();
-    return new Set(
-      [...groupEventsByDate([event]).keys()].filter((key) => key >= today)
-    );
-  }, [event, today]);
+  const paused = !playing || hovered || focused || menuOpen || dragging;
 
   function goTo(target: number) {
     if (!count) return;
     const next = ((target % count) + count) % count;
     if (next === active) return;
-    const fromKey = focusKey;
     const toKey = focusDateOf(upcoming[next], today);
-    setDirection(toKey >= fromKey ? 1 : -1);
+    setDirection(toKey >= focusKey ? 1 : -1);
     setIndex(next);
+  }
+
+  function onSwipeEnd(_: unknown, info: PanInfo) {
+    setDragging(false);
+    const { offset, velocity } = info;
+    if (offset.x < -SWIPE_DISTANCE || velocity.x < -SWIPE_VELOCITY) goTo(active + 1);
+    else if (offset.x > SWIPE_DISTANCE || velocity.x > SWIPE_VELOCITY) goTo(active - 1);
   }
 
   const shell =
     "relative w-full overflow-hidden rounded-[28px] bg-paper-raised text-ink shadow-[0_40px_80px_-32px_rgb(4_9_20/0.7)] ring-1 ring-ink/5";
 
   // Before hydration we don't know today's date: hold the space quietly.
-  if (!month) {
+  if (!today) {
     return (
-      <div className={`${shell} h-[500px] sm:h-[540px]`} aria-hidden="true">
-        <div className="absolute inset-5 animate-pulse rounded-2xl bg-tint motion-reduce:animate-none" />
+      <div className={`${shell} h-[300px]`} aria-hidden="true">
+        <div className="absolute inset-6 animate-pulse rounded-2xl bg-tint motion-reduce:animate-none" />
       </div>
     );
   }
 
   const title = event ? (language === "ha" ? event.title_ha : event.title_en) : "";
   const venue = event ? (language === "ha" ? event.venue_ha : event.venue_en) : null;
-  const category = event
-    ? (categoryLabels[event.category] ?? categoryLabels.other)[language]
-    : "";
+  const category = event ? (categoryLabels[event.category] ?? categoryLabels.other)[language] : "";
+  const spansDays = Boolean(event?.end_date && event.end_date !== event.start_date);
 
   return (
     <div
       role="region"
       aria-roledescription="carousel"
-      aria-label={t("heroCalendarLabel")}
+      aria-labelledby="hero-calendar-title"
       className={shell}
       onPointerEnter={(e) => e.pointerType === "mouse" && setHovered(true)}
       onPointerLeave={(e) => e.pointerType === "mouse" && setHovered(false)}
@@ -182,25 +150,10 @@ export default function HeroCalendar() {
         else if (e.key === "ArrowLeft") goTo(active - 1);
       }}
     >
-      {/* Header: month and controls */}
-      <div className="flex items-center justify-between gap-3 px-5 pt-4 sm:px-6 sm:pt-5">
-        <div className="min-w-0">
-          <h2 className="relative overflow-hidden font-heading text-xl font-extrabold tracking-tight sm:text-2xl">
-            <AnimatePresence mode="popLayout" initial={false} custom={direction}>
-              <motion.span
-                key={monthKey}
-                custom={direction}
-                variants={slideVariants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                className="block"
-              >
-                {formatMonth(month, language)}
-              </motion.span>
-            </AnimatePresence>
-          </h2>
-        </div>
+      <div className="flex items-center justify-between gap-3 px-6 pt-5 sm:px-7 sm:pt-6">
+        <h2 id="hero-calendar-title" className="font-heading text-xl font-extrabold tracking-tight sm:text-2xl">
+          {t("heroCalendarTitle")}
+        </h2>
 
         {count > 1 ? (
           <div className="-mr-2 flex shrink-0 items-center">
@@ -220,230 +173,143 @@ export default function HeroCalendar() {
         ) : null}
       </div>
 
-      {/* Month grid */}
-      <div className="px-3 pt-4 sm:px-4">
-        <div className="grid grid-cols-7 text-center text-xs font-semibold text-ink-subtle">
-          {weekdays[language].map((day) => (
-            <span key={day} className="py-1.5">
-              {day}
+      <div
+        className="relative mt-4 min-h-[132px] overflow-hidden px-6 sm:px-7"
+        aria-live={playing && !paused ? "off" : "polite"}
+        aria-busy={loading}
+      >
+        {loading ? (
+          <div role="status" aria-label={t("heroCalendarLoading")} className="flex items-start gap-5 py-1">
+            <div className="size-[76px] shrink-0 animate-pulse rounded-2xl bg-line-soft motion-reduce:animate-none" />
+            <div className="flex-1 space-y-2.5 pt-1">
+              <div className="h-3.5 w-24 animate-pulse rounded-full bg-line-soft motion-reduce:animate-none" />
+              <div className="h-5 w-4/5 animate-pulse rounded bg-line-soft motion-reduce:animate-none" />
+              <div className="h-3.5 w-1/2 animate-pulse rounded bg-tint motion-reduce:animate-none" />
+            </div>
+          </div>
+        ) : error ? (
+          <div className="flex min-h-[120px] items-center justify-between gap-4">
+            <p className="text-sm leading-6 text-ink-muted">
+              {t("heroCalendarError")} {t("heroCalendarErrorHint")}
+            </p>
+            <button
+              type="button"
+              onClick={retry}
+              disabled={retrying}
+              className="inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full bg-ink px-4 text-sm font-semibold text-white hover:bg-ink-raised disabled:opacity-70"
+            >
+              {retrying ? (
+                <LoaderCircle size={15} className="animate-spin" aria-hidden="true" />
+              ) : (
+                <RefreshCw size={15} aria-hidden="true" />
+              )}
+              {t("heroCalendarRetry")}
+            </button>
+          </div>
+        ) : !event ? (
+          <div className="flex min-h-[120px] items-center gap-5">
+            <span className="flex size-[76px] shrink-0 items-center justify-center rounded-2xl bg-tint text-ink-subtle">
+              <CalendarDays size={28} aria-hidden="true" />
             </span>
-          ))}
-        </div>
-
-        <div className="relative overflow-hidden">
+            <p className="text-sm leading-6 text-ink-muted">{t("heroCalendarEmpty")}</p>
+          </div>
+        ) : (
           <AnimatePresence mode="popLayout" initial={false} custom={direction}>
             <motion.div
-              key={monthKey}
+              key={event.id}
               custom={direction}
               variants={slideVariants}
               initial="enter"
               animate="center"
               exit="exit"
-              className="grid grid-cols-7"
+              aria-roledescription="slide"
+              aria-label={`${active + 1} ${t("heroCalendarOf")} ${count}`}
+              drag={count > 1 ? "x" : false}
+              dragConstraints={{ left: 0, right: 0 }}
+              dragElastic={0.2}
+              dragSnapToOrigin
+              onDragStart={() => {
+                swipedRef.current = true;
+                setDragging(true);
+              }}
+              onDragEnd={onSwipeEnd}
+              className="touch-pan-y"
             >
-              <LayoutGroup id={`hero-month-${monthKey}`}>
-                {sixWeekGrid(month).map((date, cell) => {
-                  const key = dateKey(date);
-                  const inMonth = date.getMonth() === month.getMonth();
-                  const isFocus = event !== undefined && key === focusKey;
-                  // A band only reads as a range when there's more than one day.
-                  const inSpan = activeSpan.size > 1 && activeSpan.has(key) && inMonth;
-                  // Round the band where the span (or the week row) starts and ends.
-                  const column = cell % 7;
-                  const prevKey = dateKey(new Date(date.getFullYear(), date.getMonth(), date.getDate() - 1));
-                  const nextKey = dateKey(new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1));
-                  const capStart = inSpan && (column === 0 || !activeSpan.has(prevKey));
-                  const capEnd = inSpan && (column === 6 || !activeSpan.has(nextKey));
-                  const jumpTo = indexByDate.get(key);
-                  // Only days you can tap look tappable; past events stay quiet.
-                  const tappable = jumpTo !== undefined && inMonth;
-                  const hadEvents = !tappable && inMonth && (eventsByDate.get(key)?.length ?? 0) > 0;
-                  const isToday = key === today;
+              <Link
+                href={`/civic-calendar?date=${focusKey}`}
+                draggable={false}
+                onClickCapture={(e) => {
+                  if (swipedRef.current) {
+                    e.preventDefault();
+                    swipedRef.current = false;
+                  }
+                }}
+                onPointerDown={() => {
+                  swipedRef.current = false;
+                }}
+                className="group -mx-2 flex items-start gap-5 rounded-2xl p-2 transition-colors hover:bg-ink/[0.035] focus-visible:outline-2 focus-visible:outline-ink"
+              >
+                <span className="flex size-[76px] shrink-0 flex-col items-center justify-center rounded-2xl bg-ink text-white">
+                  <span className="text-xs font-bold tracking-wide text-signal uppercase">
+                    {formatShortMonth(focusKey, language)}
+                  </span>
+                  <span className="font-heading text-3xl leading-8 font-extrabold tabular-nums">
+                    {dateFromKey(focusKey).getDate()}
+                  </span>
+                </span>
 
-                  const label = (
-                    <>
-                      {isFocus ? (
-                        <motion.span
-                          layoutId="hero-focus-day"
-                          transition={springs.move}
-                          className="absolute inset-0.5 rounded-full bg-signal"
-                          aria-hidden="true"
-                        />
-                      ) : null}
-                      {/* Days from the neighbouring months stay as empty cells: they keep
-                          the grid's shape without competing with this month. */}
-                      {inMonth ? <span className="relative">{date.getDate()}</span> : null}
-                      {(tappable || hadEvents) && !isFocus ? (
-                        <span
-                          aria-hidden="true"
-                          style={{ "--i": cell } as CSSProperties}
-                          className={`dot-pop absolute bottom-1.5 left-1/2 size-1 -translate-x-1/2 rounded-full ${
-                            tappable ? "bg-signal" : "bg-ink/25"
-                          }`}
-                        />
-                      ) : null}
-                    </>
-                  );
+                <span className="min-w-0 flex-1">
+                  <span className="block text-sm font-semibold text-ink-subtle">{category}</span>
+                  <span className="mt-1 line-clamp-2 block font-heading text-lg leading-snug font-bold sm:text-xl">
+                    {title}
+                  </span>
+                  <span className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-ink-muted">
+                    {spansDays && event.end_date ? (
+                      <span className="inline-flex items-center gap-1.5">
+                        <CalendarDays size={14} aria-hidden="true" />
+                        {formatDateRange(event.start_date, event.end_date, language)}
+                      </span>
+                    ) : event.start_time ? (
+                      <span className="inline-flex items-center gap-1.5">
+                        <Clock3 size={14} aria-hidden="true" />
+                        {formatTime(event.start_time, language)}
+                      </span>
+                    ) : null}
+                    {venue ? (
+                      <span className="inline-flex min-w-0 items-center gap-1.5">
+                        <MapPin size={14} aria-hidden="true" className="shrink-0" />
+                        <span className="truncate">{venue}</span>
+                      </span>
+                    ) : null}
+                  </span>
+                </span>
 
-                  // 44px tall hit area on every day; the width is the column (~44px on phones).
-                  const dayClass = `relative flex h-11 w-full max-w-11 items-center justify-center rounded-full text-sm tabular-nums ${
-                    isFocus
-                      ? "font-extrabold text-ink"
-                      : !inMonth
-                        ? "text-ink/30"
-                        : tappable
-                          ? "font-bold text-ink"
-                          : "text-ink-muted"
-                  } ${isToday && !isFocus ? "ring-1 ring-ink-subtle ring-inset" : ""}`;
-
-                  return (
-                    <div
-                      key={key}
-                      className={`flex justify-center ${
-                        inSpan ? "bg-tint" : ""
-                      } ${capStart ? "rounded-l-full" : ""} ${capEnd ? "rounded-r-full" : ""}`}
-                    >
-                      {tappable ? (
-                        <button
-                          type="button"
-                          onClick={() => goTo(jumpTo)}
-                          aria-label={`${formatLongDate(date, language)}: ${language === "ha" ? upcoming[jumpTo].title_ha : upcoming[jumpTo].title_en}`}
-                          aria-current={isFocus ? "date" : undefined}
-                          className={`${dayClass} transition-colors hover:bg-ink/[0.05] focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-ink`}
-                        >
-                          {label}
-                        </button>
-                      ) : (
-                        <span className={dayClass} aria-hidden="true">
-                          {label}
-                        </span>
-                      )}
-                    </div>
-                  );
-                })}
-              </LayoutGroup>
+                <span
+                  className="flex size-11 shrink-0 items-center justify-center rounded-full border border-ink/10 text-ink transition group-hover:border-signal group-hover:bg-signal"
+                  aria-hidden="true"
+                >
+                  <ArrowUpRight size={18} />
+                </span>
+                <span className="sr-only">{t("heroCalendarOpen")}</span>
+              </Link>
             </motion.div>
           </AnimatePresence>
-        </div>
+        )}
       </div>
 
-      {/* Event ticket */}
-      <div className="mt-3 border-t border-ink/[0.06] px-5 pt-4 pb-6 sm:px-6">
-        <div
-          className="relative min-h-[92px] overflow-hidden"
-          aria-live={playing && !paused ? "off" : "polite"}
-          aria-busy={loading}
+      <div className="flex items-center justify-between px-6 pt-3 pb-6 text-sm sm:px-7">
+        <Link
+          href="/civic-calendar"
+          className="inline-flex min-h-11 items-center gap-1 font-semibold text-ink underline-offset-4 hover:underline"
         >
-          {loading ? (
-            <div role="status" aria-label={t("heroCalendarLoading")} className="flex items-center gap-4">
-              <div className="size-[60px] shrink-0 animate-pulse rounded-2xl bg-line-soft motion-reduce:animate-none" />
-              <div className="flex-1 space-y-2">
-                <div className="h-3 w-20 animate-pulse rounded-full bg-line-soft motion-reduce:animate-none" />
-                <div className="h-4 w-4/5 animate-pulse rounded bg-line-soft motion-reduce:animate-none" />
-                <div className="h-3 w-1/2 animate-pulse rounded bg-tint motion-reduce:animate-none" />
-              </div>
-            </div>
-          ) : error ? (
-            <div className="flex min-h-[92px] items-center justify-between gap-4">
-              <p className="text-sm leading-6 text-ink-muted">
-                {t("heroCalendarError")} {t("heroCalendarErrorHint")}
-              </p>
-              <button
-                type="button"
-                onClick={retry}
-                disabled={retrying}
-                className="inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full bg-ink px-4 text-sm font-semibold text-white hover:bg-ink-raised disabled:opacity-70"
-              >
-                {retrying ? (
-                  <LoaderCircle size={15} className="animate-spin" aria-hidden="true" />
-                ) : (
-                  <RefreshCw size={15} aria-hidden="true" />
-                )}
-                {t("heroCalendarRetry")}
-              </button>
-            </div>
-          ) : !event ? (
-            <div className="flex min-h-[92px] items-center gap-4">
-              <span className="flex size-[60px] shrink-0 items-center justify-center rounded-2xl bg-tint text-ink-subtle">
-                <CalendarDays size={24} aria-hidden="true" />
-              </span>
-              <p className="text-sm leading-6 text-ink-muted">{t("heroCalendarEmpty")}</p>
-            </div>
-          ) : (
-            <AnimatePresence mode="popLayout" initial={false} custom={direction}>
-              <motion.div
-                key={event.id}
-                custom={direction}
-                variants={slideVariants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                aria-roledescription="slide"
-                aria-label={`${active + 1} ${t("heroCalendarOf")} ${count}`}
-              >
-                <Link
-                  href={`/civic-calendar?date=${focusKey}`}
-                  className="group -m-2 flex items-center gap-4 rounded-2xl p-2 transition-colors hover:bg-ink/[0.035] focus-visible:outline-2 focus-visible:outline-ink"
-                >
-                  <span className="flex size-[60px] shrink-0 flex-col items-center justify-center rounded-2xl bg-ink text-white">
-                    <span className="text-xs font-bold tracking-wide text-signal uppercase">
-                      {formatShortMonth(focusKey, language)}
-                    </span>
-                    <span className="font-heading text-2xl leading-7 font-extrabold tabular-nums">
-                      {dateFromKey(focusKey).getDate()}
-                    </span>
-                  </span>
-
-                  <span className="min-w-0 flex-1">
-                    <span className="block text-xs font-semibold text-ink-subtle">
-                      {category}
-                    </span>
-                    <span className="mt-0.5 line-clamp-2 block font-heading text-[15px] leading-snug font-bold sm:text-base">
-                      {title}
-                    </span>
-                    <span className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs text-ink-muted">
-                      {event.start_time ? (
-                        <span className="inline-flex items-center gap-1">
-                          <Clock3 size={12} aria-hidden="true" />
-                          {formatTime(event.start_time, language)}
-                        </span>
-                      ) : null}
-                      {venue ? (
-                        <span className="inline-flex min-w-0 items-center gap-1">
-                          <MapPin size={12} aria-hidden="true" className="shrink-0" />
-                          <span className="truncate">{venue}</span>
-                        </span>
-                      ) : null}
-                    </span>
-                  </span>
-
-                  <span
-                    className="flex size-9 shrink-0 items-center justify-center rounded-full border border-ink/10 text-ink transition group-hover:border-signal group-hover:bg-signal"
-                    aria-hidden="true"
-                  >
-                    <ArrowUpRight size={17} />
-                  </span>
-                  <span className="sr-only">{t("heroCalendarOpen")}</span>
-                </Link>
-              </motion.div>
-            </AnimatePresence>
-          )}
-        </div>
-
-        <div className="mt-4 flex items-center justify-between text-xs">
-          <Link
-            href="/civic-calendar"
-            className="inline-flex items-center gap-1 font-semibold text-ink underline-offset-4 hover:underline"
-          >
-            {t("heroCalendarViewAll")}
-            <ArrowUpRight size={14} aria-hidden="true" />
-          </Link>
-          {count > 1 ? (
-            <span className="tabular-nums text-ink-subtle">
-              {active + 1} {t("heroCalendarOf")} {count}
-            </span>
-          ) : null}
-        </div>
+          {t("heroCalendarViewAll")}
+          <ArrowUpRight size={15} aria-hidden="true" />
+        </Link>
+        {count > 1 ? (
+          <span className="tabular-nums text-ink-subtle">
+            {active + 1} {t("heroCalendarOf")} {count}
+          </span>
+        ) : null}
       </div>
 
       {/* The progress bar is the timer: when it fills, the next event slides in. */}
