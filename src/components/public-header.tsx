@@ -24,7 +24,6 @@ import { Sheet } from "@/components/ui/sheet";
 import { springs } from "@/lib/motion";
 import { useSafeTriangleMenu } from "@/hooks/use-safe-triangle-menu";
 import ReportMenu, { reportDestinations } from "@/components/report-menu";
-import logo from "../../public/aminiya-logo-png.png";
 
 type MenuId = "electoral" | "community";
 
@@ -151,7 +150,7 @@ export default function PublicHeader() {
       <div className="mx-auto flex min-h-[72px] max-w-7xl items-center justify-between gap-4 px-4 sm:px-8 xl:px-6">
         <Link href="/" aria-label="Aminiya Tracker home" className="shrink-0" data-nav="lateral">
           <Image
-            src={logo}
+            src="/aminiya-logo-png.png"
             alt="Aminiya Tracker"
             priority
             placeholder="blur"
