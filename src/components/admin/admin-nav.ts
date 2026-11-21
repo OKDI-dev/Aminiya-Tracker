@@ -1,5 +1,6 @@
 import {
   BarChart3,
+  BookOpen,
   ClipboardCheck,
   ClipboardList,
   CalendarDays,
@@ -46,6 +47,7 @@ export const adminNav: AdminNavGroup[] = [
     label: "Civic engagement",
     items: [
       { label: "Civic calendar", href: "/admin/civic-events", icon: CalendarDays },
+      { label: "Civic Education", href: "/admin/civic-education", icon: BookOpen },
     ],
   },
   {
@@ -78,6 +80,7 @@ const segmentLabels: Record<string, string> = {
   "community-issues": "Community issues",
   incidents: "Election incidents",
   "civic-events": "Civic calendar",
+  "civic-education": "Civic Education",
   "promise-updates": "Promise updates",
   promises: "Promises",
   "electoral-data": "Electoral data",

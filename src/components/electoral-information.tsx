@@ -4,6 +4,7 @@ import { notify } from "@/components/notifications/notify";
 import ElectionIncidents from "@/components/election-incidents";
 import BrandRings from "@/components/brand-rings";
 import ElectionResults from "@/components/election-results";
+import CivicEducationMediaLibrary from "@/components/civic-education-media-library";
 
 import { motion } from "motion/react";
 import { BlurImage } from "@/components/ui/blur-image";
@@ -522,7 +523,9 @@ const [activeTab, setActiveTab] = useState<Section>("education");
                 </div>
               )}
 
-              <div className="mt-8 flex items-start gap-3 rounded-xl border border-signal/25 bg-tint/60 p-4 sm:p-5">
+              <CivicEducationMediaLibrary />
+
+              <div className="mt-8 flex items-start gap-3 rounded-xl border border-[#f0d9c8] bg-[#fffaf6] p-4 sm:p-5">
                 <Info
                   size={20}
                   className="mt-0.5 shrink-0 text-ink"
