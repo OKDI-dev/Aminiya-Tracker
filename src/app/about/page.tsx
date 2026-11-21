@@ -108,38 +108,40 @@ export default function AboutPage() {
             </p>
           </div>
 
-          <div className="mt-8 grid gap-5 sm:grid-cols-2">
-            <article className="flex min-h-48 flex-col items-center justify-center rounded-2xl border border-line-soft bg-paper-raised p-7 text-center">
-              <div className="flex h-24 w-full items-center justify-center">
-                <Image
-                  src="/okdi-logo.png"
-                  alt="Open Knowledge Development Initiative (OKDI)"
-                  width={500}
-                  height={250}
-                  className="max-h-24 w-auto max-w-full object-contain"
-                />
+          <div className="mt-8 rounded-2xl border border-line-soft bg-white p-6 sm:p-8">
+            <div className="grid grid-cols-2 gap-4 sm:gap-8">
+              <div className="flex flex-col items-center justify-center text-center">
+                <div className="flex h-24 w-full max-w-xs items-center justify-center sm:h-28">
+                  <Image
+                    src="/okdi-logo.png"
+                    alt="Open Knowledge Development Initiative (OKDI)"
+                    width={500}
+                    height={250}
+                    className="h-full w-full object-contain"
+                  />
+                </div>
+                <p className="mt-4 text-sm font-semibold text-ink">OKDI</p>
+                <p className="mt-1 text-xs leading-5 text-ink-muted">
+                  {t("aboutOkdiRole")}
+                </p>
               </div>
-              <p className="mt-5 text-sm font-semibold text-ink">OKDI</p>
-              <p className="mt-1 text-xs leading-5 text-ink-muted">
-                {t("aboutOkdiRole")}
-              </p>
-            </article>
 
-            <article className="flex min-h-48 flex-col items-center justify-center rounded-2xl border border-line-soft bg-paper-raised p-7 text-center">
-              <div className="flex h-24 w-full items-center justify-center">
-                <Image
-                  src="/nyff-logo.png"
-                  alt="Nigeria Youth Futures Fund (NYFF)"
-                  width={500}
-                  height={250}
-                  className="max-h-24 w-auto max-w-full object-contain"
-                />
+              <div className="flex flex-col items-center justify-center text-center">
+                <div className="flex h-24 w-full max-w-xs items-center justify-center sm:h-28">
+                  <Image
+                    src="/nyff-logo.png"
+                    alt="Nigeria Youth Futures Fund (NYFF)"
+                    width={500}
+                    height={250}
+                    className="h-full w-full object-contain"
+                  />
+                </div>
+                <p className="mt-4 text-sm font-semibold text-ink">NYFF</p>
+                <p className="mt-1 text-xs leading-5 text-ink-muted">
+                  {t("aboutNyffRole")}
+                </p>
               </div>
-              <p className="mt-5 text-sm font-semibold text-ink">NYFF</p>
-              <p className="mt-1 text-xs leading-5 text-ink-muted">
-                {t("aboutNyffRole")}
-              </p>
-            </article>
+            </div>
           </div>
 
           <p className="mt-6 text-sm leading-7 text-ink-muted">
