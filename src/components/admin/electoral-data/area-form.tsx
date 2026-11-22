@@ -11,8 +11,19 @@ type Area = {
   publication_status: string;
 };
 
+export type AreaInitial = {
+  id: string;
+  name: string;
+  area_type: string;
+  parent_id: string | null;
+  code: string | null;
+  publication_status: string;
+};
+
 type Props = {
   areas: Area[];
+  /** Edit this area instead of creating one. */
+  initialArea?: AreaInitial;
 };
 
 const areaTypes = [
@@ -21,6 +32,9 @@ const areaTypes = [
   { value: "lga", label: "Local Government Area" },
   { value: "ward", label: "Ward" },
   { value: "polling_unit", label: "Polling Unit" },
+  { value: "senatorial_district", label: "Senatorial District" },
+  { value: "federal_constituency", label: "Federal Constituency" },
+  { value: "state_constituency", label: "State Constituency" },
 ];
 
 const parentTypes: Record<string, string | null> = {
@@ -29,15 +43,19 @@ const parentTypes: Record<string, string | null> = {
   lga: "state",
   ward: "lga",
   polling_unit: "ward",
+  senatorial_district: "state",
+  federal_constituency: "state",
+  state_constituency: "state",
 };
 
-export default function AreaForm({ areas }: Props) {
+export default function AreaForm({ areas, initialArea }: Props) {
+  const initial = initialArea;
   const router = useRouter();
-  const [name, setName] = useState("");
-  const [areaType, setAreaType] = useState("state");
-  const [parentId, setParentId] = useState("");
-  const [code, setCode] = useState("");
-  const [status, setStatus] = useState("draft");
+  const [name, setName] = useState(initial?.name ?? "");
+  const [areaType, setAreaType] = useState(initial?.area_type ?? "state");
+  const [parentId, setParentId] = useState(initial?.parent_id ?? "");
+  const [code, setCode] = useState(initial?.code ?? "");
+  const [status, setStatus] = useState(initial?.publication_status ?? "draft");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -50,11 +68,13 @@ export default function AreaForm({ areas }: Props) {
             .filter(
               (area) =>
                 area.area_type === requiredParentType &&
-                area.publication_status === "published"
+                area.id !== initial?.id &&
+                // Keep the current parent selectable even if it was unpublished since.
+                (area.publication_status === "published" || area.id === initial?.parent_id)
             )
             .sort((a, b) => a.name.localeCompare(b.name))
         : [],
-    [areas, requiredParentType]
+    [areas, requiredParentType, initial?.id, initial?.parent_id]
   );
 
   function handleTypeChange(value: string) {
@@ -68,8 +88,8 @@ export default function AreaForm({ areas }: Props) {
     setError("");
 
     try {
-      const response = await fetch("/api/admin/areas", {
-        method: "POST",
+      const response = await fetch(initial ? `/api/admin/areas/${initial.id}` : "/api/admin/areas", {
+        method: initial ? "PATCH" : "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name,
@@ -215,7 +235,7 @@ export default function AreaForm({ areas }: Props) {
           disabled={loading || (!!requiredParentType && !parentOptions.length)}
           className="rounded-lg bg-signal px-5 py-2.5 text-sm font-semibold text-ink hover:bg-signal-hover disabled:cursor-not-allowed disabled:opacity-60"
         >
-          {loading ? "Saving..." : "Save Electoral Area"}
+          {loading ? "Saving..." : initial ? "Save Changes" : "Save Electoral Area"}
         </button>
       </div>
     </form>

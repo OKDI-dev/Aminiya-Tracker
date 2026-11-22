@@ -184,7 +184,7 @@ function AuthenticatedShell({ pathname, children }: { pathname: string; children
         <div className="flex h-full flex-col" style={{ width: SIDEBAR_WIDTH }}>
           <div className="flex h-16 shrink-0 items-center px-4">
             <Link href="/admin" aria-label="Dashboard" className="flex min-w-0 items-center">
-              <Image src="/aminiya-logo-png.png" alt="Aminiya Tracker" priority placeholder="blur" className="h-auto w-[148px]" />
+              <Image src="/aminiya-logo-png.png" alt="Aminiya Tracker" width={565} height={189} priority className="h-auto w-[148px]" />
             </Link>
           </div>
 

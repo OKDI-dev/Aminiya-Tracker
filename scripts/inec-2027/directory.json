@@ -1,0 +1,1893 @@
+{
+  "source": "INEC Final List of Candidates, 2027, Gombe State",
+  "tickets": [
+    {
+      "party": "A",
+      "governor": {
+        "name": "Madaki Auwal Haruna",
+        "age": 46,
+        "gender": "Male",
+        "qualification": "NCE"
+      },
+      "deputy": {
+        "name": "Usman Muhammad Adamu",
+        "age": 70,
+        "gender": "Male",
+        "qualification": "SSCE"
+      }
+    },
+    {
+      "party": "AA",
+      "governor": {
+        "name": "Zakariya Adamu",
+        "age": 51,
+        "gender": "Male",
+        "qualification": "SSC"
+      },
+      "deputy": {
+        "name": "Danladi Daniel",
+        "age": 49,
+        "gender": "Male",
+        "qualification": "SSC"
+      }
+    },
+    {
+      "party": "AAC",
+      "governor": {
+        "name": "Benson Bobo Bagwiba",
+        "age": 38,
+        "gender": "Male",
+        "qualification": "SSCE"
+      },
+      "deputy": {
+        "name": "Umar Yahaya",
+        "age": 35,
+        "gender": "Male",
+        "qualification": "SSCE"
+      }
+    },
+    {
+      "party": "ADC",
+      "governor": {
+        "name": "Bala Bello",
+        "age": 58,
+        "gender": "Male",
+        "qualification": "PGD"
+      },
+      "deputy": {
+        "name": "Aliyu Ngolmo Poyilma",
+        "age": 63,
+        "gender": "Male",
+        "qualification": "B.Sc Accounting"
+      }
+    },
+    {
+      "party": "ADP",
+      "governor": {
+        "name": "Adeh Nuhu Milah",
+        "age": 72,
+        "gender": "Male",
+        "qualification": "Degree"
+      },
+      "deputy": {
+        "name": "Mohammed Abdullahi",
+        "age": 44,
+        "gender": "Male",
+        "qualification": "Degree"
+      }
+    },
+    {
+      "party": "APC",
+      "governor": {
+        "name": "Gwamna Jamil Isyaku",
+        "age": 60,
+        "gender": "Male",
+        "qualification": "B.Sc"
+      },
+      "deputy": {
+        "name": "Balah Adams",
+        "age": 63,
+        "gender": "Male",
+        "qualification": "HND"
+      }
+    },
+    {
+      "party": "APM",
+      "governor": {
+        "name": "Lemela Lenos Silas",
+        "age": 67,
+        "gender": "Male",
+        "qualification": "B.Sc Management"
+      },
+      "deputy": {
+        "name": "Lawan Wadaji Umar",
+        "age": 50,
+        "gender": "Male",
+        "qualification": "SSCE"
+      }
+    },
+    {
+      "party": "APP",
+      "governor": {
+        "name": "Yahaya Bappaji",
+        "age": 53,
+        "gender": "Male",
+        "qualification": "National Diploma"
+      },
+      "deputy": {
+        "name": "Adamu Hassan Ibrahim",
+        "age": 35,
+        "gender": "Male",
+        "qualification": "NABTEB"
+      }
+    },
+    {
+      "party": "DLA",
+      "governor": {
+        "name": "Sani Muhammad",
+        "age": 51,
+        "gender": "Male",
+        "qualification": null
+      },
+      "deputy": {
+        "name": "Samuel Joy",
+        "age": 43,
+        "gender": "Female",
+        "qualification": null
+      }
+    },
+    {
+      "party": "LP",
+      "governor": {
+        "name": "Muazu Zubairu Halilu",
+        "age": 66,
+        "gender": "Male",
+        "qualification": "B.Sc Botany"
+      },
+      "deputy": {
+        "name": "Defle Burga",
+        "age": 61,
+        "gender": "Male",
+        "qualification": "Adv. Diploma Mass Comm"
+      }
+    },
+    {
+      "party": "NDC",
+      "governor": {
+        "name": "Ardo Babayo Kumo",
+        "age": 62,
+        "gender": "Male",
+        "qualification": "B.Sc"
+      },
+      "deputy": {
+        "name": "Umaru Sunday",
+        "age": 43,
+        "gender": "Male",
+        "qualification": "B.Sc"
+      }
+    },
+    {
+      "party": "NDP",
+      "governor": {
+        "name": "Aliyu Adamu Danmacca",
+        "age": 38,
+        "gender": "Male",
+        "qualification": "B.Sc/NCE"
+      },
+      "deputy": {
+        "name": "Sulaiman Mariyatu Aliyu",
+        "age": 66,
+        "gender": "Female",
+        "qualification": "Diploma"
+      }
+    },
+    {
+      "party": "NNPP",
+      "governor": {
+        "name": "Abdullahi Maikano Umar",
+        "age": 48,
+        "gender": "Male",
+        "qualification": "NCE"
+      },
+      "deputy": {
+        "name": "Victor Iliya Jatau",
+        "age": 67,
+        "gender": "Male",
+        "qualification": "ND"
+      }
+    },
+    {
+      "party": "NRM",
+      "governor": {
+        "name": "Yahya Bashir",
+        "age": 46,
+        "gender": "Male",
+        "qualification": "SSC"
+      },
+      "deputy": {
+        "name": "Sulaiman Kumo Mohammed",
+        "age": 56,
+        "gender": "Male",
+        "qualification": "ND"
+      }
+    },
+    {
+      "party": "PDP",
+      "governor": {
+        "name": "Ibrahim Isa Ali",
+        "age": 53,
+        "gender": "Male",
+        "qualification": "B.Tech"
+      },
+      "deputy": {
+        "name": "Haruna Ahmadu Hasan",
+        "age": 41,
+        "gender": "Male",
+        "qualification": "B.Sc"
+      }
+    },
+    {
+      "party": "PRP",
+      "governor": {
+        "name": "Ibrahim Abubakar Jalo",
+        "age": 35,
+        "gender": "Male",
+        "qualification": "Degree"
+      },
+      "deputy": {
+        "name": "Anthony Augustine Maidaka",
+        "age": 41,
+        "gender": "Male",
+        "qualification": "Degree"
+      }
+    },
+    {
+      "party": "SDP",
+      "governor": {
+        "name": "Ma'aji Adamu Muhammed",
+        "age": 58,
+        "gender": "Male",
+        "qualification": "B.Sc"
+      },
+      "deputy": {
+        "name": "Magaji Ibrahim",
+        "age": 64,
+        "gender": "Male",
+        "qualification": "B.Sc"
+      }
+    },
+    {
+      "party": "YPP",
+      "governor": {
+        "name": "Alkali Victor Laima",
+        "age": 58,
+        "gender": "Male",
+        "qualification": "LLB Hons/BL"
+      },
+      "deputy": {
+        "name": "Samaila Ibrahim",
+        "age": 57,
+        "gender": "Male",
+        "qualification": "NCE"
+      }
+    },
+    {
+      "party": "ZLP",
+      "governor": {
+        "name": "Gana Aliyu Muhammad",
+        "age": 57,
+        "gender": "Male",
+        "qualification": "B.Ed"
+      },
+      "deputy": {
+        "name": "Garba Abdullahi",
+        "age": 41,
+        "gender": "Male",
+        "qualification": "SSCE"
+      }
+    }
+  ],
+  "senate": [
+    {
+      "area": "Gombe Central",
+      "candidates": [
+        {
+          "name": "Jibrin Yusuf",
+          "party": "AA"
+        },
+        {
+          "name": "Idris Audu Umar",
+          "party": "ADC"
+        },
+        {
+          "name": "Jijji Bala",
+          "party": "ADP"
+        },
+        {
+          "name": "Ahmadu Muhammed",
+          "party": "APC"
+        },
+        {
+          "name": "Garba Musa Gwani",
+          "party": "APM"
+        },
+        {
+          "name": "Barde Abubakar",
+          "party": "APP"
+        },
+        {
+          "name": "Abdullahi Auwal",
+          "party": "LP"
+        },
+        {
+          "name": "Kabiru Mohammed",
+          "party": "NDC"
+        },
+        {
+          "name": "Sulaiman Musa Kumo",
+          "party": "NRM"
+        },
+        {
+          "name": "Hammadu Aliyu",
+          "party": "PDP"
+        },
+        {
+          "name": "Mohammed Adamu Ibrahim",
+          "party": "SDP"
+        },
+        {
+          "name": "Garba Ibrahim Zambuk",
+          "party": "YPP"
+        }
+      ]
+    },
+    {
+      "area": "Gombe North",
+      "candidates": [
+        {
+          "name": "Mohammad Garba Umar",
+          "party": "A"
+        },
+        {
+          "name": "Ahmed Babayo",
+          "party": "AA"
+        },
+        {
+          "name": "Mustapha Mohammed Aliyu",
+          "party": "ADC"
+        },
+        {
+          "name": "Abba Yakubu",
+          "party": "ADP"
+        },
+        {
+          "name": "Yahaya Muhammed Inuwa",
+          "party": "APC"
+        },
+        {
+          "name": "Abubakar Abubakar",
+          "party": "APM"
+        },
+        {
+          "name": "Abubakar Mustapha",
+          "party": "DLA"
+        },
+        {
+          "name": "Mohammed Dukku Ismaila",
+          "party": "NDC"
+        },
+        {
+          "name": "Sama'ila Muhammad Dukku",
+          "party": "NDP"
+        },
+        {
+          "name": "Hassan Malleri",
+          "party": "NRM"
+        },
+        {
+          "name": "Dankwambo Ibrahim Hassan",
+          "party": "PDP"
+        },
+        {
+          "name": "Abubakar Sani",
+          "party": "SDP"
+        },
+        {
+          "name": "Abdullahi Salisu Bello",
+          "party": "YPP"
+        },
+        {
+          "name": "Salisu Khadija Yahaya",
+          "party": "ZLP"
+        }
+      ]
+    },
+    {
+      "area": "Gombe South",
+      "candidates": [
+        {
+          "name": "Danjuma Reuben",
+          "party": "AA"
+        },
+        {
+          "name": "Mela Audu Nunghe",
+          "party": "ADC"
+        },
+        {
+          "name": "Habu Saidu",
+          "party": "ADP"
+        },
+        {
+          "name": "Joseph Jerry Damara",
+          "party": "APC"
+        },
+        {
+          "name": "Hamma Tabitha",
+          "party": "APM"
+        },
+        {
+          "name": "Akula Benjamin Dauda",
+          "party": "DLA"
+        },
+        {
+          "name": "Lazarus John Yoriyo",
+          "party": "LP"
+        },
+        {
+          "name": "Amos Bulus Kilawangs",
+          "party": "NDC"
+        },
+        {
+          "name": "Abdussalam Sarah",
+          "party": "NRM"
+        },
+        {
+          "name": "Siyako Anthony Yaro",
+          "party": "PDP"
+        },
+        {
+          "name": "Nawarke John Ngai",
+          "party": "SDP"
+        }
+      ]
+    }
+  ],
+  "house": [
+    {
+      "area": "Akko Federal Constituency",
+      "candidates": [
+        {
+          "name": "Abubakar Jamilu",
+          "party": "AA"
+        },
+        {
+          "name": "Abdullahi Bashir",
+          "party": "ADC"
+        },
+        {
+          "name": "Muhammad Usman",
+          "party": "ADP"
+        },
+        {
+          "name": "Kumo Usman Bello",
+          "party": "APC"
+        },
+        {
+          "name": "Umar Adamu",
+          "party": "APM"
+        },
+        {
+          "name": "Muhammed Ibrahim",
+          "party": "DLA"
+        },
+        {
+          "name": "Garba-Kumo Mohammed Ahmed",
+          "party": "LP"
+        },
+        {
+          "name": "Akula Yunana",
+          "party": "NDC"
+        },
+        {
+          "name": "Okasha Ladidi",
+          "party": "NRM"
+        },
+        {
+          "name": "Gidado Lawanti",
+          "party": "PDP"
+        },
+        {
+          "name": "Babangida Suleiman Adamu",
+          "party": "SDP"
+        }
+      ]
+    },
+    {
+      "area": "Balanga/Billiri Federal Constituency",
+      "candidates": [
+        {
+          "name": "Abubakar Sadiq Adamu",
+          "party": "ADC"
+        },
+        {
+          "name": "Jibrin Muhammad",
+          "party": "ADP"
+        },
+        {
+          "name": "Isa Ali",
+          "party": "APC"
+        },
+        {
+          "name": "Matthew Manya Manu",
+          "party": "APM"
+        },
+        {
+          "name": "Mathew Ibrahim Maikano",
+          "party": "LP"
+        },
+        {
+          "name": "Yakubu David Fada",
+          "party": "NDC"
+        },
+        {
+          "name": "Inuwa Ahmad Sakil",
+          "party": "NDP"
+        },
+        {
+          "name": "Mailabari Hussein",
+          "party": "NRM"
+        },
+        {
+          "name": "Rambi Ibrahim Ayala",
+          "party": "PDP"
+        },
+        {
+          "name": "Umar Sani Umar",
+          "party": "SDP"
+        }
+      ]
+    },
+    {
+      "area": "Dukku/Nafada Federal Constituency",
+      "candidates": [
+        {
+          "name": "Elrasheed Abdullahi",
+          "party": "ADC"
+        },
+        {
+          "name": "Sani Abubakar",
+          "party": "ADP"
+        },
+        {
+          "name": "Ahmed Jamilu",
+          "party": "APC"
+        },
+        {
+          "name": "Adamu Mohammed Sani",
+          "party": "APM"
+        },
+        {
+          "name": "Saidu Zakaryau",
+          "party": "LP"
+        },
+        {
+          "name": "Abdullahi Umar",
+          "party": "NDC"
+        },
+        {
+          "name": "Nasir Babayo",
+          "party": "NDP"
+        },
+        {
+          "name": "Balarabe Shamsuddeen",
+          "party": "NRM"
+        },
+        {
+          "name": "Lamido Mohammed",
+          "party": "PDP"
+        },
+        {
+          "name": "Ibrahim Abubakar Hashidu",
+          "party": "SDP"
+        }
+      ]
+    },
+    {
+      "area": "Gombe/Kwami/Funakaye Federal Constituency",
+      "candidates": [
+        {
+          "name": "Yakubu Sabiu Damada",
+          "party": "AA"
+        },
+        {
+          "name": "Ali Bappayo",
+          "party": "ADC"
+        },
+        {
+          "name": "Abubakar Ahmed",
+          "party": "ADP"
+        },
+        {
+          "name": "Bello Saddam Sale",
+          "party": "APC"
+        },
+        {
+          "name": "Ya'u Hassan Marafa",
+          "party": "APM"
+        },
+        {
+          "name": "Sani Fatima",
+          "party": "DLA"
+        },
+        {
+          "name": "Jungudo Maigari",
+          "party": "LP"
+        },
+        {
+          "name": "Idris Yahaya",
+          "party": "NDC"
+        },
+        {
+          "name": "Aliyu Hon. Yakubu",
+          "party": "NDP"
+        },
+        {
+          "name": "Ismail Zubairu",
+          "party": "NRM"
+        },
+        {
+          "name": "Ibrahim Nasir",
+          "party": "PDP"
+        },
+        {
+          "name": "Hon. Musa Mccido",
+          "party": "SDP"
+        },
+        {
+          "name": "Adamu Abubakar Usman",
+          "party": "YPP"
+        }
+      ]
+    },
+    {
+      "area": "Kaltungo/Shongom Federal Constituency",
+      "candidates": [
+        {
+          "name": "Garba Safiyu",
+          "party": "AA"
+        },
+        {
+          "name": "Abubakar Kabir",
+          "party": "ADC"
+        },
+        {
+          "name": "Bello Fatima Binta",
+          "party": "APC"
+        },
+        {
+          "name": "Aliyu Yusuf",
+          "party": "APM"
+        },
+        {
+          "name": "Kwayama Jonas Jehu",
+          "party": "LP"
+        },
+        {
+          "name": "Tiyatiye Kala Tula",
+          "party": "NDC"
+        },
+        {
+          "name": "Iliya Jaban",
+          "party": "NRM"
+        },
+        {
+          "name": "Shehu Obed Paul",
+          "party": "PDP"
+        },
+        {
+          "name": "Hon. Musa Alhassan Aliyu",
+          "party": "SDP"
+        },
+        {
+          "name": "Audu-Kosulo Yakubed",
+          "party": "YPP"
+        }
+      ]
+    },
+    {
+      "area": "Yamaltu/Deba Federal Constituency",
+      "candidates": [
+        {
+          "name": "Saidu Usman Aliyu",
+          "party": "ADC"
+        },
+        {
+          "name": "Ibrahim Bashir",
+          "party": "ADP"
+        },
+        {
+          "name": "Garba Inuwa",
+          "party": "APC"
+        },
+        {
+          "name": "Umar Aliyu",
+          "party": "APM"
+        },
+        {
+          "name": "Musa Aliyu Aliyu",
+          "party": "DLA"
+        },
+        {
+          "name": "Salisu Mohammed Kwadon",
+          "party": "LP"
+        },
+        {
+          "name": "Dala Musa Mamman",
+          "party": "NDC"
+        },
+        {
+          "name": "Aliyu Yunusa Wada",
+          "party": "NDP"
+        },
+        {
+          "name": "Umar Galadima Shuaibu",
+          "party": "PDP"
+        },
+        {
+          "name": "Abdulkadir Sabo",
+          "party": "SDP"
+        }
+      ]
+    }
+  ],
+  "assembly": [
+    {
+      "area": "Balanga North",
+      "candidates": [
+        {
+          "name": "Abba Abubakar",
+          "party": "ADC"
+        },
+        {
+          "name": "Buba Musa",
+          "party": "APC"
+        },
+        {
+          "name": "Mohammed Abdulganiyyu Bodoji",
+          "party": "LP"
+        },
+        {
+          "name": "Bachuwe Sani Baluwa",
+          "party": "NRM"
+        },
+        {
+          "name": "Barka Yerima Hamma",
+          "party": "NDC"
+        },
+        {
+          "name": "Ibrahim Nafisat Kuru",
+          "party": "PDP"
+        },
+        {
+          "name": "Muhammed Umar",
+          "party": "SDP"
+        }
+      ]
+    },
+    {
+      "area": "Balanga South",
+      "candidates": [
+        {
+          "name": "Adamu Hamza",
+          "party": "ADC"
+        },
+        {
+          "name": "Melton Yahaya Sundu",
+          "party": "APC"
+        },
+        {
+          "name": "Yalabuwa Yerima John",
+          "party": "LP"
+        },
+        {
+          "name": "Abubakar M. Bello",
+          "party": "NRM"
+        },
+        {
+          "name": "Dio Sarah Yunusa",
+          "party": "NNPP"
+        },
+        {
+          "name": "Yolde Abubakar Adamu",
+          "party": "NDC"
+        },
+        {
+          "name": "Danladi Wunnan Duniya",
+          "party": "PDP"
+        },
+        {
+          "name": "Zakka Sadiq",
+          "party": "PRP"
+        },
+        {
+          "name": "Usman Lado Cham",
+          "party": "SDP"
+        },
+        {
+          "name": "Andrew Akimmai",
+          "party": "YPP"
+        }
+      ]
+    },
+    {
+      "area": "Akko West",
+      "candidates": [
+        {
+          "name": "Baba Musa Tumu",
+          "party": "ADC"
+        },
+        {
+          "name": "Abubakar Abdullahi",
+          "party": "APC"
+        },
+        {
+          "name": "Hadi Aminu Mustapha",
+          "party": "APM"
+        },
+        {
+          "name": "Magaji Abdullahi",
+          "party": "DLA"
+        },
+        {
+          "name": "Saleh Ibrahim",
+          "party": "LP"
+        },
+        {
+          "name": "Y. Abubakar Abdullahi",
+          "party": "NDP"
+        },
+        {
+          "name": "Muhammad Huzaifa",
+          "party": "NRM"
+        },
+        {
+          "name": "Babangida Saini",
+          "party": "NDC"
+        },
+        {
+          "name": "Shugaba Sagir",
+          "party": "PDP"
+        },
+        {
+          "name": "Bala Yayaji",
+          "party": "PRP"
+        },
+        {
+          "name": "Adamu Tabra Sanda",
+          "party": "SDP"
+        }
+      ]
+    },
+    {
+      "area": "Akko Central",
+      "candidates": [
+        {
+          "name": "Jibrin Sulaiman",
+          "party": "AA"
+        },
+        {
+          "name": "Muhammad Abdullahi",
+          "party": "ADP"
+        },
+        {
+          "name": "Julde Mohammed",
+          "party": "ADC"
+        },
+        {
+          "name": "Mohammed Abubakar",
+          "party": "APC"
+        },
+        {
+          "name": "Hussaini Faisal",
+          "party": "DLA"
+        },
+        {
+          "name": "Inuwa Idris",
+          "party": "LP"
+        },
+        {
+          "name": "Bello Hon. Babayo",
+          "party": "NDP"
+        },
+        {
+          "name": "Sabo Lukman",
+          "party": "NRM"
+        },
+        {
+          "name": "Danladi Musa Kumo",
+          "party": "NDC"
+        },
+        {
+          "name": "Hussaini Anas Kolmani",
+          "party": "PDP"
+        },
+        {
+          "name": "Inuwa Auwal",
+          "party": "PRP"
+        },
+        {
+          "name": "Muhammad Tukur",
+          "party": "SDP"
+        },
+        {
+          "name": "Adamu Saleh",
+          "party": "YPP"
+        }
+      ]
+    },
+    {
+      "area": "Akko North",
+      "candidates": [
+        {
+          "name": "Mohammed Usman",
+          "party": "ADP"
+        },
+        {
+          "name": "Yahaya Kaka Mohammed",
+          "party": "ADC"
+        },
+        {
+          "name": "Musa A. Mohammed",
+          "party": "APC"
+        },
+        {
+          "name": "Arabi Ahmad",
+          "party": "APM"
+        },
+        {
+          "name": "Abdulmumini Abba",
+          "party": "LP"
+        },
+        {
+          "name": "Adamu Ibrahim Ibrahim",
+          "party": "NDP"
+        },
+        {
+          "name": "Mohammed Aishatu",
+          "party": "NRM"
+        },
+        {
+          "name": "Muhammad Bashir Muhammad",
+          "party": "NNPP"
+        },
+        {
+          "name": "Abdulkadir Ahmed Gulazu",
+          "party": "NDC"
+        },
+        {
+          "name": "Marafa Maigari",
+          "party": "PDP"
+        },
+        {
+          "name": "Ahmad Usman Abubakar",
+          "party": "PRP"
+        },
+        {
+          "name": "Waziri Sambo",
+          "party": "SDP"
+        },
+        {
+          "name": "Sheriff Enosh",
+          "party": "YPP"
+        }
+      ]
+    },
+    {
+      "area": "Billiri East",
+      "candidates": [
+        {
+          "name": "Beliza Bello Nerus",
+          "party": "ADC"
+        },
+        {
+          "name": "Abdullahi Ibrahim",
+          "party": "APC"
+        },
+        {
+          "name": "Doro Moses Jonah",
+          "party": "LP"
+        },
+        {
+          "name": "Amos Angel",
+          "party": "NDP"
+        },
+        {
+          "name": "Dan Baba Amos",
+          "party": "NRM"
+        },
+        {
+          "name": "Emmanuel Umaru",
+          "party": "NDC"
+        },
+        {
+          "name": "Waziri Abba Abubakar",
+          "party": "PDP"
+        },
+        {
+          "name": "Daniel Adamu",
+          "party": "PRP"
+        },
+        {
+          "name": "Adamu Sale",
+          "party": "SDP"
+        }
+      ]
+    },
+    {
+      "area": "Billiri West",
+      "candidates": [
+        {
+          "name": "Sadiq Durai Shadrach",
+          "party": "ADP"
+        },
+        {
+          "name": "Babaji Yusuf Babadidi",
+          "party": "ADC"
+        },
+        {
+          "name": "Malon Nimrod Yari",
+          "party": "APC"
+        },
+        {
+          "name": "Mairungu Ismail Rosemary",
+          "party": "APGA"
+        },
+        {
+          "name": "Adamu Haruna Bello",
+          "party": "LP"
+        },
+        {
+          "name": "Samuel Rejoice",
+          "party": "NRM"
+        },
+        {
+          "name": "Nuhu Ibrahim Ambore",
+          "party": "NDC"
+        },
+        {
+          "name": "Absolom Ruth",
+          "party": "PDP"
+        },
+        {
+          "name": "Samson Bulus Amdu",
+          "party": "PRP"
+        },
+        {
+          "name": "Molta Lamido",
+          "party": "SDP"
+        },
+        {
+          "name": "Philip Gamaniel Nathaniel",
+          "party": "YPP"
+        }
+      ]
+    },
+    {
+      "area": "Dukku North",
+      "candidates": [
+        {
+          "name": "Ibrahim Abubakar",
+          "party": "ADP"
+        },
+        {
+          "name": "Abubakar Nafiu",
+          "party": "ADC"
+        },
+        {
+          "name": "Manu-Malala Umar",
+          "party": "APC"
+        },
+        {
+          "name": "Suleiman Gidado Umar",
+          "party": "APM"
+        },
+        {
+          "name": "Abubakar Nura",
+          "party": "LP"
+        },
+        {
+          "name": "Ahmed Nasiru",
+          "party": "NRM"
+        },
+        {
+          "name": "Ibrahim Mujahideen",
+          "party": "NDC"
+        },
+        {
+          "name": "Musa Kala Bello",
+          "party": "PDP"
+        },
+        {
+          "name": "Barnoyi Kawuwa",
+          "party": "PRP"
+        },
+        {
+          "name": "Umar Damu A.",
+          "party": "SDP"
+        }
+      ]
+    },
+    {
+      "area": "Dukku South",
+      "candidates": [
+        {
+          "name": "Adamu Bala",
+          "party": "ADP"
+        },
+        {
+          "name": "Adamu Mukthar Gorki",
+          "party": "ADC"
+        },
+        {
+          "name": "Haruna Said Alkali",
+          "party": "APC"
+        },
+        {
+          "name": "Jalo Saidu",
+          "party": "APM"
+        },
+        {
+          "name": "Haruna Attahiru",
+          "party": "LP"
+        },
+        {
+          "name": "Isah Mohammed",
+          "party": "NRM"
+        },
+        {
+          "name": "Abdullahi Maijama'a",
+          "party": "NDC"
+        },
+        {
+          "name": "Abdulkadir Yusuf Rashid",
+          "party": "PDP"
+        },
+        {
+          "name": "Mohammed Badarudeen",
+          "party": "PRP"
+        },
+        {
+          "name": "Umar Jummai Gurama",
+          "party": "SDP"
+        }
+      ]
+    },
+    {
+      "area": "Funakaye North",
+      "candidates": [
+        {
+          "name": "Zakar Muhammad",
+          "party": "ADP"
+        },
+        {
+          "name": "Maigari Mohammed",
+          "party": "APP"
+        },
+        {
+          "name": "Nura Mohammed",
+          "party": "AAC"
+        },
+        {
+          "name": "Abubakar Muhammad Gurama",
+          "party": "ADC"
+        },
+        {
+          "name": "Usman Ali Waziri",
+          "party": "APC"
+        },
+        {
+          "name": "Abdullahi Garba",
+          "party": "APM"
+        },
+        {
+          "name": "Garba Yau",
+          "party": "LP"
+        },
+        {
+          "name": "Ashaka Alhaji Shehu",
+          "party": "NDP"
+        },
+        {
+          "name": "Ahmad Muhammad Ahmadu",
+          "party": "NDC"
+        },
+        {
+          "name": "Mustapha Adamu",
+          "party": "PDP"
+        },
+        {
+          "name": "Alhassan Mohammed",
+          "party": "PRP"
+        },
+        {
+          "name": "Umar Umar Sani",
+          "party": "SDP"
+        },
+        {
+          "name": "Daniel Saratu Baba",
+          "party": "YPP"
+        }
+      ]
+    },
+    {
+      "area": "Funakaye South",
+      "candidates": [
+        {
+          "name": "Abubakar Magaji",
+          "party": "ADC"
+        },
+        {
+          "name": "Buba Muhammad Gombe",
+          "party": "APC"
+        },
+        {
+          "name": "Musa Maryam",
+          "party": "DLA"
+        },
+        {
+          "name": "Zarma Ibrahim",
+          "party": "LP"
+        },
+        {
+          "name": "Muhammad Yaya",
+          "party": "NRM"
+        },
+        {
+          "name": "Gidado Garba",
+          "party": "NDC"
+        },
+        {
+          "name": "Alhaji Tafida Abubakar",
+          "party": "PDP"
+        },
+        {
+          "name": "Mohammed Salisu",
+          "party": "PRP"
+        },
+        {
+          "name": "Mustapha Yerima",
+          "party": "SDP"
+        },
+        {
+          "name": "Sani Mohammed",
+          "party": "YPP"
+        }
+      ]
+    },
+    {
+      "area": "Gombe North",
+      "candidates": [
+        {
+          "name": "Haruna Hassan",
+          "party": "ADP"
+        },
+        {
+          "name": "Muhammad Garba Tukur",
+          "party": "ADC"
+        },
+        {
+          "name": "Haruna Abubakar Bako",
+          "party": "APC"
+        },
+        {
+          "name": "Adamu Aliyu",
+          "party": "DLA"
+        },
+        {
+          "name": "Abubakar Ahmed Kawuwa",
+          "party": "LP"
+        },
+        {
+          "name": "Muhammad Bello Alkhali",
+          "party": "NDP"
+        },
+        {
+          "name": "Yaya Khadija",
+          "party": "NRM"
+        },
+        {
+          "name": "Abubakar Ibrahim Jalo",
+          "party": "NNPP"
+        },
+        {
+          "name": "Usman Ibrahim",
+          "party": "NDC"
+        },
+        {
+          "name": "Muhammad Gidado Abubakar",
+          "party": "PDP"
+        },
+        {
+          "name": "Yusuf Na'ana Baba",
+          "party": "SDP"
+        },
+        {
+          "name": "Sambo Mas-ud Abubakar",
+          "party": "YPP"
+        }
+      ]
+    },
+    {
+      "area": "Gombe South",
+      "candidates": [
+        {
+          "name": "Muhammad Shuaibu",
+          "party": "AA"
+        },
+        {
+          "name": "Ibrahim Aminu",
+          "party": "ADP"
+        },
+        {
+          "name": "Abubakar Ubaidu Usman",
+          "party": "ADC"
+        },
+        {
+          "name": "Sale-Kilawa Mohammed Jabiru",
+          "party": "APC"
+        },
+        {
+          "name": "Sulaiman Mohammed",
+          "party": "APM"
+        },
+        {
+          "name": "Kabiru Usman",
+          "party": "DLA"
+        },
+        {
+          "name": "Adamu Danjuma",
+          "party": "LP"
+        },
+        {
+          "name": "Muhammad Hon. Hassan",
+          "party": "NDP"
+        },
+        {
+          "name": "Lamido Lawan",
+          "party": "NRM"
+        },
+        {
+          "name": "Salisu Muhammed",
+          "party": "NNPP"
+        },
+        {
+          "name": "Kabir Khalid",
+          "party": "NDC"
+        },
+        {
+          "name": "Mohammed (Makko) Aminu",
+          "party": "PDP"
+        },
+        {
+          "name": "Zakari Yakubu",
+          "party": "PRP"
+        },
+        {
+          "name": "Ahmad Abbas",
+          "party": "SDP"
+        },
+        {
+          "name": "Idris Dauda",
+          "party": "YPP"
+        }
+      ]
+    },
+    {
+      "area": "Kaltungo West",
+      "candidates": [
+        {
+          "name": "Peace Aminu Christopher",
+          "party": "AAC"
+        },
+        {
+          "name": "Barau Bashir Yakubu",
+          "party": "ADC"
+        },
+        {
+          "name": "Galadima Gabriel Fushison",
+          "party": "APC"
+        },
+        {
+          "name": "Yakubu Danmaina Peter",
+          "party": "APGA"
+        },
+        {
+          "name": "Pau Iliya Ishaku",
+          "party": "LP"
+        },
+        {
+          "name": "Dayyabu Abdlmumini",
+          "party": "NDP"
+        },
+        {
+          "name": "Soul Bulus",
+          "party": "NRM"
+        },
+        {
+          "name": "Abel Mongarind Yorokolees",
+          "party": "NDC"
+        },
+        {
+          "name": "Odahson Mailauni Abednego",
+          "party": "PDP"
+        },
+        {
+          "name": "Charity Motomboni",
+          "party": "SDP"
+        },
+        {
+          "name": "Ali Sadiya",
+          "party": "YPP"
+        }
+      ]
+    },
+    {
+      "area": "Kaltungo East",
+      "candidates": [
+        {
+          "name": "Sulaiman Simon",
+          "party": "ADC"
+        },
+        {
+          "name": "Aliyu Umar Shamaki",
+          "party": "APC"
+        },
+        {
+          "name": "Hassan Reuben",
+          "party": "LP"
+        },
+        {
+          "name": "Bulus Naomi",
+          "party": "NRM"
+        },
+        {
+          "name": "Isa Ismaila",
+          "party": "NDC"
+        },
+        {
+          "name": "Umaru Anthony",
+          "party": "PDP"
+        },
+        {
+          "name": "Garba Alex",
+          "party": "PRP"
+        },
+        {
+          "name": "Ali Daniel Sokwale",
+          "party": "SDP"
+        },
+        {
+          "name": "Yuguda Bashir Yunusa",
+          "party": "YPP"
+        }
+      ]
+    },
+    {
+      "area": "Nafada North",
+      "candidates": [
+        {
+          "name": "Adamu Abubakar",
+          "party": "ADP"
+        },
+        {
+          "name": "Dadum Hamza",
+          "party": "ADC"
+        },
+        {
+          "name": "Tahir Muhammad",
+          "party": "APC"
+        },
+        {
+          "name": "Yaya Kawu",
+          "party": "DLA"
+        },
+        {
+          "name": "Muhammad Yusuf Usman",
+          "party": "LP"
+        },
+        {
+          "name": "Isa Magaji",
+          "party": "NDP"
+        },
+        {
+          "name": "Abubakar Ibrahim",
+          "party": "NRM"
+        },
+        {
+          "name": "Kawu Ahmad",
+          "party": "NDC"
+        },
+        {
+          "name": "Alhaji Mohammed Tela",
+          "party": "PDP"
+        },
+        {
+          "name": "Mohammed Abubakar",
+          "party": "PRP"
+        },
+        {
+          "name": "Hafiz Ahmad Ahmad",
+          "party": "SDP"
+        }
+      ]
+    },
+    {
+      "area": "Nafada South",
+      "candidates": [
+        {
+          "name": "Muhammad Abdullahi",
+          "party": "ADP"
+        },
+        {
+          "name": "Adamu Musa Biri",
+          "party": "ADC"
+        },
+        {
+          "name": "Musa Adamu Ahmed",
+          "party": "APC"
+        },
+        {
+          "name": "Bello Anas Mohammed",
+          "party": "APM"
+        },
+        {
+          "name": "Abdullahi Mohammed",
+          "party": "DLA"
+        },
+        {
+          "name": "Mohammed Umar",
+          "party": "LP"
+        },
+        {
+          "name": "Umar Abubakar",
+          "party": "NRM"
+        },
+        {
+          "name": "Jibrin Shehu Usman",
+          "party": "NDC"
+        },
+        {
+          "name": "Ibrahim Hassan",
+          "party": "PDP"
+        },
+        {
+          "name": "Sale Mohammed Biri",
+          "party": "PRP"
+        },
+        {
+          "name": "Muhammad Haruna Dankade",
+          "party": "SDP"
+        }
+      ]
+    },
+    {
+      "area": "Shongom",
+      "candidates": [
+        {
+          "name": "Kenan Yir Afsa",
+          "party": "ADC"
+        },
+        {
+          "name": "Ayala Zubairu Pilate",
+          "party": "APC"
+        },
+        {
+          "name": "John Ibrahim",
+          "party": "LP"
+        },
+        {
+          "name": "Ajuji Ramatu",
+          "party": "NRM"
+        },
+        {
+          "name": "Jibir Abba",
+          "party": "NNPP"
+        },
+        {
+          "name": "Saraki Hussaini Kayinu",
+          "party": "NDC"
+        },
+        {
+          "name": "Saidu Ibrahim",
+          "party": "PDP"
+        },
+        {
+          "name": "Karatu Amos",
+          "party": "PRP"
+        },
+        {
+          "name": "Barnabas Boyi",
+          "party": "SDP"
+        },
+        {
+          "name": "Barnabas Silas",
+          "party": "YPP"
+        }
+      ]
+    },
+    {
+      "area": "Pero Chonge",
+      "candidates": [
+        {
+          "name": "Bagudu Nelson",
+          "party": "ADC"
+        },
+        {
+          "name": "Gaji Gaius Golkos",
+          "party": "APC"
+        },
+        {
+          "name": "Kirma Dogara Abare",
+          "party": "LP"
+        },
+        {
+          "name": "David Julius",
+          "party": "NRM"
+        },
+        {
+          "name": "Abubakar Dauda",
+          "party": "NNPP"
+        },
+        {
+          "name": "Ishaku David",
+          "party": "NDC"
+        },
+        {
+          "name": "Yakubu Buba",
+          "party": "PDP"
+        },
+        {
+          "name": "Mohammed Nuhu",
+          "party": "PRP"
+        },
+        {
+          "name": "Ahmed Gidado",
+          "party": "SDP"
+        }
+      ]
+    },
+    {
+      "area": "Deba",
+      "candidates": [
+        {
+          "name": "Muhammad Sadiq",
+          "party": "ADP"
+        },
+        {
+          "name": "Ibrahim Lawal Alh",
+          "party": "ADC"
+        },
+        {
+          "name": "Suleiman Mohammed Kabir",
+          "party": "APC"
+        },
+        {
+          "name": "Mustapha Ashiru",
+          "party": "LP"
+        },
+        {
+          "name": "Sani Bello Lamban",
+          "party": "NDP"
+        },
+        {
+          "name": "Abubakar Balkisu",
+          "party": "NRM"
+        },
+        {
+          "name": "Jamilu Mohammed Garba",
+          "party": "NDC"
+        },
+        {
+          "name": "Mohammed Nura",
+          "party": "PDP"
+        },
+        {
+          "name": "Lamido Mustapha Deba",
+          "party": "PRP"
+        },
+        {
+          "name": "Madaki Umaru Sale",
+          "party": "SDP"
+        }
+      ]
+    },
+    {
+      "area": "Yamaltu East",
+      "candidates": [
+        {
+          "name": "Aliyu Ibrahim Galadima",
+          "party": "ADC"
+        },
+        {
+          "name": "Dahiru Suleiman Suleiman",
+          "party": "APC"
+        },
+        {
+          "name": "Ali Munkaila Jibrin",
+          "party": "LP"
+        },
+        {
+          "name": "Abdullahi Muhammad",
+          "party": "NDP"
+        },
+        {
+          "name": "Hassan Lukman Jonga",
+          "party": "NRM"
+        },
+        {
+          "name": "Alkasim Muhammad Hamma",
+          "party": "NDC"
+        },
+        {
+          "name": "Musa Haruna Kabiru",
+          "party": "PDP"
+        },
+        {
+          "name": "Yusuf Umar",
+          "party": "PRP"
+        },
+        {
+          "name": "Sale Shinga Yakubu",
+          "party": "SDP"
+        }
+      ]
+    },
+    {
+      "area": "Yamaltu West",
+      "candidates": [
+        {
+          "name": "Shuaibu Rayyanu",
+          "party": "ADC"
+        },
+        {
+          "name": "Manaja Musa Zambuk",
+          "party": "APC"
+        },
+        {
+          "name": "Haruna Hassan",
+          "party": "APM"
+        },
+        {
+          "name": "Madugu Bulus",
+          "party": "LP"
+        },
+        {
+          "name": "Usman Salisu",
+          "party": "NDP"
+        },
+        {
+          "name": "Musa Sulaiman",
+          "party": "NRM"
+        },
+        {
+          "name": "Mohammed Kabiru Puma",
+          "party": "NDC"
+        },
+        {
+          "name": "Ibrahim Musa Barkuma",
+          "party": "PDP"
+        },
+        {
+          "name": "Muhammed Babawuro",
+          "party": "SDP"
+        }
+      ]
+    },
+    {
+      "area": "Kwami East",
+      "candidates": [
+        {
+          "name": "Usman Wakili Yusuf",
+          "party": "AA"
+        },
+        {
+          "name": "Sabi'u Ahmad Bako",
+          "party": "APP"
+        },
+        {
+          "name": "Hassan Bello",
+          "party": "ADC"
+        },
+        {
+          "name": "Haruna Shuaibu Adamu",
+          "party": "APC"
+        },
+        {
+          "name": "Haruna Isah",
+          "party": "APM"
+        },
+        {
+          "name": "Salihu Mustapha",
+          "party": "DLA"
+        },
+        {
+          "name": "Baba Usman",
+          "party": "LP"
+        },
+        {
+          "name": "Bala Gambo",
+          "party": "NRM"
+        },
+        {
+          "name": "Sambo Alhaji Zakari",
+          "party": "NNPP"
+        },
+        {
+          "name": "Aliyu Muhammad Birma",
+          "party": "NDC"
+        },
+        {
+          "name": "Haruna Kawu",
+          "party": "PDP"
+        },
+        {
+          "name": "Abubakar Adamu Bello",
+          "party": "PRP"
+        },
+        {
+          "name": "Yusuf Usman",
+          "party": "SDP"
+        },
+        {
+          "name": "Yunusa Aishatu Mohammed",
+          "party": "YPP"
+        }
+      ]
+    },
+    {
+      "area": "Kwami West",
+      "candidates": [
+        {
+          "name": "Musa Abdulwarith Abdullahi",
+          "party": "AA"
+        },
+        {
+          "name": "Usman Yauta Muhammed",
+          "party": "ADC"
+        },
+        {
+          "name": "Dauda Muhammad Abubakar",
+          "party": "APC"
+        },
+        {
+          "name": "Hassan Babayo",
+          "party": "LP"
+        },
+        {
+          "name": "Babangida Hassan",
+          "party": "NRM"
+        },
+        {
+          "name": "Aliyu Muhammed Birma",
+          "party": "NDC"
+        },
+        {
+          "name": "Garba Usman",
+          "party": "PDP"
+        },
+        {
+          "name": "Aliyu Abubakar Abdullahi",
+          "party": "PRP"
+        },
+        {
+          "name": "Adamu Abubakar",
+          "party": "SDP"
+        },
+        {
+          "name": "Abubakar Aminu",
+          "party": "YPP"
+        }
+      ]
+    }
+  ]
+}

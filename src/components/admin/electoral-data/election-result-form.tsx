@@ -22,13 +22,31 @@ type Election = { id: string; name: string; election_date: string | null };
 const inputClass =
   "mt-1 w-full rounded-lg border border-line-soft bg-paper-raised px-3 py-3 text-sm text-ink outline-none focus:border-signal";
 
+export type ElectionResultInitial = {
+  id: string;
+  election_id: string;
+  electoral_area_id: string;
+  candidate_id: string | null;
+  party_id: string | null;
+  votes_count: number;
+  registered_voters: number | null;
+  accredited_voters: number | null;
+  result_type: "provisional" | "official";
+  source_id: string | null;
+  publication_status: string;
+  verification_notes: string | null;
+};
+
 export default function ElectionResultForm({
+  initialResult,
   elections,
   candidates,
   parties,
   areas,
   sources,
 }: {
+  /** Edit this result instead of creating one. */
+  initialResult?: ElectionResultInitial;
   elections: Election[];
   candidates: Candidate[];
   parties: Party[];
@@ -36,17 +54,22 @@ export default function ElectionResultForm({
   sources: Source[];
 }) {
   const router = useRouter();
-  const [electionId, setElectionId] = useState("");
-  const [areaId, setAreaId] = useState("");
-  const [candidateId, setCandidateId] = useState("");
-  const [partyId, setPartyId] = useState("");
-  const [sourceId, setSourceId] = useState("");
-  const [resultType, setResultType] = useState<"provisional" | "official">("provisional");
-  const [publicationStatus, setPublicationStatus] = useState("draft");
-  const [votes, setVotes] = useState("");
-  const [registered, setRegistered] = useState("");
-  const [accredited, setAccredited] = useState("");
-  const [notes, setNotes] = useState("");
+  const initial = initialResult;
+  const [electionId, setElectionId] = useState(initial?.election_id ?? "");
+  const [areaId, setAreaId] = useState(initial?.electoral_area_id ?? "");
+  const [candidateId, setCandidateId] = useState(initial?.candidate_id ?? "");
+  const [partyId, setPartyId] = useState(initial?.party_id ?? "");
+  const [sourceId, setSourceId] = useState(initial?.source_id ?? "");
+  const [resultType, setResultType] = useState<"provisional" | "official">(initial?.result_type ?? "provisional");
+  // Edits save as draft or verified, like new results; a published result
+  // comes back as verified and must be published again.
+  const [publicationStatus, setPublicationStatus] = useState(
+    initial ? (initial.publication_status === "draft" ? "draft" : "verified") : "draft"
+  );
+  const [votes, setVotes] = useState(initial ? String(initial.votes_count) : "");
+  const [registered, setRegistered] = useState(initial?.registered_voters != null ? String(initial.registered_voters) : "");
+  const [accredited, setAccredited] = useState(initial?.accredited_voters != null ? String(initial.accredited_voters) : "");
+  const [notes, setNotes] = useState(initial?.verification_notes ?? "");
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
 
@@ -106,8 +129,8 @@ export default function ElectionResultForm({
     setSaving(true);
 
     try {
-      const response = await fetch("/api/admin/election-results", {
-        method: "POST",
+      const response = await fetch(initial ? `/api/admin/election-results/${initial.id}` : "/api/admin/election-results", {
+        method: initial ? "PATCH" : "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           election_id: electionId,
@@ -340,7 +363,7 @@ export default function ElectionResultForm({
           disabled={saving || accreditedExceedsRegistered}
           className="rounded-lg bg-signal px-5 py-2.5 text-sm font-semibold text-ink hover:bg-signal-hover disabled:cursor-not-allowed disabled:opacity-50"
         >
-          {saving ? "Saving..." : "Save result"}
+          {saving ? "Saving..." : initial ? "Save changes" : "Save result"}
         </button>
       </div>
     </form>

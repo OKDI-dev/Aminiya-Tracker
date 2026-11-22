@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import StatusActions from "@/components/admin/electoral-data/status-actions";
 import { OptimisticStatusBadge } from "@/components/admin/optimistic-status";
+import RecordActions from "@/components/admin/electoral-data/record-actions";
 
 type Status = "draft" | "published" | "archived";
 
@@ -206,11 +207,19 @@ export default function AreasBrowser({ areas, stateId }: Props) {
                           </button>
                         </td>
                         <td className="px-4 py-4">
-                          <StatusActions
-                            table="electoral_areas"
-                            id={area.id}
-                            status={area.publication_status}
-                          />
+                          <div className="flex flex-col items-start gap-3">
+                            <StatusActions
+                              table="electoral_areas"
+                              id={area.id}
+                              status={area.publication_status}
+                            />
+                            <RecordActions
+                              endpoint={`/api/admin/areas/${area.id}`}
+                              editHref={`/admin/electoral-data/areas/${area.id}/edit`}
+                              label={area.name}
+                              blockedBy="Areas with child areas, candidacies, results or incident reports cannot be deleted."
+                            />
+                          </div>
                         </td>
                       </tr>
                     ))}

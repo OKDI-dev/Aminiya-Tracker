@@ -152,8 +152,9 @@ export default function PublicHeader() {
           <Image
             src="/aminiya-logo-png.png"
             alt="Aminiya Tracker"
+            width={565}
+            height={189}
             priority
-            placeholder="blur"
             className="h-auto w-[124px] min-[400px]:w-[140px] sm:w-[170px] xl:w-[150px] 2xl:w-[165px]"
           />
         </Link>

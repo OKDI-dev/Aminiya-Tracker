@@ -13,7 +13,19 @@ const electionTypes = [
   ["other", "Other"],
 ];
 
-export default function ElectionForm() {
+export type ElectionInitial = {
+  id: string;
+  name: string;
+  election_type: string;
+  election_date: string | null;
+  jurisdiction: string;
+  official_source_url: string | null;
+  publication_status: string;
+};
+
+/** Creates an election, or edits one when `initialElection` is given. */
+export default function ElectionForm({ initialElection }: { initialElection?: ElectionInitial }) {
+  const initial = initialElection;
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -34,8 +46,8 @@ export default function ElectionForm() {
     };
 
     try {
-      const response = await fetch("/api/admin/elections", {
-        method: "POST",
+      const response = await fetch(initial ? `/api/admin/elections/${initial.id}` : "/api/admin/elections", {
+        method: initial ? "PATCH" : "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
@@ -59,37 +71,37 @@ export default function ElectionForm() {
     <form onSubmit={handleSubmit} className="space-y-5 rounded-xl border border-line-soft bg-paper-raised p-5 sm:p-7">
       <div>
         <label htmlFor="name" className="text-sm font-medium text-ink">Election name *</label>
-        <input id="name" name="name" required maxLength={200} className={inputClass} placeholder="e.g. 2027 Gombe State Governorship Election" />
+        <input id="name" name="name" required maxLength={200} className={inputClass} placeholder="e.g. 2027 Gombe State Governorship Election" defaultValue={initial?.name ?? ""} />
       </div>
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
           <label htmlFor="election_type" className="text-sm font-medium text-ink">Election type *</label>
-          <select id="election_type" name="election_type" required className={inputClass} defaultValue="">
+          <select id="election_type" name="election_type" required className={inputClass} defaultValue={initial?.election_type ?? ""}>
             <option value="" disabled>Select election type</option>
             {electionTypes.map(([value, label]) => <option key={value} value={value}>{label}</option>)}
           </select>
         </div>
         <div>
           <label htmlFor="election_date" className="text-sm font-medium text-ink">Election date</label>
-          <input id="election_date" name="election_date" type="date" className={inputClass} />
+          <input id="election_date" name="election_date" type="date" className={inputClass} defaultValue={initial?.election_date ?? ""} />
         </div>
       </div>
 
       <div>
         <label htmlFor="jurisdiction" className="text-sm font-medium text-ink">Jurisdiction *</label>
-        <input id="jurisdiction" name="jurisdiction" required maxLength={150} defaultValue="Nigeria" className={inputClass} placeholder="e.g. Gombe State, Nigeria" />
+        <input id="jurisdiction" name="jurisdiction" required maxLength={150} defaultValue={initial?.jurisdiction ?? "Nigeria"} className={inputClass} placeholder="e.g. Gombe State, Nigeria" />
         <p className="mt-1 text-xs text-ink-subtle">Specify the geographic area covered by this election.</p>
       </div>
 
       <div>
         <label htmlFor="official_source_url" className="text-sm font-medium text-ink">Official source URL</label>
-        <input id="official_source_url" name="official_source_url" type="url" maxLength={2048} className={inputClass} placeholder="https://..." />
+        <input id="official_source_url" name="official_source_url" type="url" maxLength={2048} className={inputClass} placeholder="https://..." defaultValue={initial?.official_source_url ?? ""} />
       </div>
 
       <div>
         <label htmlFor="publication_status" className="text-sm font-medium text-ink">Publication status</label>
-        <select id="publication_status" name="publication_status" defaultValue="draft" className={inputClass}>
+        <select id="publication_status" name="publication_status" defaultValue={initial?.publication_status ?? "draft"} className={inputClass}>
           <option value="draft">Draft</option>
           <option value="published">Published</option>
           <option value="archived">Archived</option>
@@ -104,7 +116,7 @@ export default function ElectionForm() {
           Cancel
         </button>
         <button type="submit" disabled={loading} className="rounded-lg bg-signal px-5 py-2.5 text-sm font-semibold text-ink hover:bg-signal-hover disabled:cursor-not-allowed disabled:opacity-60">
-          {loading ? "Saving..." : "Save Election"}
+          {loading ? "Saving..." : initial ? "Save Changes" : "Save Election"}
         </button>
       </div>
     </form>

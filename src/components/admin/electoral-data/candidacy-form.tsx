@@ -29,7 +29,21 @@ type Position = {
   areaType: string | null;
 };
 
+export type CandidacyInitial = {
+  id: string;
+  election_id: string;
+  candidate_id: string;
+  party_id: string | null;
+  electoral_area_id: string | null;
+  office_title: string;
+  ballot_number: string | null;
+  manifesto_url: string | null;
+  publication_status: string;
+};
+
 type Props = {
+  /** Edit this candidacy instead of creating one. */
+  initialCandidacy?: CandidacyInitial;
   elections: Election[];
   candidates: Option[];
   parties: Option[];
@@ -82,6 +96,7 @@ const positions: Position[] = [
 ];
 
 export default function CandidacyForm({
+  initialCandidacy,
   elections,
   candidates,
   parties,
@@ -91,11 +106,19 @@ export default function CandidacyForm({
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [electionId, setElectionId] = useState("");
-  const [position, setPosition] = useState("");
-  const [selectedAreaId, setSelectedAreaId] = useState("");
-  const [selectedLgaId, setSelectedLgaId] = useState("");
-  const [otherPosition, setOtherPosition] = useState("");
+  const initial = initialCandidacy;
+  // A title outside the preset list (e.g. "Deputy Governor") reopens as "Other".
+  const initialIsPreset = initial ? positions.some((item) => item.value === initial.office_title) : true;
+  const [electionId, setElectionId] = useState(initial?.election_id ?? "");
+  const [position, setPosition] = useState(
+    initial ? (initialIsPreset ? initial.office_title : "Other") : ""
+  );
+  const [selectedAreaId, setSelectedAreaId] = useState(initial?.electoral_area_id ?? "");
+  // A ward candidacy also needs its LGA restored, to filter the ward list.
+  const [selectedLgaId, setSelectedLgaId] = useState(
+    () => areas.find((item) => item.id === initial?.electoral_area_id && item.area_type === "ward")?.parent_id ?? ""
+  );
+  const [otherPosition, setOtherPosition] = useState(initial && !initialIsPreset ? initial.office_title : "");
 
   const inputClass =
     "mt-1 w-full rounded-lg border border-line bg-paper-raised px-3 py-2.5 text-sm text-ink outline-none focus:border-signal focus:ring-2 focus:ring-signal/20";
@@ -222,8 +245,8 @@ export default function CandidacyForm({
     };
 
     try {
-      const response = await fetch("/api/admin/candidacies", {
-        method: "POST",
+      const response = await fetch(initial ? `/api/admin/candidacies/${initial.id}` : "/api/admin/candidacies", {
+        method: initial ? "PATCH" : "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
@@ -285,7 +308,7 @@ export default function CandidacyForm({
           id="candidate_id"
           name="candidate_id"
           required
-          defaultValue=""
+          defaultValue={initial?.candidate_id ?? ""}
           className={inputClass}
         >
           <option value="">Select a candidate</option>
@@ -500,7 +523,7 @@ export default function CandidacyForm({
           <label htmlFor="party_id" className="text-sm font-medium text-ink">
             Political party
           </label>
-          <select id="party_id" name="party_id" defaultValue="" className={inputClass}>
+          <select id="party_id" name="party_id" defaultValue={initial?.party_id ?? ""} className={inputClass}>
             <option value="">Not specified / Independent</option>
             {parties.map((item) => (
               <option key={item.id} value={item.id}>{item.name}</option>
@@ -517,6 +540,7 @@ export default function CandidacyForm({
             maxLength={50}
             className={inputClass}
             placeholder="Optional"
+            defaultValue={initial?.ballot_number ?? ""}
           />
         </div>
       </div>
@@ -528,7 +552,7 @@ export default function CandidacyForm({
         <select
           id="publication_status"
           name="publication_status"
-          defaultValue="draft"
+          defaultValue={initial?.publication_status ?? "draft"}
           className={inputClass}
         >
           <option value="draft">Draft</option>
@@ -548,6 +572,7 @@ export default function CandidacyForm({
           maxLength={2048}
           className={inputClass}
           placeholder="https://..."
+          defaultValue={initial?.manifesto_url ?? ""}
         />
         <p className="mt-1 text-xs text-ink-subtle">
           Optional link to the candidate&apos;s manifesto for this election.
@@ -573,7 +598,7 @@ export default function CandidacyForm({
           disabled={loading || !elections.length || !candidates.length}
           className="rounded-lg bg-signal px-5 py-2.5 text-sm font-semibold text-ink hover:bg-signal-hover disabled:cursor-not-allowed disabled:opacity-60"
         >
-          {loading ? "Saving..." : "Save Candidacy"}
+          {loading ? "Saving..." : initial ? "Save Changes" : "Save Candidacy"}
         </button>
       </div>
     </form>

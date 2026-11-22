@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { apiError, blockIfReferenced, deleteFailed, requireStaffApi } from "@/lib/admin/api";
 import { createClient } from "@/lib/supabase/server";
 
 const sectors = [
@@ -115,5 +116,33 @@ export async function PATCH(
   } catch (error) {
     console.error("Promise update API error:", error);
     return NextResponse.json({ error: "An unexpected error occurred." }, { status: 500 });
+  }
+}
+
+export async function DELETE(
+  _request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const auth = await requireStaffApi("delete promises");
+    if ("response" in auth) return auth.response;
+    const { supabase } = auth;
+    const { id } = await params;
+
+    // Progress updates are the promise's evidence trail: they must be
+    // deleted deliberately first, never swept away with the promise.
+    const blocked = await blockIfReferenced(supabase, id, "promise", [
+      { table: "promise_progress_updates", column: "promise_id", label: "progress update" },
+    ]);
+    if (blocked) return blocked;
+
+    const { data, error } = await supabase.from("political_promises").delete().eq("id", id).select("id");
+    if (error) return deleteFailed("promise", error);
+    if (!data?.length) return apiError("Promise not found.", 404);
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error("Promise deletion API error:", error);
+    return apiError("An unexpected server error occurred.", 500);
   }
 }
