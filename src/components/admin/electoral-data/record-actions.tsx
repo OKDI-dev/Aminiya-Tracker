@@ -5,36 +5,40 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 type Props = {
-  kind: "candidate" | "party";
-  id: string;
-  editHref: string;
+  /** The record's API endpoint, e.g. `/api/admin/parties/<id>`; DELETE is sent to it. */
+  endpoint: string;
+  /** Where the Edit link goes. Leave out for records edited elsewhere. */
+  editHref?: string;
+  /** Shown in the confirmation, e.g. the record's name. */
   label: string;
+  /** What stops a delete, said before the user commits. */
+  blockedBy?: string;
+  /** After deleting from the record's own page, go here instead of refreshing it. */
+  redirectTo?: string;
 };
 
-export default function RecordActions({ kind, id, editHref, label }: Props) {
+/** Edit and Delete for any admin record. A refused delete explains why, inline. */
+export default function RecordActions({ endpoint, editHref, label, blockedBy, redirectTo }: Props) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   async function handleDelete() {
-    if (!window.confirm(
-      `Delete "${label}"? This action cannot be undone. Records linked to candidacies or election results cannot be deleted.`
-    )) return;
+    const warning = blockedBy ? ` ${blockedBy}` : "";
+    if (!window.confirm(`Delete "${label}"? This cannot be undone.${warning}`)) return;
 
     setLoading(true);
     setError("");
 
     try {
-      const endpoint = kind === "candidate" ? "candidates" : "parties";
-      const response = await fetch(`/api/admin/${endpoint}/${id}`, {
-        method: "DELETE",
-      });
-      const result = await response.json();
+      const response = await fetch(endpoint, { method: "DELETE" });
+      const result = await response.json().catch(() => ({}));
 
       if (!response.ok) {
         throw new Error(result.error || "Unable to delete this record.");
       }
 
+      if (redirectTo) router.push(redirectTo);
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "An unexpected error occurred.");
@@ -46,12 +50,14 @@ export default function RecordActions({ kind, id, editHref, label }: Props) {
   return (
     <div className="flex flex-col items-start gap-2">
       <div className="flex flex-wrap items-center gap-2">
-        <Link
-          href={editHref}
-          className="rounded-md border border-line px-3 py-1.5 text-xs font-medium text-ink hover:bg-tint"
-        >
-          Edit
-        </Link>
+        {editHref ? (
+          <Link
+            href={editHref}
+            className="rounded-md border border-line px-3 py-1.5 text-xs font-medium text-ink hover:bg-tint"
+          >
+            Edit
+          </Link>
+        ) : null}
         <button
           type="button"
           onClick={handleDelete}

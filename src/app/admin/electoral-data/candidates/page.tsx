@@ -160,8 +160,8 @@ export default async function CandidatesPage({ searchParams }: { searchParams: P
                               status={candidate.publication_status}
                             />
                             <RecordActions
-                              kind="candidate"
-                              id={candidate.id}
+                              endpoint={`/api/admin/candidates/${candidate.id}`}
+                              blockedBy="Candidates linked to candidacies or election results cannot be deleted."
                               editHref={`/admin/electoral-data/candidates/${candidate.id}/edit`}
                               label={candidate.full_name}
                             />

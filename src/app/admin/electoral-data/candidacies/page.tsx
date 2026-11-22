@@ -4,6 +4,7 @@ import { requireElectoralStaff } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import StatusActions from "@/components/admin/electoral-data/status-actions";
 import { OptimisticStatusBadge } from "@/components/admin/optimistic-status";
+import RecordActions from "@/components/admin/electoral-data/record-actions";
 
 export const instant = false;
 
@@ -185,7 +186,15 @@ export default async function CandidaciesPage({
                           <OptimisticStatusBadge statusKey={`candidacies:${item.id}`} status={item.publication_status} styles={statusStyles} />
                         </td>
                         <td className="px-5 py-4">
-                          <StatusActions table="candidacies" id={item.id} status={item.publication_status} />
+                          <div className="flex flex-col items-start gap-3">
+                            <StatusActions table="candidacies" id={item.id} status={item.publication_status} />
+                            <RecordActions
+                              endpoint={`/api/admin/candidacies/${item.id}`}
+                              editHref={`/admin/electoral-data/candidacies/${item.id}/edit`}
+                              label={`${candidateMap.get(item.candidate_id) ?? "Candidate"}: ${item.office_title}`}
+                              blockedBy="Candidacies with tracked promises cannot be deleted."
+                            />
+                          </div>
                         </td>
                       </tr>
                     ))}

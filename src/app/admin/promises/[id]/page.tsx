@@ -3,6 +3,7 @@ import { connection } from "next/server";
 import { requireElectoralStaff } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import PromiseDetail from "@/components/admin/promise-detail";
+import RecordActions from "@/components/admin/electoral-data/record-actions";
 
 export const instant = false;
 
@@ -51,6 +52,15 @@ export default async function PromiseDetailPage({
 
   return (
     <main className="min-h-screen bg-paper p-5 sm:p-8">
+      {/* This page is the promise's edit form; only Delete is added here. */}
+      <div className="mx-auto mb-6 flex max-w-4xl justify-end">
+        <RecordActions
+          endpoint={`/api/admin/promises/${record.id}`}
+          label={record.title}
+          blockedBy="Promises with progress updates cannot be deleted."
+          redirectTo="/admin/promises"
+        />
+      </div>
       <PromiseDetail record={record} candidacyLabel={candidacyLabel} />
     </main>
   );

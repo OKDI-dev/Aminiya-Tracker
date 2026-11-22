@@ -31,25 +31,40 @@ const ALLOWED_TYPES = [
   "application/pdf",
 ];
 
+export type ProgressUpdateInitial = {
+  id: string;
+  promise_id: string;
+  update_title: string;
+  update_description: string;
+  progress_status: string;
+  evidence_url: string | null;
+  source_id: string | null;
+  update_date: string;
+};
+
 export default function ProgressUpdateForm({
   promises,
   sources,
   selectedPromiseId = "",
+  initialUpdate,
 }: {
   promises: PromiseOption[];
   sources: SourceOption[];
   selectedPromiseId?: string;
+  /** Edit this update (it returns to review) instead of creating one. */
+  initialUpdate?: ProgressUpdateInitial;
 }) {
   const router = useRouter();
+  const initial = initialUpdate;
 
   const [form, setForm] = useState({
-    promise_id: selectedPromiseId,
-    update_title: "",
-    update_description: "",
-    progress_status: "in_progress",
-    evidence_url: "",
-    source_id: "",
-    update_date: new Date().toISOString().slice(0, 10),
+    promise_id: initial?.promise_id ?? selectedPromiseId,
+    update_title: initial?.update_title ?? "",
+    update_description: initial?.update_description ?? "",
+    progress_status: initial?.progress_status ?? "in_progress",
+    evidence_url: initial?.evidence_url ?? "",
+    source_id: initial?.source_id ?? "",
+    update_date: initial?.update_date ?? new Date().toISOString().slice(0, 10),
   });
 
   const [files, setFiles] = useState<File[]>([]);
@@ -137,6 +152,28 @@ export default function ProgressUpdateForm({
         return;
       }
 
+      if (initial) {
+        const response = await fetch(`/api/admin/promise-updates/${initial.id}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(form),
+        });
+        const result = await response.json();
+        if (!response.ok) {
+          setError(result.error || "Unable to save this progress update.");
+          return;
+        }
+        // Any newly attached files are added to the update's existing evidence.
+        if (files.length > 0) {
+          setCreatedUpdateId(initial.id);
+          await uploadEvidence(initial.id);
+        } else {
+          router.push(`/admin/promise-updates/${initial.id}`);
+          router.refresh();
+        }
+        return;
+      }
+
       const response = await fetch("/api/admin/promise-updates", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -184,11 +221,12 @@ export default function ProgressUpdateForm({
 
       <div>
         <h1 className="text-2xl font-bold text-ink">
-          Submit progress update
+          {initial ? "Edit progress update" : "Submit progress update"}
         </h1>
         <p className="mt-2 text-sm text-ink-muted">
-          Record evidence of progress or challenges relating to a published political promise.
-          The update will require review before it changes the public tracker.
+          {initial
+            ? "Saving sends this update back for review, so the changes are checked before they count on the public tracker."
+            : "Record evidence of progress or challenges relating to a published political promise. The update will require review before it changes the public tracker."}
         </p>
       </div>
 
@@ -223,7 +261,7 @@ export default function ProgressUpdateForm({
             <select
               id="promise_id"
               required
-              disabled={!!createdUpdateId || saving}
+              disabled={!!createdUpdateId || saving || !!initial}
               value={form.promise_id}
               onChange={(e) => update("promise_id", e.target.value)}
               className={fieldClass}
@@ -439,7 +477,9 @@ export default function ProgressUpdateForm({
                   : "Submitting..."
                 : createdUpdateId
                   ? "Retry evidence upload"
-                  : "Submit for review"}
+                  : initial
+                    ? "Save and send for review"
+                    : "Submit for review"}
             </button>
           </div>
         </form>

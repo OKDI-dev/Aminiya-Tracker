@@ -4,6 +4,7 @@ import { requireElectoralStaff } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import { adminSupabase } from "@/lib/supabase/admin";
 import PromiseUpdateReview from "@/components/admin/promise-update-review";
+import RecordActions from "@/components/admin/electoral-data/record-actions";
 
 export const instant = false;
 
@@ -75,6 +76,15 @@ export default async function PromiseUpdateDetailPage({
 
   return (
     <main className="min-h-screen bg-paper p-5 sm:p-8">
+      <div className="mx-auto mb-6 flex max-w-5xl justify-end">
+        <RecordActions
+          endpoint={`/api/admin/promise-updates/${update.id}`}
+          editHref={`/admin/promise-updates/${update.id}/edit`}
+          label={update.update_title}
+          blockedBy="Its evidence files are deleted with it."
+          redirectTo="/admin/promise-updates"
+        />
+      </div>
       <PromiseUpdateReview
         updateId={update.id}
         promiseTitle={promiseResult.data?.title ?? "Political promise"}

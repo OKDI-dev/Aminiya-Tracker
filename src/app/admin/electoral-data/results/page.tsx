@@ -4,6 +4,7 @@ import { requireElectoralStaff } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import ResultStatusActions from "@/components/admin/electoral-data/result-status-actions";
 import { OptimisticStatusBadge } from "@/components/admin/optimistic-status";
+import RecordActions from "@/components/admin/electoral-data/record-actions";
 
 export const instant = false;
 
@@ -213,10 +214,17 @@ export default async function ElectionResultsAdminPage({
                           <OptimisticStatusBadge statusKey={`election_results:${result.id}`} status={result.publication_status} styles={statusStyles} />
                         </td>
                         <td className="px-5 py-4">
-                          <ResultStatusActions
-                            resultId={result.id}
-                            status={result.publication_status}
-                          />
+                          <div className="flex flex-col items-start gap-3">
+                            <ResultStatusActions
+                              resultId={result.id}
+                              status={result.publication_status}
+                            />
+                            <RecordActions
+                              endpoint={`/api/admin/election-results/${result.id}`}
+                              editHref={`/admin/electoral-data/results/${result.id}/edit`}
+                              label={`${label(result.elections, "name", "Election")}: ${label(result.electoral_areas, "name", "area")}`}
+                            />
+                          </div>
                         </td>
                       </tr>
                     );

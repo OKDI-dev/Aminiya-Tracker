@@ -175,8 +175,8 @@ export default async function PartiesPage({
                               status={party.publication_status}
                             />
                             <RecordActions
-                              kind="party"
-                              id={party.id}
+                              endpoint={`/api/admin/parties/${party.id}`}
+                              blockedBy="Parties linked to candidacies or election results cannot be deleted."
                               editHref={`/admin/electoral-data/parties/${party.id}/edit`}
                               label={party.name}
                             />
