@@ -3,6 +3,7 @@ import { connection } from "next/server";
 import { requireElectoralStaff } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import StatusActions from "@/components/admin/electoral-data/status-actions";
+import RecordActions from "@/components/admin/electoral-data/record-actions";
 import { OptimisticStatusBadge } from "@/components/admin/optimistic-status";
 
 export const instant = false;
@@ -167,11 +168,19 @@ export default async function PartiesPage({
                           <OptimisticStatusBadge statusKey={`political_parties:${party.id}`} status={party.publication_status} styles={statusStyles} />
                         </td>
                         <td className="px-5 py-4">
-                          <StatusActions
-                            table="political_parties"
-                            id={party.id}
-                            status={party.publication_status}
-                          />
+                          <div className="flex flex-col items-start gap-3">
+                            <StatusActions
+                              table="political_parties"
+                              id={party.id}
+                              status={party.publication_status}
+                            />
+                            <RecordActions
+                              kind="party"
+                              id={party.id}
+                              editHref={`/admin/electoral-data/parties/${party.id}/edit`}
+                              label={party.name}
+                            />
+                          </div>
                         </td>
                       </tr>
                     ))}

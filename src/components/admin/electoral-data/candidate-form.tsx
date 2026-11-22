@@ -3,11 +3,24 @@
 import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-export default function CandidateForm() {
+type CandidateInitial = {
+  id: string;
+  full_name: string;
+  biography: string | null;
+  photo_url: string | null;
+  official_profile_url: string | null;
+  publication_status: string;
+};
+
+export default function CandidateForm({
+  initialCandidate,
+}: {
+  initialCandidate?: CandidateInitial;
+}) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [preview, setPreview] = useState("");
+  const [preview, setPreview] = useState(initialCandidate?.photo_url ?? "");
   const [fileName, setFileName] = useState("");
 
   useEffect(() => {
@@ -62,10 +75,15 @@ export default function CandidateForm() {
     }
 
     try {
-      const response = await fetch("/api/admin/candidates", {
-        method: "POST",
-        body: formData,
-      });
+      const response = await fetch(
+        initialCandidate
+          ? `/api/admin/candidates/${initialCandidate.id}`
+          : "/api/admin/candidates",
+        {
+          method: initialCandidate ? "PATCH" : "POST",
+          body: formData,
+        }
+      );
 
       const result = await response.json();
 
@@ -101,6 +119,7 @@ export default function CandidateForm() {
           maxLength={200}
           className={inputClass}
           placeholder="Enter candidate's full name"
+          defaultValue={initialCandidate?.full_name ?? ""}
         />
       </div>
 
@@ -149,6 +168,7 @@ export default function CandidateForm() {
           maxLength={10000}
           className={inputClass}
           placeholder="Provide a factual biography, background and relevant public experience."
+          defaultValue={initialCandidate?.biography ?? ""}
         />
         <p className="mt-1 text-xs text-ink-subtle">Maximum 10,000 characters.</p>
       </div>
@@ -164,6 +184,7 @@ export default function CandidateForm() {
           maxLength={2048}
           className={inputClass}
           placeholder="https://..."
+          defaultValue={initialCandidate?.official_profile_url ?? ""}
         />
       </div>
 
@@ -174,7 +195,7 @@ export default function CandidateForm() {
         <select
           id="publication_status"
           name="publication_status"
-          defaultValue="draft"
+          defaultValue={initialCandidate?.publication_status ?? "draft"}
           className={inputClass}
         >
           <option value="draft">Draft</option>
@@ -205,7 +226,7 @@ export default function CandidateForm() {
           disabled={loading}
           className="rounded-lg bg-signal px-5 py-2.5 text-sm font-semibold text-ink hover:bg-signal-hover disabled:cursor-not-allowed disabled:opacity-60"
         >
-          {loading ? "Saving..." : "Save Candidate"}
+          {loading ? "Saving..." : initialCandidate ? "Save Changes" : "Save Candidate"}
         </button>
       </div>
     </form>
