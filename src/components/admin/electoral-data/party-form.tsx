@@ -3,11 +3,24 @@
 import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-export default function PartyForm() {
+type PartyInitial = {
+  id: string;
+  name: string;
+  acronym: string | null;
+  logo_url: string | null;
+  official_website: string | null;
+  publication_status: string;
+};
+
+export default function PartyForm({
+  initialParty,
+}: {
+  initialParty?: PartyInitial;
+}) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [preview, setPreview] = useState("");
+  const [preview, setPreview] = useState(initialParty?.logo_url ?? "");
   const [fileName, setFileName] = useState("");
 
   useEffect(() => {
@@ -59,10 +72,15 @@ export default function PartyForm() {
     }
 
     try {
-      const response = await fetch("/api/admin/parties", {
-        method: "POST",
-        body: formData,
-      });
+      const response = await fetch(
+        initialParty
+          ? `/api/admin/parties/${initialParty.id}`
+          : "/api/admin/parties",
+        {
+          method: initialParty ? "PATCH" : "POST",
+          body: formData,
+        }
+      );
 
       const result = await response.json();
 
@@ -98,6 +116,7 @@ export default function PartyForm() {
           maxLength={200}
           className={inputClass}
           placeholder="Enter the party's full registered name"
+          defaultValue={initialParty?.name ?? ""}
         />
       </div>
 
@@ -111,6 +130,7 @@ export default function PartyForm() {
           maxLength={30}
           className={inputClass}
           placeholder="e.g. Party abbreviation"
+          defaultValue={initialParty?.acronym ?? ""}
         />
       </div>
 
@@ -155,6 +175,7 @@ export default function PartyForm() {
           maxLength={2048}
           className={inputClass}
           placeholder="https://..."
+          defaultValue={initialParty?.official_website ?? ""}
         />
       </div>
 
@@ -162,7 +183,7 @@ export default function PartyForm() {
         <label htmlFor="publication_status" className="text-sm font-medium text-ink">
           Publication status
         </label>
-        <select id="publication_status" name="publication_status" defaultValue="draft" className={inputClass}>
+        <select id="publication_status" name="publication_status" defaultValue={initialParty?.publication_status ?? "draft"} className={inputClass}>
           <option value="draft">Draft</option>
           <option value="published">Published</option>
           <option value="archived">Archived</option>
@@ -191,7 +212,7 @@ export default function PartyForm() {
           disabled={loading}
           className="rounded-lg bg-signal px-5 py-2.5 text-sm font-semibold text-ink hover:bg-signal-hover disabled:cursor-not-allowed disabled:opacity-60"
         >
-          {loading ? "Saving..." : "Save Political Party"}
+          {loading ? "Saving..." : initialParty ? "Save Changes" : "Save Political Party"}
         </button>
       </div>
     </form>
