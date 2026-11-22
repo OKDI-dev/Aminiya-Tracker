@@ -110,14 +110,17 @@ export default function AboutPage() {
 
           <div className="mt-8 rounded-2xl border border-line-soft bg-white p-6 sm:p-8">
             <div className="grid grid-cols-2 gap-4 sm:gap-8">
-              <div className="flex flex-col items-center justify-center text-center">
-                <div className="flex h-24 w-full max-w-xs items-center justify-center sm:h-28">
+              <div className="flex flex-col items-center justify-start text-center">
+                {/* Both logos are trimmed to their artwork and sized to the same
+                    area (not the same height), so the wide OKDI wordmark and the
+                    squarer NYFF mark carry equal visual weight. */}
+                <div className="flex h-24 w-full items-center justify-center sm:h-28">
                   <Image
-                    src="/okdi-logo.png"
+                    src="/partners/okdi.png"
                     alt="Open Knowledge Development Initiative (OKDI)"
-                    width={500}
-                    height={250}
-                    className="h-full w-full object-contain"
+                    width={542}
+                    height={176}
+                    className="h-[46px] w-auto max-w-full object-contain sm:h-[72px]"
                   />
                 </div>
                 <p className="mt-4 text-sm font-semibold text-ink">OKDI</p>
@@ -126,14 +129,14 @@ export default function AboutPage() {
                 </p>
               </div>
 
-              <div className="flex flex-col items-center justify-center text-center">
-                <div className="flex h-24 w-full max-w-xs items-center justify-center sm:h-28">
+              <div className="flex flex-col items-center justify-start text-center">
+                <div className="flex h-24 w-full items-center justify-center sm:h-28">
                   <Image
-                    src="/nyff-logo.png"
+                    src="/partners/nyff.png"
                     alt="Nigeria Youth Futures Fund (NYFF)"
-                    width={500}
-                    height={250}
-                    className="h-full w-full object-contain"
+                    width={700}
+                    height={334}
+                    className="h-14 w-auto max-w-full object-contain sm:h-[87px]"
                   />
                 </div>
                 <p className="mt-4 text-sm font-semibold text-ink">NYFF</p>
