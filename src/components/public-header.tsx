@@ -187,7 +187,7 @@ export default function PublicHeader() {
                     className={`relative rounded-full px-3 py-2 text-sm whitespace-nowrap transition-colors xl:px-2.5 ${
                       activeTop?.href === link.href
                         ? "font-semibold text-ink"
-                        : "text-ink-muted hover:text-ink"
+                        : "text-ink-muted hover:bg-ink/[0.05] hover:text-ink"
                     } ${hasMenu ? "pr-1.5 xl:pr-1.5" : ""}`}
                   >
                     {activeTop?.href === link.href ? (
@@ -253,7 +253,7 @@ export default function PublicHeader() {
                             onClick={closeMenu}
                             className="group flex gap-3 rounded-xl p-3 hover:bg-ink/[0.04] focus-visible:bg-ink/[0.04]"
                           >
-                            <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-tint text-ink">
+                            <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-ink text-signal transition-[background-color,color,rotate] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:group-hover:rotate-0 motion-reduce:group-focus-visible:rotate-0 group-hover:-rotate-6 group-hover:bg-signal group-hover:text-ink group-focus-visible:-rotate-6 group-focus-visible:bg-signal group-focus-visible:text-ink">
                               <Icon size={18} />
                             </span>
                             <span className="min-w-0">
