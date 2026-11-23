@@ -91,9 +91,9 @@ export default function ReportMenu({
                   key={item.href}
                   closeOnClick
                   render={<Link href={item.href} />}
-                  className="flex cursor-pointer gap-3 rounded-xl p-3 outline-none data-[highlighted]:bg-ink/[0.045]"
+                  className="group/item flex cursor-pointer gap-3 rounded-xl p-3 outline-none data-[highlighted]:bg-ink/[0.045]"
                 >
-                  <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-ink text-signal">
+                  <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-ink text-signal transition-[background-color,color,rotate] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:group-data-[highlighted]/item:rotate-0 group-data-[highlighted]/item:-rotate-6 group-data-[highlighted]/item:bg-signal group-data-[highlighted]/item:text-ink">
                     <Icon size={19} aria-hidden="true" />
                   </span>
                   <span className="min-w-0">
