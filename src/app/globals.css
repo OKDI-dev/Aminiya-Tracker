@@ -194,6 +194,17 @@
     -webkit-text-size-adjust: 100%;
   }
 
+  /*
+    A grid with no column template gets one implicit `auto` column, and an
+    auto column grows to its widest unbreakable content: a truncated
+    single-line venue or name made the home hero wider than a 360px phone.
+    Default every grid to one shrinkable column; any grid-cols-* utility
+    (utilities layer) still overrides this, at every breakpoint.
+  */
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
   body {
     @apply bg-background text-foreground;
     margin: 0;
