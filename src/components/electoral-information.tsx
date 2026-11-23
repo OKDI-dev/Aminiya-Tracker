@@ -2,6 +2,8 @@
 
 import { notify } from "@/components/notifications/notify";
 import ElectionIncidents from "@/components/election-incidents";
+import CandidateGrid from "@/components/candidates/candidate-grid";
+import DirectorySearch, { type DirectoryFilters } from "@/components/candidates/directory-search";
 import BrandRings from "@/components/brand-rings";
 import ElectionResults from "@/components/election-results";
 import CivicEducationMediaLibrary from "@/components/civic-education-media-library";
@@ -189,8 +191,41 @@ const [activeTab, setActiveTab] = useState<Section>("education");
     activeTab === "candidates" ? DIRECTORY_KEY : null,
     fetchDirectory
   );
-  const candidates: Candidate[] = directory?.candidates ?? [];
-  const parties: PoliticalParty[] = directory?.parties ?? [];
+  const candidates: Candidate[] = useMemo(() => directory?.candidates ?? [], [directory]);
+  const parties: PoliticalParty[] = useMemo(() => directory?.parties ?? [], [directory]);
+
+  // One search across candidates and parties (see DirectorySearch).
+  const [directoryFilters, setDirectoryFilters] = useState<DirectoryFilters>({ query: "", party: "", office: "" });
+  const partyLabel = (party: PoliticalParty) => party.acronym || party.name;
+  const officeOrder = ["Governor", "Deputy Governor", "Senator", "Member, House of Representatives", "Member, State House of Assembly"];
+  const directoryOffices = useMemo(
+    () =>
+      [...new Set(candidates.map((c) => c.race?.office).filter((o): o is string => Boolean(o)))].sort(
+        (a, b) => (officeOrder.indexOf(a) + 1 || 99) - (officeOrder.indexOf(b) + 1 || 99) || a.localeCompare(b)
+      ),
+    // officeOrder is a fixed list
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [candidates]
+  );
+  const filteredCandidates = useMemo(() => {
+    const term = directoryFilters.query.trim().toLowerCase();
+    return candidates.filter((c) => {
+      if (directoryFilters.party && c.race?.party !== directoryFilters.party) return false;
+      if (directoryFilters.office && c.race?.office !== directoryFilters.office) return false;
+      if (!term) return true;
+      return [c.full_name, c.race?.party, c.race?.office, c.race?.area]
+        .some((value) => value?.toLowerCase().includes(term));
+    });
+  }, [candidates, directoryFilters]);
+  const filteredParties = useMemo(() => {
+    const term = directoryFilters.query.trim().toLowerCase();
+    return parties.filter((party) => {
+      if (directoryFilters.party && partyLabel(party) !== directoryFilters.party) return false;
+      // An office filter is about candidates; parties stay listed unless searched.
+      if (!term) return true;
+      return [party.name, party.acronym].some((value) => value?.toLowerCase().includes(term));
+    });
+  }, [parties, directoryFilters]);
   const recordsLoadFailed = Boolean(directoryError) && !directory;
 
   useEffect(() => {
@@ -576,6 +611,17 @@ const [activeTab, setActiveTab] = useState<Section>("education");
       </div>
     ) : (
       <>
+        {candidates.length > 0 || parties.length > 0 ? (
+          <DirectorySearch
+            filters={directoryFilters}
+            onChange={setDirectoryFilters}
+            parties={parties.map(partyLabel).sort((a, b) => a.localeCompare(b))}
+            offices={directoryOffices}
+            candidateCount={filteredCandidates.length}
+            partyCount={filteredParties.length}
+          />
+        ) : null}
+
         <section className="space-y-5">
           <div className="flex flex-wrap items-end justify-between gap-3">
             <div>
@@ -587,7 +633,7 @@ const [activeTab, setActiveTab] = useState<Section>("education");
               </p>
             </div>
             <span className="rounded-full bg-tint px-4 py-2 text-sm font-semibold text-ink">
-              {candidates.length} {t("candidateCount")}
+              {filteredCandidates.length} {t("candidateCount")}
             </span>
           </div>
 
@@ -601,49 +647,10 @@ const [activeTab, setActiveTab] = useState<Section>("education");
               </p>
             </div>
           ) : (
-            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {candidates.map((candidate) => (
-                <article
-                  key={candidate.id}
-                  className="overflow-hidden rounded-2xl border border-line-soft bg-paper-raised shadow-sm"
-                >
-                  <div className="relative flex h-44 items-center justify-center bg-tint">
-                    {candidate.photo_url ? (
-                      <BlurImage
-                        src={candidate.photo_url}
-                        blurhash={candidate.photo_blurhash}
-                        alt={candidate.full_name}
-                        fill
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                        className="object-cover"
-                      />
-                    ) : (
-                      <div className="flex h-20 w-20 items-center justify-center rounded-full bg-signal/15 text-3xl font-bold text-ink">
-                        {candidate.full_name.charAt(0).toUpperCase()}
-                      </div>
-                    )}
-                  </div>
-                  <div className="space-y-3 p-5">
-                    <h3 className="text-lg font-bold text-ink">
-                      {candidate.full_name}
-                    </h3>
-                    <p className="text-sm leading-6 text-ink-muted">
-                      {candidate.biography || t("noBiography")}
-                    </p>
-                    {candidate.official_profile_url && (
-                      <a
-                        href={candidate.official_profile_url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex text-sm font-semibold text-ink hover:underline"
-                      >
-                        {t("viewOfficialProfile")} →
-                      </a>
-                    )}
-                  </div>
-                </article>
-              ))}
-            </div>
+            <CandidateGrid
+              key={`${directoryFilters.query}|${directoryFilters.party}|${directoryFilters.office}`}
+              candidates={filteredCandidates}
+            />
           )}
         </section>
 
@@ -658,7 +665,7 @@ const [activeTab, setActiveTab] = useState<Section>("education");
               </p>
             </div>
             <span className="rounded-full bg-tint px-4 py-2 text-sm font-semibold text-ink">
-              {parties.length} {t("partyCount")}
+              {filteredParties.length} {t("partyCount")}
             </span>
           </div>
 
@@ -672,8 +679,13 @@ const [activeTab, setActiveTab] = useState<Section>("education");
               </p>
             </div>
           ) : (
+            filteredParties.length === 0 ? (
+              <p className="rounded-2xl border border-dashed border-line bg-paper-raised p-8 text-center text-sm text-ink-muted">
+                {t("noPartyMatches")}
+              </p>
+            ) : (
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {parties.map((party) => (
+              {filteredParties.map((party) => (
                 <article
                   key={party.id}
                   className="rounded-2xl border border-line-soft bg-paper-raised p-5 shadow-sm"
@@ -731,6 +743,7 @@ const [activeTab, setActiveTab] = useState<Section>("education");
                 </article>
               ))}
             </div>
+            )
           )}
         </section>
       </>

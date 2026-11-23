@@ -1,6 +1,13 @@
 import { supabase } from "@/lib/supabase";
 import { isMissingColumnError } from "@/lib/blurhash";
 
+/** The contest a candidate is listed for, shown on their card. */
+export type CandidateRace = {
+  office: string;
+  party: string | null;
+  area: string | null;
+};
+
 export type DirectoryCandidate = {
   id: string;
   full_name: string;
@@ -8,6 +15,15 @@ export type DirectoryCandidate = {
   photo_url: string | null;
   photo_blurhash?: string | null;
   official_profile_url: string | null;
+  race?: CandidateRace | null;
+};
+
+type CandidacyRow = {
+  office_title: string;
+  publication_status: string;
+  party: { acronym: string | null; name: string; publication_status: string } | null;
+  area: { name: string; publication_status: string } | null;
+  election: { publication_status: string } | null;
 };
 
 export type DirectoryParty = {
@@ -25,7 +41,10 @@ export type Directory = {
   parties: DirectoryParty[];
 };
 
-const CANDIDATE_COLUMNS = "id, full_name, biography, photo_url, official_profile_url";
+// Each candidate's candidacies come along so a card can say what they're running for.
+const CANDIDATE_COLUMNS =
+  "id, full_name, biography, photo_url, official_profile_url, " +
+  "candidacies(office_title, publication_status, party:political_parties(acronym, name, publication_status), area:electoral_areas(name, publication_status), election:elections(publication_status))";
 const PARTY_COLUMNS = "id, name, acronym, logo_url, official_website, manifesto_url";
 
 async function query(withBlurhash: boolean) {
@@ -54,8 +73,28 @@ export async function fetchDirectory(): Promise<Directory> {
   if (candidates.error) throw candidates.error;
   if (parties.error) throw parties.error;
 
+  const rows = (candidates.data ?? []) as unknown as (DirectoryCandidate & { candidacies?: CandidacyRow[] })[];
+
   return {
-    candidates: (candidates.data ?? []) as unknown as DirectoryCandidate[],
+    candidates: rows.map(({ candidacies, ...candidate }) => {
+      // Only a published candidacy in a published election counts publicly.
+      const listed = (candidacies ?? []).find(
+        (item) => item.publication_status === "published" && item.election?.publication_status === "published"
+      );
+      return {
+        ...candidate,
+        race: listed
+          ? {
+              office: listed.office_title,
+              party:
+                listed.party?.publication_status === "published"
+                  ? listed.party.acronym || listed.party.name
+                  : null,
+              area: listed.area?.publication_status === "published" ? listed.area.name : null,
+            }
+          : null,
+      };
+    }),
     parties: (parties.data ?? []) as unknown as DirectoryParty[],
   };
 }
