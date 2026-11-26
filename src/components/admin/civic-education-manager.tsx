@@ -80,10 +80,10 @@ const emptyForm: MediaForm = {
 };
 
 const inputClass =
-  "w-full rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-900 outline-none transition focus:border-[#ff6600] focus:ring-2 focus:ring-orange-100";
+  "w-full rounded-lg border border-line bg-paper-raised px-3 py-2.5 text-sm text-ink outline-none transition focus:border-signal focus:ring-2 focus:ring-signal/20";
 
 const statusStyles: Record<MediaStatus, string> = {
-  draft: "bg-gray-100 text-gray-700",
+  draft: "bg-tint text-ink-muted",
   published: "bg-green-100 text-green-800",
   archived: "bg-amber-100 text-amber-800",
 };
@@ -97,7 +97,7 @@ function Field({
 }) {
   return (
     <label className="block space-y-2">
-      <span className="text-sm font-semibold text-gray-700">{label}</span>
+      <span className="text-sm font-semibold text-ink-muted">{label}</span>
       {children}
     </label>
   );
@@ -430,14 +430,14 @@ export default function CivicEducationManager() {
     <div className="mx-auto max-w-6xl space-y-7">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <div className="mb-2 flex items-center gap-2 text-sm font-semibold text-[#ff6600]">
+          <div className="mb-2 flex items-center gap-2 text-sm font-semibold text-ink">
             <BookOpen size={17} />
             Civic engagement
           </div>
-          <h1 className="text-2xl font-bold tracking-tight text-gray-950 sm:text-3xl">
+          <h1 className="text-2xl font-bold tracking-tight text-ink sm:text-3xl">
             Civic Education Media
           </h1>
-          <p className="mt-2 max-w-2xl text-sm leading-6 text-gray-600">
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-ink-muted">
             Upload and publish bilingual civic education videos and infographics for the public platform.
           </p>
         </div>
@@ -445,7 +445,7 @@ export default function CivicEducationManager() {
         <button
           type="button"
           onClick={startNew}
-          className="inline-flex items-center gap-2 rounded-lg bg-[#ff6600] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#e65c00]"
+          className="inline-flex items-center gap-2 rounded-lg bg-signal px-4 py-2.5 text-sm font-semibold text-ink transition hover:bg-signal-hover"
         >
           <Plus size={17} />
           Add media
@@ -459,9 +459,9 @@ export default function CivicEducationManager() {
           { label: "Videos", value: videoCount },
           { label: "Infographics", value: infographicCount },
         ].map((item) => (
-          <div key={item.label} className="rounded-xl border border-gray-200 bg-white p-5">
-            <p className="text-sm text-gray-500">{item.label}</p>
-            <p className="mt-2 text-2xl font-bold text-gray-950">{item.value}</p>
+          <div key={item.label} className="rounded-xl border border-line-soft bg-paper-raised p-5">
+            <p className="text-sm text-ink-subtle">{item.label}</p>
+            <p className="mt-2 text-2xl font-bold text-ink">{item.value}</p>
           </div>
         ))}
       </div>
@@ -479,12 +479,12 @@ export default function CivicEducationManager() {
       )}
 
       {showForm && (
-        <form onSubmit={handleSubmit} className="space-y-6 rounded-xl border border-gray-200 bg-white p-5 sm:p-7">
+        <form onSubmit={handleSubmit} className="space-y-6 rounded-xl border border-line-soft bg-paper-raised p-5 sm:p-7">
           <div className="flex items-center justify-between gap-3">
-            <h2 className="text-lg font-bold text-gray-950">
+            <h2 className="text-lg font-bold text-ink">
               {editingItem ? "Edit media" : "Add civic education media"}
             </h2>
-            <button type="button" onClick={resetForm} className="rounded-lg p-2 text-gray-500 hover:bg-gray-100" aria-label="Close form">
+            <button type="button" onClick={resetForm} className="rounded-lg p-2 text-ink-subtle hover:bg-tint" aria-label="Close form">
               <X size={19} />
             </button>
           </div>
@@ -564,11 +564,11 @@ export default function CivicEducationManager() {
                   onChange={(e) => setSelectedFile(e.target.files?.[0] ?? null)}
                   required={!editingItem || editingItem.source_type !== "upload" || editingItem.media_type !== form.media_type}
                 />
-                <span className="block text-xs text-gray-500">
+                <span className="block text-xs text-ink-subtle">
                   {form.media_type === "video" ? "MP4, WebM or MOV. Maximum 100 MB." : "JPG, PNG or WebP. Maximum 10 MB."}
                   {editingItem?.storage_path && !selectedFile ? " Leave empty to keep the current file." : ""}
                 </span>
-                {selectedFile && <span className="block text-xs font-medium text-gray-700">{selectedFile.name} · {formatSize(selectedFile.size)}</span>}
+                {selectedFile && <span className="block text-xs font-medium text-ink-muted">{selectedFile.name} · {formatSize(selectedFile.size)}</span>}
               </Field>
             )}
             <Field label="Publication status">
@@ -580,48 +580,48 @@ export default function CivicEducationManager() {
             </Field>
           </div>
 
-          <div className="flex flex-wrap gap-3 border-t border-gray-100 pt-5">
-            <button type="submit" disabled={saving} className="inline-flex items-center gap-2 rounded-lg bg-[#ff6600] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#e65c00] disabled:cursor-not-allowed disabled:opacity-60">
+          <div className="flex flex-wrap gap-3 border-t border-line-soft pt-5">
+            <button type="submit" disabled={saving} className="inline-flex items-center gap-2 rounded-lg bg-signal px-5 py-2.5 text-sm font-semibold text-ink transition hover:bg-signal-hover disabled:cursor-not-allowed disabled:opacity-60">
               {saving ? <LoaderCircle size={17} className="animate-spin" /> : <Check size={17} />}
               {saving ? "Saving..." : editingItem ? "Save changes" : "Add media"}
             </button>
-            <button type="button" onClick={resetForm} className="rounded-lg border border-gray-300 px-5 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gray-50">
+            <button type="button" onClick={resetForm} className="rounded-lg border border-line px-5 py-2.5 text-sm font-semibold text-ink-muted hover:bg-tint">
               Cancel
             </button>
           </div>
         </form>
       )}
 
-      <section className="overflow-hidden rounded-xl border border-gray-200 bg-white">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-gray-100 px-5 py-4">
+      <section className="overflow-hidden rounded-xl border border-line-soft bg-paper-raised">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line-soft px-5 py-4">
           <div>
-            <h2 className="font-bold text-gray-950">All civic education media</h2>
-            <p className="mt-1 text-xs text-gray-500">
+            <h2 className="font-bold text-ink">All civic education media</h2>
+            <p className="mt-1 text-xs text-ink-subtle">
               {draftCount} draft item{draftCount === 1 ? "" : "s"} · Staff can view all publication statuses.
             </p>
           </div>
-          <button type="button" onClick={() => void loadItems()} disabled={loading} className="inline-flex items-center gap-2 rounded-lg border border-gray-200 px-3 py-2 text-xs font-semibold text-gray-600 hover:bg-gray-50 disabled:opacity-50">
+          <button type="button" onClick={() => void loadItems()} disabled={loading} className="inline-flex items-center gap-2 rounded-lg border border-line-soft px-3 py-2 text-xs font-semibold text-ink-muted hover:bg-tint disabled:opacity-50">
             <RefreshCw size={14} className={loading ? "animate-spin" : ""} />
             Refresh
           </button>
         </div>
 
         {loading ? (
-          <div className="flex items-center justify-center gap-2 px-5 py-14 text-sm text-gray-500">
+          <div className="flex items-center justify-center gap-2 px-5 py-14 text-sm text-ink-subtle">
             <LoaderCircle size={18} className="animate-spin" /> Loading media...
           </div>
         ) : items.length === 0 ? (
           <div className="px-5 py-14 text-center">
-            <FileImage className="mx-auto mb-3 text-gray-300" size={34} />
-            <p className="font-semibold text-gray-800">No media added yet</p>
-            <p className="mt-1 text-sm text-gray-500">Upload a video or infographic to begin.</p>
+            <FileImage className="mx-auto mb-3 text-ink/30" size={34} />
+            <p className="font-semibold text-ink">No media added yet</p>
+            <p className="mt-1 text-sm text-ink-subtle">Upload a video or infographic to begin.</p>
           </div>
         ) : (
-          <div className="divide-y divide-gray-100">
+          <div className="divide-y divide-line-soft">
             {items.map((item) => (
               <article key={item.id} className="flex flex-col justify-between gap-4 px-5 py-5 sm:flex-row sm:items-center">
                 <div className="flex min-w-0 items-start gap-3">
-                  <div className="flex size-11 shrink-0 items-center justify-center rounded-lg bg-orange-50 text-[#e85d00]">
+                  <div className="flex size-11 shrink-0 items-center justify-center rounded-lg bg-tint text-ink">
                     {item.media_type === "video" ? <Video size={21} /> : <FileImage size={21} />}
                   </div>
                   <div className="min-w-0">
@@ -632,23 +632,23 @@ export default function CivicEducationManager() {
                       <span className="rounded-full bg-blue-50 px-2.5 py-1 text-xs font-semibold text-blue-700">
                         {item.content_language === "ha" ? "Hausa" : "English"}
                       </span>
-                      <span className="text-xs text-gray-500">{item.media_type} · {categories.find((entry) => entry.value === item.category)?.label ?? "Other"}</span>
-                      {item.file_size && <span className="text-xs text-gray-400">{formatSize(item.file_size)}</span>}
+                      <span className="text-xs text-ink-subtle">{item.media_type} · {categories.find((entry) => entry.value === item.category)?.label ?? "Other"}</span>
+                      {item.file_size && <span className="text-xs text-ink-subtle">{formatSize(item.file_size)}</span>}
                     </div>
-                    <h3 className="truncate font-semibold text-gray-950">{item.title_en}</h3>
-                    <p className="mt-0.5 truncate text-sm text-gray-500">{item.title_ha}</p>
-                    <p className="mt-1 text-xs text-gray-400">
+                    <h3 className="truncate font-semibold text-ink">{item.title_en}</h3>
+                    <p className="mt-0.5 truncate text-sm text-ink-subtle">{item.title_ha}</p>
+                    <p className="mt-1 text-xs text-ink-subtle">
                       {item.source_type === "youtube" ? "YouTube video" : "Uploaded file"} · {new Date(item.created_at).toLocaleDateString("en-NG")}
                     </p>
                     {item.media_url && (
-                      <a href={item.media_url} target="_blank" rel="noreferrer" className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-[#d95300] hover:underline">
+                      <a href={item.media_url} target="_blank" rel="noreferrer" className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-ink hover:underline">
                         Open media <ExternalLink size={12} />
                       </a>
                     )}
                   </div>
                 </div>
                 <div className="flex shrink-0 items-center gap-2">
-                  <button type="button" onClick={() => startEditing(item)} className="inline-flex items-center gap-2 rounded-lg border border-gray-200 px-3 py-2 text-xs font-semibold text-gray-700 hover:bg-gray-50">
+                  <button type="button" onClick={() => startEditing(item)} className="inline-flex items-center gap-2 rounded-lg border border-line-soft px-3 py-2 text-xs font-semibold text-ink-muted hover:bg-tint">
                     <Pencil size={14} /> Edit
                   </button>
                   <button type="button" onClick={() => void deleteItem(item)} disabled={deletingId === item.id} className="inline-flex items-center gap-2 rounded-lg border border-red-200 px-3 py-2 text-xs font-semibold text-red-700 hover:bg-red-50 disabled:opacity-50">

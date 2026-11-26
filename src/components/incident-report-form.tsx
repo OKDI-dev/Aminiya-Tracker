@@ -240,7 +240,7 @@ export default function IncidentReportForm() {
   return (
     <section id="report-incident" className="scroll-mt-28 rounded-2xl border border-line-soft bg-paper-raised p-5 sm:p-6">
       <div className="mb-5">
-        <h3 className="text-lg font-semibold text-ink">{t("reportIncidentTitle")}</h3>
+        <h3 className="text-ink font-heading text-lg font-bold">{t("reportIncidentTitle")}</h3>
         <p className="mt-1 text-sm leading-6 text-ink-subtle">{t("reportIncidentDescription")}</p>
       </div>
 

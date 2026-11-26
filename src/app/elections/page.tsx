@@ -89,8 +89,8 @@ export default async function ElectionsDirectoryPage({
       <div className="mx-auto max-w-7xl space-y-7 px-5 py-10 sm:px-8">
         <section className="rounded-xl border border-line-soft bg-paper-raised p-5 sm:p-6">
           <div className="mb-4">
-            <h2 className="text-lg font-semibold">Find an election</h2>
-            <p className="mt-1 text-sm text-ink-subtle">
+            <h2 className="font-heading text-xl font-bold tracking-tight">Find an election</h2>
+            <p className="mt-1 text-ink-subtle text-base leading-7">
               Search by election name or jurisdiction, or filter by election type.
             </p>
           </div>
@@ -139,8 +139,8 @@ export default async function ElectionsDirectoryPage({
         <section>
           <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
             <div>
-              <h2 className="text-2xl font-bold">Published elections</h2>
-              <p className="mt-1 text-sm text-ink-subtle">
+              <h2 className="font-heading text-2xl font-extrabold tracking-tight sm:text-3xl">Published elections</h2>
+              <p className="mt-1 text-ink-subtle text-base leading-7">
                 Election records approved for public viewing.
               </p>
             </div>
@@ -157,7 +157,7 @@ export default async function ElectionsDirectoryPage({
           ) : records.length === 0 ? (
             <div className="rounded-xl border border-line-soft bg-paper-raised px-6 py-12 text-center">
               <Vote size={32} className="mx-auto text-ink-subtle" />
-              <h3 className="mt-4 font-semibold">No elections found</h3>
+              <h3 className="mt-4 font-heading text-lg font-bold">No elections found</h3>
               <p className="mt-2 text-sm text-ink-subtle">
                 There are no published elections matching your search.
               </p>
@@ -185,7 +185,7 @@ export default async function ElectionsDirectoryPage({
                     <Vote size={21} className="shrink-0 text-signal" />
                   </div>
 
-                  <h3 className="mt-4 text-xl font-semibold leading-snug">
+                  <h3 className="mt-4 leading-snug font-heading text-xl font-bold">
                     {election.name}
                   </h3>
 

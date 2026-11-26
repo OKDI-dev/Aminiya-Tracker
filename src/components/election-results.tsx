@@ -153,10 +153,10 @@ export default function ElectionResults() {
     <section className="space-y-6">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-bold text-ink">
+          <h2 className="text-ink font-heading text-2xl font-extrabold tracking-tight sm:text-3xl">
             {t("resultsTitle")}
           </h2>
-          <p className="mt-2 text-sm text-ink-muted">
+          <p className="mt-2 text-ink-muted text-base leading-7">
             {t("resultsDescription")}
           </p>
         </div>
@@ -176,7 +176,7 @@ export default function ElectionResults() {
         <div className="rounded-xl border border-line-soft bg-paper-raised p-5">
           <div className="mb-4 flex items-center gap-2">
             <Filter size={18} className="text-signal" />
-            <h3 className="font-semibold text-ink">{t("filterResults")}</h3>
+            <h3 className="text-ink font-heading text-lg font-bold">{t("filterResults")}</h3>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -259,14 +259,14 @@ export default function ElectionResults() {
         </div>
       ) : results.length === 0 ? (
         <div className="rounded-xl border border-line-soft bg-paper-raised p-8 text-center">
-          <h3 className="font-semibold text-ink">{t("noPublishedResults")}</h3>
+          <h3 className="text-ink font-heading text-lg font-bold">{t("noPublishedResults")}</h3>
           <p className="mt-2 text-sm text-ink-subtle">
             {t("resultsWillAppear")}
           </p>
         </div>
       ) : filteredResults.length === 0 ? (
         <div className="rounded-xl border border-line-soft bg-paper-raised p-8 text-center">
-          <h3 className="font-semibold text-ink">{t("noMatchingResults")}</h3>
+          <h3 className="text-ink font-heading text-lg font-bold">{t("noMatchingResults")}</h3>
           <p className="mt-2 text-sm text-ink-subtle">
             {t("changeFilters")}
           </p>
@@ -345,7 +345,7 @@ export default function ElectionResults() {
                 </div>
 
                 <div className="mt-5">
-                  <h3 className="text-xl font-bold text-ink">
+                  <h3 className="text-ink font-heading text-xl font-bold">
                     {candidateName}
                   </h3>
                   <p className="mt-1 text-sm text-ink-muted">{partyName}</p>

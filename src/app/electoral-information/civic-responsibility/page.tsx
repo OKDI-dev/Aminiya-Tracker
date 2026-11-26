@@ -101,7 +101,7 @@ export default function CivicResponsibilityPage() {
       <div className="mx-auto grid max-w-5xl gap-10 px-5 py-10 sm:px-8 lg:grid-cols-[1fr_280px]">
         <article className="min-w-0 space-y-10">
           <section>
-            <h2 className="text-2xl font-bold">{t("crWhyTitle")}</h2>
+            <h2 className="font-heading text-2xl font-extrabold tracking-tight sm:text-3xl">{t("crWhyTitle")}</h2>
             <p className="mt-4 leading-8 text-ink-muted">
               {t("crWhyText1")}
             </p>
@@ -111,7 +111,7 @@ export default function CivicResponsibilityPage() {
           </section>
 
           <section className="space-y-7">
-            <h2 className="text-2xl font-bold">
+            <h2 className="font-heading text-2xl font-extrabold tracking-tight sm:text-3xl">
               {t("crWaysTitle")}
             </h2>
             {sections.map((section, index) => {
@@ -129,7 +129,7 @@ export default function CivicResponsibilityPage() {
                       <span className="text-xs font-semibold text-ink">
                         0{index + 1}
                       </span>
-                      <h3 className="mt-1 text-lg font-bold">
+                      <h3 className="mt-1 font-heading text-lg font-bold">
                         {section.title}
                       </h3>
                       <p className="mt-3 leading-7 text-ink-muted">
@@ -159,7 +159,7 @@ export default function CivicResponsibilityPage() {
           <section className="rounded-2xl border border-signal/25 bg-tint/60 p-6">
             <div className="flex items-center gap-3">
               <ShieldCheck className="text-signal" size={24} />
-              <h2 className="text-xl font-bold">
+              <h2 className="font-heading text-xl font-bold tracking-tight">
                 {t("crSafetyTitle")}
               </h2>
             </div>
@@ -173,7 +173,7 @@ export default function CivicResponsibilityPage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold">{t("crContinueTitle")}</h2>
+            <h2 className="font-heading text-2xl font-extrabold tracking-tight sm:text-3xl">{t("crContinueTitle")}</h2>
             <p className="mt-4 leading-8 text-ink-muted">
               {t("crContinueText")}
             </p>
@@ -206,7 +206,7 @@ export default function CivicResponsibilityPage() {
 
         <aside className="space-y-5">
           <div className="rounded-2xl border border-ink/5 bg-paper-raised p-5">
-            <h3 className="font-bold">{t("crGuideTitle")}</h3>
+            <h3 className="font-heading text-lg font-bold">{t("crGuideTitle")}</h3>
             <ul className="mt-4 space-y-3 text-sm text-ink-muted">
               <li>{t("crGuide1")}</li>
               <li>{t("crGuide2")}</li>
@@ -217,7 +217,7 @@ export default function CivicResponsibilityPage() {
           </div>
           <div className="rounded-2xl bg-ink p-5 text-white">
             <Users size={24} className="text-signal" />
-            <h3 className="mt-4 font-bold">{t("crVoiceTitle")}</h3>
+            <h3 className="mt-4 font-heading text-lg font-bold">{t("crVoiceTitle")}</h3>
             <p className="mt-2 text-sm leading-6 text-white/65">
               {t("crVoiceText")}
             </p>

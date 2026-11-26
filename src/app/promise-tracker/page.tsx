@@ -133,13 +133,13 @@ export default async function PromiseTrackerPage() {
 
         <section>
           <div className="mb-6">
-            <h2 className="text-2xl font-bold text-ink">
+            <h2 className="text-ink font-heading text-2xl font-extrabold tracking-tight sm:text-3xl">
               <LocalizedText
                 en="Published political promises"
                 ha="Alƙawuran siyasa da aka wallafa"
               />
             </h2>
-            <p className="mt-2 text-sm text-ink-muted">
+            <p className="mt-2 text-ink-muted text-base leading-7">
               <LocalizedText
                 en="Only promises approved for public viewing are displayed."
                 ha="Alƙawuran da aka amince a nuna wa jama'a ne kawai ake nunawa."
@@ -157,7 +157,7 @@ export default async function PromiseTrackerPage() {
           ) : records.length === 0 ? (
             <div className="rounded-xl border border-line-soft bg-paper-raised p-10 text-center">
               <Target className="mx-auto text-ink-subtle" size={32} />
-              <h3 className="mt-4 font-semibold text-ink">
+              <h3 className="mt-4 text-ink font-heading text-lg font-bold">
                 <LocalizedText
                   en="No published promises yet"
                   ha="Babu alƙawuran da aka wallafa tukuna"

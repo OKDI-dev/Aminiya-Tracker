@@ -255,7 +255,7 @@ export default async function PromiseDetailPage({
         </section>
 
         <section className="rounded-xl border border-line-soft bg-paper-raised p-6 sm:p-8">
-          <h2 className="text-lg font-bold text-ink">
+          <h2 className="text-ink font-heading text-xl font-bold tracking-tight">
             Candidate and election
           </h2>
 
@@ -306,10 +306,10 @@ export default async function PromiseDetailPage({
 
         <section>
           <div className="mb-5">
-            <h2 className="text-2xl font-bold text-ink">
+            <h2 className="text-ink font-heading text-2xl font-extrabold tracking-tight sm:text-3xl">
               Progress history
             </h2>
-            <p className="mt-2 text-sm text-ink-muted">
+            <p className="mt-2 text-ink-muted text-base leading-7">
               Updates below have been reviewed and approved by authorised
               electoral staff.
             </p>
@@ -318,7 +318,7 @@ export default async function PromiseDetailPage({
           {approvedUpdates.length === 0 ? (
             <div className="rounded-xl border border-line-soft bg-paper-raised p-8 text-center">
               <Clock3 className="mx-auto text-ink-subtle" size={30} />
-              <h3 className="mt-3 font-semibold text-ink">
+              <h3 className="mt-3 text-ink font-heading text-lg font-bold">
                 No approved updates yet
               </h3>
               <p className="mt-2 text-sm text-ink-subtle">
@@ -355,7 +355,7 @@ export default async function PromiseDetailPage({
                       </span>
                     </div>
 
-                    <h3 className="mt-4 text-lg font-semibold text-ink">
+                    <h3 className="mt-4 text-ink font-heading text-lg font-bold">
                       {update.update_title}
                     </h3>
 

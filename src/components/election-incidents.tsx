@@ -148,10 +148,10 @@ export default function ElectionIncidents() {
           </div>
 
           <div>
-            <h2 className="text-lg font-semibold text-ink">
+            <h2 className="text-ink font-heading text-xl font-bold tracking-tight">
               {t("incidentMonitorTitle")}
             </h2>
-            <p className="mt-1 text-sm leading-6 text-ink-muted">
+            <p className="mt-1 text-ink-muted text-base leading-7">
               {t("incidentMonitorDescription")}
             </p>
           </div>
@@ -160,7 +160,7 @@ export default function ElectionIncidents() {
 
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h3 className="font-semibold text-ink">
+          <h3 className="text-ink font-heading text-lg font-bold">
             {t("publishedIncidents")}
           </h3>
           <p className="text-sm text-ink-subtle">
@@ -224,7 +224,7 @@ export default function ElectionIncidents() {
       ) : loadFailed ? (
         <div className="rounded-xl border border-line-soft bg-paper-raised px-5 py-10 text-center">
           <ShieldAlert className="mx-auto mb-3 text-ink-subtle" size={30} />
-          <h3 className="font-semibold text-ink">
+          <h3 className="text-ink font-heading text-lg font-bold">
             {t("publishedIncidentsUnavailable")}
           </h3>
           <p className="mt-1 text-sm text-ink-subtle">
@@ -242,7 +242,7 @@ export default function ElectionIncidents() {
       ) : filteredIncidents.length === 0 ? (
         <div className="rounded-xl border border-dashed border-line px-5 py-12 text-center">
           <ShieldAlert className="mx-auto mb-3 text-ink-subtle" size={30} />
-          <h3 className="font-semibold text-ink">
+          <h3 className="text-ink font-heading text-lg font-bold">
             {t("noPublishedIncidents")}
           </h3>
           <p className="mt-1 text-sm text-ink-subtle">

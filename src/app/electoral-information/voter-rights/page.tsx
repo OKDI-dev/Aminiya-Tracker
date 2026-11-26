@@ -98,7 +98,7 @@ export default function VoterRightsPage() {
         </PublicPageHero>
 
         <section className="py-12">
-          <h2 className="text-2xl font-bold text-ink">
+          <h2 className="text-ink font-heading text-2xl font-extrabold tracking-tight sm:text-3xl">
             {t("vrWhyTitle")}
           </h2>
           <p className="mt-4 text-sm leading-8 text-ink-muted">
@@ -110,7 +110,7 @@ export default function VoterRightsPage() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-bold text-ink">
+          <h2 className="text-ink font-heading text-2xl font-extrabold tracking-tight sm:text-3xl">
             {t("vrImportantTitle")}
           </h2>
           <div className="mt-7 space-y-5">
@@ -126,7 +126,7 @@ export default function VoterRightsPage() {
                       <Icon size={23} />
                     </div>
                     <div className="min-w-0">
-                      <h3 className="text-xl font-bold text-ink">
+                      <h3 className="text-ink font-heading text-xl font-bold">
                         {right.title}
                       </h3>
                       <p className="mt-3 text-sm leading-7 text-ink-muted">
@@ -154,7 +154,7 @@ export default function VoterRightsPage() {
         <section className="mt-14 rounded-2xl border border-signal/20 bg-tint p-6 sm:p-8">
           <div className="flex items-center gap-3">
             <MessageSquareWarning size={24} className="text-ink" />
-            <h2 className="text-xl font-bold text-ink">
+            <h2 className="text-ink font-heading text-xl font-bold tracking-tight">
               {t("vrWarningTitle")}
             </h2>
           </div>
@@ -177,7 +177,7 @@ export default function VoterRightsPage() {
         <section className="mt-10 rounded-2xl bg-ink p-6 text-white sm:p-8">
           <div className="flex items-center gap-3">
             <HandHeart size={24} className="text-signal" />
-            <h2 className="text-2xl font-bold">{t("vrAccessTitle")}</h2>
+            <h2 className="font-heading text-2xl font-extrabold tracking-tight sm:text-3xl">{t("vrAccessTitle")}</h2>
           </div>
           <p className="mt-4 text-sm leading-7 text-white/70">
             {t("vrAccessText1")}
@@ -188,10 +188,10 @@ export default function VoterRightsPage() {
         </section>
 
         <section className="mt-10 rounded-2xl border border-line-soft bg-paper-raised p-6 sm:p-8">
-          <h2 className="text-xl font-bold text-ink">
+          <h2 className="text-ink font-heading text-xl font-bold tracking-tight">
             {t("vrHelpTitle")}
           </h2>
-          <p className="mt-3 text-sm leading-7 text-ink-muted">
+          <p className="mt-3 text-ink-muted text-base leading-7">
             {t("vrHelpText")}
           </p>
           <div className="mt-6 flex flex-col gap-4 sm:flex-row">

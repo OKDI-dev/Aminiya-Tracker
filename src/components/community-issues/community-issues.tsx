@@ -411,10 +411,10 @@ export default function CommunityIssues() {
             <FileText size={24} />
           </div>
           <div>
-            <h2 className="text-xl font-semibold text-ink">
+            <h2 className="text-ink font-heading text-xl font-bold tracking-tight">
               {t("communityFormTitle")}
             </h2>
-            <p className="mt-1 text-sm leading-6 text-ink-subtle">
+            <p className="mt-1 text-ink-subtle text-base leading-7">
               {t("communityFormDescription")}
             </p>
           </div>
@@ -918,10 +918,10 @@ export default function CommunityIssues() {
             <Search size={23} />
           </div>
           <div>
-            <h2 className="text-xl font-semibold text-ink">
+            <h2 className="text-ink font-heading text-xl font-bold tracking-tight">
               {t("trackReportTitle")}
             </h2>
-            <p className="mt-1 text-sm leading-6 text-ink-subtle">
+            <p className="mt-1 text-ink-subtle text-base leading-7">
               {t("trackReportDescription")}
             </p>
           </div>
@@ -1038,7 +1038,7 @@ export default function CommunityIssues() {
                 <p className="mt-3 text-sm leading-6 text-ink-muted">{t(currentStatus.help)}</p>
               </div>
 
-              <h3 className="mt-4 font-semibold text-ink">{trackedIssue.title}</h3>
+              <h3 className="mt-4 text-ink font-heading text-lg font-bold">{trackedIssue.title}</h3>
               <p className="mt-1 text-sm text-ink-subtle">
                 {t(
                   categories.find((item) => item.value === trackedIssue.category)?.key ??

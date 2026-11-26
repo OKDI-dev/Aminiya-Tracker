@@ -420,10 +420,10 @@ const [activeTab, setActiveTab] = useState<Section>("education");
             <>
               <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
                 <div>
-                  <h2 className="text-2xl font-semibold tracking-tight">
+                  <h2 className="font-heading text-2xl font-extrabold tracking-tight sm:text-3xl">
                     {t("civicEducation")}
                   </h2>
-                  <p className="mt-2 max-w-2xl text-sm leading-6 text-ink-subtle">
+                  <p className="mt-2 max-w-2xl text-ink-subtle text-base leading-7">
                     {t("civicEducationDescription")}
                   </p>
                 </div>
@@ -473,10 +473,10 @@ const [activeTab, setActiveTab] = useState<Section>("education");
                   return (
                     <article
                       key={lesson.href}
-                      className="rounded-2xl border border-line-soft bg-paper-raised p-6 transition hover:border-signal/50 sm:p-7"
+                      className="hover-card rounded-2xl border border-line-soft bg-paper-raised p-6 sm:p-7"
                     >
                       <div className="flex items-start justify-between gap-4">
-                        <div className="flex size-12 items-center justify-center rounded-xl bg-tint text-ink">
+                        <div className="hover-card-icon size-12 rounded-xl">
                           <Icon size={24} />
                         </div>
                         <span className="rounded-full bg-tint px-3 py-1.5 text-xs text-ink-muted">
@@ -484,7 +484,7 @@ const [activeTab, setActiveTab] = useState<Section>("education");
                         </span>
                       </div>
 
-                      <h3 className="mt-5 text-xl font-semibold">
+                      <h3 className="mt-5 font-heading text-xl font-bold">
                         {lesson.displayTitle}
                       </h3>
                       <p className="mt-3 text-sm leading-7 text-ink-muted">
@@ -541,7 +541,7 @@ const [activeTab, setActiveTab] = useState<Section>("education");
               {filteredLessons.length === 0 && (
                 <div className="mt-8 rounded-2xl border border-dashed border-line bg-paper-raised px-6 py-12 text-center">
                   <Search size={28} className="mx-auto text-ink-subtle" />
-                  <h3 className="mt-4 font-semibold">{t("noTopicsFound")}</h3>
+                  <h3 className="mt-4 font-heading text-lg font-bold">{t("noTopicsFound")}</h3>
                   <p className="mt-2 text-sm text-ink-subtle">
                     {t("tryAnotherSearch")}
                   </p>
@@ -560,13 +560,13 @@ const [activeTab, setActiveTab] = useState<Section>("education");
 
               <CivicEducationMediaLibrary />
 
-              <div className="mt-8 flex items-start gap-3 rounded-xl border border-[#f0d9c8] bg-[#fffaf6] p-4 sm:p-5">
+              <div className="mt-8 flex items-start gap-3 rounded-xl border border-signal/25 bg-tint/60 p-4 sm:p-5">
                 <Info
                   size={20}
                   className="mt-0.5 shrink-0 text-ink"
                 />
                 <div>
-                  <h3 className="font-semibold">{t("useReliableInformation")}</h3>
+                  <h3 className="font-heading text-lg font-bold">{t("useReliableInformation")}</h3>
                   <p className="mt-1 text-sm leading-6 text-ink-muted">
                     {t("electoralRulesNotice")}
                   </p>
@@ -625,10 +625,10 @@ const [activeTab, setActiveTab] = useState<Section>("education");
         <section className="space-y-5">
           <div className="flex flex-wrap items-end justify-between gap-3">
             <div>
-              <h2 className="text-2xl font-bold text-ink">
+              <h2 className="text-ink font-heading text-2xl font-extrabold tracking-tight sm:text-3xl">
                 {t("candidates")}
               </h2>
-              <p className="mt-2 text-sm text-ink-muted">
+              <p className="mt-2 text-ink-muted text-base leading-7">
                 {t("candidateProfilesDescription")}
               </p>
             </div>
@@ -639,7 +639,7 @@ const [activeTab, setActiveTab] = useState<Section>("education");
 
           {candidates.length === 0 ? (
             <div className="rounded-2xl border border-dashed border-line bg-paper-raised p-8 text-center">
-              <h3 className="font-semibold text-ink">
+              <h3 className="text-ink font-heading text-lg font-bold">
                 {t("noPublishedCandidates")}
               </h3>
               <p className="mt-2 text-sm text-ink-subtle">
@@ -657,10 +657,10 @@ const [activeTab, setActiveTab] = useState<Section>("education");
         <section className="space-y-5">
           <div className="flex flex-wrap items-end justify-between gap-3">
             <div>
-              <h2 className="text-2xl font-bold text-ink">
+              <h2 className="text-ink font-heading text-2xl font-extrabold tracking-tight sm:text-3xl">
                 {t("politicalParties")}
               </h2>
-              <p className="mt-2 text-sm text-ink-muted">
+              <p className="mt-2 text-ink-muted text-base leading-7">
                 {t("politicalPartiesDescription")}
               </p>
             </div>
@@ -671,7 +671,7 @@ const [activeTab, setActiveTab] = useState<Section>("education");
 
           {parties.length === 0 ? (
             <div className="rounded-2xl border border-dashed border-line bg-paper-raised p-8 text-center">
-              <h3 className="font-semibold text-ink">
+              <h3 className="text-ink font-heading text-lg font-bold">
                 {t("noPublishedParties")}
               </h3>
               <p className="mt-2 text-sm text-ink-subtle">
@@ -707,7 +707,7 @@ const [activeTab, setActiveTab] = useState<Section>("education");
                       </div>
                     )}
                     <div>
-                      <h3 className="font-bold text-ink">
+                      <h3 className="text-ink font-heading text-lg font-bold">
                         {party.name}
                       </h3>
                       {party.acronym && (
@@ -759,10 +759,10 @@ const [activeTab, setActiveTab] = useState<Section>("education");
                 <currentSection.icon size={28} />
               </div>
 
-              <h2 className="mt-6 text-2xl font-semibold sm:text-3xl">
+              <h2 className="mt-6 font-heading text-2xl font-extrabold tracking-tight sm:text-3xl">
                 {activeTab === "insights" ? t("sectionInsightsTitle") : currentSection.title}
               </h2>
-              <p className="mt-3 max-w-2xl text-sm leading-7 text-ink-muted sm:text-base">
+              <p className="mt-3 max-w-2xl text-ink-muted sm:text-base text-base leading-7">
                 {activeTab === "insights" ? t("sectionInsightsDescription") : currentSection.description}
               </p>
 
@@ -781,7 +781,7 @@ const [activeTab, setActiveTab] = useState<Section>("education");
 
               {activeTab === "insights" && (
                 <div className="mt-6 rounded-xl bg-paper p-5">
-                  <h3 className="font-semibold">{t("plannedAnalysis")}</h3>
+                  <h3 className="font-heading text-lg font-bold">{t("plannedAnalysis")}</h3>
                   <ul className="mt-3 space-y-2 text-sm leading-6 text-ink-muted">
                     <li>• {t("voteDistribution")}</li>
                     <li>• {t("resultsCoverage")}</li>
@@ -807,8 +807,8 @@ const [activeTab, setActiveTab] = useState<Section>("education");
       <section className="border-t border-line-soft bg-paper-raised">
         <div className="mx-auto flex max-w-7xl flex-col gap-4 px-5 py-8 sm:px-8 md:flex-row md:items-center md:justify-between">
           <div>
-            <h2 className="font-semibold">{t("continueParticipating")}</h2>
-            <p className="mt-1 text-sm text-ink-subtle">
+            <h2 className="font-heading text-xl font-bold tracking-tight">{t("continueParticipating")}</h2>
+            <p className="mt-1 text-ink-subtle text-base leading-7">
               {t("continueParticipatingDescription")}
             </p>
           </div>
