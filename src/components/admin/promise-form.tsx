@@ -4,28 +4,12 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Loader2, Save } from "lucide-react";
+import SectorPicker, { sectorPayload, type SectorSelection } from "@/components/admin/sector-picker";
 
 type CandidacyOption = {
   id: string;
   label: string;
 };
-
-const sectors = [
-  ["education", "Education"],
-  ["healthcare", "Healthcare"],
-  ["agriculture", "Agriculture"],
-  ["infrastructure", "Infrastructure"],
-  ["employment", "Employment"],
-  ["security", "Security"],
-  ["water_sanitation", "Water and sanitation"],
-  ["electricity", "Electricity"],
-  ["environment", "Environment"],
-  ["governance", "Governance"],
-  ["youth_development", "Youth development"],
-  ["women_development", "Women development"],
-  ["social_protection", "Social protection"],
-  ["other", "Other"],
-];
 
 export default function PromiseForm({
   candidacies,
@@ -38,12 +22,12 @@ export default function PromiseForm({
     candidacy_id: "",
     title: "",
     description: "",
-    sector: "",
     source_url: "",
     promise_date: "",
     target_date: "",
   });
 
+  const [sectorSelection, setSectorSelection] = useState<SectorSelection>({ keys: [], otherChecked: false, other: "" });
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
 
@@ -60,7 +44,7 @@ export default function PromiseForm({
       const response = await fetch("/api/admin/promises", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, ...sectorPayload(sectorSelection) }),
       });
 
       const result = await response.json();
@@ -159,23 +143,7 @@ export default function PromiseForm({
             <p className="mt-1 text-xs text-ink-subtle">{form.description.length}/10,000 characters</p>
           </div>
 
-          <div>
-            <label htmlFor="sector" className="text-sm font-medium text-ink">
-              Sector <span className="text-red-600">*</span>
-            </label>
-            <select
-              id="sector"
-              required
-              value={form.sector}
-              onChange={(e) => update("sector", e.target.value)}
-              className={fieldClass}
-            >
-              <option value="">Select a sector</option>
-              {sectors.map(([value, label]) => (
-                <option key={value} value={value}>{label}</option>
-              ))}
-            </select>
-          </div>
+          <SectorPicker value={sectorSelection} onChange={setSectorSelection} />
 
           <div className="grid gap-5 sm:grid-cols-2">
             <div>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { promiseSectors, sectorLabel } from "@/lib/promise-sectors";
 import {
   FileCheck2,
   Plus,
@@ -31,23 +32,6 @@ const publicationStyles: Record<string, string> = {
   draft: "bg-tint text-ink-muted",
   published: "bg-green-50 text-green-700",
   archived: "bg-amber-50 text-amber-700",
-};
-
-const sectorLabels: Record<string, string> = {
-  education: "Education",
-  healthcare: "Healthcare",
-  agriculture: "Agriculture",
-  infrastructure: "Infrastructure",
-  employment: "Employment",
-  security: "Security",
-  water_sanitation: "Water and sanitation",
-  electricity: "Electricity",
-  environment: "Environment",
-  governance: "Governance",
-  youth_development: "Youth development",
-  women_development: "Women development",
-  social_protection: "Social protection",
-  other: "Other",
 };
 
 function SummaryCard({
@@ -83,7 +67,8 @@ export default async function PromiseManagementPage() {
     supabase
       .from("political_promises")
       .select(
-        "id, candidacy_id, title, sector, progress_status, publication_status, promise_date, created_at"
+        // "*" includes `sectors` once migration 025 is applied.
+        "*"
       )
       .order("created_at", { ascending: false })
       .limit(100),
@@ -345,7 +330,7 @@ export default async function PromiseManagementPage() {
                           </span>
                           <span>·</span>
                           <span>
-                            {sectorLabels[promise.sector] ?? promise.sector}
+                            {promiseSectors(promise).map((value) => sectorLabel(value)).join(", ")}
                           </span>
                           <span>·</span>
                           <span

@@ -1,13 +1,9 @@
 import { NextResponse } from "next/server";
 import { apiError, blockIfReferenced, deleteFailed, requireStaffApi } from "@/lib/admin/api";
 import { createClient } from "@/lib/supabase/server";
+import { parseSectors } from "@/lib/promise-sectors";
+import { SECTORS_MIGRATION_NEEDED, writeWithSectors } from "@/lib/admin/promise-sectors-write";
 
-const sectors = [
-  "education", "healthcare", "agriculture", "infrastructure",
-  "employment", "security", "water_sanitation", "electricity",
-  "environment", "governance", "youth_development",
-  "women_development", "social_protection", "other",
-];
 
 const publicationStatuses = ["draft", "published", "archived"];
 
@@ -39,7 +35,6 @@ export async function PATCH(
 
     const title = String(body.title ?? "").trim();
     const description = String(body.description ?? "").trim();
-    const sector = String(body.sector ?? "").trim();
     const sourceUrl = String(body.source_url ?? "").trim() || null;
     const promiseDate = body.promise_date || null;
     const targetDate = body.target_date || null;
@@ -48,10 +43,14 @@ export async function PATCH(
     if (
       title.length < 5 || title.length > 200 ||
       description.length < 20 || description.length > 10000 ||
-      !sectors.includes(sector) ||
       !publicationStatuses.includes(publicationStatus)
     ) {
       return NextResponse.json({ error: "Please check the submitted fields." }, { status: 400 });
+    }
+
+    const parsedSectors = parseSectors(body);
+    if ("error" in parsedSectors) {
+      return NextResponse.json({ error: parsedSectors.error }, { status: 400 });
     }
 
     if (promiseDate && targetDate && targetDate < promiseDate) {
@@ -94,18 +93,25 @@ export async function PATCH(
       }
     }
 
-    const { error } = await supabase
-      .from("political_promises")
-      .update({
+    const saved = await writeWithSectors(
+      (values) => supabase.from("political_promises").update(values).eq("id", id),
+      {
         title,
         description,
-        sector,
         source_url: sourceUrl,
         promise_date: promiseDate,
         target_date: targetDate,
         publication_status: publicationStatus,
-      })
-      .eq("id", id);
+      },
+      parsedSectors.sectors,
+      parsedSectors.primary
+    );
+
+    if ("migrationNeeded" in saved) {
+      return NextResponse.json({ error: SECTORS_MIGRATION_NEEDED }, { status: 409 });
+    }
+
+    const { error } = saved;
 
     if (error) {
       console.error("Promise update error:", error);

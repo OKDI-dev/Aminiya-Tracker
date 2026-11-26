@@ -1,6 +1,8 @@
 import { connection } from "next/server";
 import { isPublicEvidenceUrl } from "@/lib/public-evidence-url";
 import Link from "next/link";
+import { promiseSectors } from "@/lib/promise-sectors";
+import { LocalizedSector } from "@/components/i18n/promise-translations";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { adminSupabase } from "@/lib/supabase/admin";
@@ -54,6 +56,7 @@ export default async function PromiseDetailPage({
   const { data: promise, error } = await supabase
     .from("political_promises")
     .select(`
+      *,
       id,
       title,
       description,
@@ -184,9 +187,11 @@ export default async function PromiseDetailPage({
 
         <section className="rounded-xl border border-line-soft bg-paper-raised p-6 sm:p-8">
           <div className="flex flex-wrap items-center gap-3">
-            <span className="rounded-full bg-tint px-3 py-1 text-xs font-semibold capitalize text-ink">
-              {promise.sector.replaceAll("_", " ")}
-            </span>
+            {promiseSectors(promise).map((value) => (
+              <span key={value} className="rounded-full bg-tint px-3 py-1 text-xs font-semibold text-ink">
+                <LocalizedSector value={value} />
+              </span>
+            ))}
 
             <span
               className={`rounded-full px-3 py-1 text-xs font-semibold ${
