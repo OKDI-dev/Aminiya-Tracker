@@ -1,59 +1,139 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { BlurImage } from "@/components/ui/blur-image";
 import { useLanguage } from "@/components/language-provider";
 import type { DirectoryCandidate } from "@/lib/public-directory";
 
-const PAGE = 24;
+/** Cards shown per office before "Show more" (three full rows on desktop). */
+const PAGE = 9;
+
+/** Ballot order, with the heading each office gets. */
+const OFFICES: { office: string; en: string; ha: string; byArea: boolean }[] = [
+  { office: "Governor", en: "Governor", ha: "Gwamna", byArea: false },
+  { office: "Deputy Governor", en: "Deputy Governor", ha: "Mataimakin Gwamna", byArea: false },
+  { office: "Senator", en: "Senators", ha: "Sanatoci", byArea: true },
+  { office: "Member, House of Representatives", en: "House of Representatives", ha: "Majalisar Wakilai", byArea: true },
+  { office: "Member, State House of Assembly", en: "State House of Assembly", ha: "Majalisar Dokokin Jiha", byArea: true },
+];
+
+type Group = { id: string; title: string; candidates: DirectoryCandidate[] };
+
+function groupByOffice(candidates: DirectoryCandidate[], language: "en" | "ha"): Group[] {
+  const byOffice = new Map<string, DirectoryCandidate[]>();
+  for (const candidate of candidates) {
+    const key = candidate.race?.office ?? "";
+    byOffice.set(key, [...(byOffice.get(key) ?? []), candidate]);
+  }
+
+  const groups: Group[] = [];
+  for (const known of OFFICES) {
+    const list = byOffice.get(known.office);
+    if (!list?.length) continue;
+    byOffice.delete(known.office);
+    // Constituency races read best grouped by constituency, then by name.
+    const sorted = known.byArea
+      ? [...list].sort((a, b) => (a.race?.area ?? "").localeCompare(b.race?.area ?? "") || a.full_name.localeCompare(b.full_name))
+      : list;
+    groups.push({ id: known.office, title: known[language], candidates: sorted });
+  }
+  for (const [office, list] of [...byOffice.entries()].sort(([a], [b]) => a.localeCompare(b))) {
+    if (!office) continue;
+    groups.push({ id: office, title: office, candidates: list });
+  }
+  const unlisted = byOffice.get("");
+  if (unlisted?.length) {
+    groups.push({
+      id: "unlisted",
+      title: language === "ha" ? "Ba a sanya su cikin takara ba tukuna" : "Not yet in a race",
+      candidates: unlisted,
+    });
+  }
+  return groups;
+}
+
+const anchor = (id: string) => `office-${id.toLowerCase().replace(/[^a-z]+/g, "-")}`;
 
 /**
- * Candidate cards that are all the same size: the name keeps two lines, the
- * biography three, and the whole card opens the candidate's own page for
- * the rest. Photos sit in a fixed round frame instead of filling the card.
+ * Candidates grouped by office in ballot order (Governor, Deputy Governor,
+ * Senators, House of Representatives, State House of Assembly). Cards are
+ * all the same size and open the candidate's own page. Search lives in
+ * DirectorySearch; give this a new `key` when filters change so paging restarts.
  */
-/** Search lives in DirectorySearch; give this a new `key` when filters change so paging restarts. */
 export default function CandidateGrid({ candidates }: { candidates: DirectoryCandidate[] }) {
-  const { t } = useLanguage();
-  const [shown, setShown] = useState(PAGE);
-  const matches = candidates;
-  const visible = matches.slice(0, shown);
+  const { t, language } = useLanguage();
+  const groups = useMemo(() => groupByOffice(candidates, language), [candidates, language]);
+
+  if (candidates.length === 0) {
+    return (
+      <p className="rounded-2xl border border-dashed border-line bg-paper-raised p-8 text-center text-sm text-ink-muted">
+        {t("noCandidateMatches")}
+      </p>
+    );
+  }
 
   return (
-    <div className="space-y-5">
-
-      {matches.length === 0 ? (
-        <p className="rounded-2xl border border-dashed border-line bg-paper-raised p-8 text-center text-sm text-ink-muted">
-          {t("noCandidateMatches")}
-        </p>
-      ) : (
-        <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {visible.map((candidate) => (
-            // min-w-0: let truncated lines shrink with the column instead of widening the card.
-            <li key={candidate.id} className="min-w-0">
-              <CandidateCard candidate={candidate} readMore={t("readMoreAbout")} noBiography={t("noBiography")} />
-            </li>
+    <div className="space-y-10">
+      {groups.length > 1 ? (
+        <nav aria-label={language === "ha" ? "Tsallaka zuwa mukami" : "Jump to office"} className="flex flex-wrap gap-2">
+          {groups.map((group) => (
+            <a
+              key={group.id}
+              href={`#${anchor(group.id)}`}
+              className="inline-flex min-h-9 items-center gap-1.5 rounded-full border border-line-soft bg-paper-raised px-3.5 text-sm font-medium text-ink transition-colors hover:border-ink"
+            >
+              {group.title}
+              <span className="text-ink-subtle tabular-nums">{group.candidates.length}</span>
+            </a>
           ))}
-        </ul>
-      )}
+        </nav>
+      ) : null}
 
-      {matches.length > shown ? (
-        <div className="flex flex-col items-center gap-2 pt-2">
+      {groups.map((group) => (
+        <OfficeGroup key={group.id} group={group} />
+      ))}
+    </div>
+  );
+}
+
+function OfficeGroup({ group }: { group: Group }) {
+  const { t } = useLanguage();
+  const [shown, setShown] = useState(PAGE);
+  const visible = group.candidates.slice(0, shown);
+
+  return (
+    <section id={anchor(group.id)} aria-labelledby={`${anchor(group.id)}-title`} className="scroll-mt-28 space-y-4">
+      <h3 id={`${anchor(group.id)}-title`} className="flex items-baseline gap-2 font-heading text-xl font-bold text-ink">
+        {group.title}
+        <span className="text-sm font-medium text-ink-subtle tabular-nums">{group.candidates.length}</span>
+      </h3>
+
+      <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {visible.map((candidate) => (
+          // min-w-0: let truncated lines shrink with the column instead of widening the card.
+          <li key={candidate.id} className="min-w-0">
+            <CandidateCard candidate={candidate} readMore={t("readMoreAbout")} noBiography={t("noBiography")} />
+          </li>
+        ))}
+      </ul>
+
+      {group.candidates.length > shown ? (
+        <div className="flex flex-col items-center gap-2 pt-1">
           <button
             type="button"
-            onClick={() => setShown((count) => count + PAGE)}
+            onClick={() => setShown((count) => count + PAGE * 2)}
             className="min-h-11 rounded-xl border border-line bg-paper-raised px-5 text-sm font-semibold text-ink transition-colors hover:border-ink"
           >
             {t("showMoreCandidates")}
           </button>
           <p className="text-xs text-ink-subtle tabular-nums">
-            {t("candidatesShown").replace("{shown}", String(visible.length)).replace("{total}", String(matches.length))}
+            {t("candidatesShown").replace("{shown}", String(visible.length)).replace("{total}", String(group.candidates.length))}
           </p>
         </div>
       ) : null}
-    </div>
+    </section>
   );
 }
 
