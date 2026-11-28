@@ -6,6 +6,7 @@ import { MotionConfig } from "motion/react";
 
 import PublicHeader from "@/components/public-header";
 import PublicFooter from "@/components/public-footer";
+import AssistantBand from "@/components/assistant-band";
 import AminiyaAssistant from "@/components/aminiya-assistant";
 import { LanguageProvider } from "@/components/language-provider";
 import { SWRProvider } from "@/lib/swr";
@@ -43,6 +44,8 @@ export default function PublicSiteShell({
               <>
                 <PublicHeader />
                 <PageTransition>{children}</PageTransition>
+                {/* Every public page closes on the navy band, as the home page does. */}
+                <AssistantBand />
                 <PublicFooter />
                 <AminiyaAssistant />
               </>

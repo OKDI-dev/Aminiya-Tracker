@@ -28,12 +28,14 @@ function StatCard({
   icon: React.ElementType;
 }) {
   return (
-    <div className="rounded-xl border border-line-soft bg-paper-raised p-5">
-      <div className="flex items-center justify-between">
+    <div className="hover-card rounded-2xl border border-line-soft bg-paper-raised p-5">
+      <div className="flex items-center justify-between gap-3">
         <p className="text-sm text-ink-subtle">
           <LocalizedText en={label.en} ha={label.ha} />
         </p>
-        <Icon size={21} className="text-signal" />
+        <span className="hover-card-icon size-10 shrink-0 rounded-xl">
+          <Icon size={19} aria-hidden="true" />
+        </span>
       </div>
       <p className="mt-4 text-3xl font-bold text-ink">
         {value.toLocaleString("en-NG")}
@@ -146,13 +148,13 @@ export default async function AccountabilityPage() {
       <div className="mx-auto max-w-7xl space-y-12 px-5 py-10 sm:px-8">
         <section>
           <div className="mb-5">
-            <h2 className="text-2xl font-bold">
+            <h2 className="font-heading text-2xl font-extrabold tracking-tight sm:text-3xl">
               <LocalizedText
                 en="Accountability at a glance"
                 ha="Taƙaitaccen Bayanin Riƙon Amana"
               />
             </h2>
-            <p className="mt-2 text-sm text-ink-subtle">
+            <p className="mt-2 text-ink-subtle text-base leading-7">
               <LocalizedText
                 en="Aggregate figures from the platform. Community issue figures do not expose individual reports or submitter information."
                 ha="Jimillar alkaluma daga dandalin. Bayanan matsalolin al'umma ba sa bayyana rahotannin mutum ɗaya ko bayanan waɗanda suka aika da su."
@@ -237,10 +239,12 @@ export default async function AccountabilityPage() {
         </section>
 
         <section className="grid gap-6 lg:grid-cols-2">
-          <div className="rounded-xl border border-line-soft bg-paper-raised p-6">
+          <div className="hover-card rounded-2xl border border-line-soft bg-paper-raised p-6">
             <div className="flex items-center gap-3">
-              <ClipboardList className="text-signal" size={23} />
-              <h2 className="text-lg font-bold">
+              <span className="hover-card-icon size-10 shrink-0 rounded-xl">
+                <ClipboardList size={20} aria-hidden="true" />
+              </span>
+              <h2 className="font-heading text-xl font-bold tracking-tight">
                 <LocalizedText en="Community issues" ha="Matsalolin Al'umma" />
               </h2>
             </div>
@@ -284,10 +288,12 @@ export default async function AccountabilityPage() {
             </Link>
           </div>
 
-          <div className="rounded-xl border border-line-soft bg-paper-raised p-6">
+          <div className="hover-card rounded-2xl border border-line-soft bg-paper-raised p-6">
             <div className="flex items-center gap-3">
-              <Target className="text-signal" size={23} />
-              <h2 className="text-lg font-bold">
+              <span className="hover-card-icon size-10 shrink-0 rounded-xl">
+                <Target size={20} aria-hidden="true" />
+              </span>
+              <h2 className="font-heading text-xl font-bold tracking-tight">
                 <LocalizedText en="Political promises" ha="Alkawuran Siyasa" />
               </h2>
             </div>
@@ -334,7 +340,7 @@ export default async function AccountabilityPage() {
 
         <section>
           <div className="mb-5">
-            <h2 className="text-2xl font-bold">
+            <h2 className="font-heading text-2xl font-extrabold tracking-tight sm:text-3xl">
               <LocalizedText
                 en="Information and participation"
                 ha="Bayanai da Shiga Ciki"
@@ -342,53 +348,36 @@ export default async function AccountabilityPage() {
             </h2>
           </div>
 
-          <div className="aminiya-feature-carousel mt-6 overflow-hidden">
-            <div className="aminiya-feature-track flex w-max">
-              {[false, true].map((duplicate) => (
-                <div
-                  key={duplicate ? "duplicate-platform-sections" : "original-platform-sections"}
-                  aria-hidden={duplicate ? true : undefined}
-                  className="flex shrink-0 gap-5 pr-5"
-                >
-                  {sections.map((section) => {
-                    const Icon = section.icon;
-
-                    return (
-                      <article
-                        key={section.href}
-                        className="flex w-[min(85vw,360px)] shrink-0 flex-col rounded-2xl border border-line-soft bg-paper-raised p-6 transition hover:-translate-y-1 hover:border-signal/50 hover:shadow-lg"
-                      >
-                        <Icon size={25} className="text-signal" />
-                        <h3 className="mt-5 text-lg font-bold">
-                          <LocalizedText
-                            en={section.title.en}
-                            ha={section.title.ha}
-                          />
-                        </h3>
-                        <p className="mt-3 min-h-20 text-sm leading-6 text-ink-muted">
-                          <LocalizedText
-                            en={section.description.en}
-                            ha={section.description.ha}
-                          />
-                        </p>
-                        <Link
-                          href={section.href}
-                          tabIndex={duplicate ? -1 : undefined}
-                          className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-ink hover:underline"
-                        >
-                          <LocalizedText
-                            en={section.label.en}
-                            ha={section.label.ha}
-                          />
-                          <ArrowRight size={16} />
-                        </Link>
-                      </article>
-                    );
-                  })}
-                </div>
-              ))}
-            </div>
-          </div>
+          {/* Static, like the home page: a moving strip can't be paused on touch. */}
+          <ul className="mt-6 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            {sections.map((section) => {
+              const Icon = section.icon;
+              return (
+                <li key={section.href} className="min-w-0">
+                  <Link
+                    href={section.href}
+                    className="hover-card group flex h-full flex-col rounded-2xl border border-line-soft bg-paper-raised p-6 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
+                  >
+                    <span className="hover-card-icon size-12 rounded-xl">
+                      <Icon size={22} aria-hidden="true" />
+                    </span>
+                    <h3 className="mt-5 font-heading text-lg font-bold">
+                      <LocalizedText en={section.title.en} ha={section.title.ha} />
+                    </h3>
+                    <p className="mt-3 flex-1 text-[15px] leading-7 text-ink-muted">
+                      <LocalizedText en={section.description.en} ha={section.description.ha} />
+                    </p>
+                    <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-ink">
+                      <span className="underline-offset-4 group-hover:underline">
+                        <LocalizedText en={section.label.en} ha={section.label.ha} />
+                      </span>
+                      <ArrowRight size={16} aria-hidden="true" />
+                    </span>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
         </section>
 
         <p className="flex items-start gap-2 text-xs leading-5 text-ink-subtle">

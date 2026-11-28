@@ -20,7 +20,7 @@ export default async function PromiseDetailPage({
 
   const { data: record, error } = await supabase
     .from("political_promises")
-    .select("id, candidacy_id, title, description, sector, source_url, promise_date, target_date, progress_status, publication_status")
+    .select("*")
     .eq("id", id)
     .single();
 

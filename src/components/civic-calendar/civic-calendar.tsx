@@ -148,7 +148,7 @@ function EventCard({
             {category}
           </span>
 
-          <h3 className="mt-2 text-base font-semibold leading-6 text-ink">
+          <h3 className="mt-2 leading-6 text-ink font-heading text-lg font-bold">
             {title}
           </h3>
 
@@ -367,7 +367,7 @@ export default function CivicCalendar() {
             <div className="overflow-hidden rounded-2xl border border-line-soft bg-paper-raised shadow-sm">
               <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line-soft px-4 py-4 sm:px-6">
                 <div>
-                  <h2 className="relative overflow-hidden text-lg font-semibold text-ink sm:text-xl" aria-live="polite">
+                  <h2 className="relative overflow-hidden text-ink font-heading text-xl font-bold tracking-tight" aria-live="polite">
                     <AnimatePresence mode="popLayout" initial={false} custom={monthDirection}>
                       <motion.span
                         key={monthKey}

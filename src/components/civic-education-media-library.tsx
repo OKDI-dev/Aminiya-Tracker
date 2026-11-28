@@ -147,16 +147,13 @@ export default function CivicEducationMediaLibrary() {
   }
 
   return (
-    <section className="mt-12 border-t border-[#e9e9e9] pt-9">
+    <section className="mt-12 border-t border-line-soft pt-9">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#d95300]">
-            {t("mediaLibraryEyebrow")}
-          </p>
-          <h2 className="mt-2 text-2xl font-bold tracking-tight text-[#171717] sm:text-3xl">
+          <h2 className="text-ink font-heading text-2xl font-extrabold tracking-tight sm:text-3xl">
             {t("mediaLibraryTitle")}
           </h2>
-          <p className="mt-2 max-w-2xl text-sm leading-6 text-[#666]">
+          <p className="mt-2 max-w-2xl text-ink-muted text-base leading-7">
             {t("mediaLibraryDescription")}
           </p>
         </div>
@@ -170,8 +167,8 @@ export default function CivicEducationMediaLibrary() {
               aria-pressed={mediaType === type}
               className={`rounded-full border px-4 py-2 text-xs font-semibold transition ${
                 mediaType === type
-                  ? "border-[#ff6600] bg-[#fff0e5] text-[#c94d00]"
-                  : "border-[#e3e3e3] bg-white text-[#666] hover:border-[#ffbd91]"
+                  ? "border-signal bg-tint text-ink"
+                  : "border-line-soft bg-paper-raised text-ink-muted hover:border-signal/50"
               }`}
             >
               {type === "all"
@@ -192,7 +189,7 @@ export default function CivicEducationMediaLibrary() {
           id="civic-media-category"
           value={category}
           onChange={(event) => setCategory(event.target.value)}
-          className="min-h-11 w-full rounded-lg border border-[#ddd] bg-white px-3 py-2 text-sm outline-none focus:border-[#ff6600]"
+          className="min-h-11 w-full rounded-lg border border-line bg-paper-raised px-3 py-2 text-sm outline-none focus:border-signal"
         >
           <option value="all">{t("mediaAllCategories")}</option>
           {categories.filter((value) => value !== "all").map((value) => (
@@ -208,29 +205,29 @@ export default function CivicEducationMediaLibrary() {
           {[1, 2].map((item) => (
             <div
               key={item}
-              className="h-64 animate-pulse rounded-2xl bg-[#f1f1f1]"
+              className="h-64 animate-pulse rounded-2xl bg-tint"
             />
           ))}
         </div>
       ) : failed ? (
-        <div className="mt-7 rounded-xl border border-[#eee] bg-white p-7 text-center">
-          <p className="text-sm text-[#666]">{t("mediaLoadFailed")}</p>
+        <div className="mt-7 rounded-xl border border-line-soft bg-paper-raised p-7 text-center">
+          <p className="text-sm text-ink-muted">{t("mediaLoadFailed")}</p>
           <button
             type="button"
             onClick={() => void loadMedia()}
-            className="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-[#d95300]"
+            className="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-ink"
           >
             <RefreshCw size={15} />
             {t("mediaRetry")}
           </button>
         </div>
       ) : filteredItems.length === 0 ? (
-        <div className="mt-7 rounded-xl border border-dashed border-[#ddd] bg-white px-6 py-12 text-center">
-          <ImageIcon size={28} className="mx-auto text-[#aaa]" />
-          <h3 className="mt-3 font-semibold text-[#333]">
+        <div className="mt-7 rounded-xl border border-dashed border-line bg-paper-raised px-6 py-12 text-center">
+          <ImageIcon size={28} className="mx-auto text-ink-subtle" />
+          <h3 className="mt-3 text-ink-muted font-heading text-lg font-bold">
             {t("mediaEmptyTitle")}
           </h3>
-          <p className="mt-2 text-sm text-[#777]">
+          <p className="mt-2 text-sm text-ink-subtle">
             {t("mediaEmptyDescription")}
           </p>
         </div>
@@ -249,9 +246,9 @@ export default function CivicEducationMediaLibrary() {
             return (
               <article
                 key={item.id}
-                className="overflow-hidden rounded-2xl border border-[#e7e7e7] bg-white"
+                className="overflow-hidden rounded-2xl border border-line-soft bg-paper-raised"
               >
-                <div className="relative aspect-video bg-[#171717]">
+                <div className="relative aspect-video bg-ink">
                   {url && item.media_type === "video" && item.source_type === "upload" ? (
                     <video
                       controls
@@ -290,7 +287,7 @@ export default function CivicEducationMediaLibrary() {
 
                 <div className="p-5 sm:p-6">
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="inline-flex items-center gap-1.5 rounded-full bg-[#fff0e5] px-3 py-1 text-xs font-semibold text-[#c94d00]">
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-tint px-3 py-1 text-xs font-semibold text-ink">
                       {item.media_type === "video" ? (
                         <Video size={13} />
                       ) : (
@@ -300,21 +297,21 @@ export default function CivicEducationMediaLibrary() {
                         ? t("mediaFilterVideos")
                         : t("mediaFilterInfographics")}
                     </span>
-                    <span className="rounded-full bg-[#f4f4f4] px-3 py-1 text-xs text-[#666]">
+                    <span className="rounded-full bg-tint px-3 py-1 text-xs text-ink-muted">
                       {categoryLabels[item.category] ?? categoryLabels.other}
                     </span>
                   </div>
 
-                  <h3 className="mt-4 text-lg font-semibold text-[#222]">
+                  <h3 className="mt-4 text-ink-muted font-heading text-lg font-bold">
                     {title}
                   </h3>
                   {description && (
-                    <p className="mt-2 text-sm leading-6 text-[#666]">
+                    <p className="mt-2 text-sm leading-6 text-ink-muted">
                       {description}
                     </p>
                   )}
                   {item.media_type === "video" && (
-                    <p className="mt-4 flex items-center gap-2 text-xs text-[#888]">
+                    <p className="mt-4 flex items-center gap-2 text-xs text-ink-subtle">
                       <Play size={13} />
                       {t("mediaWatchLabel")}
                     </p>

@@ -85,7 +85,7 @@ export default function VotingProcessPage() {
         </PublicPageHero>
 
         <section className="py-12">
-          <h2 className="text-2xl font-bold text-ink">
+          <h2 className="text-ink font-heading text-2xl font-extrabold tracking-tight sm:text-3xl">
             {t("vpWhyTitle")}
           </h2>
           <p className="mt-4 text-sm leading-8 text-ink-muted">
@@ -98,7 +98,7 @@ export default function VotingProcessPage() {
             <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-tint text-ink">
               <CalendarDays size={22} />
             </div>
-            <h2 className="text-2xl font-bold text-ink">
+            <h2 className="text-ink font-heading text-2xl font-extrabold tracking-tight sm:text-3xl">
               {t("vpBeforeTitle")}
             </h2>
           </div>
@@ -112,7 +112,7 @@ export default function VotingProcessPage() {
                   {index + 1}
                 </span>
                 <div>
-                  <h3 className="font-semibold text-ink">{item.title}</h3>
+                  <h3 className="text-ink font-heading text-lg font-bold">{item.title}</h3>
                   <p className="mt-1 text-sm leading-7 text-ink-muted">{item.text}</p>
                 </div>
               </div>
@@ -129,10 +129,10 @@ export default function VotingProcessPage() {
         </section>
 
         <section className="py-14">
-          <h2 className="text-2xl font-bold text-ink">
+          <h2 className="text-ink font-heading text-2xl font-extrabold tracking-tight sm:text-3xl">
             {t("vpPollingTitle")}
           </h2>
-          <p className="mt-3 text-sm leading-7 text-ink-muted">
+          <p className="mt-3 text-ink-muted text-base leading-7">
             {t("vpPollingIntro")}
           </p>
           <div className="mt-7 space-y-4">
@@ -145,7 +145,7 @@ export default function VotingProcessPage() {
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <div>
-                  <h3 className="font-semibold text-ink">{item.title}</h3>
+                  <h3 className="text-ink font-heading text-lg font-bold">{item.title}</h3>
                   <p className="mt-2 text-sm leading-7 text-ink-muted">{item.text}</p>
                 </div>
               </article>
@@ -154,7 +154,7 @@ export default function VotingProcessPage() {
         </section>
 
         <section className="rounded-2xl border border-line-soft bg-paper-raised p-6 sm:p-8">
-          <h2 className="text-2xl font-bold text-ink">
+          <h2 className="text-ink font-heading text-2xl font-extrabold tracking-tight sm:text-3xl">
             {t("vpAfterTitle")}
           </h2>
           <div className="mt-6 grid gap-5 sm:grid-cols-2">
@@ -162,7 +162,7 @@ export default function VotingProcessPage() {
               <div key={title} className="flex gap-3">
                 <CheckCircle2 className="mt-1 shrink-0 text-signal" size={19} />
                 <div>
-                  <h3 className="font-semibold text-ink">{title}</h3>
+                  <h3 className="text-ink font-heading text-lg font-bold">{title}</h3>
                   <p className="mt-1 text-sm leading-7 text-ink-muted">{text}</p>
                 </div>
               </div>
@@ -173,7 +173,7 @@ export default function VotingProcessPage() {
         <section className="py-14">
           <div className="flex items-center gap-3">
             <ShieldCheck size={25} className="text-signal" />
-            <h2 className="text-2xl font-bold text-ink">
+            <h2 className="text-ink font-heading text-2xl font-extrabold tracking-tight sm:text-3xl">
               {t("vpRightsTitle")}
             </h2>
           </div>
@@ -188,7 +188,7 @@ export default function VotingProcessPage() {
         </section>
 
         <section className="rounded-2xl bg-ink p-6 text-white sm:p-8">
-          <h2 className="text-2xl font-bold">{t("vpFaqTitle")}</h2>
+          <h2 className="font-heading text-2xl font-extrabold tracking-tight sm:text-3xl">{t("vpFaqTitle")}</h2>
           <div className="mt-6 divide-y divide-white/10">
             {faqs.map((item) => (
               <details key={item.q} className="group py-4">
@@ -207,7 +207,7 @@ export default function VotingProcessPage() {
         <section className="mt-10 rounded-2xl border border-signal/20 bg-tint p-6 sm:p-8">
           <div className="flex items-center gap-3">
             <MapPin className="text-signal" size={23} />
-            <h2 className="text-xl font-bold text-ink">
+            <h2 className="text-ink font-heading text-xl font-bold tracking-tight">
               {t("vpOfficialTitle")}
             </h2>
           </div>

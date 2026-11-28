@@ -3,35 +3,22 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2, Save } from "lucide-react";
+import SectorPicker, { sectorPayload, type SectorSelection } from "@/components/admin/sector-picker";
+import { sectorsToForm } from "@/lib/promise-sectors";
 
 type PromiseRecord = {
   id: string;
   title: string;
   description: string;
   sector: string;
+  /** Present once migration 025 is applied. */
+  sectors?: string[] | null;
   source_url: string | null;
   promise_date: string | null;
   target_date: string | null;
   progress_status: string;
   publication_status: string;
 };
-
-const sectors = [
-  ["education", "Education"],
-  ["healthcare", "Healthcare"],
-  ["agriculture", "Agriculture"],
-  ["infrastructure", "Infrastructure"],
-  ["employment", "Employment"],
-  ["security", "Security"],
-  ["water_sanitation", "Water and sanitation"],
-  ["electricity", "Electricity"],
-  ["environment", "Environment"],
-  ["governance", "Governance"],
-  ["youth_development", "Youth development"],
-  ["women_development", "Women development"],
-  ["social_protection", "Social protection"],
-  ["other", "Other"],
-];
 
 const statuses = [
   ["draft", "Draft"],
@@ -51,13 +38,13 @@ export default function PromiseDetail({
   const [form, setForm] = useState({
     title: record.title,
     description: record.description,
-    sector: record.sector,
     source_url: record.source_url ?? "",
     promise_date: record.promise_date ?? "",
     target_date: record.target_date ?? "",
     publication_status: record.publication_status,
   });
 
+  const [sectorSelection, setSectorSelection] = useState<SectorSelection>(() => sectorsToForm(record));
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -76,7 +63,7 @@ export default function PromiseDetail({
       const response = await fetch(`/api/admin/promises/${record.id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, ...sectorPayload(sectorSelection) }),
       });
 
       const result = await response.json();
@@ -154,20 +141,7 @@ export default function PromiseDetail({
           />
         </div>
 
-        <div>
-          <label htmlFor="sector" className="text-sm font-medium text-ink">Sector</label>
-          <select
-            id="sector"
-            required
-            value={form.sector}
-            onChange={(e) => update("sector", e.target.value)}
-            className={fieldClass}
-          >
-            {sectors.map(([value, label]) => (
-              <option key={value} value={value}>{label}</option>
-            ))}
-          </select>
-        </div>
+        <SectorPicker value={sectorSelection} onChange={setSectorSelection} />
 
         <div className="grid gap-5 sm:grid-cols-2">
           <div>

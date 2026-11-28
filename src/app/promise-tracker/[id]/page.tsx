@@ -1,6 +1,8 @@
 import { connection } from "next/server";
 import { isPublicEvidenceUrl } from "@/lib/public-evidence-url";
 import Link from "next/link";
+import { promiseSectors } from "@/lib/promise-sectors";
+import { LocalizedSector } from "@/components/i18n/promise-translations";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { adminSupabase } from "@/lib/supabase/admin";
@@ -54,6 +56,7 @@ export default async function PromiseDetailPage({
   const { data: promise, error } = await supabase
     .from("political_promises")
     .select(`
+      *,
       id,
       title,
       description,
@@ -184,9 +187,11 @@ export default async function PromiseDetailPage({
 
         <section className="rounded-xl border border-line-soft bg-paper-raised p-6 sm:p-8">
           <div className="flex flex-wrap items-center gap-3">
-            <span className="rounded-full bg-tint px-3 py-1 text-xs font-semibold capitalize text-ink">
-              {promise.sector.replaceAll("_", " ")}
-            </span>
+            {promiseSectors(promise).map((value) => (
+              <span key={value} className="rounded-full bg-tint px-3 py-1 text-xs font-semibold text-ink">
+                <LocalizedSector value={value} />
+              </span>
+            ))}
 
             <span
               className={`rounded-full px-3 py-1 text-xs font-semibold ${
@@ -250,7 +255,7 @@ export default async function PromiseDetailPage({
         </section>
 
         <section className="rounded-xl border border-line-soft bg-paper-raised p-6 sm:p-8">
-          <h2 className="text-lg font-bold text-ink">
+          <h2 className="text-ink font-heading text-xl font-bold tracking-tight">
             Candidate and election
           </h2>
 
@@ -301,10 +306,10 @@ export default async function PromiseDetailPage({
 
         <section>
           <div className="mb-5">
-            <h2 className="text-2xl font-bold text-ink">
+            <h2 className="text-ink font-heading text-2xl font-extrabold tracking-tight sm:text-3xl">
               Progress history
             </h2>
-            <p className="mt-2 text-sm text-ink-muted">
+            <p className="mt-2 text-ink-muted text-base leading-7">
               Updates below have been reviewed and approved by authorised
               electoral staff.
             </p>
@@ -313,7 +318,7 @@ export default async function PromiseDetailPage({
           {approvedUpdates.length === 0 ? (
             <div className="rounded-xl border border-line-soft bg-paper-raised p-8 text-center">
               <Clock3 className="mx-auto text-ink-subtle" size={30} />
-              <h3 className="mt-3 font-semibold text-ink">
+              <h3 className="mt-3 text-ink font-heading text-lg font-bold">
                 No approved updates yet
               </h3>
               <p className="mt-2 text-sm text-ink-subtle">
@@ -350,7 +355,7 @@ export default async function PromiseDetailPage({
                       </span>
                     </div>
 
-                    <h3 className="mt-4 text-lg font-semibold text-ink">
+                    <h3 className="mt-4 text-ink font-heading text-lg font-bold">
                       {update.update_title}
                     </h3>
 

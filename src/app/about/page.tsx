@@ -54,7 +54,7 @@ export default function AboutPage() {
 
       <div className="mx-auto max-w-5xl px-5 py-12 sm:px-8 sm:py-16">
         <section>
-          <h2 className="text-2xl font-semibold">
+          <h2 className="font-heading text-2xl font-extrabold tracking-tight sm:text-3xl">
             {t("aboutWhatPlatformDoes")}
           </h2>
 
@@ -65,13 +65,13 @@ export default function AboutPage() {
               return (
                 <article
                   key={index}
-                  className="rounded-2xl border border-line-soft bg-paper-raised p-6"
+                  className="hover-card rounded-2xl border border-line-soft bg-paper-raised p-6"
                 >
-                  <div className="flex size-12 items-center justify-center rounded-xl bg-tint text-ink">
+                  <div className="hover-card-icon size-12 rounded-xl">
                     <Icon size={24} />
                   </div>
 
-                  <h3 className="mt-5 font-semibold">{pillar.title}</h3>
+                  <h3 className="mt-5 font-heading text-lg font-bold">{pillar.title}</h3>
 
                   <p className="mt-3 text-sm leading-7 text-ink-muted">
                     {pillar.description}
@@ -83,7 +83,7 @@ export default function AboutPage() {
         </section>
 
         <section className="mt-14 rounded-2xl border border-line-soft bg-paper-raised p-7 sm:p-9">
-          <h2 className="text-2xl font-semibold">{t("aboutPrinciples")}</h2>
+          <h2 className="font-heading text-2xl font-extrabold tracking-tight sm:text-3xl">{t("aboutPrinciples")}</h2>
 
           <ul className="mt-5 space-y-3 leading-7 text-ink-muted">
             {principles.map((principle, index) => (
@@ -94,13 +94,10 @@ export default function AboutPage() {
 
         <section className="mt-14">
           <div className="max-w-3xl">
-            <p className="text-sm font-semibold uppercase tracking-[0.16em] text-signal">
-              {t("aboutAcknowledgementTitle")}
-            </p>
-            <h2 className="mt-3 text-2xl font-semibold">
+            <h2 className="font-heading text-2xl font-extrabold tracking-tight sm:text-3xl">
               {t("aboutPartnershipTitle")}
             </h2>
-            <p className="mt-4 text-sm leading-7 text-ink-muted">
+            <p className="mt-4 text-ink-muted text-base leading-7">
               {t("aboutAcknowledgementText")}
             </p>
             <p className="mt-3 text-sm leading-7 text-ink-muted">
@@ -108,7 +105,7 @@ export default function AboutPage() {
             </p>
           </div>
 
-          <div className="mt-8 rounded-2xl border border-line-soft bg-white p-6 sm:p-8">
+          <div className="mt-8 rounded-2xl border border-line-soft bg-paper-raised p-6 sm:p-8">
             <div className="grid grid-cols-2 gap-4 sm:gap-8">
               <div className="flex flex-col items-center justify-start text-center">
                 {/* Both logos are trimmed to their artwork and sized to the same
@@ -161,10 +158,10 @@ export default function AboutPage() {
           className="mt-14 scroll-mt-24 rounded-2xl border border-line-soft bg-paper-raised p-7 sm:p-9"
         >
           <div className="mb-7 max-w-2xl">
-            <h2 className="text-2xl font-semibold">
+            <h2 className="font-heading text-2xl font-extrabold tracking-tight sm:text-3xl">
               {t("aboutContactTitle")}
             </h2>
-            <p className="mt-3 text-sm leading-7 text-ink-muted">
+            <p className="mt-3 text-ink-muted text-base leading-7">
               {t("aboutContactDescription")}
             </p>
           </div>

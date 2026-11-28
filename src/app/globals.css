@@ -678,6 +678,66 @@
   }
 }
 
+/* ------------------------------------------------------------------
+   Card hover, as on the home page: the card lifts and its icon tile
+   flips from navy to orange with a slight tilt. Add `hover-card` to the
+   card and `hover-card-icon` to its icon tile (size and radius stay in
+   the markup).
+------------------------------------------------------------------- */
+.hover-card {
+  position: relative;
+  transition:
+    translate 500ms var(--ease-out-expo),
+    box-shadow 500ms var(--ease-out-expo),
+    border-color 300ms ease;
+}
+
+/* The lift would slide the card's bottom edge out from under a pointer
+   resting there; this strip keeps the pointer inside, so it never flickers. */
+.hover-card::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: 100%;
+  height: 8px;
+}
+
+.hover-card:hover {
+  translate: 0 -6px;
+  border-color: var(--line);
+  box-shadow: 0 28px 50px -28px rgb(20 33 61 / 0.45);
+}
+
+.hover-card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--navy);
+  color: var(--orange);
+  transition:
+    background-color 500ms var(--ease-out-expo),
+    color 500ms var(--ease-out-expo),
+    rotate 500ms var(--ease-out-expo);
+}
+
+.hover-card:hover .hover-card-icon,
+.hover-card:focus-within .hover-card-icon {
+  background: var(--orange);
+  color: var(--navy);
+  rotate: -6deg;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hover-card:hover {
+    translate: none;
+  }
+
+  .hover-card:hover .hover-card-icon,
+  .hover-card:focus-within .hover-card-icon {
+    rotate: none;
+  }
+}
+
 /* Home hero calendar: the progress bar is the slideshow timer.
    Pausing the animation pauses the slideshow; animationend advances it. */
 .hero-calendar-progress {
@@ -697,34 +757,6 @@
     transform: scaleX(1);
   }
 }
-
-/* Aminiya homepage feature carousel */
-.aminiya-feature-track {
-  animation: aminiya-feature-marquee 36s linear infinite;
-  will-change: transform;
-}
-
-.aminiya-feature-carousel:hover .aminiya-feature-track,
-.aminiya-feature-carousel:focus-within .aminiya-feature-track {
-  animation-play-state: paused;
-}
-
-@keyframes aminiya-feature-marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .aminiya-feature-track {
-    animation: none;
-    will-change: auto;
-  }
-}
-
 
 /* ------------------------------------------------------------------
    Aminiya page section entrance

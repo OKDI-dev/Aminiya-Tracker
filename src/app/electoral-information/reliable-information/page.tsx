@@ -64,13 +64,13 @@ export default function ReliableInformationPage() {
       <div className="mx-auto grid max-w-5xl gap-10 px-5 py-10 sm:px-8 lg:grid-cols-[1fr_280px]">
         <article className="min-w-0 space-y-10">
           <section>
-            <h2 className="text-2xl font-bold">{t("riWhyTitle")}</h2>
+            <h2 className="font-heading text-2xl font-extrabold tracking-tight sm:text-3xl">{t("riWhyTitle")}</h2>
             <p className="mt-4 leading-8 text-ink-muted">{t("riWhyText1")}</p>
             <p className="mt-4 leading-8 text-ink-muted">{t("riWhyText2")}</p>
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold">{t("riStepsTitle")}</h2>
+            <h2 className="font-heading text-2xl font-extrabold tracking-tight sm:text-3xl">{t("riStepsTitle")}</h2>
             <div className="mt-6 space-y-4">
               {checks.map((item, index) => (
                 <div
@@ -82,7 +82,7 @@ export default function ReliableInformationPage() {
                       {index + 1}
                     </span>
                     <div>
-                      <h3 className="font-bold">{item.title}</h3>
+                      <h3 className="font-heading text-lg font-bold">{item.title}</h3>
                       <p className="mt-2 text-sm leading-7 text-ink-muted">
                         {item.text}
                       </p>
@@ -96,7 +96,7 @@ export default function ReliableInformationPage() {
           <section className="rounded-2xl border border-signal/25 bg-tint/60 p-6">
             <div className="flex items-center gap-3">
               <TriangleAlert className="text-signal" size={24} />
-              <h2 className="text-xl font-bold">{t("riWarningsTitle")}</h2>
+              <h2 className="font-heading text-xl font-bold tracking-tight">{t("riWarningsTitle")}</h2>
             </div>
             <p className="mt-3 text-sm leading-7 text-ink-muted">
               {t("riWarningsIntro")}
@@ -118,7 +118,7 @@ export default function ReliableInformationPage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold">{t("riSourcesTitle")}</h2>
+            <h2 className="font-heading text-2xl font-extrabold tracking-tight sm:text-3xl">{t("riSourcesTitle")}</h2>
             <p className="mt-4 leading-8 text-ink-muted">{t("riSourcesIntro")}</p>
 
             <div className="mt-6 grid gap-4 sm:grid-cols-2">
@@ -129,7 +129,7 @@ export default function ReliableInformationPage() {
                 className="rounded-2xl border border-ink/5 bg-paper-raised p-5 transition hover:border-signal"
               >
                 <Globe className="text-signal" size={22} />
-                <h3 className="mt-3 font-bold">{t("riInecTitle")}</h3>
+                <h3 className="mt-3 font-heading text-lg font-bold">{t("riInecTitle")}</h3>
                 <p className="mt-2 text-sm leading-6 text-ink-muted">
                   {t("riInecDescription")}
                 </p>
@@ -145,7 +145,7 @@ export default function ReliableInformationPage() {
                 className="rounded-2xl border border-ink/5 bg-paper-raised p-5 transition hover:border-signal"
               >
                 <FileSearch className="text-signal" size={22} />
-                <h3 className="mt-3 font-bold">{t("riVoterEducationTitle")}</h3>
+                <h3 className="mt-3 font-heading text-lg font-bold">{t("riVoterEducationTitle")}</h3>
                 <p className="mt-2 text-sm leading-6 text-ink-muted">
                   {t("riVoterEducationDescription")}
                 </p>
@@ -159,7 +159,7 @@ export default function ReliableInformationPage() {
           <section className="rounded-2xl border border-ink/5 bg-paper-raised p-6">
             <div className="flex items-center gap-3">
               <ShieldCheck className="text-signal" size={24} />
-              <h2 className="text-xl font-bold">{t("riShareTitle")}</h2>
+              <h2 className="font-heading text-xl font-bold tracking-tight">{t("riShareTitle")}</h2>
             </div>
             <ul className="mt-5 space-y-3 text-sm leading-7 text-ink-muted">
               {["riShare1", "riShare2", "riShare3", "riShare4"].map((key) => (
@@ -191,7 +191,7 @@ export default function ReliableInformationPage() {
 
         <aside className="space-y-5">
           <div className="rounded-2xl border border-ink/5 bg-paper-raised p-5">
-            <h3 className="font-bold">{t("riSidebarTitle")}</h3>
+            <h3 className="font-heading text-lg font-bold">{t("riSidebarTitle")}</h3>
             <ul className="mt-4 space-y-3 text-sm text-ink-muted">
               <li>{t("riSidebar1")}</li>
               <li>{t("riSidebar2")}</li>
@@ -202,7 +202,7 @@ export default function ReliableInformationPage() {
           </div>
           <div className="rounded-2xl bg-ink p-5 text-white">
             <Search size={24} className="text-signal" />
-            <h3 className="mt-4 font-bold">{t("riPauseTitle")}</h3>
+            <h3 className="mt-4 font-heading text-lg font-bold">{t("riPauseTitle")}</h3>
             <p className="mt-2 text-sm leading-6 text-white/65">
               {t("riPauseText")}
             </p>

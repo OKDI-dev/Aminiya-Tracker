@@ -1,6 +1,6 @@
 import { connection } from "next/server";
-import { isPublicEvidenceUrl } from "@/lib/public-evidence-url";
 import Link from "next/link";
+import { promiseSectors } from "@/lib/promise-sectors";
 import { createClient } from "@/lib/supabase/server";
 import {
   ArrowRight,
@@ -11,7 +11,6 @@ import {
 } from "lucide-react";
 import PublicPageHero from "@/components/public-page-hero";
 import {
-  LocalizedDate,
   LocalizedProgress,
   LocalizedSector,
   LocalizedText,
@@ -35,6 +34,7 @@ export default async function PromiseTrackerPage() {
   const { data: promises, error } = await supabase
     .from("political_promises")
     .select(`
+      *,
       id,
       title,
       description,
@@ -133,13 +133,13 @@ export default async function PromiseTrackerPage() {
 
         <section>
           <div className="mb-6">
-            <h2 className="text-2xl font-bold text-ink">
+            <h2 className="text-ink font-heading text-2xl font-extrabold tracking-tight sm:text-3xl">
               <LocalizedText
                 en="Published political promises"
                 ha="Alƙawuran siyasa da aka wallafa"
               />
             </h2>
-            <p className="mt-2 text-sm text-ink-muted">
+            <p className="mt-2 text-ink-muted text-base leading-7">
               <LocalizedText
                 en="Only promises approved for public viewing are displayed."
                 ha="Alƙawuran da aka amince a nuna wa jama'a ne kawai ake nunawa."
@@ -157,7 +157,7 @@ export default async function PromiseTrackerPage() {
           ) : records.length === 0 ? (
             <div className="rounded-xl border border-line-soft bg-paper-raised p-10 text-center">
               <Target className="mx-auto text-ink-subtle" size={32} />
-              <h3 className="mt-4 font-semibold text-ink">
+              <h3 className="mt-4 text-ink font-heading text-lg font-bold">
                 <LocalizedText
                   en="No published promises yet"
                   ha="Babu alƙawuran da aka wallafa tukuna"
@@ -171,174 +171,82 @@ export default async function PromiseTrackerPage() {
               </p>
             </div>
           ) : (
-            <div className="grid gap-5 lg:grid-cols-2">
+            <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
               {records.map((promise) => {
                 const candidacy = Array.isArray(promise.candidacy)
                   ? promise.candidacy[0]
                   : promise.candidacy;
-
                 const candidate = Array.isArray(candidacy?.candidate)
                   ? candidacy.candidate[0]
                   : candidacy?.candidate;
-
                 const party = Array.isArray(candidacy?.party)
                   ? candidacy.party[0]
                   : candidacy?.party;
 
-                const election = Array.isArray(candidacy?.election)
-                  ? candidacy.election[0]
-                  : candidacy?.election;
+                const approvedUpdates = ((promise.updates ?? []) as { review_status: string }[]).filter(
+                  (update) => update.review_status === "approved"
+                ).length;
+                const sectors = promiseSectors(promise);
 
-                const updates = (promise.updates ?? [])
-                  .filter((update) => update.review_status === "approved")
-                  .sort(
-                    (a, b) =>
-                      new Date(b.update_date).getTime() -
-                      new Date(a.update_date).getTime()
-                  );
-
+                // A short card: what, who, where it stands. The full promise,
+                // dates, election and progress history are one click away.
                 return (
-                  <article
+                  <Link
                     key={promise.id}
-                    className="rounded-xl border border-line-soft bg-paper-raised p-6"
+                    href={`/promise-tracker/${promise.id}`}
+                    className="group flex h-full flex-col rounded-2xl border border-line-soft bg-paper-raised p-5 transition-[border-color,box-shadow] duration-300 hover:border-line hover:shadow-[0_20px_40px_-24px_rgb(20_33_61/0.4)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
                   >
-                    <div className="flex flex-wrap items-center justify-between gap-3">
-                      <span className="rounded-full bg-tint px-3 py-1 text-xs font-semibold capitalize text-ink">
-                        <LocalizedSector value={promise.sector} />
-                      </span>
-
+                    <div className="flex flex-wrap items-center gap-2">
                       <span
                         className={`rounded-full px-3 py-1 text-xs font-semibold ${
-                          progressStyles[promise.progress_status] ??
-                          "bg-tint text-ink-muted"
+                          progressStyles[promise.progress_status] ?? "bg-tint text-ink-muted"
                         }`}
                       >
                         <LocalizedProgress value={promise.progress_status} />
                       </span>
+                      {sectors.slice(0, 2).map((value) => (
+                        <span key={value} className="rounded-full bg-tint px-3 py-1 text-xs font-medium text-ink">
+                          <LocalizedSector value={value} />
+                        </span>
+                      ))}
+                      {sectors.length > 2 ? (
+                        <span className="text-xs font-medium text-ink-subtle">+{sectors.length - 2}</span>
+                      ) : null}
                     </div>
 
-                    <h3 className="mt-5 text-xl font-bold text-ink">
+                    <h3 className="mt-4 line-clamp-2 font-heading text-lg leading-snug font-bold text-ink">
                       {promise.title}
                     </h3>
-
-                    <p className="mt-3 whitespace-pre-line text-sm leading-6 text-ink-muted">
+                    <p className="mt-2 line-clamp-2 text-sm leading-6 text-ink-muted">
                       {promise.description}
                     </p>
 
-                    <div className="mt-5 space-y-2 border-t border-line-soft pt-4 text-sm">
-                      <p className="font-semibold text-ink">
+                    <p className="mt-4 truncate text-sm text-ink-muted">
+                      <span className="font-semibold text-ink">
                         {candidate?.full_name ?? (
-                          <LocalizedText
-                            en="Candidate not specified"
-                            ha="Ba a bayyana ɗan takara ba"
-                          />
+                          <LocalizedText en="Candidate not specified" ha="Ba a bayyana ɗan takara ba" />
                         )}
-                      </p>
-                      <p className="text-ink-muted">
-                        {candidacy?.office_title ?? (
-                          <LocalizedText
-                            en="Office not specified"
-                            ha="Ba a bayyana muƙami ba"
-                          />
-                        )}
-                      </p>
-                      {party && (
-                        <p className="text-ink-subtle">
-                          {party.name}
-                          {party.acronym ? ` (${party.acronym})` : ""}
-                        </p>
-                      )}
-                      {election && (
-                        <p className="text-ink-subtle">
-                          {election.name} · {election.jurisdiction}
-                        </p>
-                      )}
-                    </div>
+                      </span>
+                      {party ? ` · ${party.acronym ?? party.name}` : ""}
+                      {candidacy?.office_title ? ` · ${candidacy.office_title}` : ""}
+                    </p>
 
-                    <div className="mt-5 grid grid-cols-2 gap-3 rounded-lg bg-tint p-4 text-xs">
-                      <div>
-                        <p className="text-ink-subtle">
-                          <LocalizedText en="Promise date" ha="Ranar alƙawari" />
-                        </p>
-                        <p className="mt-1 font-semibold text-ink">
-                          <LocalizedDate value={promise.promise_date} />
-                        </p>
-                      </div>
-                      <div>
-                        <p className="text-ink-subtle">
-                          <LocalizedText en="Target date" ha="Ranar cimma buri" />
-                        </p>
-                        <p className="mt-1 font-semibold text-ink">
-                          <LocalizedDate value={promise.target_date} />
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="mt-5 border-t border-line-soft pt-4">
-                      <Link
-                        href={`/promise-tracker/${promise.id}`}
-                        className="inline-flex items-center gap-2 text-sm font-semibold text-ink hover:underline"
-                      >
+                    <div className="mt-auto flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-t border-line-soft pt-4 text-sm">
+                      <span className="text-ink-subtle tabular-nums">
+                        {approvedUpdates}{" "}
                         <LocalizedText
-                          en="View full promise and progress history"
-                          ha="Duba cikakken alƙawari da tarihin ci gaba"
+                          en={approvedUpdates === 1 ? "approved update" : "approved updates"}
+                          ha="sabuntawar da aka amince da ita"
                         />
-                        <ArrowRight size={16} />
-                      </Link>
+                      </span>
+                      <span className="inline-flex items-center gap-1.5 font-semibold text-ink">
+                        <span className="underline-offset-4 group-hover:underline">
+                          <LocalizedText en="View full promise" ha="Duba cikakken alƙawari" />
+                        </span>
+                        <ArrowRight size={15} className="transition-transform duration-300 group-hover:translate-x-0.5" aria-hidden="true" />
+                      </span>
                     </div>
-
-                    <div className="mt-5 border-t border-line-soft pt-4">
-                      <h4 className="font-semibold text-ink">
-                        <LocalizedText
-                          en="Approved progress updates"
-                          ha="Sabbin bayanan ci gaba da aka amince da su"
-                        />{" "}
-                        ({updates.length})
-                      </h4>
-
-                      {updates.length === 0 ? (
-                        <p className="mt-2 text-sm text-ink-subtle">
-                          <LocalizedText
-                            en="No approved progress updates have been published."
-                            ha="Ba a wallafa wani sabon bayanin ci gaba da aka amince da shi ba."
-                          />
-                        </p>
-                      ) : (
-                        <div className="mt-3 space-y-4">
-                          {updates.slice(0, 3).map((update) => (
-                            <div
-                              key={update.id}
-                              className="border-l-2 border-signal pl-4"
-                            >
-                              <p className="text-xs text-ink-subtle">
-                                <LocalizedDate value={update.update_date} />
-                              </p>
-                              <p className="mt-1 text-sm font-semibold text-ink">
-                                {update.update_title}
-                              </p>
-                              <p className="mt-1 text-sm leading-6 text-ink-muted">
-                                {update.update_description}
-                              </p>
-                              {isPublicEvidenceUrl(update.evidence_url) && (
-                                <a
-                                  href={update.evidence_url}
-                                  target="_blank"
-                                  rel="noreferrer"
-                                  className="mt-2 inline-flex items-center gap-1 text-sm font-medium text-ink hover:underline"
-                                >
-                                  <LocalizedText
-                                    en="View evidence"
-                                    ha="Duba hujja"
-                                  />{" "}
-                                  <ArrowRight size={14} />
-                                </a>
-                              )}
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  </article>
+                  </Link>
                 );
               })}
             </div>

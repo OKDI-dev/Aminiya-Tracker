@@ -1,12 +1,8 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { parseSectors } from "@/lib/promise-sectors";
+import { SECTORS_MIGRATION_NEEDED, writeWithSectors } from "@/lib/admin/promise-sectors-write";
 
-const sectors = [
-  "education", "healthcare", "agriculture", "infrastructure",
-  "employment", "security", "water_sanitation", "electricity",
-  "environment", "governance", "youth_development",
-  "women_development", "social_protection", "other",
-];
 
 export async function POST(request: Request) {
   try {
@@ -33,12 +29,11 @@ export async function POST(request: Request) {
     const candidacyId = String(body.candidacy_id ?? "").trim();
     const title = String(body.title ?? "").trim();
     const description = String(body.description ?? "").trim();
-    const sector = String(body.sector ?? "").trim();
     const sourceUrl = String(body.source_url ?? "").trim() || null;
     const promiseDate = body.promise_date || null;
     const targetDate = body.target_date || null;
 
-    if (!candidacyId || !title || !description || !sector) {
+    if (!candidacyId || !title || !description) {
       return NextResponse.json({ error: "Complete all required fields." }, { status: 400 });
     }
 
@@ -50,8 +45,9 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Description must be between 20 and 10,000 characters." }, { status: 400 });
     }
 
-    if (!sectors.includes(sector)) {
-      return NextResponse.json({ error: "Select a valid sector." }, { status: 400 });
+    const parsedSectors = parseSectors(body);
+    if ("error" in parsedSectors) {
+      return NextResponse.json({ error: parsedSectors.error }, { status: 400 });
     }
 
     if (promiseDate && targetDate && targetDate < promiseDate) {
@@ -74,24 +70,30 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "The selected candidacy is unavailable or unpublished." }, { status: 400 });
     }
 
-    const { data, error } = await supabase
-      .from("political_promises")
-      .insert({
+    const saved = await writeWithSectors(
+      (values) => supabase.from("political_promises").insert(values).select("id").single(),
+      {
         candidacy_id: candidacyId,
         title,
         description,
-        sector,
         source_url: sourceUrl,
         promise_date: promiseDate,
         target_date: targetDate,
         progress_status: "not_started",
         publication_status: "draft",
         created_by: user.id,
-      })
-      .select("id")
-      .single();
+      },
+      parsedSectors.sectors,
+      parsedSectors.primary
+    );
 
-    if (error) {
+    if ("migrationNeeded" in saved) {
+      return NextResponse.json({ error: SECTORS_MIGRATION_NEEDED }, { status: 409 });
+    }
+
+    const { data, error } = saved;
+
+    if (error || !data) {
       console.error("Promise registration error:", error);
       return NextResponse.json({ error: "Unable to register this promise." }, { status: 500 });
     }

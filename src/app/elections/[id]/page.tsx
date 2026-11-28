@@ -229,8 +229,8 @@ export default async function ElectionDetailPage({
 
         <section>
           <div className="mb-5">
-            <h2 className="text-2xl font-bold">Candidates and parties</h2>
-            <p className="mt-1 text-sm text-ink-subtle">
+            <h2 className="font-heading text-2xl font-extrabold tracking-tight sm:text-3xl">Candidates and parties</h2>
+            <p className="mt-1 text-ink-subtle text-base leading-7">
               Published candidacies associated with this election.
             </p>
           </div>
@@ -242,7 +242,7 @@ export default async function ElectionDetailPage({
           ) : visibleCandidacies.length === 0 ? (
             <div className="rounded-xl border border-line-soft bg-paper-raised p-8 text-center">
               <Users size={28} className="mx-auto text-ink-subtle" />
-              <h3 className="mt-3 font-semibold">No published candidacies yet</h3>
+              <h3 className="mt-3 font-heading text-lg font-bold">No published candidacies yet</h3>
               <p className="mt-2 text-sm text-ink-subtle">
                 Candidate and party information will appear here when approved
                 records are available.
@@ -285,7 +285,7 @@ export default async function ElectionDetailPage({
                       )}
 
                       <div className="min-w-0">
-                        <h3 className="font-semibold">
+                        <h3 className="font-heading text-lg font-bold">
                           {textValue(candidate, "full_name", "Candidate")}
                         </h3>
                         <p className="mt-1 text-sm text-ink-muted">
@@ -351,8 +351,8 @@ export default async function ElectionDetailPage({
 
         <section>
           <div className="mb-5">
-            <h2 className="text-2xl font-bold">Electoral areas</h2>
-            <p className="mt-1 text-sm text-ink-subtle">
+            <h2 className="font-heading text-2xl font-extrabold tracking-tight sm:text-3xl">Electoral areas</h2>
+            <p className="mt-1 text-ink-subtle text-base leading-7">
               Areas associated with the published candidacies in this election.
             </p>
           </div>
@@ -379,8 +379,8 @@ export default async function ElectionDetailPage({
           <div className="mb-5 flex items-center gap-3">
             <ChartNoAxesCombined size={23} className="text-signal" />
             <div>
-              <h2 className="text-2xl font-bold">Published election results</h2>
-              <p className="mt-1 text-sm text-ink-subtle">
+              <h2 className="font-heading text-2xl font-extrabold tracking-tight sm:text-3xl">Published election results</h2>
+              <p className="mt-1 text-ink-subtle text-base leading-7">
                 Results displayed here have been approved for public viewing.
               </p>
             </div>
@@ -393,7 +393,7 @@ export default async function ElectionDetailPage({
           ) : visibleResults.length === 0 ? (
             <div className="rounded-xl border border-line-soft bg-paper-raised p-8 text-center">
               <ChartNoAxesCombined size={28} className="mx-auto text-ink-subtle" />
-              <h3 className="mt-3 font-semibold">No published results yet</h3>
+              <h3 className="mt-3 font-heading text-lg font-bold">No published results yet</h3>
               <p className="mt-2 text-sm text-ink-subtle">
                 Results will appear here when verified records are published.
               </p>

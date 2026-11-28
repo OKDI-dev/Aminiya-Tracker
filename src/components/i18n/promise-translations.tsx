@@ -1,6 +1,7 @@
 "use client";
 
 import { useLanguage } from "@/components/language-provider";
+import { sectorLabel } from "@/lib/promise-sectors";
 
 export function LocalizedText({
   en,
@@ -24,36 +25,6 @@ const progressLabels: Record<string, { en: string; ha: string }> = {
   stalled: { en: "Stalled", ha: "An dakatar" },
 };
 
-const sectorLabels: Record<string, { en: string; ha: string }> = {
-  education: { en: "Education", ha: "Ilimi" },
-  healthcare: { en: "Healthcare", ha: "Kiwon lafiya" },
-  health: { en: "Health", ha: "Lafiya" },
-  agriculture: { en: "Agriculture", ha: "Noma" },
-  infrastructure: { en: "Infrastructure", ha: "Kayan more rayuwa" },
-  water_sanitation: {
-    en: "Water and sanitation",
-    ha: "Ruwa da tsaftar muhalli",
-  },
-  roads_transport: {
-    en: "Roads and transport",
-    ha: "Hanyoyi da sufuri",
-  },
-  electricity: { en: "Electricity", ha: "Wutar lantarki" },
-  security: { en: "Security", ha: "Tsaro" },
-  environment: { en: "Environment", ha: "Muhalli" },
-  employment: { en: "Employment", ha: "Samar da ayyukan yi" },
-  youth_development: {
-    en: "Youth development",
-    ha: "Ci gaban matasa",
-  },
-  public_services: {
-    en: "Public services",
-    ha: "Ayyukan jama'a",
-  },
-  economy: { en: "Economy", ha: "Tattalin arziki" },
-  other: { en: "Other", ha: "Sauran fannoni" },
-};
-
 export function LocalizedProgress({ value }: { value: string }) {
   const { language } = useLanguage();
   const label = progressLabels[value];
@@ -63,9 +34,7 @@ export function LocalizedProgress({ value }: { value: string }) {
 
 export function LocalizedSector({ value }: { value: string }) {
   const { language } = useLanguage();
-  const label = sectorLabels[value];
-
-  return <>{label ? label[language] : value.replaceAll("_", " ")}</>;
+  return <>{sectorLabel(value, language)}</>;
 }
 
 export function LocalizedDate({
